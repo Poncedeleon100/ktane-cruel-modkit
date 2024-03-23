@@ -1,0 +1,10 @@
+{
+  "name": "cruelModkit-Editor",
+  "references": [
+    "cruelModkit"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": []
+}

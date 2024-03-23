@@ -1,0 +1,187 @@
+fileFormatVersion: 2
+guid: a682ab2af24e17041902c19605b94602
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: bottomceramic_default4
+    100002: //RootNode
+    100004: bulb_default8
+    100006: contact_default3
+    100008: fuse_default2
+    100010: fuseholder_default
+    100012: insideceramic_default7
+    100014: insidestem_default
+    100016: screwcap_default9
+    100018: stem_default
+    100020: wires_default5
+    400000: bottomceramic_default4
+    400002: //RootNode
+    400004: bulb_default8
+    400006: contact_default3
+    400008: fuse_default2
+    400010: fuseholder_default
+    400012: insideceramic_default7
+    400014: insidestem_default
+    400016: screwcap_default9
+    400018: stem_default
+    400020: wires_default5
+    2300000: bottomceramic_default4
+    2300002: bulb_default8
+    2300004: contact_default3
+    2300006: fuse_default2
+    2300008: fuseholder_default
+    2300010: insideceramic_default7
+    2300012: insidestem_default
+    2300014: screwcap_default9
+    2300016: stem_default
+    2300018: wires_default5
+    3300000: bottomceramic_default4
+    3300002: bulb_default8
+    3300004: contact_default3
+    3300006: fuse_default2
+    3300008: fuseholder_default
+    3300010: insideceramic_default7
+    3300012: insidestem_default
+    3300014: screwcap_default9
+    3300016: stem_default
+    3300018: wires_default5
+    4300000: bottomceramic_default4
+    4300002: bulb_default8
+    4300004: contact_default3
+    4300006: fuse_default2
+    4300008: fuseholder_default
+    4300010: insideceramic_default7
+    4300012: insidestem_default
+    4300014: screwcap_default9
+    4300016: stem_default
+    4300018: wires_default5
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bottomceramic_default4Mat
+    second: {fileID: 2100000, guid: 7a10f176fc92af7428c02e805bf36ebe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bulb_default8Mat
+    second: {fileID: 2100000, guid: 85f1d6249cf75254282d1fac0bf28dbb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: contact_default3Mat
+    second: {fileID: 2100000, guid: f1403ce4aa9810d44a943589ea614d61, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: fuse_default2Mat
+    second: {fileID: 2100000, guid: ad0bddd069621b14da3fe19393a90c78, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: fuseholder_defaultMat
+    second: {fileID: 2100000, guid: 6dbf98f8c09196049a7c8f42ad9d784a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: insideceramic_default7Mat
+    second: {fileID: 2100000, guid: 69ce74d0dc256ea45a6503dcdc25bc73, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: insidestem_defaultMat
+    second: {fileID: 2100000, guid: 139053fa578da2f4ea453b6e9d3836bb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: screwcap_default9Mat
+    second: {fileID: 2100000, guid: 6a08e02ffd20da84b91d6b49ba84d996, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: stem_defaultMat
+    second: {fileID: 2100000, guid: aa49b82a02d648a498b3fa41010bca7c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wires_default5Mat
+    second: {fileID: 2100000, guid: 3a6239b1f36d14647acbcf030c30adba, type: 2}
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

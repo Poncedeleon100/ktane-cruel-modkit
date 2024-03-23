@@ -1,0 +1,158 @@
+fileFormatVersion: 2
+guid: 66c5c3f9171f1d540b4690f848e6e2e8
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Arrow1
+    100002: Arrow2
+    100004: Arrow3
+    100006: Arrow4
+    100008: //RootNode
+    100010: CenterButton
+    100012: Slider1
+    100014: Slider2
+    100016: Slider3
+    100018: Slider4
+    100020: CenterButtonHL
+    100022: Slider1HL
+    100024: Slider2HL
+    100026: Slider3HL
+    100028: Slider4HL
+    400000: Arrow1
+    400002: Arrow2
+    400004: Arrow3
+    400006: Arrow4
+    400008: //RootNode
+    400010: CenterButton
+    400012: Slider1
+    400014: Slider2
+    400016: Slider3
+    400018: Slider4
+    400020: CenterButtonHL
+    400022: Slider1HL
+    400024: Slider2HL
+    400026: Slider3HL
+    400028: Slider4HL
+    2100000: No Name
+    2300000: Arrow1
+    2300002: Arrow2
+    2300004: Arrow3
+    2300006: Arrow4
+    2300008: CenterButton
+    2300010: Slider1
+    2300012: Slider2
+    2300014: Slider3
+    2300016: Slider4
+    2300018: CenterButtonHL
+    2300020: Slider1HL
+    2300022: Slider2HL
+    2300024: Slider3HL
+    2300026: Slider4HL
+    3300000: Arrow1
+    3300002: Arrow2
+    3300004: Arrow3
+    3300006: Arrow4
+    3300008: CenterButton
+    3300010: Slider1
+    3300012: Slider2
+    3300014: Slider3
+    3300016: Slider4
+    3300018: CenterButtonHL
+    3300020: Slider1HL
+    3300022: Slider2HL
+    3300024: Slider3HL
+    3300026: Slider4HL
+    4300000: CenterButton
+    4300002: Arrow3
+    4300004: Arrow4
+    4300006: Arrow2
+    4300008: Arrow1
+    4300010: Slider2
+    4300012: Slider4
+    4300014: Slider3
+    4300016: Slider1
+    4300018: Slider1HL
+    4300020: Slider3HL
+    4300022: Slider4HL
+    4300024: Slider2HL
+    4300026: CenterButtonHL
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

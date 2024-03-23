@@ -1,0 +1,179 @@
+fileFormatVersion: 2
+guid: cc4d7ec2d92deec40ab0b26b87a0114e
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Button1
+    100002: Button2
+    100004: Button3
+    100006: Button4
+    100008: Button5
+    100010: Button6
+    100012: ButtonsBackground
+    100014: ButtonsCase
+    100016: DisplayCase
+    100018: DisplayScreen
+    100020: LED1
+    100022: LED1Case
+    100024: LED2
+    100026: LED2Case
+    100028: LED3
+    100030: LED3Case
+    100032: LEDsCase
+    100034: //RootNode
+    100036: PuzzleBackground
+    400000: Button1
+    400002: Button2
+    400004: Button3
+    400006: Button4
+    400008: Button5
+    400010: Button6
+    400012: ButtonsBackground
+    400014: ButtonsCase
+    400016: DisplayCase
+    400018: DisplayScreen
+    400020: LED1
+    400022: LED1Case
+    400024: LED2
+    400026: LED2Case
+    400028: LED3
+    400030: LED3Case
+    400032: LEDsCase
+    400034: //RootNode
+    400036: PuzzleBackground
+    2100000: No Name
+    2100002: Component_PuzzleBack_mat.001
+    2300000: Button1
+    2300002: Button2
+    2300004: Button3
+    2300006: Button4
+    2300008: Button5
+    2300010: Button6
+    2300012: ButtonsBackground
+    2300014: ButtonsCase
+    2300016: DisplayCase
+    2300018: DisplayScreen
+    2300020: LED1
+    2300022: LED1Case
+    2300024: LED2
+    2300026: LED2Case
+    2300028: LED3
+    2300030: LED3Case
+    2300032: LEDsCase
+    2300034: PuzzleBackground
+    3300000: Button1
+    3300002: Button2
+    3300004: Button3
+    3300006: Button4
+    3300008: Button5
+    3300010: Button6
+    3300012: ButtonsBackground
+    3300014: ButtonsCase
+    3300016: DisplayCase
+    3300018: DisplayScreen
+    3300020: LED1
+    3300022: LED1Case
+    3300024: LED2
+    3300026: LED2Case
+    3300028: LED3
+    3300030: LED3Case
+    3300032: LEDsCase
+    3300034: PuzzleBackground
+    4300000: LED3Case
+    4300002: LED2Case
+    4300004: LED1
+    4300006: LED1Case
+    4300008: LED2
+    4300010: LED3
+    4300012: Button6
+    4300014: Button4
+    4300016: Button5
+    4300018: Button3
+    4300020: Button2
+    4300022: Button1
+    4300024: ButtonsBackground
+    4300026: DisplayScreen
+    4300028: LEDsCase
+    4300030: ButtonsCase
+    4300032: DisplayCase
+    4300034: PuzzleBackground
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

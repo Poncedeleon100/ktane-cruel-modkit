@@ -1,0 +1,155 @@
+fileFormatVersion: 2
+guid: 2c5c8a1c771c9e1418960fc49647395f
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: A
+    100002: A_sharp
+    100004: B
+    100006: C
+    100008: C_sharp
+    100010: Component_PuzzleBackground
+    100012: D
+    100014: D_sharp
+    100016: E
+    100018: F
+    100020: F_sharp
+    100022: G
+    100024: G_sharp
+    100026: //RootNode
+    400000: A
+    400002: A_sharp
+    400004: B
+    400006: C
+    400008: C_sharp
+    400010: Component_PuzzleBackground
+    400012: D
+    400014: D_sharp
+    400016: E
+    400018: F
+    400020: F_sharp
+    400022: G
+    400024: G_sharp
+    400026: //RootNode
+    2100000: Component_PuzzleBack_mat
+    2100002: WhiteKey
+    2100004: BlackKey
+    2300000: A
+    2300002: A_sharp
+    2300004: B
+    2300006: C
+    2300008: C_sharp
+    2300010: Component_PuzzleBackground
+    2300012: D
+    2300014: D_sharp
+    2300016: E
+    2300018: F
+    2300020: F_sharp
+    2300022: G
+    2300024: G_sharp
+    3300000: A
+    3300002: A_sharp
+    3300004: B
+    3300006: C
+    3300008: C_sharp
+    3300010: Component_PuzzleBackground
+    3300012: D
+    3300014: D_sharp
+    3300016: E
+    3300018: F
+    3300020: F_sharp
+    3300022: G
+    3300024: G_sharp
+    4300000: Component_PuzzleBackground
+    4300002: B
+    4300004: E
+    4300006: A_sharp
+    4300008: A
+    4300010: G_sharp
+    4300012: G
+    4300014: F_sharp
+    4300016: F
+    4300018: D_sharp
+    4300020: D
+    4300022: C_sharp
+    4300024: C
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
