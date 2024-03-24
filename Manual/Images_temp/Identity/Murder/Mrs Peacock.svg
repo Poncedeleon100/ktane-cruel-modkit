@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="150"
+   height="200"
+   viewBox="0 0 39.687 52.917"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="Mrs Peacock.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="5.5649304"
+     inkscape:cx="56.784179"
+     inkscape:cy="92.27429"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g3" />
+  <g
+     stroke="#000"
+     id="g3">
+    <path
+       id="path1"
+       d="m 24.577535,42.135161 1.416976,0.0088 c 7.989984,-0.2 14.203772,-3.262951 11.149778,-9.921937 0.671318,5.149405 -3.497258,3.657981 -4.612151,-1.147224 -1.496988,4.513901 -4.908345,8.689349 -7.954603,11.060376 z" />
+    <path
+       id="path12"
+       d="m 7.4851064,32.052997 c -1.2550986,3.897001 -4.92369,5.027666 -3.8292477,-0.336416 -4.9129902,8.433984 1.8371768,9.651547 10.2061603,10.310547 l 0.979791,0.0062 C 12.028534,39.831896 9.0444107,36.131537 7.4851064,32.052997 Z" />
+    <path
+       d="m 32.805,26.6 c 0,8.533 -9.273,17.567 -12.972,17.567 -4.143,0 -12.972,-9.034 -12.972,-17.567 0,-8.533 5.808,-13.333 12.972,-13.333 7.164,0 12.972,4.8 12.972,13.333 z"
+       fill="#ffffff"
+       stroke-width="0.438"
+       id="path13"
+       style="display:inline;fill:none;fill-opacity:1" />
+    <path
+       d="m 12.19,15.631478 c 6.002,8.672 9.752341,11.202455 20.579341,11.055455 C 32.361341,14.952933 20.897,10.649478 12.19,15.631478 Z m 0,0 -5.3158627,11.34 c 0.595,-5.938 1.8538627,-8.35 5.3158627,-11.34 z"
+       stroke-width="0.452"
+       id="path3"
+       sodipodi:nodetypes="cccccc" />
+  </g>
+</svg>
