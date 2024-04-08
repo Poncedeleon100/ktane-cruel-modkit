@@ -9,16 +9,25 @@ using rnd = UnityEngine.Random;
 public class ComponentInfo {
 
     //Strings
-    public static readonly string[] DIRNAMES = {"Center", "Up", "Right", "Down", "Left", "Up-Right", "Down-Right", "Down-Left", "Up-Left"};
-    public static readonly string[] SYMBOLCHARS = {"©", "★", "☆", "ټ", "Җ", "Ω", "Ѭ", "Ѽ", "ϗ", "ϫ", "Ϭ", "Ϟ", "Ѧ", "æ", "Ԇ", "Ӭ", "҈", "Ҋ", "Ѯ", "¿", "¶", "Ͼ", "Ͽ", "ψ", "Ѫ", "Ҩ", "҂", "Ϙ", "ζ", "ƛ", "Ѣ", "ע", "⦖", "ኒ", "エ", "π", "Э", "⁋", "ᛤ", "Ƿ", "Щ", "ξ", "Ᵹ", "Ю", "௵", "ϑ", "Triquetra", "ꎵ", "よ"};
-    public static readonly Color[] LIGHTCOLORS = {new Color(1, 0, 0), new Color(0, 0.737f, 0), new Color(0.388f, 0.27f, 1), new Color(1, 1, 0)};
     public static readonly string[] WireColors = {"Black", "Blue", "Cyan", "Green", "Grey", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow"};
     public static readonly string[] ButtonList = {"Press", "Hold", "Detonate", "Mash", "Tap", "Push", "Abort", "Button", "Click", "_", "Nothing", "No", "I Don't Know", "Yes"};
+    public static readonly string[] SymbolCharacters = {"©", "★", "☆", "ټ", "Җ", "Ω", "Ѭ", "Ѽ", "ϗ", "ϫ", "Ϭ", "Ϟ", "Ѧ", "æ", "Ԇ", "Ӭ", "҈", "Ҋ", "Ѯ", "¿", "¶", "Ͼ", "Ͽ", "ψ", "Ѫ", "Ҩ", "҂", "Ϙ", "ζ", "ƛ", "Ѣ", "ע", "⦖", "ኒ", "エ", "π", "Э", "⁋", "ᛤ", "Ƿ", "Щ", "ξ", "Ᵹ", "Ю", "௵", "ϑ", "Triquetra", "ꎵ", "よ"};
+
+    //For converting adjacent colors into their associated slider colors. Colors within string pairs are ordered alphabetically: Blue, Green, Red, Yellow
+    Dictionary<string, int> SliderColors = new Dictionary<string, int> {
+        {"01", 4}, //Cyan
+        {"12", 5}, //Golden Yellow
+        {"02", 6}, //Magenta
+        {"23", 7}, //Orange
+        {"03", 8}, //Black
+        {"13", 9}, //White
+    };
 
     //Colors
-    public Color ButtonTextWhite = new Color(1,1,1);
+    public static readonly Color ButtonTextWhite = new Color(1,1,1);
+    //public static readonly Color LightColors = {new Color()};
 
-    //Variables to be passed to cruelModkitScript
+    //Variables to be accessed in main script
     public int[][] Wires = new int[][] {
         new int[] {0, 0, 0, 0, 0, 0, 0},
         new int[] {0, 0, 0, 0, 0, 0, 0},
@@ -29,7 +38,7 @@ public class ComponentInfo {
     public int[] LED;
     public int[] Symbols;
     public string[] Alphabet = new string[6];
-    public int[] Arrows;
+    public int[][] Arrows = new int[3][];
 
     public ComponentInfo() {
         List<int> Temp = new List<int>();
@@ -91,6 +100,30 @@ public class ComponentInfo {
             Alphabet[i] = AlphabetKey;
         }
         //Generate arrow colors
+        Arrows[0] = new int[] {0, 1, 2, 3}.OrderBy(x => rnd.Range(0, 1000)).ToArray();
+        //Create slider colors based on generated arrow colors
+        string[] TempSliders = new string[4];
+        for(int i = 0; i < 4; i++) {
+            if(i == 3) {
+                if(Arrows[0][0] > Arrows[0][i]) {
+                    TempSliders[i] = Arrows[0][i].ToString() + Arrows[0][0].ToString();
+                }
+                else {
+                TempSliders[i] = Arrows[0][0].ToString() + Arrows[0][i].ToString();
+                }
+            }
+            else if(Arrows[0][i] > Arrows[0][i + 1]) {
+                TempSliders[i] = Arrows[0][i + 1].ToString() + Arrows[0][i].ToString();
+            }
+            else {
+                TempSliders[i] = Arrows[0][i].ToString() + Arrows[0][i + 1].ToString();
+            }
+        }
+        Arrows[1] = new int[4];
+        for(int i = 0; i < 4; i++) {
+            Arrows[1][i] = SliderColors[TempSliders[i]];
+        }
+        Arrows[2] = new int[] {rnd.Range(8,10)};
         //Generate Identity information
         //Generate Bulb colors and button labels
         //Generate text and colors for Resistor

@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 4818944581159802}
   - component: {fileID: 108837309224747238}
   m_Layer: 0
-  m_Name: ArrowUpRightL
+  m_Name: ArrowLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1300,7 +1300,7 @@ GameObject:
   - component: {fileID: 4357342907554424}
   - component: {fileID: 108430995506125226}
   m_Layer: 0
-  m_Name: ArrowCenterL
+  m_Name: ArrowLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1353,7 +1353,7 @@ GameObject:
   - component: {fileID: 4078259987051230}
   - component: {fileID: 108101105992676770}
   m_Layer: 0
-  m_Name: ArrowUpL
+  m_Name: ArrowLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1425,7 +1425,7 @@ GameObject:
   - component: {fileID: 4737783139617778}
   - component: {fileID: 108153665906686408}
   m_Layer: 0
-  m_Name: ArrowUpLeftL
+  m_Name: ArrowLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1662,7 +1662,7 @@ GameObject:
   - component: {fileID: 4128592815012430}
   - component: {fileID: 108035518203172786}
   m_Layer: 0
-  m_Name: ArrowDownL
+  m_Name: ArrowLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1974,7 +1974,7 @@ GameObject:
   - component: {fileID: 4511312577923520}
   - component: {fileID: 108950370324892020}
   m_Layer: 0
-  m_Name: ArrowDownRightL
+  m_Name: ArrowLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4567,7 +4567,7 @@ GameObject:
   - component: {fileID: 4268402029510900}
   - component: {fileID: 108801138779165304}
   m_Layer: 0
-  m_Name: ArrowDownLeftL
+  m_Name: ArrowLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4598,7 +4598,7 @@ GameObject:
   - component: {fileID: 4019921916600748}
   - component: {fileID: 108969478534523610}
   m_Layer: 0
-  m_Name: ArrowRightL
+  m_Name: ArrowLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6326,7 +6326,7 @@ GameObject:
   - component: {fileID: 4548523105602756}
   - component: {fileID: 108438769796550982}
   m_Layer: 0
-  m_Name: ArrowLeftL
+  m_Name: ArrowLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26216,16 +26216,27 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 3be6a66144bc8394389c741669412498, type: 2}
   - {fileID: 2100000, guid: 64bd2196d3c0a6a4a808979d4754f79b, type: 2}
   ArrowMats:
-  - {fileID: 2100000, guid: b3cb04fa60350894eb30580bfff9bf8a, type: 2}
   - {fileID: 2100000, guid: eae8f3bbbe74edb42ad974fb0ee0512e, type: 2}
+  - {fileID: 2100000, guid: 5f9c968a125e79a48a72c7db9950d08d, type: 2}
+  - {fileID: 2100000, guid: 5b5d7d5ae98ebd340a3e81d072988f90, type: 2}
+  - {fileID: 2100000, guid: adb5b44c06c27a040b06c7c7150e9024, type: 2}
   - {fileID: 2100000, guid: b8c3f46a3a53a8d46893854ea213e03d, type: 2}
   - {fileID: 2100000, guid: c04d70bf706bb9d418d0873d0f548caf, type: 2}
-  - {fileID: 2100000, guid: 5f9c968a125e79a48a72c7db9950d08d, type: 2}
   - {fileID: 2100000, guid: 22ccf0676a195c649991d13714f4a0a3, type: 2}
   - {fileID: 2100000, guid: 2ecda823758716e4aa8792c37bb7200b, type: 2}
-  - {fileID: 2100000, guid: 5b5d7d5ae98ebd340a3e81d072988f90, type: 2}
+  - {fileID: 2100000, guid: b3cb04fa60350894eb30580bfff9bf8a, type: 2}
   - {fileID: 2100000, guid: ab8937bf36d95d141a2fb9f9fb9ce968, type: 2}
-  - {fileID: 2100000, guid: adb5b44c06c27a040b06c7c7150e9024, type: 2}
+  ArrowLightColors:
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0, g: 0.7372549, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 1, b: 0, a: 1}
+  - {r: 0, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.7529412, b: 0, a: 0.8509804}
+  - {r: 1, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0.64705884, b: 0, a: 1}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 1, g: 1, b: 1, a: 1}
   IdentityMats:
   - {fileID: 2100000, guid: 33021fdff2ca3ab448e51e32adc7f002, type: 2}
   - {fileID: 2100000, guid: 4f2a8c2a2c00bca4d9ae9be0d8f349dd, type: 2}
@@ -26336,7 +26347,6 @@ MonoBehaviour:
   - {fileID: 1769424101485680}
   - {fileID: 1067492261457454}
   Arrows:
-  - {fileID: 1682855397663150}
   - {fileID: 1477821379806542}
   - {fileID: 1442679255829026}
   - {fileID: 1744600306331156}
@@ -26345,6 +26355,7 @@ MonoBehaviour:
   - {fileID: 1782079799204012}
   - {fileID: 1958927398355836}
   - {fileID: 1026456400245604}
+  - {fileID: 1682855397663150}
   ArrowsBase: {fileID: 4610700421737898}
   Identity:
   - {fileID: 1174862808373836}

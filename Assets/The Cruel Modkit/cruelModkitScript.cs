@@ -26,6 +26,8 @@ public class cruelModkitScript : MonoBehaviour {
 	public Material[] KeyLightMats;
 	public Material[] SymbolMats;
 	public Material[] ArrowMats;
+	//Here take this color too
+	public Color[] ArrowLightColors;
 	public Material[] IdentityMats;
 	//public TextMesh[] IdentityText;
 	//public Light[] BulbLights;
@@ -183,8 +185,8 @@ public class cruelModkitScript : MonoBehaviour {
 		//Set text and material for Button
 		ButtonText.text = Info.ButtonText;
 		Button.material = ButtonMats[Info.Button];
-		if(Info.Button == 0 || Info.Button == 1) {
-			ButtonText.color = Info.ButtonTextWhite;
+		if(Info.Button == 0 || Info.Button == 1 || Info.Button == 7) {
+			ButtonText.color = ComponentInfo.ButtonTextWhite;
 		}
 		//Set materials for LEDs
 		for(int i = 0; i < LED.Length; i++)
@@ -198,6 +200,22 @@ public class cruelModkitScript : MonoBehaviour {
 		//Set Alphabet text
 		for(int i = 0; i < Alphabet.Length; i++) {
 			Alphabet[i].transform.Find("AlphabetText").GetComponentInChildren<TextMesh>().text = Info.Alphabet[i];
+		}
+		//Set materials and light colors for Arrows
+		for(int i = 0; i < 9; i++)
+		{
+			int x = 0;
+			int y = 0;
+			if(i > 3 && i <= 7) {
+				x = 1;
+				y = 4;
+			}
+			else if (i > 7) {
+				x = 2;
+				y = 8;
+			}
+			Arrows[i].GetComponentInChildren<Renderer>().material = ArrowMats[Info.Arrows[x][i - y]];
+    		Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = ArrowLightColors[Info.Arrows[x][i - y]];
 		}
 	}
 }
