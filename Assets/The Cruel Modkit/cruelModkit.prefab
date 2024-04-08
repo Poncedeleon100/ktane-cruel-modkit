@@ -877,7 +877,7 @@ GameObject:
   - component: {fileID: 102981847414237386}
   - component: {fileID: 114378751379243230}
   m_Layer: 0
-  m_Name: Alphabet4
+  m_Name: AlphabetText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1014,7 +1014,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4309476150013326}
   m_Layer: 0
-  m_Name: Bulb
+  m_Name: Bulbs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1265,7 +1265,7 @@ GameObject:
   - component: {fileID: 23042148315395020}
   - component: {fileID: 114458673853742550}
   m_Layer: 0
-  m_Name: LEDL2
+  m_Name: LEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1888,7 +1888,7 @@ GameObject:
   - component: {fileID: 23136190511072442}
   - component: {fileID: 114594863702158096}
   m_Layer: 0
-  m_Name: Symbol6
+  m_Name: Symbol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2080,7 +2080,7 @@ GameObject:
   - component: {fileID: 23960172243751064}
   - component: {fileID: 114409924755672850}
   m_Layer: 0
-  m_Name: LEDL3
+  m_Name: LEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2153,7 +2153,7 @@ GameObject:
   - component: {fileID: 102696172231680476}
   - component: {fileID: 114225043475650016}
   m_Layer: 0
-  m_Name: Alphabet6
+  m_Name: AlphabetText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2294,7 +2294,7 @@ GameObject:
   - component: {fileID: 23602466109993512}
   - component: {fileID: 114244868615925956}
   m_Layer: 0
-  m_Name: WireLEDL3
+  m_Name: WireLEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2683,7 +2683,7 @@ GameObject:
   - component: {fileID: 23071561796799984}
   - component: {fileID: 114674919230254856}
   m_Layer: 0
-  m_Name: WireLEDL5
+  m_Name: WireLEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2821,7 +2821,7 @@ GameObject:
   - component: {fileID: 23715149714719446}
   - component: {fileID: 114401739938314930}
   m_Layer: 0
-  m_Name: LEDL5
+  m_Name: LEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2961,7 +2961,7 @@ GameObject:
   - component: {fileID: 23432955880379026}
   - component: {fileID: 114519922955304150}
   m_Layer: 0
-  m_Name: WireLEDL4
+  m_Name: WireLEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3035,7 +3035,7 @@ GameObject:
   - component: {fileID: 23518528054718812}
   - component: {fileID: 114095501244558792}
   m_Layer: 0
-  m_Name: LEDL1
+  m_Name: LEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3196,7 +3196,7 @@ GameObject:
   - component: {fileID: 23877988579857484}
   - component: {fileID: 114968814414344126}
   m_Layer: 0
-  m_Name: WireLEDL7
+  m_Name: WireLEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3578,7 +3578,7 @@ GameObject:
   - component: {fileID: 23612541546833610}
   - component: {fileID: 114763993644159176}
   m_Layer: 0
-  m_Name: WireLEDL2
+  m_Name: WireLEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3876,7 +3876,7 @@ GameObject:
   - component: {fileID: 23980862491465220}
   - component: {fileID: 114425131413843070}
   m_Layer: 0
-  m_Name: Symbol1
+  m_Name: Symbol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4054,7 +4054,7 @@ GameObject:
   - component: {fileID: 102790192730234606}
   - component: {fileID: 114294141180153680}
   m_Layer: 0
-  m_Name: Alphabet2
+  m_Name: AlphabetText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4231,7 +4231,7 @@ GameObject:
   - component: {fileID: 102287186964071232}
   - component: {fileID: 114571589226810338}
   m_Layer: 0
-  m_Name: Alphabet5
+  m_Name: AlphabetText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4341,7 +4341,7 @@ GameObject:
   - component: {fileID: 23400710326326234}
   - component: {fileID: 114107376654093252}
   m_Layer: 0
-  m_Name: Symbol4
+  m_Name: Symbol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4466,7 +4466,7 @@ GameObject:
   - component: {fileID: 102077362893712310}
   - component: {fileID: 114455411205316934}
   m_Layer: 0
-  m_Name: Alphabet3
+  m_Name: AlphabetText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4906,7 +4906,7 @@ GameObject:
   - component: {fileID: 23219575009378858}
   - component: {fileID: 114243301120562768}
   m_Layer: 0
-  m_Name: Symbol5
+  m_Name: Symbol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5091,7 +5091,7 @@ GameObject:
   - component: {fileID: 23371250183685992}
   - component: {fileID: 114996530840088924}
   m_Layer: 0
-  m_Name: LEDL4
+  m_Name: LEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5279,7 +5279,7 @@ GameObject:
   - component: {fileID: 23492910625429354}
   - component: {fileID: 114151044592654674}
   m_Layer: 0
-  m_Name: LEDL8
+  m_Name: LEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5352,7 +5352,7 @@ GameObject:
   - component: {fileID: 23784444316584634}
   - component: {fileID: 114110306050330020}
   m_Layer: 0
-  m_Name: WireLEDL6
+  m_Name: WireLEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5408,7 +5408,7 @@ GameObject:
   - component: {fileID: 23441606855658356}
   - component: {fileID: 114440989807876924}
   m_Layer: 0
-  m_Name: LEDL7
+  m_Name: LEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5552,7 +5552,7 @@ GameObject:
   - component: {fileID: 23196480602782788}
   - component: {fileID: 114774650776030594}
   m_Layer: 0
-  m_Name: Symbol2
+  m_Name: Symbol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5585,7 +5585,7 @@ GameObject:
   - component: {fileID: 23034605954894396}
   - component: {fileID: 114097574128592936}
   m_Layer: 0
-  m_Name: WireLEDL1
+  m_Name: WireLEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5868,7 +5868,7 @@ GameObject:
   - component: {fileID: 23298099067274988}
   - component: {fileID: 114795133975109944}
   m_Layer: 0
-  m_Name: LEDL6
+  m_Name: LEDL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5922,7 +5922,7 @@ GameObject:
   - component: {fileID: 23307401050713470}
   - component: {fileID: 114551906136711014}
   m_Layer: 0
-  m_Name: Symbol3
+  m_Name: Symbol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5959,7 +5959,7 @@ GameObject:
   - component: {fileID: 102916827679946118}
   - component: {fileID: 114614346814959766}
   m_Layer: 0
-  m_Name: Alphabet1
+  m_Name: AlphabetText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6853,9 +6853,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1422589688727396}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.237, y: -0.65621, z: -0.046}
-  m_LocalScale: {x: 57.768997, y: 933.5852, z: 60.267963}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.045937926, y: -0.65620947, z: -0.2373203}
+  m_LocalScale: {x: 57.69109, y: 933.5859, z: 60.34944}
   m_Children: []
   m_Father: {fileID: 4237175255926888}
   m_RootOrder: 0
@@ -6895,7 +6895,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1859152693372672}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.111e-11, z: 0.001981}
+  m_LocalPosition: {x: 0, y: -5.7977616e-11, z: 0.0005000016}
   m_LocalScale: {x: 1.0665016, y: 1.1463798, z: 1.1748228}
   m_Children: []
   m_Father: {fileID: 4407815823383074}
@@ -7165,14 +7165,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1090369736147302}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0.00911, y: 0.012394, z: 0.025557}
   m_LocalScale: {x: 0.0060236324, y: 0.0007475005, z: 0.0060155084}
   m_Children:
   - {fileID: 4440431093722680}
   m_Father: {fileID: 4240716332700560}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!4 &4157973133441226
 Transform:
   m_ObjectHideFlags: 1
@@ -7519,14 +7519,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1089175458941962}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0.01435, y: 0.012394, z: 0.025557}
   m_LocalScale: {x: 0.0060206214, y: 0.0007500005, z: 0.006012498}
   m_Children:
   - {fileID: 4098335246681048}
   m_Father: {fileID: 4240716332700560}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!4 &4238165750054550
 Transform:
   m_ObjectHideFlags: 1
@@ -7611,7 +7611,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1217210691749696}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.678, y: 0.0041801, z: -0.051944226}
+  m_LocalPosition: {x: 0.678, y: 0.00494, z: -0.051944226}
   m_LocalScale: {x: 10.684151, y: 17.799004, z: 2.3973062}
   m_Children:
   - {fileID: 4529877662505036}
@@ -7911,7 +7911,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1251492262604586}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.9244212e-11, z: 0.0022699125}
+  m_LocalPosition: {x: 0, y: -0, z: 0.00055}
   m_LocalScale: {x: 1.112897, y: 1.0875002, z: 1.3539957}
   m_Children: []
   m_Father: {fileID: 4266449868174456}
@@ -8553,9 +8553,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1267015111361242}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.237, y: -0.65621, z: -0.046}
-  m_LocalScale: {x: 57.768997, y: 933.5852, z: 60.267963}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.045937847, y: -0.65621, z: -0.2373201}
+  m_LocalScale: {x: 57.691124, y: 933.58575, z: 60.349403}
   m_Children: []
   m_Father: {fileID: 4148532825605660}
   m_RootOrder: 0
@@ -9495,14 +9495,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186661425737518}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0.01168, y: 0.012394, z: 0.025557}
   m_LocalScale: {x: 0.0060206214, y: 0.0007500005, z: 0.006012498}
   m_Children:
   - {fileID: 4979690923959634}
   m_Father: {fileID: 4240716332700560}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!4 &4584871083711872
 Transform:
   m_ObjectHideFlags: 1
@@ -9523,7 +9523,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1730899033400386}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.222e-10, z: 0.0020479}
+  m_LocalPosition: {x: 0, y: -5.7977616e-11, z: 0.0005000016}
   m_LocalScale: {x: 1.1144226, y: 1.1278499, z: 1.1971126}
   m_Children: []
   m_Father: {fileID: 4946783669522532}
@@ -9605,7 +9605,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1199108401088628}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.4685e-10, z: 0.0021286}
+  m_LocalPosition: {x: 0, y: -0, z: 0.0005}
   m_LocalScale: {x: 1.1257414, y: 1.1943843, z: 1.2240185}
   m_Children: []
   m_Father: {fileID: 4362219276296426}
@@ -9873,14 +9873,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1798813692186222}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0.01718, y: 0.012394, z: 0.025557}
   m_LocalScale: {x: 0.0060206214, y: 0.0007500005, z: 0.006012498}
   m_Children:
   - {fileID: 4743509620739962}
   m_Father: {fileID: 4240716332700560}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!4 &4655934955903210
 Transform:
   m_ObjectHideFlags: 1
@@ -10208,9 +10208,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1255077130484264}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.237, y: -0.65621, z: -0.046}
-  m_LocalScale: {x: 57.768997, y: 933.5852, z: 60.267963}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.045937926, y: -0.65620947, z: -0.2373203}
+  m_LocalScale: {x: 57.69109, y: 933.5859, z: 60.34944}
   m_Children: []
   m_Father: {fileID: 4635735532831420}
   m_RootOrder: 0
@@ -11201,9 +11201,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1197335780585016}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.237, y: -0.65621, z: -0.046}
-  m_LocalScale: {x: 57.768997, y: 933.5852, z: 60.267963}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.045937926, y: -0.65620947, z: -0.2373203}
+  m_LocalScale: {x: 57.69109, y: 933.5859, z: 60.34944}
   m_Children: []
   m_Father: {fileID: 4584434261415716}
   m_RootOrder: 0
@@ -15591,7 +15591,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e34094a471244404193f3a491194100e, type: 2}
+  - {fileID: 2100000, guid: 23619b08439d65c4d80a249f3d73262d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15965,7 +15965,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e34094a471244404193f3a491194100e, type: 2}
+  - {fileID: 2100000, guid: 23619b08439d65c4d80a249f3d73262d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16373,7 +16373,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e61482836c5c42a439f4f2fb54398976, type: 2}
+  - {fileID: 2100000, guid: 23619b08439d65c4d80a249f3d73262d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16815,7 +16815,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 25981691a4f03d149980954b825b0e96, type: 2}
+  - {fileID: 2100000, guid: 23619b08439d65c4d80a249f3d73262d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17495,7 +17495,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: a74a5a6f9ab88974193054d17e262f9b, type: 2}
+  - {fileID: 2100000, guid: 23619b08439d65c4d80a249f3d73262d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17699,7 +17699,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 1e6dbd8d3ffca5a448fa94f12a99c885, type: 2}
+  - {fileID: 2100000, guid: 23619b08439d65c4d80a249f3d73262d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18515,7 +18515,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 716129e3ae35da84facc3ac867abe9d1, type: 2}
+  - {fileID: 2100000, guid: 23619b08439d65c4d80a249f3d73262d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18651,7 +18651,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 1e6dbd8d3ffca5a448fa94f12a99c885, type: 2}
+  - {fileID: 2100000, guid: 23619b08439d65c4d80a249f3d73262d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18753,7 +18753,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: c77596466e66a574bb5ca176d59cfe40, type: 2}
+  - {fileID: 2100000, guid: 23619b08439d65c4d80a249f3d73262d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19297,7 +19297,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 716129e3ae35da84facc3ac867abe9d1, type: 2}
+  - {fileID: 2100000, guid: 23619b08439d65c4d80a249f3d73262d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19841,7 +19841,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e61482836c5c42a439f4f2fb54398976, type: 2}
+  - {fileID: 2100000, guid: 23619b08439d65c4d80a249f3d73262d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -20147,7 +20147,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: a74a5a6f9ab88974193054d17e262f9b, type: 2}
+  - {fileID: 2100000, guid: 23619b08439d65c4d80a249f3d73262d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25986,6 +25986,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Audio: {fileID: 114407572414554298}
   Bomb: {fileID: 114151435836512902}
+  Module: {fileID: 0}
   Doors:
   - {fileID: 1284720172927842}
   - {fileID: 1315924200033592}
@@ -26018,34 +26019,353 @@ MonoBehaviour:
   - {fileID: 114418637296037666}
   DisplayText: {fileID: 102464181802188016}
   WireMats:
+  - {fileID: 2100000, guid: 5fdde96ecbf86cd4c8fcf24a31d2f5cd, type: 2}
+  - {fileID: 2100000, guid: 4d2b9d09fdc968e45964f64d1cc5c59c, type: 2}
+  - {fileID: 2100000, guid: 85abdda149f5ec740bfe8bb4787fb970, type: 2}
+  - {fileID: 2100000, guid: b8bb7bb45bb45cc4a94f4dee51b544ec, type: 2}
+  - {fileID: 2100000, guid: 72c7a1222334b2543b2bf91deac1aca4, type: 2}
+  - {fileID: 2100000, guid: e610ebc02f58aaa4baf3abf9b43bd9b0, type: 2}
+  - {fileID: 2100000, guid: d00f5634d79467945a35a6bef70f6303, type: 2}
+  - {fileID: 2100000, guid: 0b64a1cbeed0bdf4eb1f6a9a99b94370, type: 2}
+  - {fileID: 2100000, guid: bd1380e0c7a94c84ab577b8d5a90d5c2, type: 2}
+  - {fileID: 2100000, guid: 7cd3dda57e2ac104e84c326bce8de9b3, type: 2}
+  - {fileID: 2100000, guid: 7f0ec8d4fc20c0942a17df0f3402e14e, type: 2}
+  - {fileID: 2100000, guid: afe46c9db66f8eb479aad5f833db64d5, type: 2}
   - {fileID: 2100000, guid: 2937c6c7f92c68f43961cfe0b9dfac88, type: 2}
+  - {fileID: 2100000, guid: bba43c5624990ca4daf76d38c087d1c6, type: 2}
+  - {fileID: 2100000, guid: 67e94dd5b4e6b284c99b83180ab6da38, type: 2}
+  - {fileID: 2100000, guid: d207a0f94ba408e41903c852b237d5e9, type: 2}
+  - {fileID: 2100000, guid: 459fc35abc0857947980c9cc56d56793, type: 2}
   - {fileID: 2100000, guid: a8bfa0db1eb00c646ac3429738dd32ff, type: 2}
+  - {fileID: 2100000, guid: ba5aa5e4664ec754299b69fe62f3fe9a, type: 2}
   - {fileID: 2100000, guid: a795ad5ca9f71384da9fd54961003a2c, type: 2}
+  - {fileID: 2100000, guid: 97a1199d3e98e9047b59ba2139450c16, type: 2}
   - {fileID: 2100000, guid: 8667345a9bb6392459b1ff9217eb036b, type: 2}
   - {fileID: 2100000, guid: 3c534fe0756b8544b90424263a92c048, type: 2}
+  - {fileID: 2100000, guid: 5098f397976e77f4386744fc173d43b7, type: 2}
+  - {fileID: 2100000, guid: 575e4609c4c00b94c898cd36e9d4b04a, type: 2}
+  - {fileID: 2100000, guid: 6ffaf88c0fd620340ae615c8fdbec9f9, type: 2}
+  - {fileID: 2100000, guid: 608cb097bd98d9e4580cc980f2827550, type: 2}
+  - {fileID: 2100000, guid: 1c77dd57da74fa04397f883b1a3c6a35, type: 2}
+  - {fileID: 2100000, guid: 68659e299d2d2bd45a51a900845ef29b, type: 2}
+  - {fileID: 2100000, guid: 88bd079e43287fa47ae88bc2b3615a71, type: 2}
+  - {fileID: 2100000, guid: 1354d23edbb9ae049b45ec6d646fd7be, type: 2}
+  - {fileID: 2100000, guid: 1e0758036cfd4364b9605e6511ea0167, type: 2}
+  - {fileID: 2100000, guid: 8e6d38c9ffcd9de42984d435897df722, type: 2}
   - {fileID: 2100000, guid: 87f244909953ea543bcd52aeeaa15e0b, type: 2}
-  - {fileID: 2100000, guid: a984036d23f919146b775f883616adf9, type: 2}
+  - {fileID: 2100000, guid: bffaf9b2533c9824088a770719afbc8d, type: 2}
+  - {fileID: 2100000, guid: ef4f890d1cbc81a41a327304814930e5, type: 2}
   - {fileID: 2100000, guid: e46de035688894d4cbd996610f5ed2e2, type: 2}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: b2e3c65acc7170c429330926e822f45f, type: 2}
+  - {fileID: 2100000, guid: bb65cf89b15c9484cbe911ac9481cd44, type: 2}
+  - {fileID: 2100000, guid: 74204c203f0544f4eb1fbb10b0b1d178, type: 2}
   - {fileID: 2100000, guid: 1290bb3ed72c1764bbd56e398195c32d, type: 2}
   - {fileID: 2100000, guid: b88160856eb59b84da367afb6ea32a9a, type: 2}
+  - {fileID: 2100000, guid: 62eb1a776756437489c7caae7869935b, type: 2}
+  - {fileID: 2100000, guid: 9ff198614cb154e41a77f0e7e7141196, type: 2}
+  - {fileID: 2100000, guid: 1b87ffd3403b28642a82acf561d6a55c, type: 2}
+  - {fileID: 2100000, guid: 8c63c0b25e49f574681fba4d9500907f, type: 2}
+  - {fileID: 2100000, guid: c3b9e18c0f3216646818b322df1d8647, type: 2}
+  - {fileID: 2100000, guid: 398a5e909c66ca84ea2e69b3c34282e1, type: 2}
+  - {fileID: 2100000, guid: 8ab2ea9ff61e0c14b8d6379a37255d28, type: 2}
+  - {fileID: 2100000, guid: ccde80717495f1e4593954e3b5b04a93, type: 2}
+  - {fileID: 2100000, guid: e5d04a1bfac08fb4e9bbd19b919df6fd, type: 2}
+  - {fileID: 2100000, guid: 4cbb63013330d0848b66cf89924dfd2e, type: 2}
+  - {fileID: 2100000, guid: d58ffcbe15d33e94399635743d603910, type: 2}
+  - {fileID: 2100000, guid: c5719678938bf1a45b6e9fbbfba5c484, type: 2}
+  - {fileID: 2100000, guid: a673779ff323307419bda945dd9851eb, type: 2}
+  - {fileID: 2100000, guid: 5129d887c12f5be4eabe5e14754c5c4c, type: 2}
+  - {fileID: 2100000, guid: a532ed0d789e3d54fb8198a50cf340b3, type: 2}
   - {fileID: 2100000, guid: 98bda3b0e99c24249be1d9b5f7c3f534, type: 2}
+  - {fileID: 2100000, guid: 939e8a6a712be2a43839e56d76b6149e, type: 2}
   - {fileID: 2100000, guid: 3b4d39e20ef6a1e4bb8a73560d546ef4, type: 2}
+  - {fileID: 2100000, guid: 9e29c9d4c8b72444898e0e92dd9edecb, type: 2}
   - {fileID: 2100000, guid: cd497a9431aef19418e395845124ea24, type: 2}
+  - {fileID: 2100000, guid: 2e738e5ad1505614982e7db8635ef9ca, type: 2}
+  - {fileID: 2100000, guid: ff4bc80386c728742bf5480800a397fd, type: 2}
+  - {fileID: 2100000, guid: 2091e1162a48a30459a08241b94f886e, type: 2}
+  - {fileID: 2100000, guid: 164ef540b30719c439aa510dba941897, type: 2}
+  - {fileID: 2100000, guid: ae5baa8e4933d104f9c22a06c138cad3, type: 2}
+  - {fileID: 2100000, guid: 324b22c4f5892e64393b555b87627ef1, type: 2}
   - {fileID: 2100000, guid: f394e1bad4234974ea3af7907218b715, type: 2}
+  - {fileID: 2100000, guid: 31dcb3d4c0c3cd24194c02cf952bdbb0, type: 2}
   - {fileID: 2100000, guid: 57e6f53c29b89be4bb466c867fb08f9e, type: 2}
+  - {fileID: 2100000, guid: 4ac03db122128f546b8faab13ce41b26, type: 2}
   - {fileID: 2100000, guid: 9806f92c2f40f9642b69b4d8645d4fe8, type: 2}
-  - {fileID: 2100000, guid: 35bfaffd977ff0943bc940fe67f911e2, type: 2}
-  - {fileID: 2100000, guid: b4496e7da7ea8594c943016631e40c97, type: 2}
-  - {fileID: 2100000, guid: 39fd8beadb21804418f6d2410581b302, type: 2}
-  - {fileID: 2100000, guid: 336cd69fee70a614c9c2b5fca41c7ffe, type: 2}
   - {fileID: 2100000, guid: d5fe9898ac733414396d6f1fea46c4eb, type: 2}
   - {fileID: 2100000, guid: 1cbc0d8887833a645bd5db8f64a1086d, type: 2}
   - {fileID: 2100000, guid: a63ed615785e3d1448aeec1cc1f56037, type: 2}
+  - {fileID: 2100000, guid: 919ab7f253e298e44a5341be5bd7bff6, type: 2}
   - {fileID: 2100000, guid: 9520aa650762b8f48885958fa2302dfb, type: 2}
-  - {fileID: 2100000, guid: 8fc600bb1f72fcf4b9e87ee11bf9de80, type: 2}
-  - {fileID: 2100000, guid: f9db09a2be270284fb776f4d03c56efd, type: 2}
-  - {fileID: 2100000, guid: c327a042be891d741a8ce86cb38404d0, type: 2}
+  WireLEDMats:
+  - {fileID: 2100000, guid: 3430e3cec4d9eda4c81c91d4b5c4bdbe, type: 2}
+  - {fileID: 2100000, guid: a06bc977cfb0707449d994cad49419bb, type: 2}
+  - {fileID: 2100000, guid: 479f595bbdd64b749854cb178ecc63e9, type: 2}
+  - {fileID: 2100000, guid: 01c02f9e06f9d13429e2843e299dccbf, type: 2}
+  - {fileID: 2100000, guid: c7f857d4e85843846b101d325fedc168, type: 2}
+  - {fileID: 2100000, guid: 71411cda7f487bf4bb8ff70046b6448b, type: 2}
+  - {fileID: 2100000, guid: 8142654238f873c44b3e9c67d9cd26ab, type: 2}
+  - {fileID: 2100000, guid: a503c9edca46a33488185e031aee92fc, type: 2}
+  - {fileID: 2100000, guid: 712840cee3ef2554d9c425eb23b1f8a2, type: 2}
+  - {fileID: 2100000, guid: daabfd1c68e367f458d642fdd05887ca, type: 2}
+  - {fileID: 2100000, guid: f10d86c5603f821448e7ed07fea7e31c, type: 2}
+  - {fileID: 2100000, guid: 376a8c853c68cdc4b8d7ac0106b82a6c, type: 2}
+  - {fileID: 2100000, guid: afb5d7d16608480498a00b72f4e13175, type: 2}
+  - {fileID: 2100000, guid: 48bbf6208bb1bd643ab3967b3bbd9ad8, type: 2}
+  - {fileID: 2100000, guid: 65253bbfa401ecf4f873c225fa25f274, type: 2}
+  - {fileID: 2100000, guid: 08eb5742f96e50a46b4437da1ddef0a2, type: 2}
+  - {fileID: 2100000, guid: b9ee4b167d2deb34190a7e31d5785fc5, type: 2}
+  - {fileID: 2100000, guid: 2dfa54f272313e04a806a577e4ea15ea, type: 2}
+  - {fileID: 2100000, guid: 4d90ec8c4f90a304e9cc708b133bc772, type: 2}
+  - {fileID: 2100000, guid: 12d124523c2630446a2f04a17d0b0cdc, type: 2}
+  - {fileID: 2100000, guid: b4d358639a3d42c4b8496ace6e4fd85d, type: 2}
+  - {fileID: 2100000, guid: ba73d67bd8cb3a943afd38c816bd2406, type: 2}
+  - {fileID: 2100000, guid: 2bfe2dfc6918ffa4cb208944290b4ab9, type: 2}
+  - {fileID: 2100000, guid: e5ffa45938e3eb541bf812d4aef1d9b5, type: 2}
+  - {fileID: 2100000, guid: 0007e1e0e3e6ce249864aaf9d31208a1, type: 2}
+  - {fileID: 2100000, guid: d59a66486beec424badcbe799ab610fc, type: 2}
+  - {fileID: 2100000, guid: c2642c5912456a545bba9106f629f37e, type: 2}
+  - {fileID: 2100000, guid: 19447e6f1c7ad5f47b5627602c2a73c2, type: 2}
+  - {fileID: 2100000, guid: 4f9664e4f2663ad48bbff6c33c012a28, type: 2}
+  - {fileID: 2100000, guid: 3ae26b3c9dfc7a04ab9d87bf962a7adb, type: 2}
+  - {fileID: 2100000, guid: 969677128d0cc92408e10d67d9b518ff, type: 2}
+  - {fileID: 2100000, guid: 488198b3ae86fae4b8a5e99d16e861d7, type: 2}
+  - {fileID: 2100000, guid: ac0266702b491094abe81f08852728b9, type: 2}
+  ButtonMats:
+  - {fileID: 2100000, guid: 5fdde96ecbf86cd4c8fcf24a31d2f5cd, type: 2}
+  - {fileID: 2100000, guid: 2937c6c7f92c68f43961cfe0b9dfac88, type: 2}
+  - {fileID: 2100000, guid: 5098f397976e77f4386744fc173d43b7, type: 2}
+  - {fileID: 2100000, guid: 87f244909953ea543bcd52aeeaa15e0b, type: 2}
+  - {fileID: 2100000, guid: e5d04a1bfac08fb4e9bbd19b919df6fd, type: 2}
+  - {fileID: 2100000, guid: 98bda3b0e99c24249be1d9b5f7c3f534, type: 2}
+  - {fileID: 2100000, guid: ff4bc80386c728742bf5480800a397fd, type: 2}
+  - {fileID: 2100000, guid: f394e1bad4234974ea3af7907218b715, type: 2}
+  - {fileID: 2100000, guid: 9806f92c2f40f9642b69b4d8645d4fe8, type: 2}
+  - {fileID: 2100000, guid: a63ed615785e3d1448aeec1cc1f56037, type: 2}
+  - {fileID: 2100000, guid: 9520aa650762b8f48885958fa2302dfb, type: 2}
+  LEDMats:
+  - {fileID: 2100000, guid: 3430e3cec4d9eda4c81c91d4b5c4bdbe, type: 2}
+  - {fileID: 2100000, guid: a06bc977cfb0707449d994cad49419bb, type: 2}
+  - {fileID: 2100000, guid: 479f595bbdd64b749854cb178ecc63e9, type: 2}
+  - {fileID: 2100000, guid: 01c02f9e06f9d13429e2843e299dccbf, type: 2}
+  - {fileID: 2100000, guid: c7f857d4e85843846b101d325fedc168, type: 2}
+  - {fileID: 2100000, guid: 71411cda7f487bf4bb8ff70046b6448b, type: 2}
+  - {fileID: 2100000, guid: 8142654238f873c44b3e9c67d9cd26ab, type: 2}
+  - {fileID: 2100000, guid: a503c9edca46a33488185e031aee92fc, type: 2}
+  - {fileID: 2100000, guid: 712840cee3ef2554d9c425eb23b1f8a2, type: 2}
+  - {fileID: 2100000, guid: daabfd1c68e367f458d642fdd05887ca, type: 2}
+  - {fileID: 2100000, guid: f10d86c5603f821448e7ed07fea7e31c, type: 2}
+  KeyLightMats:
+  - {fileID: 2100000, guid: 23619b08439d65c4d80a249f3d73262d, type: 2}
+  - {fileID: 2100000, guid: e61482836c5c42a439f4f2fb54398976, type: 2}
+  - {fileID: 2100000, guid: a74a5a6f9ab88974193054d17e262f9b, type: 2}
+  - {fileID: 2100000, guid: 25981691a4f03d149980954b825b0e96, type: 2}
+  - {fileID: 2100000, guid: 1e6dbd8d3ffca5a448fa94f12a99c885, type: 2}
+  - {fileID: 2100000, guid: e044fe77d0e36864abec4bdfa3b1f12a, type: 2}
+  - {fileID: 2100000, guid: 716129e3ae35da84facc3ac867abe9d1, type: 2}
+  - {fileID: 2100000, guid: e34094a471244404193f3a491194100e, type: 2}
+  - {fileID: 2100000, guid: c77596466e66a574bb5ca176d59cfe40, type: 2}
+  SymbolMats:
+  - {fileID: 2100000, guid: 114ae609112a9314b8bebaf2108c0fe3, type: 2}
+  - {fileID: 2100000, guid: 48609543458c7aa4a82ff1973fcb06d1, type: 2}
+  - {fileID: 2100000, guid: 54e7781226dc67b48ada3f999885d27c, type: 2}
+  - {fileID: 2100000, guid: f3ce482384774ea43bd58bc329bef05a, type: 2}
+  - {fileID: 2100000, guid: c9baa640edda86c42ab0260002f16ab0, type: 2}
+  - {fileID: 2100000, guid: ba7502f3b8594c0418fa5459d60562d1, type: 2}
+  - {fileID: 2100000, guid: 2ba96ed0956b2bc41977a269f105c913, type: 2}
+  - {fileID: 2100000, guid: a6202791a7bff3f44bfacc041f0d9625, type: 2}
+  - {fileID: 2100000, guid: 816fad333f4c2c94fa4ddf0d9cef5b7d, type: 2}
+  - {fileID: 2100000, guid: 046b83a5c73d9d545abd030a0950f6ac, type: 2}
+  - {fileID: 2100000, guid: dbead8b1b6205ab46bd8978376de8eb7, type: 2}
+  - {fileID: 2100000, guid: 7a1a587c423edd145906976b2b6bae3c, type: 2}
+  - {fileID: 2100000, guid: 45fd03182436ab6429feb5d92b16b297, type: 2}
+  - {fileID: 2100000, guid: a7387dfd164cce2488ceaf1c478f51b8, type: 2}
+  - {fileID: 2100000, guid: 2b9043174f52bff42904a156b9cd8401, type: 2}
+  - {fileID: 2100000, guid: 0699c0a79a04d8348956a2f0adb17015, type: 2}
+  - {fileID: 2100000, guid: 900342feca2b72b4f854b5459dc095df, type: 2}
+  - {fileID: 2100000, guid: 2fb32903cd68bc548aaa6c0af4eb6b34, type: 2}
+  - {fileID: 2100000, guid: 9860eba28f326b34a864461e900941fb, type: 2}
+  - {fileID: 2100000, guid: 26ba6369b3ae97c45a8d286d49a2aef2, type: 2}
+  - {fileID: 2100000, guid: 80c36dd5a29ed8942a2eef6ae873c734, type: 2}
+  - {fileID: 2100000, guid: f88be7e34a35ed6448e888cb2a783918, type: 2}
+  - {fileID: 2100000, guid: a3be0e56a85811246a4ffa3c878e2796, type: 2}
+  - {fileID: 2100000, guid: 990b4f74ae2c76448a40b3387a778db8, type: 2}
+  - {fileID: 2100000, guid: 730be85f0af0e324792274d47ac9e7d9, type: 2}
+  - {fileID: 2100000, guid: 8c881755a2c15b14394682a347aa0201, type: 2}
+  - {fileID: 2100000, guid: 439b4aad2a111dc41b13d0554aecbff9, type: 2}
+  - {fileID: 2100000, guid: 6d9a83f9074b3fa469c12c0148279d80, type: 2}
+  - {fileID: 2100000, guid: 2c3f199963d813e449073c37434fb245, type: 2}
+  - {fileID: 2100000, guid: f396eb818a458a5479de73b153df35ad, type: 2}
+  - {fileID: 2100000, guid: 3e3c6854c515194478dbe7cefc58f026, type: 2}
+  - {fileID: 2100000, guid: a85f6a8ca94fc9d489b3920c4727a3b1, type: 2}
+  - {fileID: 2100000, guid: 4712b0fcb3a7af348a1b2b7bee08b5bb, type: 2}
+  - {fileID: 2100000, guid: 24539102d05f5374e933dd83cf0160c9, type: 2}
+  - {fileID: 2100000, guid: a42461a3afb3f644eb8b14d5c873ae30, type: 2}
+  - {fileID: 2100000, guid: 6faaccb31d5f7f849846ebbc427f0330, type: 2}
+  - {fileID: 2100000, guid: 48304da5102e07e498f43301a5d64195, type: 2}
+  - {fileID: 2100000, guid: fb0fc2e252d41ef42a58bc626c50eb33, type: 2}
+  - {fileID: 2100000, guid: 30e8b4ab581d2884c8a6a344c1adb306, type: 2}
+  - {fileID: 2100000, guid: c0dca9f7d33a95541846c36836b83a2f, type: 2}
+  - {fileID: 2100000, guid: 2610528f5e97d9d4a8d5113f86a8cea3, type: 2}
+  - {fileID: 2100000, guid: 7fb3dcaef5f180f46824ab7c36147c11, type: 2}
+  - {fileID: 2100000, guid: 5b8169c557815f9458a1512e4ed8f0b8, type: 2}
+  - {fileID: 2100000, guid: e4cb0a365c6ae294e8c3b4b607189d5d, type: 2}
+  - {fileID: 2100000, guid: f614bf81ae05a8148a1af07d06c5c13d, type: 2}
+  - {fileID: 2100000, guid: 4f61484d8e269284fac37a6e7861d445, type: 2}
+  - {fileID: 2100000, guid: bbdb0e336d62fd642b3cf961f745084d, type: 2}
+  - {fileID: 2100000, guid: 3be6a66144bc8394389c741669412498, type: 2}
+  - {fileID: 2100000, guid: 64bd2196d3c0a6a4a808979d4754f79b, type: 2}
+  ArrowMats:
+  - {fileID: 2100000, guid: b3cb04fa60350894eb30580bfff9bf8a, type: 2}
+  - {fileID: 2100000, guid: eae8f3bbbe74edb42ad974fb0ee0512e, type: 2}
+  - {fileID: 2100000, guid: b8c3f46a3a53a8d46893854ea213e03d, type: 2}
+  - {fileID: 2100000, guid: c04d70bf706bb9d418d0873d0f548caf, type: 2}
+  - {fileID: 2100000, guid: 5f9c968a125e79a48a72c7db9950d08d, type: 2}
+  - {fileID: 2100000, guid: 22ccf0676a195c649991d13714f4a0a3, type: 2}
+  - {fileID: 2100000, guid: 2ecda823758716e4aa8792c37bb7200b, type: 2}
+  - {fileID: 2100000, guid: 5b5d7d5ae98ebd340a3e81d072988f90, type: 2}
+  - {fileID: 2100000, guid: ab8937bf36d95d141a2fb9f9fb9ce968, type: 2}
+  - {fileID: 2100000, guid: adb5b44c06c27a040b06c7c7150e9024, type: 2}
+  IdentityMats:
+  - {fileID: 2100000, guid: 33021fdff2ca3ab448e51e32adc7f002, type: 2}
+  - {fileID: 2100000, guid: 4f2a8c2a2c00bca4d9ae9be0d8f349dd, type: 2}
+  - {fileID: 2100000, guid: 7a05794613a8487449e835f3f8b50248, type: 2}
+  - {fileID: 2100000, guid: 76e6e2c78aa18394886ecdadd4bcd9ad, type: 2}
+  - {fileID: 2100000, guid: 95aa610bd2d4a0342a4816641f626f62, type: 2}
+  - {fileID: 2100000, guid: d562a54a90005794c93b4678b693def7, type: 2}
+  - {fileID: 2100000, guid: 0b7b8bb89ab1be247b0f2ac2958967b3, type: 2}
+  - {fileID: 2100000, guid: 95082ceb015e6b746a5532f6001a6134, type: 2}
+  - {fileID: 2100000, guid: 721a99a0e0eeab74383cadf93ae8dc1d, type: 2}
+  - {fileID: 2100000, guid: 026b039e4d3e12f408290ec350a73c32, type: 2}
+  - {fileID: 2100000, guid: 508eebec0bd07c54192c62d4862391bd, type: 2}
+  - {fileID: 2100000, guid: d36730181159dd3409007f211ffca566, type: 2}
+  - {fileID: 2100000, guid: a0edc37b18be2674baf1068077056dac, type: 2}
+  - {fileID: 2100000, guid: c22ae0d6f34150647afd1cdd964b67d1, type: 2}
+  - {fileID: 2100000, guid: c1309367ab9a88f4cb1bfd37c27825c5, type: 2}
+  - {fileID: 2100000, guid: d5562a02bad414b48aa729b76dd27b31, type: 2}
+  - {fileID: 2100000, guid: 39f44186c61a36049a1dd64b8f3e7e2f, type: 2}
+  - {fileID: 2100000, guid: 18639bc2ad29a474eb06e83c2216c7ba, type: 2}
+  - {fileID: 2100000, guid: f598fde81f5a736458eb5c32028111e8, type: 2}
+  - {fileID: 2100000, guid: 6dea833d4cec63f4c96a6ca0cd0fd917, type: 2}
+  - {fileID: 2100000, guid: cc858270865d70d4ea1764cf0321ed49, type: 2}
+  - {fileID: 2100000, guid: 4e5debceaa37bd848addeb7923ec61c2, type: 2}
+  ResistorMats:
+  - {fileID: 2100000, guid: 5fdde96ecbf86cd4c8fcf24a31d2f5cd, type: 2}
+  - {fileID: 2100000, guid: 2937c6c7f92c68f43961cfe0b9dfac88, type: 2}
+  - {fileID: 2100000, guid: 5098f397976e77f4386744fc173d43b7, type: 2}
+  - {fileID: 2100000, guid: 87f244909953ea543bcd52aeeaa15e0b, type: 2}
+  - {fileID: 2100000, guid: e5d04a1bfac08fb4e9bbd19b919df6fd, type: 2}
+  - {fileID: 2100000, guid: 98bda3b0e99c24249be1d9b5f7c3f534, type: 2}
+  - {fileID: 2100000, guid: ff4bc80386c728742bf5480800a397fd, type: 2}
+  - {fileID: 2100000, guid: f394e1bad4234974ea3af7907218b715, type: 2}
+  - {fileID: 2100000, guid: 9806f92c2f40f9642b69b4d8645d4fe8, type: 2}
+  - {fileID: 2100000, guid: a63ed615785e3d1448aeec1cc1f56037, type: 2}
+  - {fileID: 2100000, guid: 9520aa650762b8f48885958fa2302dfb, type: 2}
+  - {fileID: 2100000, guid: 29441a77c5f794e6981069d79324b8ce, type: 2}
+  - {fileID: 2100000, guid: 32b111a58734c494cb02d342c6ae3ccf, type: 2}
+  MorseMats:
+  - {fileID: 2100000, guid: a185f6fe7ba89464aaa09bb6860112aa, type: 2}
+  - {fileID: 2100000, guid: 6a74b39c6a0025f49b8379d1ea4a0822, type: 2}
+  MeterMats:
+  - {fileID: 2100000, guid: 712840cee3ef2554d9c425eb23b1f8a2, type: 2}
+  - {fileID: 2100000, guid: 71411cda7f487bf4bb8ff70046b6448b, type: 2}
+  - {fileID: 2100000, guid: f10d86c5603f821448e7ed07fea7e31c, type: 2}
+  - {fileID: 2100000, guid: 01c02f9e06f9d13429e2843e299dccbf, type: 2}
+  - {fileID: 2100000, guid: a06bc977cfb0707449d994cad49419bb, type: 2}
+  - {fileID: 2100000, guid: a503c9edca46a33488185e031aee92fc, type: 2}
+  Wires:
+  - {fileID: 1813208755815300}
+  - {fileID: 1063543520481244}
+  - {fileID: 1763454357142802}
+  - {fileID: 1137332525265318}
+  - {fileID: 1896413103349374}
+  - {fileID: 1290447222561044}
+  - {fileID: 1643329909438914}
+  WireLED:
+  - {fileID: 1946229054935424}
+  - {fileID: 1043227008214004}
+  - {fileID: 1691107325596536}
+  - {fileID: 1513997834365212}
+  - {fileID: 1121969399670022}
+  - {fileID: 1714572865145294}
+  - {fileID: 1963250342150838}
+  ButtonText: {fileID: 102354966978302880}
+  Button: {fileID: 23921410279454986}
+  Adventure:
+  - {fileID: 1930622670536196}
+  - {fileID: 1762812426588720}
+  - {fileID: 1114634151687662}
+  - {fileID: 1345590868943818}
+  - {fileID: 1098058080005154}
+  - {fileID: 1134825119169570}
+  - {fileID: 1539162999972786}
+  LED:
+  - {fileID: 1466511700975758}
+  - {fileID: 1585686749112014}
+  - {fileID: 1593187615150064}
+  - {fileID: 1702137754927956}
+  - {fileID: 1758660658053958}
+  - {fileID: 1697144456883224}
+  - {fileID: 1875297237170078}
+  - {fileID: 1315803178738666}
+  Symbols:
+  - {fileID: 1402391017817866}
+  - {fileID: 1132228766518078}
+  - {fileID: 1859190454133090}
+  - {fileID: 1322714644370730}
+  - {fileID: 1426425417954326}
+  - {fileID: 1416840442339978}
+  Alphabet:
+  - {fileID: 1105878243852500}
+  - {fileID: 1116225731380236}
+  - {fileID: 1816842556055464}
+  - {fileID: 1525824731310978}
+  - {fileID: 1490807098420676}
+  - {fileID: 1574966253407052}
+  Piano:
+  - {fileID: 1652594602035846}
+  - {fileID: 1724873310711558}
+  - {fileID: 1435649249888068}
+  - {fileID: 1275808437028870}
+  - {fileID: 1780151006873924}
+  - {fileID: 1501919438502704}
+  - {fileID: 1409460932981186}
+  - {fileID: 1071201475465006}
+  - {fileID: 1957078285239728}
+  - {fileID: 1440287571482502}
+  - {fileID: 1769424101485680}
+  - {fileID: 1067492261457454}
+  Arrows:
+  - {fileID: 1682855397663150}
+  - {fileID: 1477821379806542}
+  - {fileID: 1442679255829026}
+  - {fileID: 1744600306331156}
+  - {fileID: 1512260871894184}
+  - {fileID: 1524029470176186}
+  - {fileID: 1782079799204012}
+  - {fileID: 1958927398355836}
+  - {fileID: 1026456400245604}
+  ArrowsBase: {fileID: 4610700421737898}
+  Identity:
+  - {fileID: 1174862808373836}
+  - {fileID: 1037366074314512}
+  - {fileID: 1717865592686176}
+  - {fileID: 1878281072331162}
+  Bulbs:
+  - {fileID: 1213836935574846}
+  - {fileID: 1978048328507420}
+  - {fileID: 1317248953658458}
+  - {fileID: 1917659025156264}
+  Resistor:
+  - {fileID: 1090369736147302}
+  - {fileID: 1186661425737518}
+  - {fileID: 1089175458941962}
+  - {fileID: 1798813692186222}
+  - {fileID: 1231654090996136}
+  - {fileID: 1329370082865962}
+  WireMesh:
+  - {fileID: 4300000, guid: c721f5cbb2b540b49950da0915400b86, type: 3}
+  - {fileID: 4300000, guid: 3cceb1a5311fd7146844170f6cfe307a, type: 3}
 --- !u!114 &114414340335025950
 MonoBehaviour:
   m_ObjectHideFlags: 1
