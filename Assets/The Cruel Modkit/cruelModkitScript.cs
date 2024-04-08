@@ -202,8 +202,7 @@ public class cruelModkitScript : MonoBehaviour {
 			Alphabet[i].transform.Find("AlphabetText").GetComponentInChildren<TextMesh>().text = Info.Alphabet[i];
 		}
 		//Set materials and light colors for Arrows
-		for(int i = 0; i < 9; i++)
-		{
+		for(int i = 0; i < 9; i++) {
 			int x = 0;
 			int y = 0;
 			if(i > 3 && i <= 7) {
@@ -216,6 +215,11 @@ public class cruelModkitScript : MonoBehaviour {
 			}
 			Arrows[i].GetComponentInChildren<Renderer>().material = ArrowMats[Info.Arrows[x][i - y]];
     		Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = ArrowLightColors[Info.Arrows[x][i - y]];
+		}
+		//Set materials and text for Identity
+		Identity[0].transform.Find("IdentityFaceIcon").GetComponentInChildren<Renderer>().material = IdentityMats.Where(x => x.name == Info.Identity[0][0]).ToArray()[0];
+		for(int i = 1; i < 4; i++) {
+			Identity[i].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.Identity[i][0];
 		}
 	}
 }

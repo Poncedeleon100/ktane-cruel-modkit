@@ -12,6 +12,10 @@ public class ComponentInfo {
     public static readonly string[] WireColors = {"Black", "Blue", "Cyan", "Green", "Grey", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow"};
     public static readonly string[] ButtonList = {"Press", "Hold", "Detonate", "Mash", "Tap", "Push", "Abort", "Button", "Click", "_", "Nothing", "No", "I Don't Know", "Yes"};
     public static readonly string[] SymbolCharacters = {"©", "★", "☆", "ټ", "Җ", "Ω", "Ѭ", "Ѽ", "ϗ", "ϫ", "Ϭ", "Ϟ", "Ѧ", "æ", "Ԇ", "Ӭ", "҈", "Ҋ", "Ѯ", "¿", "¶", "Ͼ", "Ͽ", "ψ", "Ѫ", "Ҩ", "҂", "Ϙ", "ζ", "ƛ", "Ѣ", "ע", "⦖", "ኒ", "エ", "π", "Э", "⁋", "ᛤ", "Ƿ", "Щ", "ξ", "Ᵹ", "Ю", "௵", "ϑ", "Triquetra", "ꎵ", "よ"};
+    public static readonly string[] IdentityNames = {"Clondar", "Colonel Mustard", "Cyanix", "Dr Orchid", "GhostSalt", "Konoko", "Lanaluff", "Magmy", "Melbor", "Miss Scarlett", "Mrs Peacock", "Mrs White", "Nibs", "Percy", "Pouse", "Professor Plum", "Red Penguin", "Reverend Green", "Sameone", "VFlyer", "Yabbaguy", "Yoshi Dojo"};
+    public static readonly string[] IdentityItems = {"Candlestick", "Wrench", "Lead Pipe", "Rope", "Dagger", "Broom", "Revolver", "Water Gun", "Pearls", "Cane", "Bundle of Wires", "Giant Ring", "Specimen", "Fruit Basket", "Dozen Eggs", "Toolkit", "Hand Mirror", "Simon Says", "Manga", "Fishbowl", "Bomb"};
+    public static readonly string[] IdentityLocations = {"Ballroom", "Conservatory", "Study", "Lounge", "Library", "Dining Room", "Hall", "Dojo", "Barnyard", "Treehouse", "I.T. Centre", "vOld", "Laboratory", "Supermarket", "Island", "Factory", "Home Depot", "Office", "Anime Con", "Arctic Base", "Solitary"};
+    public static readonly string[] IdentityRarity = {"●", "♦", "★", "☆"};
 
     //For converting adjacent colors into their associated slider colors. Colors within string pairs are ordered alphabetically: Blue, Green, Red, Yellow
     Dictionary<string, int> SliderColors = new Dictionary<string, int> {
@@ -39,6 +43,7 @@ public class ComponentInfo {
     public int[] Symbols;
     public string[] Alphabet = new string[6];
     public int[][] Arrows = new int[3][];
+    public string[][] Identity = new string[4][];
 
     public ComponentInfo() {
         List<int> Temp = new List<int>();
@@ -125,6 +130,30 @@ public class ComponentInfo {
         }
         Arrows[2] = new int[] {rnd.Range(8,10)};
         //Generate Identity information
+        List<string> IdentityTemp = new List<string>();
+        while(IdentityTemp.Count < 3) {
+            string Name = IdentityNames[rnd.Range(0,22)];
+            if(!IdentityTemp.Contains(Name))
+                IdentityTemp.Add(Name);
+        }
+        Identity[0] = IdentityTemp.ToArray();
+        IdentityTemp.Clear();
+        while(IdentityTemp.Count < 3) {
+            string Item = IdentityItems[rnd.Range(0,21)];
+            if(!IdentityTemp.Contains(Item))
+                IdentityTemp.Add(Item);
+        }
+        Identity[1] = IdentityTemp.ToArray();
+        IdentityTemp.Clear();
+        while(IdentityTemp.Count < 3) {
+            string Location = IdentityLocations[rnd.Range(0,21)];
+            if(!IdentityTemp.Contains(Location))
+                IdentityTemp.Add(Location);
+        }
+        Identity[2] = IdentityTemp.ToArray();
+        IdentityTemp.Clear();
+        IdentityTemp.Add(IdentityRarity[rnd.Range(0,4)]);
+        Identity[3] = IdentityTemp.ToArray();
         //Generate Bulb colors and button labels
         //Generate text and colors for Resistor
         //Generate timer text

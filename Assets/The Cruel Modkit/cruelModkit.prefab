@@ -2928,7 +2928,7 @@ GameObject:
   - component: {fileID: 102206710540267582}
   - component: {fileID: 114941662508192524}
   m_Layer: 0
-  m_Name: IdentityLocationText
+  m_Name: IdentityText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3090,7 +3090,7 @@ GameObject:
   - component: {fileID: 102728223466310502}
   - component: {fileID: 114385702329590896}
   m_Layer: 0
-  m_Name: IdentityRarityText
+  m_Name: IdentityText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4415,7 +4415,7 @@ GameObject:
   - component: {fileID: 102064030684009764}
   - component: {fileID: 114906138351293844}
   m_Layer: 0
-  m_Name: IdentityItemText
+  m_Name: IdentityText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
