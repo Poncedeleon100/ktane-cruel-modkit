@@ -44,6 +44,8 @@ public class ComponentInfo {
     public string[] Alphabet = new string[6];
     public int[][] Arrows = new int[3][];
     public string[][] Identity = new string[4][];
+    public int[][] ResistorColors = new int[4][];
+    public string[] ResistorText;
 
     public ComponentInfo() {
         List<int> Temp = new List<int>();
@@ -156,6 +158,20 @@ public class ComponentInfo {
         Identity[3] = IdentityTemp.ToArray();
         //Generate Bulb colors and button labels
         //Generate text and colors for Resistor
+        Temp.Clear();
+        for(int i = 0; i < 4; i++) {
+            while(Temp.Count < 3) {
+                int Color = rnd.Range(0,13);
+                if(!Temp.Contains(Color))
+                    Temp.Add(Color);
+            }
+            ResistorColors[i] = Temp.ToArray();
+            Temp.Clear();
+        }
+        string[] ResistorLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray().Select(x => x.ToString()).OrderBy(x => rnd.Range(0, 1000)).ToArray();
+        ResistorText = new string[2];
+        ResistorText[0] = ResistorLetters[0];
+        ResistorText[1] = ResistorLetters[1];
         //Generate timer text
         //Generate word display text
         //Generate number display text

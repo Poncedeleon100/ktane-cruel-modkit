@@ -26,7 +26,7 @@ public class cruelModkitScript : MonoBehaviour {
 	public Material[] KeyLightMats;
 	public Material[] SymbolMats;
 	public Material[] ArrowMats;
-	//Here take this color too
+	//Here, take these colors too
 	public Color[] ArrowLightColors;
 	public Material[] IdentityMats;
 	//public TextMesh[] IdentityText;
@@ -203,6 +203,7 @@ public class cruelModkitScript : MonoBehaviour {
 		}
 		//Set materials and light colors for Arrows
 		for(int i = 0; i < 9; i++) {
+			//x and y are here so that the generated arrow colors can be in a jagged array. In this case, i keeps track of the button from the Unity prefab
 			int x = 0;
 			int y = 0;
 			if(i > 3 && i <= 7) {
@@ -221,5 +222,11 @@ public class cruelModkitScript : MonoBehaviour {
 		for(int i = 1; i < 4; i++) {
 			Identity[i].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.Identity[i][0];
 		}
+		//Set materials and text for Resistor
+		for(int i = 0; i < 4; i++) {
+			Resistor[i].GetComponentInChildren<Renderer>().material = ResistorMats[Info.ResistorColors[i][0]];
+		}
+		Resistor[4].GetComponentInChildren<TextMesh>().text = Info.ResistorText[0];
+		Resistor[5].GetComponentInChildren<TextMesh>().text = Info.ResistorText[1];
 	}
 }
