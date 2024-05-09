@@ -44,6 +44,7 @@ public class ComponentInfo {
     public string[] Alphabet = new string[6];
     public int[][] Arrows = new int[3][];
     public string[][] Identity = new string[4][];
+    public bool BulbOLeft;
     public int[][] ResistorColors = new int[4][];
     public string[] ResistorText;
 
@@ -157,6 +158,7 @@ public class ComponentInfo {
         IdentityTemp.Add(IdentityRarity[rnd.Range(0,4)]);
         Identity[3] = IdentityTemp.ToArray();
         //Generate Bulb colors and button labels
+        BulbOLeft = rnd.Range(0,2) == 0;
         //Generate text and colors for Resistor
         Temp.Clear();
         for(int i = 0; i < 4; i++) {

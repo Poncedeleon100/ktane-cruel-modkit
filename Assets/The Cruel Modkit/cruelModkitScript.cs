@@ -33,7 +33,6 @@ public class cruelModkitScript : MonoBehaviour {
 	//public Light[] BulbLights;
 	//public MeshRenderer[] BulbGlass;
 	//public GameObject[] BulbFilaments;
-	//public Transform[] BulbFaces;
 	public Material[] ResistorMats;
 	//public TextMesh[] ResistorText;
 	//public TextMesh[] WidgetText;
@@ -53,6 +52,10 @@ public class cruelModkitScript : MonoBehaviour {
 	public Transform ArrowsBase;
 	public GameObject[] Identity;
 	public GameObject[] Bulbs;
+	public Transform BulbOFace;
+	public Transform BulbIFace;
+	//public KMSelectable[] BulbO;
+	//public KMSelectable[] BulbI;
 	public GameObject[] Resistor;
 
 	public Mesh[] WireMesh;
@@ -221,6 +224,15 @@ public class cruelModkitScript : MonoBehaviour {
 		Identity[0].transform.Find("IdentityFaceIcon").GetComponentInChildren<Renderer>().material = IdentityMats.Where(x => x.name == Info.Identity[0][0]).ToArray()[0];
 		for(int i = 1; i < 4; i++) {
 			Identity[i].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.Identity[i][0];
+		}
+		//Set I/O buttons and bulb colors/opacity for Bulbs
+		if(Info.BulbOLeft) {
+			var p = BulbOFace.position;
+			BulbOFace.position = BulbIFace.position;
+			BulbIFace.position = p;
+			//var t = BulbO;
+			//BulbO = BulbI;
+			//BulbI = t;
 		}
 		//Set materials and text for Resistor
 		for(int i = 0; i < 4; i++) {
