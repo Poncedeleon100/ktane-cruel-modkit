@@ -10925,7 +10925,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1623461240430006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.032771975, y: -9.9036255, z: 0.032598477}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4106406015953458}
@@ -26362,13 +26362,19 @@ MonoBehaviour:
   - {fileID: 1037366074314512}
   - {fileID: 1717865592686176}
   - {fileID: 1878281072331162}
-  Bulbs:
-  - {fileID: 1213836935574846}
-  - {fileID: 1978048328507420}
-  - {fileID: 1317248953658458}
-  - {fileID: 1917659025156264}
-  BulbO: {fileID: 4992707487745506}
-  BulbI: {fileID: 4482753052332916}
+  BulbOFace: {fileID: 4992707487745506}
+  BulbIFace: {fileID: 4482753052332916}
+  BulbLights:
+  - {fileID: 108578313057620834}
+  - {fileID: 108999872893598872}
+  - {fileID: 108095120140124778}
+  - {fileID: 108044152301425636}
+  BulbGlass:
+  - {fileID: 23037324432304530}
+  - {fileID: 23543285900584398}
+  BulbFilaments:
+  - {fileID: 1284584081653562}
+  - {fileID: 1944302599660884}
   Resistor:
   - {fileID: 1090369736147302}
   - {fileID: 1186661425737518}

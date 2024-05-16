@@ -26,13 +26,9 @@ public class cruelModkitScript : MonoBehaviour {
 	public Material[] KeyLightMats;
 	public Material[] SymbolMats;
 	public Material[] ArrowMats;
-	//Here, take these colors too
+	//Here, take these colors too (should probably change this so it's consistent with the Bulb colors)
 	public Color[] ArrowLightColors;
 	public Material[] IdentityMats;
-	//public TextMesh[] IdentityText;
-	//public Light[] BulbLights;
-	//public MeshRenderer[] BulbGlass;
-	//public GameObject[] BulbFilaments;
 	public Material[] ResistorMats;
 	//public TextMesh[] ResistorText;
 	//public TextMesh[] WidgetText;
@@ -51,11 +47,11 @@ public class cruelModkitScript : MonoBehaviour {
 	public GameObject[] Arrows;
 	public Transform ArrowsBase;
 	public GameObject[] Identity;
-	public GameObject[] Bulbs;
 	public Transform BulbOFace;
 	public Transform BulbIFace;
-	//public KMSelectable[] BulbO;
-	//public KMSelectable[] BulbI;
+	public Light[] BulbLights;
+	public MeshRenderer[] BulbGlass;
+	public GameObject[] BulbFilaments;
 	public GameObject[] Resistor;
 
 	public Mesh[] WireMesh;
@@ -230,9 +226,14 @@ public class cruelModkitScript : MonoBehaviour {
 			var p = BulbOFace.position;
 			BulbOFace.position = BulbIFace.position;
 			BulbIFace.position = p;
-			//var t = BulbO;
-			//BulbO = BulbI;
-			//BulbI = t;
+		}
+		for(int i = 0; i < 2; i++) {
+			//Set filament visibility based on opacity of the bulb
+			BulbFilaments[i].SetActive(!Info.BulbInfo[i][0]);
+			//Set bulb glass color and opacity
+			BulbGlass[i].material.color = Info.BulbColors[i];
+			//Set bulb light color
+			BulbLights[i].color = BulbLights[i + 2].color = Info.BulbColors[i + 2];
 		}
 		//Set materials and text for Resistor
 		for(int i = 0; i < 4; i++) {

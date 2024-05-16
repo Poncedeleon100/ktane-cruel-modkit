@@ -16,6 +16,9 @@ public class ComponentInfo {
     public static readonly string[] IdentityItems = {"Candlestick", "Wrench", "Lead Pipe", "Rope", "Dagger", "Broom", "Revolver", "Water Gun", "Pearls", "Cane", "Bundle of Wires", "Giant Ring", "Specimen", "Fruit Basket", "Dozen Eggs", "Toolkit", "Hand Mirror", "Simon Says", "Manga", "Fishbowl", "Bomb"};
     public static readonly string[] IdentityLocations = {"Ballroom", "Conservatory", "Study", "Lounge", "Library", "Dining Room", "Hall", "Dojo", "Barnyard", "Treehouse", "I.T. Centre", "vOld", "Laboratory", "Supermarket", "Island", "Factory", "Home Depot", "Office", "Anime Con", "Arctic Base", "Solitary"};
     public static readonly string[] IdentityRarity = {"●", "♦", "★", "☆"};
+    //                                                      black,                 blue,             cyan,                    green,             lime,               orange,                     pink,                   purple,              red,            white,           yellow
+    public static readonly Color[] BulbColorsArray = {new Color(0,0,0), new Color(0,.498f,0), new Color(0,1,1), new Color(0,.557f,.078f), new Color(0,1,0), new Color(1,.502f,0), new Color(1,.235f,.784f), new Color(.498f,0,.498f), new Color(1,0,0), new Color(1,1,1), new Color(1,1,0)};
+    public static readonly Color[] BulbColorHalosArray = {new Color(0,0,0), new Color(0,.498f,0), new Color(0,1,1), new Color(0,.557f,.078f), new Color(0,1,0), new Color(1,.502f,0), new Color(1,.235f,.784f), new Color(.498f,0,.498f), new Color(1,0,0), new Color(1,1,1), new Color(1,1,0)};
 
     //For converting adjacent colors into their associated slider colors. Colors within string pairs are ordered alphabetically: Blue, Green, Red, Yellow
     Dictionary<string, int> SliderColors = new Dictionary<string, int> {
@@ -31,7 +34,7 @@ public class ComponentInfo {
     public static readonly Color ButtonTextWhite = new Color(1,1,1);
     //public static readonly Color LightColors = {new Color()};
 
-    //Variables to be accessed in main script
+    //Variables to be accessed in the main script
     public int[][] Wires = new int[][] {
         new int[] {0, 0, 0, 0, 0, 0, 0},
         new int[] {0, 0, 0, 0, 0, 0, 0},
@@ -45,6 +48,8 @@ public class ComponentInfo {
     public int[][] Arrows = new int[3][];
     public string[][] Identity = new string[4][];
     public bool BulbOLeft;
+    public bool[][] BulbInfo = new bool[2][];
+    public Color[] BulbColors = new Color[2];
     public int[][] ResistorColors = new int[4][];
     public string[] ResistorText;
 
@@ -159,6 +164,20 @@ public class ComponentInfo {
         Identity[3] = IdentityTemp.ToArray();
         //Generate Bulb colors and button labels
         BulbOLeft = rnd.Range(0,2) == 0;
+        for(int i = 0; i < 2; i++) {
+            //Opacity of the bulb
+            BulbInfo[i][0] = rnd.Range(0,2) == 0;
+            //Whether it starts on or not
+            BulbInfo[i][1] = rnd.Range(0,2) == 0;
+            //Color of the bulb (Bulb material is set to the first color, bulb light is set to the second color or the halo color)
+            int ColorIndex = rnd.Range(0,BulbColorsArray.Length);
+            Color TempBulbColor1 = BulbColorsArray[ColorIndex];
+            TempBulbColor1[3] = BulbInfo[i][0] ? 1f : .55f;
+            Color TempBulbColor2 = BulbColorHalosArray[ColorIndex];
+            TempBulbColor2[3] = BulbInfo[i][0] ? 1f : .55f;
+            BulbColors[i] = TempBulbColor1;
+            BulbColors[i + 2] = TempBulbColor2;
+        }
         //Generate text and colors for Resistor
         Temp.Clear();
         for(int i = 0; i < 4; i++) {
