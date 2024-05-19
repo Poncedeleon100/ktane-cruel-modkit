@@ -19,6 +19,7 @@ public class ComponentInfo {
     //                                                      black,                 blue,             cyan,                    green,             lime,               orange,                     pink,                   purple,              red,            white,           yellow
     public static readonly Color[] BulbColorsArray = {new Color(0,0,0), new Color(0,.498f,0), new Color(0,1,1), new Color(0,.557f,.078f), new Color(0,1,0), new Color(1,.502f,0), new Color(1,.235f,.784f), new Color(.498f,0,.498f), new Color(1,0,0), new Color(1,1,1), new Color(1,1,0)};
     public static readonly Color[] BulbColorHalosArray = {new Color(0,0,0), new Color(0,.498f,0), new Color(0,1,1), new Color(0,.557f,.078f), new Color(0,1,0), new Color(1,.502f,0), new Color(1,.235f,.784f), new Color(.498f,0,.498f), new Color(1,0,0), new Color(1,1,1), new Color(1,1,0)};
+    public static readonly string[] WordList = {"YES", "FIRST", "DISPLAY", "A DISPLAY", "OKAY", "OK", "SAYS", "SEZ", "NOTHING", "_", "BLANK", "IT’S BLANK", "NO", "KNOW", "NOSE", "KNOWS", "LED", "LEAD", "LEED", "READ", "RED", "REED", "HOLD ON", "YOU", "U", "YOU ARE", "UR", "YOUR", "YOU’RE", "THERE", "THEY’RE", "THEIR", "THEY ARE", "SEE", "C", "SEA", "CEE", "READY", "WHAT", "WHAT?", "UH", "UHHH", "UH UH", "UH HUH", "LEFT", "RIGHT", "WRITE", "MIDDLE", "WAIT", "WAIT!", "WEIGHT", "PRESS", "DONE", "DUMB", "NEXT", "HOLD", "SURE", "LIKE", "LICK", "LEEK", "LEAK", "I", "INDIA", "EYE"};
 
     //For converting adjacent colors into their associated slider colors. Colors within string pairs are ordered alphabetically: Blue, Green, Red, Yellow
     Dictionary<string, int> SliderColors = new Dictionary<string, int> {
@@ -48,10 +49,15 @@ public class ComponentInfo {
     public int[][] Arrows = new int[3][];
     public string[][] Identity = new string[4][];
     public bool BulbOLeft;
-    public bool[][] BulbInfo = new bool[2][];
-    public Color[] BulbColors = new Color[2];
+    public bool[] BulbInfo = new bool[4];
+    public Color[] BulbColors = new Color[4];
     public int[][] ResistorColors = new int[4][];
     public string[] ResistorText;
+    public int Timer;
+    public string Word;
+    public int Number;
+    public string[] WidgetText = new string[3];
+    public float Meter;
 
     public ComponentInfo() {
         List<int> Temp = new List<int>();
@@ -166,15 +172,15 @@ public class ComponentInfo {
         BulbOLeft = rnd.Range(0,2) == 0;
         for(int i = 0; i < 2; i++) {
             //Opacity of the bulb
-            BulbInfo[i][0] = rnd.Range(0,2) == 0;
+            BulbInfo[i] = rnd.Range(0,2) == 0;
             //Whether it starts on or not
-            BulbInfo[i][1] = rnd.Range(0,2) == 0;
+            BulbInfo[i + 2] = rnd.Range(0,2) == 0;
             //Color of the bulb (Bulb material is set to the first color, bulb light is set to the second color or the halo color)
             int ColorIndex = rnd.Range(0,BulbColorsArray.Length);
             Color TempBulbColor1 = BulbColorsArray[ColorIndex];
-            TempBulbColor1[3] = BulbInfo[i][0] ? 1f : .55f;
+            TempBulbColor1[3] = BulbInfo[i] ? 1f : .55f;
             Color TempBulbColor2 = BulbColorHalosArray[ColorIndex];
-            TempBulbColor2[3] = BulbInfo[i][0] ? 1f : .55f;
+            TempBulbColor2[3] = BulbInfo[i] ? 1f : .55f;
             BulbColors[i] = TempBulbColor1;
             BulbColors[i + 2] = TempBulbColor2;
         }
@@ -194,8 +200,23 @@ public class ComponentInfo {
         ResistorText[0] = ResistorLetters[0];
         ResistorText[1] = ResistorLetters[1];
         //Generate timer text
+        string TimerText = System.String.Empty;
+        Timer = rnd.Range(0, 100);
+        if(Timer < 10) {
+            TimerText += "0";
+        }
+        TimerText += Timer.ToString();
+        WidgetText[0] = TimerText;
         //Generate word display text
+        Word = WidgetText[1] = WordList[rnd.Range(0, WordList.Length)];
         //Generate number display text
-        //Generate morse code display
+        Number = rnd.Range(0, 10);
+        WidgetText[2] = Number.ToString();
+        //Generate morse code display (Can't be bothered right now to be honest)
+
+        //Generate meter value and color
+        Meter = rnd.value;
+        //Probably have to round the value to a reasonable number of decimal places (3), and then round it further if it's within a certain distance of a specific number
+
     }
 }

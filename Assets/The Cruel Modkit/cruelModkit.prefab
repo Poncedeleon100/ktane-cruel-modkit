@@ -6467,9 +6467,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1107025415908896}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.04243, y: 0.01436, z: -0.02739999}
-  m_LocalScale: {x: 0.0005912599, y: 0.014197449, z: 0.0038826626}
+  m_LocalScale: {x: 0.0005912599, y: 0.014197449, z: 0.003882663}
   m_Children: []
   m_Father: {fileID: 4046133596509512}
   m_RootOrder: 1
@@ -26382,6 +26382,10 @@ MonoBehaviour:
   - {fileID: 1798813692186222}
   - {fileID: 1231654090996136}
   - {fileID: 1329370082865962}
+  WidgetText:
+  - {fileID: 102316887374493410}
+  - {fileID: 102804178677044948}
+  - {fileID: 102895418956312372}
   WireMesh:
   - {fileID: 4300000, guid: c721f5cbb2b540b49950da0915400b86, type: 3}
   - {fileID: 4300000, guid: 3cceb1a5311fd7146844170f6cfe307a, type: 3}
