@@ -57,7 +57,8 @@ public class ComponentInfo {
     public string Word;
     public int Number;
     public string[] WidgetText = new string[3];
-    public float Meter;
+    public int MeterColor;
+    public float MeterValue;
 
     public ComponentInfo() {
         List<int> Temp = new List<int>();
@@ -213,10 +214,30 @@ public class ComponentInfo {
         Number = rnd.Range(0, 10);
         WidgetText[2] = Number.ToString();
         //Generate morse code display (Can't be bothered right now to be honest)
-
         //Generate meter value and color
-        Meter = rnd.value;
-        //Probably have to round the value to a reasonable number of decimal places (3), and then round it further if it's within a certain distance of a specific number
-
+        MeterColor = rnd.Range(0, 6);
+        MeterValue = rnd.value;
+        //Rounds the value if it's close enough to one of the lines on the meter (0, 1/4, 1/3, 1/2, 2/3, 3/4, 1)
+        if (MeterValue < 0.02f) {
+            MeterValue = 0;
+        }
+        else if (0.23f < MeterValue && MeterValue < 0.27f) {
+            MeterValue = 0.25f;
+        }
+        else if (0.32f < MeterValue && MeterValue < 0.345f) {
+            MeterValue = 0.333f;
+        }
+        else if (0.48f < MeterValue && MeterValue < 0.52f) {
+            MeterValue = 0.5f;
+        }
+        else if (0.65f < MeterValue && MeterValue < 0.68f) {
+            MeterValue = 0.667f;
+        }
+        else if (0.765f < MeterValue && MeterValue < 0.735f) {
+            MeterValue = 0.75f;
+        }
+        else if (0.98f < MeterValue) {
+            MeterValue = 1;
+        }
     }
 }

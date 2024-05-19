@@ -52,6 +52,7 @@ public class cruelModkitScript : MonoBehaviour {
     public GameObject[] BulbFilaments;
     public GameObject[] Resistor;
     public TextMesh[] WidgetText;
+    public GameObject Meter;
 
     public Mesh[] WireMesh;
     List<int> WiresCut = new List<int>();
@@ -246,9 +247,18 @@ public class cruelModkitScript : MonoBehaviour {
         for(int i = 0; i < 3; i++) {
             WidgetText[i].text = Info.WidgetText[i];
         }
-        //Morse code oddities
-        //Meter oddities
-        Debug.LogFormat("[The Cruel Modkit #{0}] Meter Value = {1}", ModuleId, Info.Meter);
-        Debug.LogFormat("[The Cruel Modkit #{0}] Meter Value Rounded = {1:f3}", ModuleId, Info.Meter);
+        //Morse code
+        //Set meter value and color
+        Meter.GetComponentInChildren<Renderer>().material = MeterMats[Info.MeterColor];
+        //Debug.LogFormat("[The Cruel Modkit #{0}] Meter Value = {1}", ModuleId, Info.MeterValue);
+        Debug.LogFormat("[The Cruel Modkit #{0}] Meter Value Rounded = {1:f3}", ModuleId, Info.MeterValue);
+        //Changes the meter so it matches the value from Info.MeterValue; adjusts scale first then shifts the position down
+        //.00388 is the original Z scale
+        float TempNumber = 0.003882663f * Info.MeterValue;
+        Meter.transform.localScale = new Vector3(0.0005912599f, 0.01419745f, TempNumber);
+        //-.0273 is the original Z position, .0388 is the original length
+        TempNumber = -0.02739999f - ((0.03884f * (1 - Info.MeterValue)) / 2);
+        Meter.transform.localPosition = new Vector3(-0.04243f, 0.01436f, TempNumber);
+
     }
 }
