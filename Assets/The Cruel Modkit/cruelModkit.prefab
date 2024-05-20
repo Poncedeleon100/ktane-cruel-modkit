@@ -26522,17 +26522,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 2ecda823758716e4aa8792c37bb7200b, type: 2}
   - {fileID: 2100000, guid: b3cb04fa60350894eb30580bfff9bf8a, type: 2}
   - {fileID: 2100000, guid: ab8937bf36d95d141a2fb9f9fb9ce968, type: 2}
-  ArrowLightColors:
-  - {r: 0, g: 0, b: 1, a: 1}
-  - {r: 0, g: 0.7372549, b: 0, a: 1}
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 1, g: 1, b: 0, a: 1}
-  - {r: 0, g: 1, b: 1, a: 1}
-  - {r: 1, g: 0.7529412, b: 0, a: 0.8509804}
-  - {r: 1, g: 0, b: 1, a: 1}
-  - {r: 1, g: 0.64705884, b: 0, a: 1}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 1, g: 1, b: 1, a: 1}
   IdentityMats:
   - {fileID: 2100000, guid: 33021fdff2ca3ab448e51e32adc7f002, type: 2}
   - {fileID: 2100000, guid: 4f2a8c2a2c00bca4d9ae9be0d8f349dd, type: 2}

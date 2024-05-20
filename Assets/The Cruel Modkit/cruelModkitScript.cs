@@ -26,8 +26,6 @@ public class cruelModkitScript : MonoBehaviour {
     public Material[] KeyLightMats;
     public Material[] SymbolMats;
     public Material[] ArrowMats;
-    //Here, take these colors too (should probably change this so it's consistent with the Bulb colors)
-    public Color[] ArrowLightColors;
     public Material[] IdentityMats;
     public Material[] ResistorMats;
     public Material[] MorseMats;
@@ -202,19 +200,8 @@ public class cruelModkitScript : MonoBehaviour {
         }
         //Set materials and light colors for Arrows
         for(int i = 0; i < 9; i++) {
-            //x and y are here so that the generated arrow colors can be in a jagged array. In this case, i keeps track of the button from the Unity prefab
-            int x = 0;
-            int y = 0;
-            if(i > 3 && i <= 7) {
-                x = 1;
-                y = 4;
-            }
-            else if (i > 7) {
-                x = 2;
-                y = 8;
-            }
-            Arrows[i].GetComponentInChildren<Renderer>().material = ArrowMats[Info.Arrows[x][i - y]];
-            Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = ArrowLightColors[Info.Arrows[x][i - y]];
+            Arrows[i].GetComponentInChildren<Renderer>().material = ArrowMats[Info.Arrows[i]];
+            Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = Info.ArrowLights[i];
         }
         //Set materials and text for Identity
         Identity[0].transform.Find("IdentityFaceIcon").GetComponentInChildren<Renderer>().material = IdentityMats.Where(x => x.name == Info.Identity[0][0]).ToArray()[0];
@@ -243,15 +230,20 @@ public class cruelModkitScript : MonoBehaviour {
         }
         Resistor[4].GetComponentInChildren<TextMesh>().text = Info.ResistorText[0];
         Resistor[5].GetComponentInChildren<TextMesh>().text = Info.ResistorText[1];
-        //Set widget text (timer, word, and number)
-        for(int i = 0; i < 3; i++) {
-            WidgetText[i].text = Info.WidgetText[i];
+        //Set timer display text
+        string TempString = System.String.Empty;
+        if (Info.TimerDisplay < 10) {
+            TempString += "0";
         }
-        //Morse code
+        TempString += Info.TimerDisplay.ToString();
+        WidgetText[0].text = TempString;
+        //Set word display text
+        WidgetText[1].text = Info.WordDisplay;
+        //Set number display text
+        WidgetText[2].text = Info.NumberDisplay.ToString();
+        //Set morse code display
         //Set meter value and color
         Meter.GetComponentInChildren<Renderer>().material = MeterMats[Info.MeterColor];
-        //Debug.LogFormat("[The Cruel Modkit #{0}] Meter Value = {1}", ModuleId, Info.MeterValue);
-        Debug.LogFormat("[The Cruel Modkit #{0}] Meter Value Rounded = {1:f3}", ModuleId, Info.MeterValue);
         //Changes the meter so it matches the value from Info.MeterValue; adjusts scale first then shifts the position down
         //.00388 is the original Z scale
         float TempNumber = 0.003882663f * Info.MeterValue;

@@ -12,6 +12,8 @@ public class ComponentInfo {
     public static readonly string[] WireColors = {"Black", "Blue", "Cyan", "Green", "Grey", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow"};
     public static readonly string[] ButtonList = {"Press", "Hold", "Detonate", "Mash", "Tap", "Push", "Abort", "Button", "Click", "_", "Nothing", "No", "I Don't Know", "Yes"};
     public static readonly string[] SymbolCharacters = {"©", "★", "☆", "ټ", "Җ", "Ω", "Ѭ", "Ѽ", "ϗ", "ϫ", "Ϭ", "Ϟ", "Ѧ", "æ", "Ԇ", "Ӭ", "҈", "Ҋ", "Ѯ", "¿", "¶", "Ͼ", "Ͽ", "ψ", "Ѫ", "Ҩ", "҂", "Ϙ", "ζ", "ƛ", "Ѣ", "ע", "⦖", "ኒ", "エ", "π", "Э", "⁋", "ᛤ", "Ƿ", "Щ", "ξ", "Ᵹ", "Ю", "௵", "ϑ", "Triquetra", "ꎵ", "よ"};
+    //                                                             blue,                green,              red,           yellow,             cyan,          gold-yellow,           magenta,               orange,            black,        white
+    public static readonly Color[] ArrowLightColors = { new Color(0, 0, 1), new Color(0, .737f, 0), new Color(1, 0, 0), new Color(1, 1, 0), new Color(0, 1, 1), new Color(1, .753f, 0), new Color(1, 0, 1), new Color(1, .647f, 0), new Color(0, 0, 0), new Color(1, 1, 1) };
     public static readonly string[] IdentityNames = {"Clondar", "Colonel Mustard", "Cyanix", "Dr Orchid", "GhostSalt", "Konoko", "Lanaluff", "Magmy", "Melbor", "Miss Scarlett", "Mrs Peacock", "Mrs White", "Nibs", "Percy", "Pouse", "Professor Plum", "Red Penguin", "Reverend Green", "Sameone", "VFlyer", "Yabbaguy", "Yoshi Dojo"};
     public static readonly string[] IdentityItems = {"Candlestick", "Wrench", "Lead Pipe", "Rope", "Dagger", "Broom", "Revolver", "Water Gun", "Pearls", "Cane", "Bundle of Wires", "Giant Ring", "Specimen", "Fruit Basket", "Dozen Eggs", "Toolkit", "Hand Mirror", "Simon Says", "Manga", "Fishbowl", "Bomb"};
     public static readonly string[] IdentityLocations = {"Ballroom", "Conservatory", "Study", "Lounge", "Library", "Dining Room", "Hall", "Dojo", "Barnyard", "Treehouse", "I.T. Centre", "vOld", "Laboratory", "Supermarket", "Island", "Factory", "Home Depot", "Office", "Anime Con", "Arctic Base", "Solitary"};
@@ -46,17 +48,17 @@ public class ComponentInfo {
     public int[] LED;
     public int[] Symbols;
     public string[] Alphabet = new string[6];
-    public int[][] Arrows = new int[3][];
+    public int[] Arrows = new int[9];
+    public Color[] ArrowLights = new Color[9];
     public string[][] Identity = new string[4][];
     public bool BulbOLeft;
     public bool[] BulbInfo = new bool[4];
     public Color[] BulbColors = new Color[4];
     public int[][] ResistorColors = new int[4][];
     public string[] ResistorText;
-    public int Timer;
-    public string Word;
-    public int Number;
-    public string[] WidgetText = new string[3];
+    public int TimerDisplay;
+    public string WordDisplay;
+    public int NumberDisplay;
     public int MeterColor;
     public float MeterValue;
 
@@ -120,30 +122,36 @@ public class ComponentInfo {
             Alphabet[i] = AlphabetKey;
         }
         //Generate arrow colors
-        Arrows[0] = new int[] {0, 1, 2, 3}.OrderBy(x => rnd.Range(0, 1000)).ToArray();
+        int[] ArrowColors = new int[] {0, 1, 2, 3}.OrderBy(x => rnd.Range(0, 1000)).ToArray();
+        for(int i = 0; i < 4; i++) {
+            Arrows[i] = ArrowColors[i];
+        }
         //Create slider colors based on generated arrow colors
         string[] TempSliders = new string[4];
         for(int i = 0; i < 4; i++) {
             if(i == 3) {
-                if(Arrows[0][0] > Arrows[0][i]) {
-                    TempSliders[i] = Arrows[0][i].ToString() + Arrows[0][0].ToString();
+                if(Arrows[0] > Arrows[i]) {
+                    TempSliders[i] = Arrows[i].ToString() + Arrows[0].ToString();
                 }
                 else {
-                TempSliders[i] = Arrows[0][0].ToString() + Arrows[0][i].ToString();
+                    TempSliders[i] = Arrows[0].ToString() + Arrows[i].ToString();
                 }
             }
-            else if(Arrows[0][i] > Arrows[0][i + 1]) {
-                TempSliders[i] = Arrows[0][i + 1].ToString() + Arrows[0][i].ToString();
+            else if(Arrows[i] > Arrows[i + 1]) {
+                TempSliders[i] = Arrows[i + 1].ToString() + Arrows[i].ToString();
             }
             else {
-                TempSliders[i] = Arrows[0][i].ToString() + Arrows[0][i + 1].ToString();
+                TempSliders[i] = Arrows[i].ToString() + Arrows[i + 1].ToString();
             }
         }
-        Arrows[1] = new int[4];
         for(int i = 0; i < 4; i++) {
-            Arrows[1][i] = SliderColors[TempSliders[i]];
+            Arrows[i + 4] = SliderColors[TempSliders[i]];
         }
-        Arrows[2] = new int[] {rnd.Range(8,10)};
+        Arrows[8] = rnd.Range(8, 10);
+        for(int i = 0; i < 9; i++)
+        {
+            ArrowLights[i] = ArrowLightColors[Arrows[i]];
+        }
         //Generate Identity information
         List<string> IdentityTemp = new List<string>();
         while(IdentityTemp.Count < 3) {
@@ -201,19 +209,13 @@ public class ComponentInfo {
         ResistorText[0] = ResistorLetters[0];
         ResistorText[1] = ResistorLetters[1];
         //Generate timer text
-        string TimerText = System.String.Empty;
-        Timer = rnd.Range(0, 100);
-        if(Timer < 10) {
-            TimerText += "0";
-        }
-        TimerText += Timer.ToString();
-        WidgetText[0] = TimerText;
+        TimerDisplay = rnd.Range(0, 100);
         //Generate word display text
-        Word = WidgetText[1] = WordList[rnd.Range(0, WordList.Length)];
+        WordDisplay = WordList[rnd.Range(0, WordList.Length)];
         //Generate number display text
-        Number = rnd.Range(0, 10);
-        WidgetText[2] = Number.ToString();
-        //Generate morse code display (Can't be bothered right now to be honest)
+        NumberDisplay = rnd.Range(0, 10);
+        //Generate morse code display
+            //Create a list of strings A-Z and 0-9, use an int to keep track of which one it is
         //Generate meter value and color
         MeterColor = rnd.Range(0, 6);
         MeterValue = rnd.value;
