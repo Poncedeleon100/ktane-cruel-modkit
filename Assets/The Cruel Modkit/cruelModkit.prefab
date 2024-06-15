@@ -26560,8 +26560,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 29441a77c5f794e6981069d79324b8ce, type: 2}
   - {fileID: 2100000, guid: 32b111a58734c494cb02d342c6ae3ccf, type: 2}
   MorseMats:
-  - {fileID: 2100000, guid: a185f6fe7ba89464aaa09bb6860112aa, type: 2}
   - {fileID: 2100000, guid: 6a74b39c6a0025f49b8379d1ea4a0822, type: 2}
+  - {fileID: 2100000, guid: a185f6fe7ba89464aaa09bb6860112aa, type: 2}
   MeterMats:
   - {fileID: 2100000, guid: 712840cee3ef2554d9c425eb23b1f8a2, type: 2}
   - {fileID: 2100000, guid: 71411cda7f487bf4bb8ff70046b6448b, type: 2}
@@ -26671,6 +26671,8 @@ MonoBehaviour:
   - {fileID: 102316887374493410}
   - {fileID: 102804178677044948}
   - {fileID: 102895418956312372}
+  MorseLight: {fileID: 108325454685232092}
+  MorseMesh: {fileID: 23759105175550566}
   Meter: {fileID: 1107025415908896}
   WireMesh:
   - {fileID: 4300000, guid: c721f5cbb2b540b49950da0915400b86, type: 3}
