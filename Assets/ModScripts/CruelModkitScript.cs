@@ -62,8 +62,7 @@ public class CruelModkitScript : MonoBehaviour
     //Component Selector Info
     readonly string[] ComponentNames = new string[] { "WIRES", "BUTTON", "ADVENTURE", "LED", "SYMBOLS", "ALPHABET", "PIANO", "ARROWS", "IDENTITY", "BULBS", "RESISTOR" };
     bool[] OnComponents = new bool[11];
-    //bool[] TargetComponents = new bool[11];
-    bool[] TargetComponents;
+    bool[] TargetComponents = new bool[11];
     int CurrentComponent = 0;
 
     ComponentInfo Info;
@@ -447,6 +446,9 @@ public class CruelModkitScript : MonoBehaviour
         // 2. Calculate a puzzle ID from the base36 value
         // Formula : nth pair value, P(n) = base36 of first character * base36 of second character
         // (Separated for convenience): Puzzle ID = ( P(1) + P(2) + P(3) ) % 2048
+        //
+        // Note: This will need to be modified since serial numbers can't contain O or Y and will
+        //       always have at least two numbers and two letters. The puzzle ID range is 100 < x < 1855 as a result
         var Products = SerialNumberPairs.Sum(x => Base36.IndexOf(x[0]) * Base36.IndexOf(x[1])) % 2048;
 		TargetComponents = Products.ToString("2").PadLeft(11, '0').Select(x => x == '1').ToArray();
         Debug.LogFormat("[The Cruel Modkit #{0}] Calculated puzzle ID is {1}.", ModuleID, Products.ToString());
@@ -489,15 +491,18 @@ public class CruelModkitScript : MonoBehaviour
         else if (targetComponents.SequenceEqual(new[] { true, true, true, true, true })) p = new ParanormalWires(this, moduleId, info);
         else p = new Puzzle(this, moduleId, info, true);*/
 
+        Puzzle = new Puzzle(this, ModuleID, Info, true, TargetComponents);
+
         for (int x = 0; x < Wires.Length; x++)
         {
             int y = x;
             Wires[x].GetComponentInChildren<KMSelectable>().OnInteract += delegate ()
             {
-                //p.OnWireCut(y);
+                Puzzle.OnWireCut(x);
                 return false;
             };
         }
+
         /*for (int x = 0; x < symbols.Length; x++)
         {
             int y = x;

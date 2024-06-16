@@ -5,34 +5,34 @@ using static UnityEngine.Debug;
 
 public class Puzzle
 {
-    private CruelModkitScript module;
-    private int moduleId;
-    private ComponentInfo info;
-    private bool vanilla;
+    private CruelModkitScript Module;
+    private int ModuleID;
+    private ComponentInfo Info;
+    private bool Vanilla;
     public bool[] Components;
 
-    public Puzzle(CruelModkitScript module, int moduleId, ComponentInfo info, bool vanilla, bool[] components)
+    public Puzzle(CruelModkitScript Module, int ModuleID, ComponentInfo Info, bool Vanilla, bool[] Components)
     {
-        this.module = module;
-        this.moduleId = moduleId;
-        this.info = info;
-        this.vanilla = vanilla;
-        Components = components;
+        this.Module = Module;
+        this.ModuleID = ModuleID;
+        this.Info = Info;
+        this.Vanilla = Vanilla;
+        Components = Components;
     }
 
     public void OnWireCut(int wire)
     {
-        if (module.IsAnimating())
+        if (Module.IsAnimating())
             return;
 
-        module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.WireSnip, module.transform);
+        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.WireSnip, Module.transform);
 
-        if (module.IsModuleSolved())
+        if (Module.IsModuleSolved())
             return;
 
-        if (!module.CheckValidComponents())
+        if (!Module.CheckValidComponents())
         {
-            Log($"[Cruel Modkit #{moduleId}] ");
+            Log($"[Cruel Modkit #{ModuleID}] ");
         }
     }
 }
