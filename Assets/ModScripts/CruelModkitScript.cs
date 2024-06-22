@@ -220,10 +220,55 @@ public class CruelModkitScript : MonoBehaviour
         SetSelectables(Component, true);
         Audio.PlayGameSoundAtTransformWithRef(KMSoundOverride.SoundEffect.WireSequenceMechanism, transform);
         Doors[Component].transform.localPosition += new Vector3(0, -0.001f, 0);
-        for (int i = 0; i < 10; i++)
+        switch (Component)
         {
-            Doors[Component].transform.localPosition += new Vector3((Component < 5 ? -0.08f : 0.08f), 0, 0);
-            yield return new WaitForSeconds(0.025f);
+            case 0:
+            case 3:
+            case 4:
+                for (int i = 0; i < 10; i++)
+                {
+                    Doors[Component].transform.localPosition += new Vector3(-0.08f, 0, 0);
+                    yield return new WaitForSeconds(0.025f);
+                }
+                break;
+            case 1:
+            case 2:
+                for (int i = 0; i < 10; i++)
+                {
+                    Doors[Component].transform.localPosition += new Vector3(-0.0374f, 0, 0);
+                    yield return new WaitForSeconds(0.025f);
+                }
+                break;
+            case 5:
+            case 6:
+                for (int i = 0; i < 10; i++)
+                {
+                    Doors[Component].transform.localPosition += new Vector3(0.08f, 0, 0);
+                    yield return new WaitForSeconds(0.025f);
+                }
+                break;
+            case 7:
+                for (int i = 0; i < 10; i++)
+                {
+                    Doors[Component].transform.localPosition += new Vector3(0.0489f, 0, 0);
+                    yield return new WaitForSeconds(0.025f);
+                }
+                break;
+            case 8:
+                for (int i = 0; i < 10; i++)
+                {
+                    Doors[Component].transform.localPosition += new Vector3(0.0298f, 0, 0);
+                    yield return new WaitForSeconds(0.025f);
+                }
+                break;
+            case 9:
+            case 10:
+                for (int i = 0; i < 10; i++)
+                {
+                    Doors[Component].transform.localPosition += new Vector3(0.0237f, 0, 0);
+                    yield return new WaitForSeconds(0.025f);
+                }
+                break;
         }
         Doors[Component].SetActive(false);
         for (int i = 0; i < 10; i++)
@@ -244,10 +289,55 @@ public class CruelModkitScript : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
         Doors[Component].SetActive(true);
-        for (int i = 0; i < 10; i++)
+        switch (Component)
         {
-            Doors[Component].transform.localPosition += new Vector3((Component < 5 ? 0.08f : -0.08f), 0, 0);
-            yield return new WaitForSeconds(0.025f);
+            case 0:
+            case 3:
+            case 4:
+                for (int i = 0; i < 10; i++)
+                {
+                    Doors[Component].transform.localPosition += new Vector3(0.08f, 0, 0);
+                    yield return new WaitForSeconds(0.025f);
+                }
+                break;
+            case 1:
+            case 2:
+                for (int i = 0; i < 10; i++)
+                {
+                    Doors[Component].transform.localPosition += new Vector3(0.0374f, 0, 0);
+                    yield return new WaitForSeconds(0.025f);
+                }
+                break;
+            case 5:
+            case 6:
+                for (int i = 0; i < 10; i++)
+                {
+                    Doors[Component].transform.localPosition += new Vector3(-0.08f, 0, 0);
+                    yield return new WaitForSeconds(0.025f);
+                }
+                break;
+            case 7:
+                for (int i = 0; i < 10; i++)
+                {
+                    Doors[Component].transform.localPosition += new Vector3(-0.0489f, 0, 0);
+                    yield return new WaitForSeconds(0.025f);
+                }
+                break;
+            case 8:
+                for (int i = 0; i < 10; i++)
+                {
+                    Doors[Component].transform.localPosition += new Vector3(-0.0298f, 0, 0);
+                    yield return new WaitForSeconds(0.025f);
+                }
+                break;
+            case 9:
+            case 10:
+                for (int i = 0; i < 10; i++)
+                {
+                    Doors[Component].transform.localPosition += new Vector3(-0.0237f, 0, 0);
+                    yield return new WaitForSeconds(0.025f);
+                }
+                break;
         }
         Doors[Component].transform.localPosition += new Vector3(0, 0.001f, 0);
         SetSelectables(Component, false);
