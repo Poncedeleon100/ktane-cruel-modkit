@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static UnityEngine.Debug;
+using UnityEngine;
 
 public class Puzzle
 {
@@ -20,19 +20,24 @@ public class Puzzle
         Components = Components;
     }
 
-    public void OnWireCut(int wire)
+    public virtual void OnWireCut(int Wire)
     {
         if (Module.IsAnimating())
             return;
-
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.WireSnip, Module.transform);
+        Module.CutWire(Wire);
 
         if (Module.IsModuleSolved())
             return;
 
         if (!Module.CheckValidComponents())
         {
-            Log($"[Cruel Modkit #{ModuleID}] ");
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was cut when the component selection was [{2}] instead of [{3}].", ModuleID, Wire + 1, Module.GetOnComponents(), Module.GetTargetComponents());
+            Module.CauseStrike();
+            //Module.RegenWires();
+            return;
         }
+
+        Module.StartSolve();
     }
 }

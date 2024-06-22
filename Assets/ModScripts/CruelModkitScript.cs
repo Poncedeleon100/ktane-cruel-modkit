@@ -35,8 +35,7 @@ public class CruelModkitScript : MonoBehaviour
     //Module Objects
     public GameObject[] Wires;
     public GameObject[] WireLED;
-    public TextMesh ButtonText;
-    public Renderer Button;
+    public GameObject Button;
     public GameObject[] Adventure;
     public GameObject[] LED;
     public GameObject[] Symbols;
@@ -60,7 +59,7 @@ public class CruelModkitScript : MonoBehaviour
     List<int> WiresCut = new List<int>();
 
     //Component Selector Info
-    readonly string[] ComponentNames = new string[] { "WIRES", "BUTTON", "ADVENTURE", "LED", "SYMBOLS", "ALPHABET", "PIANO", "ARROWS", "IDENTITY", "BULBS", "RESISTOR" };
+    readonly string[] ComponentNames = new string[] { "Wires", "Button", "Adventure", "LED", "Symbols", "Alphabet", "Piano", "Arrows", "Identity", "Bulbs", "Resistor" };
     bool[] OnComponents = new bool[11];
     bool[] TargetComponents = new bool[11];
     int CurrentComponent = 0;
@@ -121,22 +120,19 @@ public class CruelModkitScript : MonoBehaviour
     int ModuleID;
     private bool ModuleSolved;
     private bool Solving;
-    //private Coroutine Animating;
     private bool Animating;
 
     // These are public variables needed to communicate with the Puzzle class.
 
     public bool IsModuleSolved() => ModuleSolved;
     public bool CheckValidComponents() => OnComponents.SequenceEqual(TargetComponents);
-    public bool IsAnimating() => Animating != null;
+    public bool IsAnimating() => Animating;
 
-    // private bool HasStruck = false; // TP Handling, send a strike handling if the module struck. To prevent excessive inputs.
+    private bool HasStruck = false; // TP Handling, send a strike handling if the module struck. To prevent excessive inputs.
 
     // Use these for debugging individual puzzles.
     private bool ForceComponents, ForceByModuleID;
-    /*/private bool[] componentsForced;
-    public bool enableBruteTest = false;
-    ModkitSettings modConfig = new ModkitSettings();/*/
+    // Settings
 
     void Awake ()
     {
@@ -156,74 +152,32 @@ public class CruelModkitScript : MonoBehaviour
             ChangeDisplayComponent(SelectorButtons[2], 1);
             return false;
         };
-        /* Cruel Modkit Settings for enforcing specific components
-        try
-		{
-			ModConfig<ModkitSettings> modkitJSON = new ModConfig<ModkitSettings>("ModkitSettings");
-			modConfig = modkitJSON.Settings;
-
-			forceComponents = modConfig.EnforceComponents;
-			forceByModuleID = modConfig.EnforceByModID;
-
-			componentsForced = new bool[] { modConfig.EnforceWires, modConfig.EnforceSymbols, modConfig.EnforceAlphabet, modConfig.EnforceLEDs, modConfig.EnforceArrows };
-		}
-		catch
-		{
-			Debug.LogErrorFormat("[The Modkit #{0}] The settings do not work as intended! Using default settings (do not force required components).", moduleId);
-			forceComponents = false;
-			forceByModuleID = false;
-			componentsForced = new bool[] { false, false, false, false, false };
-		}*/
+        // Settings
     }
 
     void Start ()
     {
         SetUpComponents();
-        //TryOverrideSettings();
-        if (ForceComponents) // Check if the components need to be forced on.
+        // Settings
+        if (ForceComponents) // Settings - Check if the components need to be forced on.
         {
-            // ForceComponents();
-            // DisplayText.text = "DISABLED";
+            // Settings
         }
         else
         {
             CalcComponents();
             DisplayText.text = ComponentNames[CurrentComponent];
         }
-        /*AssignHandlers();
-        for (int x = 0; x < 5; x++)
+        AssignHandlers();
+        for (int i = 0; i < 11; i++)
         {
-            SetSelectables(x, forceComponents ? targetComponents[x] : false);
-            onComponents[x] = forceComponents && targetComponents[x];
+            SetSelectables(i, ForceComponents ? TargetComponents[i] : false);
+            OnComponents[i] = ForceComponents && TargetComponents[i];
         }
-        if (forceComponents)
-            StartCoroutine(PlayEnforceAnim());*/
+        // Settings
     }
 
-    void ChangeDisplayComponent(KMSelectable Button, int i)
-    {
-        Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Button.transform);
-        Button.AddInteractionPunch(0.5f);
-        StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.005f));
-        if (ModuleSolved || ForceComponents)
-        {
-            return;
-        }
-        CurrentComponent += i;
-
-        if(CurrentComponent < 0)
-        {
-            CurrentComponent += ComponentNames.Length;
-        }
-        if(CurrentComponent >= ComponentNames.Length)
-        {
-            CurrentComponent -= ComponentNames.Length;
-        }
-
-        DisplayText.text = ComponentNames[CurrentComponent];
-        DisplayText.color = OnComponents[CurrentComponent] ? Color.green : Color.red;
-    }
-
+    // Animations
     void ToggleComponent()
     {
         Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, SelectorButtons[1].transform);
@@ -237,12 +191,12 @@ public class CruelModkitScript : MonoBehaviour
         if(OnComponents[CurrentComponent])
         {
             DisplayText.color = new Color(0, 1, 0);
-            // StartCoroutine(ShowComponent(CurrentComponent));
+            StartCoroutine(ShowComponent(CurrentComponent));
         }
         else
         {
             DisplayText.color = new Color(1, 0, 0);
-            // StartCoroutine(HideComponent(CurrentComponent));
+            StartCoroutine(HideComponent(CurrentComponent));
         }
     }
 
@@ -258,6 +212,139 @@ public class CruelModkitScript : MonoBehaviour
             Object.localPosition -= Offset / 5;
             yield return new WaitForSeconds(0.01f);
         }
+    }
+
+    public IEnumerator ShowComponent(int Component)
+    {
+        Animating = true;
+        SetSelectables(Component, true);
+        Audio.PlayGameSoundAtTransformWithRef(KMSoundOverride.SoundEffect.WireSequenceMechanism, transform);
+        Doors[Component].transform.localPosition += new Vector3(0, -0.001f, 0);
+        for (int i = 0; i < 10; i++)
+        {
+            Doors[Component].transform.localPosition += new Vector3((Component < 5 ? -0.08f : 0.08f), 0, 0);
+            yield return new WaitForSeconds(0.025f);
+        }
+        Doors[Component].SetActive(false);
+        for (int i = 0; i < 10; i++)
+        {
+            Components[Component].transform.localPosition += new Vector3(0, 0.00121f, 0);
+            yield return new WaitForSeconds(0.05f);
+        }
+        Animating = false;
+    }
+
+    public IEnumerator HideComponent(int Component)
+    {
+        Animating = true;
+        Audio.PlayGameSoundAtTransformWithRef(KMSoundOverride.SoundEffect.WireSequenceMechanism, transform);
+        for (int i = 0; i < 10; i++)
+        {
+            Components[Component].transform.localPosition += new Vector3(0, -0.00121f, 0);
+            yield return new WaitForSeconds(0.05f);
+        }
+        Doors[Component].SetActive(true);
+        for (int i = 0; i < 10; i++)
+        {
+            Doors[Component].transform.localPosition += new Vector3((Component < 5 ? 0.08f : -0.08f), 0, 0);
+            yield return new WaitForSeconds(0.025f);
+        }
+        Doors[Component].transform.localPosition += new Vector3(0, 0.001f, 0);
+        SetSelectables(Component, false);
+        Animating = false;
+    }
+
+    public void SetSelectables(int Component, bool Enable)
+    {
+        switch (Component)
+        {
+            case 0:
+                {
+                    foreach (GameObject Wire in Wires)
+                        Wire.SetActive(Enable);
+                    break;
+                }
+            case 1:
+                {
+                    Button.SetActive(Enable);
+                    break;
+                }
+            case 2:
+                {
+                    foreach (GameObject Adventure in Adventure)
+                        Adventure.SetActive(Enable);
+                    break;
+                }
+            case 4:
+                {
+                    foreach (GameObject Symbol in Symbols)
+                        Symbol.SetActive(Enable);
+                    break;
+                }
+            case 5:
+                {
+                    foreach (GameObject Alphabet in Alphabet)
+                        Alphabet.SetActive(Enable);
+                    break;
+                }
+            case 6:
+                {
+                    foreach (GameObject Key in Piano)
+                        Key.SetActive(Enable);
+                    break;
+                }
+            case 7:
+                {
+                    foreach (GameObject Arrow in Arrows)
+                        Arrow.SetActive(Enable);
+                    break;
+                }
+            case 8:
+                {
+                    foreach (GameObject Identity in Identity)
+                        Identity.SetActive(Enable);
+                    break;
+                }
+            case 10:
+                {
+                    foreach (GameObject Resistor in Resistor)
+                        Resistor.SetActive(Enable);
+                    break;
+                }
+        }
+    }
+
+    public void CutWire(int Wire)
+    {
+        Wires[Wire].transform.Find("WireHL").gameObject.SetActive(false);
+        Wires[Wire].GetComponent<MeshFilter>().mesh = WireMesh[1];
+        WiresCut.Add(Wire);
+    }
+
+
+    // Materials
+    void ChangeDisplayComponent(KMSelectable Button, int i)
+    {
+        Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Button.transform);
+        Button.AddInteractionPunch(0.5f);
+        StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.005f));
+        if (ModuleSolved || ForceComponents)
+        {
+            return;
+        }
+        CurrentComponent += i;
+
+        if (CurrentComponent < 0)
+        {
+            CurrentComponent += ComponentNames.Length;
+        }
+        if (CurrentComponent >= ComponentNames.Length)
+        {
+            CurrentComponent -= ComponentNames.Length;
+        }
+
+        DisplayText.text = ComponentNames[CurrentComponent].ToUpper();
+        DisplayText.color = OnComponents[CurrentComponent] ? Color.green : Color.red;
     }
 
     void SetUpComponents()
@@ -283,11 +370,11 @@ public class CruelModkitScript : MonoBehaviour
             WireLED[i].transform.Find("WireLEDL").GetComponentInChildren<Renderer>().material = WireLEDMats[Info.WireLED[i]];
         }
         //Set text and material for Button
-        ButtonText.text = Info.ButtonText;
-        Button.material = ButtonMats[Info.Button];
+        Button.transform.GetComponentInChildren<Renderer>().material = ButtonMats[Info.Button];
+        Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
         if(Info.Button == 0 || Info.Button == 1 || Info.Button == 7)
         {
-            ButtonText.color = ComponentInfo.ButtonTextWhite;
+            Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ComponentInfo.ButtonTextWhite;
         }
         //Set materials for LEDs
         for(int i = 0; i < LED.Length; i++)
@@ -364,85 +451,49 @@ public class CruelModkitScript : MonoBehaviour
         Meter.transform.localPosition = new Vector3(-0.04243f, 0.01436f, TempNumber);
     }
 
-    /* Override settings based on mission ID (and unimplemented mission description support)
-    void TryOverrideSettings()
+    public IEnumerator PlayWord(string Word)
     {
-        try
+        while (true)
         {
-            var missionID = Application.isEditor ? "freeplay" : Game.Mission.ID ?? "unknown";
-            var overwriteSuccessful = false;
-            Debug.LogFormat("<The Modkit #{0}> Mission ID: {1}", moduleId, missionID);
-            switch (missionID)
+            foreach (var c in Word)
             {
-                case "freeplay":
-                case "custom":
-                    Debug.LogFormat("<The Modkit #{0}> MISSION DETECTED AS FREEPLAY. NOT OVERWRITING SETTINGS.", moduleId);
-                    return;
-                case "mod_theBombsBlanMade_deafsHell":
-                    Debug.LogFormat("<The Modkit #{0}> \"Deaf's Hell\" from \"The Bombs Blan Made\" detected.", moduleId);
-                    forceComponents = true;
-                    forceByModuleID = true;
-                    overwriteSuccessful = true;
-                    break;
+                var Code = MorseCodeTable[char.ToUpper(c)];
+                foreach (var Symbol in Code)
+                {
+                    MorseLight.enabled = true;
+                    MorseMesh.material = MorseMats[1];
+                    yield return new WaitForSeconds(Symbol == Symbol.Dot ? MorseCodeDotLength : MorseCodeDotLength * 3);
+                    MorseLight.enabled = false;
+                    MorseMesh.material = MorseMats[0];
+                    yield return new WaitForSeconds(MorseCodeDotLength);
+                }
+                yield return new WaitForSeconds(MorseCodeDotLength * 3);  // 4 dots total
             }
-            if (overwriteSuccessful)
-            {
-                Debug.LogFormat("<The Modkit #{0}> OVERWRITE SUCCESSFUL BY MISSION ID.", moduleId);
-                return;
-            }
-            // Regex for getting forced components directly from the mission description
-			//var regexMatchOverrideDescription = Regex.Match(Game.Mission.Description ?? "", @"\[ModkitOverride\]\sEnforce(ModID|((Wires?|Symbols?|Alphabet|LED|Arrows?),)+)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant );
-			//if (regexMatchOverrideDescription.Success)
-            //{
-
-            //}
-			//else
-            //{
-            Debug.LogFormat("<The Modkit #{0}> PREVENTING COMPONENTS FROM BEING OVERRIDDEN.", moduleId);
-            forceComponents = false;
-            //}
-        }
-        catch (Exception error)
-        {
-            Debug.LogWarningFormat("<The Modkit #{0}> Override does not work as intended! ", moduleId);
-            Debug.LogException(error);
-            Debug.LogWarningFormat("<The Modkit #{0}> Using default settings.", moduleId);
-            forceComponents = false;
+            yield return new WaitForSeconds(MorseCodeDotLength * 6);  // 10 dots total
         }
     }
 
-    // Forces components
-    void ForceComponents()
+    // Solve/Strike Handling
+    public void CauseStrike()
     {
-        Debug.LogFormat("[The Modkit #{0}] The calculation procedure for The Modkit has been overridden.", moduleId);
-        var curModID = moduleId * 1;
-        if (forceByModuleID)
-        {
-            Debug.LogFormat("[The Modkit #{0}] Enforcing components via module ID.", moduleId);
-            for (int x = 0; x < componentsForced.Length; x++)
-            {
-                targetComponents[x] = curModID % 2 == 1;
-                curModID /= 2;
-            }
-        }
-        else
-        {
-            Debug.LogFormat("[The Modkit #{0}] Enforcing specific components.", moduleId);
-            for (int x = 0; x < componentsForced.Length; x++)
-                targetComponents[x] = componentsForced[x];
-        }
-        Debug.LogFormat("[The Modkit #{0}] Enforced components: [ {1} ].", moduleId, componentNames.Any(x => targetComponents[Array.IndexOf(componentNames, x)]) ? componentNames.Where(x => targetComponents[Array.IndexOf(componentNames, x)]).Join(", ") : "none");
-    }*/
-    
-    // Calculates the components required to be solved
+        Module.HandleStrike();
+        HasStruck = true;
+    }
+
+    public void StartSolve()
+    {
+        Solving = true;
+    }
+
+    // Calculation
     void CalcComponents()
-	{
-		var SerialNumber = Bomb.GetSerialNumber();
-		var SerialNumberPairs = new List<string>();
+    {
+        var SerialNumber = Bomb.GetSerialNumber();
+        var SerialNumberPairs = new List<string>();
         // 1. Separate serial number into three pairs
-        for (int i = 0; i < SerialNumber.Length; i+= 2)
+        for (int i = 0; i < SerialNumber.Length; i += 2)
             SerialNumberPairs.Add(SerialNumber.Substring(i, 2));
-		var Base36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var Base36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         // 2. Calculate a puzzle ID from the base36 value
         // Formula : nth pair value, P(n) = base36 of first character * base36 of second character
         // (Separated for convenience): Puzzle ID = ( P(1) + P(2) + P(3) ) % 2048
@@ -450,55 +501,21 @@ public class CruelModkitScript : MonoBehaviour
         // Note: This will need to be modified since serial numbers can't contain O or Y and will
         //       always have at least two numbers and two letters. The puzzle ID range is 100 < x < 1855 as a result
         var Products = SerialNumberPairs.Sum(x => Base36.IndexOf(x[0]) * Base36.IndexOf(x[1])) % 2048;
-		TargetComponents = Products.ToString("2").PadLeft(11, '0').Select(x => x == '1').ToArray();
+        TargetComponents = Products.ToString("2").PadLeft(11, '0').Select(x => x == '1').ToArray();
         Debug.LogFormat("[The Cruel Modkit #{0}] Calculated puzzle ID is {1}.", ModuleID, Products.ToString());
-	}
+    }
 
-    // Sets up the selected puzzle class
+    // Also animations
     void AssignHandlers()
     {
-        /*Debug.LogFormat("[The Modkit #{0}] --------------------------------------------------", moduleId);
-        if (targetComponents.SequenceEqual(new[] { true, false, false, false, false })) p = new ColorfulWires(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, true, false, false, false })) p = new AdjacentSymbols(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, false, true, false, false })) p = new EdgeworkKeys(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, false, false, true, false })) p = new LEDPattern(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, false, false, false, true })) p = new SimonShifts(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, true, false, false, false })) p = new RunicWires(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, false, true, false, false })) p = new IndexedWires(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, false, false, true, false })) p = new WireInstructions(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, false, false, false, true })) p = new WireMaze(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, true, true, false, false })) p = new EncryptedKeypad(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, true, false, true, false })) p = new SymbolicMorse(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, true, false, false, true })) p = new PerspectiveSymbols(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, false, true, true, false })) p = new SemaphoreKeys(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, false, true, false, true })) p = new AlphanumericOrder(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, false, false, true, true })) p = new ColorCompass(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, true, true, false, false })) p = new SequenceCut(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, true, false, true, false })) p = new HierarchicalWires(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, true, false, false, true })) p = new WireSignaling(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, false, true, true, false })) p = new PowerGrid(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, false, true, false, true })) p = new CruelWireSequence(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, false, false, true, true })) p = new BlinkingWires(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, true, true, true, false })) p = new KeyScore(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, true, true, false, true })) p = new LyingKeys(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, true, false, true, true })) p = new ColorOffset(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, false, true, true, true })) p = new LEDDirections(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, true, true, true, false })) p = new TheThirdWire(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, true, true, false, true })) p = new TheLastInLine(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, true, false, true, true })) p = new ColorDominance(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, false, true, true, true })) p = new PreciseWires(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { false, true, true, true, true })) p = new GatedMaze(this, moduleId, info);
-        else if (targetComponents.SequenceEqual(new[] { true, true, true, true, true })) p = new ParanormalWires(this, moduleId, info);
-        else p = new Puzzle(this, moduleId, info, true);*/
-
         Puzzle = new Puzzle(this, ModuleID, Info, true, TargetComponents);
 
-        for (int x = 0; x < Wires.Length; x++)
+        for (int i = 0; i < Wires.Length; i++)
         {
-            int y = x;
-            Wires[x].GetComponentInChildren<KMSelectable>().OnInteract += delegate ()
+            int y = i;
+            Wires[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate ()
             {
-                Puzzle.OnWireCut(x);
+                Puzzle.OnWireCut(y);
                 return false;
             };
         }
@@ -542,26 +559,19 @@ public class CruelModkitScript : MonoBehaviour
             p.BruteForceTest();*/
     }
 
-    public IEnumerator PlayWord(string Word)
+    // Logging
+    public string GetOnComponents()
     {
-        while (true)
-        {
-            foreach (var c in Word)
-            {
-                var Code = MorseCodeTable[char.ToUpper(c)];
-                foreach (var Symbol in Code)
-                {
-                    MorseLight.enabled = true;
-                    MorseMesh.material = MorseMats[1];
-                    yield return new WaitForSeconds(Symbol == Symbol.Dot ? MorseCodeDotLength : MorseCodeDotLength * 3);
-                    MorseLight.enabled = false;
-                    MorseMesh.material = MorseMats[0];
-                    yield return new WaitForSeconds(MorseCodeDotLength);
-                }
-                yield return new WaitForSeconds(MorseCodeDotLength * 3);  // 4 dots total
-            }
-            yield return new WaitForSeconds(MorseCodeDotLength * 6);  // 10 dots total
-        }
+        return OnComponents.Any(a => a)
+            ? ComponentNames.Where(x => OnComponents[Array.IndexOf(ComponentNames, x)]).Join(", ")
+            : "None";
+    }
+
+    public string GetTargetComponents()
+    {
+        return TargetComponents.Any(a => a)
+            ? ComponentNames.Where(x => TargetComponents[Array.IndexOf(ComponentNames, x)]).Join(", ")
+            : "None";
     }
 
     // Twitch Plays

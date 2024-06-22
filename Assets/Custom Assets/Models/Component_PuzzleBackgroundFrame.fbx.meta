@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1eb4f09878799e84897038463355a635
+guid: 5f97737878172c64d8b4d61a55f1bcde
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -12,11 +12,11 @@ ModelImporter:
     100012: Component_PuzzleBackground_Identity
     100014: Component_PuzzleBackground_LED
     100016: Component_PuzzleBackground_Piano
-    100018: Component_PuzzleBackground_Resistor
-    100020: Component_PuzzleBackground_Symbol
-    100022: Component_PuzzleBackground_Widget
-    100024: Component_PuzzleBackground_Wires
-    100026: //RootNode
+    100018: Component_PuzzleBackground_Resistors
+    100020: Component_PuzzleBackground_Symbols
+    100022: Component_PuzzleBackground_Wires
+    100024: //RootNode
+    100026: Component_PuzzleBackground_Widgets
     400000: Component_PuzzleBackground_Adventure
     400002: Component_PuzzleBackground_Alphabet
     400004: Component_PuzzleBackground_Arrows
@@ -26,23 +26,12 @@ ModelImporter:
     400012: Component_PuzzleBackground_Identity
     400014: Component_PuzzleBackground_LED
     400016: Component_PuzzleBackground_Piano
-    400018: Component_PuzzleBackground_Resistor
-    400020: Component_PuzzleBackground_Symbol
-    400022: Component_PuzzleBackground_Widget
-    400024: Component_PuzzleBackground_Wires
-    400026: //RootNode
+    400018: Component_PuzzleBackground_Resistors
+    400020: Component_PuzzleBackground_Symbols
+    400022: Component_PuzzleBackground_Wires
+    400024: //RootNode
+    400026: Component_PuzzleBackground_Widgets
     2100000: Component_PuzzleBack_mat.003
-    2100002: Component_PuzzleBack_mat.002
-    2100004: Component_PuzzleBack_mat.004
-    2100006: Component_PuzzleBack_mat.005
-    2100008: Component_PuzzleBack_mat.006
-    2100010: Component_PuzzleBack_mat.007
-    2100012: Component_PuzzleBack_mat.008
-    2100014: Component_PuzzleBack_mat.009
-    2100016: Component_PuzzleBack_mat.010
-    2100018: Component_PuzzleBack_mat.011
-    2100020: Component_PuzzleBack_mat.012
-    2100022: Component_PuzzleBack_mat.013
     2300000: Component_PuzzleBackground_Adventure
     2300002: Component_PuzzleBackground_Alphabet
     2300004: Component_PuzzleBackground_Arrows
@@ -52,10 +41,10 @@ ModelImporter:
     2300012: Component_PuzzleBackground_Identity
     2300014: Component_PuzzleBackground_LED
     2300016: Component_PuzzleBackground_Piano
-    2300018: Component_PuzzleBackground_Resistor
-    2300020: Component_PuzzleBackground_Symbol
-    2300022: Component_PuzzleBackground_Widget
-    2300024: Component_PuzzleBackground_Wires
+    2300018: Component_PuzzleBackground_Resistors
+    2300020: Component_PuzzleBackground_Symbols
+    2300022: Component_PuzzleBackground_Wires
+    2300024: Component_PuzzleBackground_Widgets
     3300000: Component_PuzzleBackground_Adventure
     3300002: Component_PuzzleBackground_Alphabet
     3300004: Component_PuzzleBackground_Arrows
@@ -65,23 +54,23 @@ ModelImporter:
     3300012: Component_PuzzleBackground_Identity
     3300014: Component_PuzzleBackground_LED
     3300016: Component_PuzzleBackground_Piano
-    3300018: Component_PuzzleBackground_Resistor
-    3300020: Component_PuzzleBackground_Symbol
-    3300022: Component_PuzzleBackground_Widget
-    3300024: Component_PuzzleBackground_Wires
-    4300000: Component_PuzzleBackground_Wires
-    4300002: Component_PuzzleBackground_Frame
-    4300004: Component_PuzzleBackground_Button
-    4300006: Component_PuzzleBackground_Adventure
-    4300008: Component_PuzzleBackground_Symbol
-    4300010: Component_PuzzleBackground_LED
-    4300012: Component_PuzzleBackground_Widget
-    4300014: Component_PuzzleBackground_Resistor
-    4300016: Component_PuzzleBackground_Bulbs
-    4300018: Component_PuzzleBackground_Arrows
-    4300020: Component_PuzzleBackground_Identity
-    4300022: Component_PuzzleBackground_Piano
-    4300024: Component_PuzzleBackground_Alphabet
+    3300018: Component_PuzzleBackground_Resistors
+    3300020: Component_PuzzleBackground_Symbols
+    3300022: Component_PuzzleBackground_Wires
+    3300024: Component_PuzzleBackground_Widgets
+    4300000: Component_PuzzleBackground_Symbols
+    4300002: Component_PuzzleBackground_Alphabet
+    4300004: Component_PuzzleBackground_Piano
+    4300006: Component_PuzzleBackground_Resistors
+    4300008: Component_PuzzleBackground_Arrows
+    4300010: Component_PuzzleBackground_Bulbs
+    4300012: Component_PuzzleBackground_Identity
+    4300014: Component_PuzzleBackground_LED
+    4300016: Component_PuzzleBackground_Button
+    4300018: Component_PuzzleBackground_Adventure
+    4300020: Component_PuzzleBackground_Wires
+    4300022: Component_PuzzleBackground_Frame
+    4300024: Component_PuzzleBackground_Widgets
   externalObjects: {}
   materials:
     importMaterials: 1
