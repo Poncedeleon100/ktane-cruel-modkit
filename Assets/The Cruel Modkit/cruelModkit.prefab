@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23727282090987410}
   - component: {fileID: 114537544920584538}
   m_Layer: 0
-  m_Name: AlphabetLED4
+  m_Name: AlphabetLED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -290,7 +290,7 @@ GameObject:
   - component: {fileID: 23889098265456774}
   - component: {fileID: 114759598554071216}
   m_Layer: 0
-  m_Name: AlphabetLED2
+  m_Name: AlphabetLED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,7 +343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1043227008214004
 GameObject:
   m_ObjectHideFlags: 1
@@ -626,7 +626,7 @@ GameObject:
   - component: {fileID: 23974942715700344}
   - component: {fileID: 114616080716461154}
   m_Layer: 0
-  m_Name: SymbolLED4
+  m_Name: SymbolLED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -659,7 +659,7 @@ GameObject:
   - component: {fileID: 23828236104048228}
   - component: {fileID: 114453598275090632}
   m_Layer: 0
-  m_Name: AlphabetLED1
+  m_Name: AlphabetLED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1269,7 +1269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1177671382874876
 GameObject:
   m_ObjectHideFlags: 1
@@ -1322,7 +1322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1186444916670310
 GameObject:
   m_ObjectHideFlags: 1
@@ -1394,7 +1394,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1194332149885526
 GameObject:
   m_ObjectHideFlags: 1
@@ -1595,7 +1595,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1214582242125404
 GameObject:
   m_ObjectHideFlags: 0
@@ -1926,7 +1926,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1267015111361242
 GameObject:
   m_ObjectHideFlags: 1
@@ -2137,7 +2137,7 @@ GameObject:
   - component: {fileID: 23818002492315674}
   - component: {fileID: 114756168619252548}
   m_Layer: 0
-  m_Name: SymbolLED1
+  m_Name: SymbolLED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2414,7 +2414,7 @@ GameObject:
   - component: {fileID: 23795619226238838}
   - component: {fileID: 114010431247634638}
   m_Layer: 0
-  m_Name: SymbolLED3
+  m_Name: SymbolLED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3662,7 +3662,7 @@ GameObject:
   - component: {fileID: 23521931621969618}
   - component: {fileID: 114836718809418572}
   m_Layer: 0
-  m_Name: SymbolLED2
+  m_Name: SymbolLED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4353,7 +4353,7 @@ GameObject:
   - component: {fileID: 23489946419558960}
   - component: {fileID: 114384476077396510}
   m_Layer: 0
-  m_Name: AlphabetLED3
+  m_Name: AlphabetLED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4421,7 +4421,7 @@ GameObject:
   - component: {fileID: 23613106130833300}
   - component: {fileID: 114419976209312574}
   m_Layer: 0
-  m_Name: SymbolLED6
+  m_Name: SymbolLED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4505,7 +4505,7 @@ GameObject:
   - component: {fileID: 23703648454048768}
   - component: {fileID: 114275262509904266}
   m_Layer: 0
-  m_Name: AlphabetLED5
+  m_Name: AlphabetLED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4562,7 +4562,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1714572865145294
 GameObject:
   m_ObjectHideFlags: 1
@@ -4593,7 +4593,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1717865592686176
 GameObject:
   m_ObjectHideFlags: 1
@@ -4751,7 +4751,7 @@ GameObject:
   - component: {fileID: 23566490378606820}
   - component: {fileID: 114343503925772056}
   m_Layer: 0
-  m_Name: SymbolLED5
+  m_Name: SymbolLED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4769,7 +4769,7 @@ GameObject:
   - component: {fileID: 23959003299795556}
   - component: {fileID: 114873358287377670}
   m_Layer: 0
-  m_Name: AlphabetLED6
+  m_Name: AlphabetLED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6370,7 +6370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1991420276724858
 GameObject:
   m_ObjectHideFlags: 1
@@ -7012,8 +7012,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1613189570679906}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0021}
-  m_LocalScale: {x: 1.0884374, y: 1.0500001, z: 0.833031}
+  m_LocalPosition: {x: 0, y: -0, z: 0.0039}
+  m_LocalScale: {x: 1.0884374, y: 1.0500001, z: 0.39371577}
   m_Children: []
   m_Father: {fileID: 4790370182662790}
   m_RootOrder: 1
@@ -7364,7 +7364,7 @@ Transform:
   m_GameObject: {fileID: 1819331713271624}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.71, z: 0}
-  m_LocalScale: {x: 1.0814269, y: 0.5660158, z: 1.0814271}
+  m_LocalScale: {x: 1.0814269, y: 0.38196748, z: 1.0814271}
   m_Children: []
   m_Father: {fileID: 4344693855185346}
   m_RootOrder: 1
@@ -7784,8 +7784,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1842990135332706}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0021}
-  m_LocalScale: {x: 1.0884374, y: 1.0500001, z: 0.833031}
+  m_LocalPosition: {x: 0, y: -7.914594e-10, z: 0.0039009799}
+  m_LocalScale: {x: 1.0884374, y: 1.0500001, z: 0.39371577}
   m_Children: []
   m_Father: {fileID: 4232879945476608}
   m_RootOrder: 1
@@ -8706,8 +8706,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1196371072089136}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0021}
-  m_LocalScale: {x: 1.0884374, y: 1.0500001, z: 0.833031}
+  m_LocalPosition: {x: 0, y: -7.914661e-10, z: 0.003900978}
+  m_LocalScale: {x: 1.0884374, y: 1.0500001, z: 0.39371577}
   m_Children: []
   m_Father: {fileID: 4292887505410340}
   m_RootOrder: 1
@@ -9038,8 +9038,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1550393259259520}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0.002}
-  m_LocalScale: {x: 1.1024117, y: 1.1024, z: 0.8130195}
+  m_LocalPosition: {x: 0, y: -0.0000000055724234, z: 0.003852378}
+  m_LocalScale: {x: 1.1024117, y: 1.1024, z: 0.38425773}
   m_Children: []
   m_Father: {fileID: 4563518539695998}
   m_RootOrder: 1
@@ -9383,8 +9383,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1070521504291398}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0.002}
-  m_LocalScale: {x: 1.1024117, y: 1.1024, z: 0.8130195}
+  m_LocalPosition: {x: 0, y: -0.0000000055724234, z: 0.003852378}
+  m_LocalScale: {x: 1.1024117, y: 1.1024, z: 0.38425773}
   m_Children: []
   m_Father: {fileID: 4712163913713238}
   m_RootOrder: 1
@@ -9986,8 +9986,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1196655430526300}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0.002}
-  m_LocalScale: {x: 1.1024117, y: 1.1024, z: 0.8130195}
+  m_LocalPosition: {x: 0, y: -0.0000000055724234, z: 0.003852378}
+  m_LocalScale: {x: 1.1024117, y: 1.1024, z: 0.38425773}
   m_Children: []
   m_Father: {fileID: 4341572202309116}
   m_RootOrder: 1
@@ -10334,8 +10334,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1845511780827580}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0.002}
-  m_LocalScale: {x: 1.1024117, y: 1.1024, z: 0.8130195}
+  m_LocalPosition: {x: 0, y: -0.0000000055724025, z: 0.003852378}
+  m_LocalScale: {x: 1.1024117, y: 1.1024, z: 0.38425773}
   m_Children: []
   m_Father: {fileID: 4757386072933840}
   m_RootOrder: 1

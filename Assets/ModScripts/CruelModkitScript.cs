@@ -200,17 +200,36 @@ public class CruelModkitScript : MonoBehaviour
         }
     }
 
-    public IEnumerator AnimateButtonPress(Transform Object, Vector3 Offset)
+    public IEnumerator AnimateButtonPress(Transform Object, Vector3 Offset, int Index = 0)
     {
-        for (int x = 0; x < 5; x++)
+        switch (Index)
         {
-            Object.localPosition += Offset / 5;
-            yield return new WaitForSeconds(0.01f);
-        }
-        for (int x = 0; x < 5; x++)
-        {
-            Object.localPosition -= Offset / 5;
-            yield return new WaitForSeconds(0.01f);
+            case 0:
+                for (int i = 0; i < 5; i++)
+                {
+                    Object.localPosition += Offset / 5;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                for (int i = 0; i < 5; i++)
+                {
+                    Object.localPosition -= Offset / 5;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                break;
+            case 1:
+                for (int i = 0; i < 5; i++)
+                {
+                    Object.localPosition += Offset / 5;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                break;
+            case 2:
+                for (int i = 0; i < 5; i++)
+                {
+                    Object.localPosition -= Offset / 5;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                break;
         }
     }
 
@@ -349,58 +368,40 @@ public class CruelModkitScript : MonoBehaviour
         switch (Component)
         {
             case 0:
-                {
                     foreach (GameObject Wire in Wires)
                         Wire.SetActive(Enable);
                     break;
-                }
             case 1:
-                {
                     Button.SetActive(Enable);
                     break;
-                }
             case 2:
-                {
                     foreach (GameObject Adventure in Adventure)
                         Adventure.SetActive(Enable);
                     break;
-                }
             case 4:
-                {
                     foreach (GameObject Symbol in Symbols)
                         Symbol.SetActive(Enable);
                     break;
-                }
             case 5:
-                {
                     foreach (GameObject Alphabet in Alphabet)
                         Alphabet.SetActive(Enable);
                     break;
-                }
             case 6:
-                {
                     foreach (GameObject Key in Piano)
                         Key.SetActive(Enable);
                     break;
-                }
             case 7:
-                {
                     foreach (GameObject Arrow in Arrows)
                         Arrow.SetActive(Enable);
                     break;
-                }
             case 8:
-                {
                     foreach (GameObject Identity in Identity)
                         Identity.SetActive(Enable);
                     break;
-                }
             case 10:
-                {
                     foreach (GameObject Resistor in Resistor)
                         Resistor.SetActive(Enable);
                     break;
-                }
         }
     }
 
@@ -411,6 +412,153 @@ public class CruelModkitScript : MonoBehaviour
         WiresCut.Add(Wire);
     }
 
+    public void CauseButtonStrike(bool IsSymbols,int Button)
+    {
+        StartCoroutine(ButtonStrike(IsSymbols, Button));
+    }
+
+    public IEnumerator ButtonStrike(bool IsSymbols, int Button)
+    {
+        if (IsSymbols)
+        {
+            Symbols[Button].transform.Find("SymbolLED").GetComponentInChildren<Renderer>().material = KeyLightMats[6];
+            yield return new WaitForSeconds(1f);
+            Symbols[Button].transform.Find("SymbolLED").GetComponentInChildren<Renderer>().material = KeyLightMats[0];
+        }
+        else
+        {
+            Alphabet[Button].transform.Find("AlphabetLED").GetComponentInChildren<Renderer>().material = KeyLightMats[6];
+            yield return new WaitForSeconds(1f);
+            Alphabet[Button].transform.Find("AlphabetLED").GetComponentInChildren<Renderer>().material = KeyLightMats[0];
+        }
+    }
+
+    public void RegenWires()
+    {
+        Info.RegenWires();
+        WiresCut.Clear();
+        StartCoroutine(RegenWiresAnim());
+    }
+
+    public IEnumerator RegenWiresAnim()
+    {
+        yield return HideComponent(0);
+
+        for (int i = 0; i < 7; i++)
+        {
+            int Color1 = Info.Wires[0][i];
+            int Color2 = Info.Wires[1][i];
+            if (Color1 != Color2)
+            {
+                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1] + "_" + ComponentInfo.WireColors[Color2]).ToArray()[0];
+            }
+            else
+            {
+                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1]).ToArray()[0];
+            }
+
+            Wires[i].transform.Find("WireHL").gameObject.SetActive(true);
+            Wires[i].GetComponent<MeshFilter>().mesh = WireMesh[0];
+        }
+
+        for (int i = 0; i < WireLED.Length; i++)
+        {
+            WireLED[i].transform.Find("WireLEDL").GetComponentInChildren<Renderer>().material = WireLEDMats[Info.WireLED[i]];
+        }
+
+        yield return ShowComponent(0);
+    }
+
+    // Animations but also sets up Puzzle class
+    void AssignHandlers()
+    {
+        Puzzle = new Puzzle(this, ModuleID, Info, true, TargetComponents);
+
+        for (int i = 0; i < Wires.Length; i++)
+        {
+            int y = i;
+            Wires[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate ()
+            {
+                Puzzle.OnWireCut(y);
+                return false;
+            };
+        }
+
+        Button.GetComponentInChildren<KMSelectable>().OnInteract += delegate ()
+        {
+            StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 1));
+            Puzzle.OnButtonPress();
+            return false;
+        };
+
+        Button.GetComponentInChildren<KMSelectable>().OnInteractEnded += delegate ()
+        {
+            StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 2));
+            Puzzle.OnButtonRelease();
+        };
+
+        for (int i = 0; i < Adventure.Length; i++)
+        {
+            int y = i;
+            Adventure[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate ()
+            {
+                StartCoroutine(AnimateButtonPress(Adventure[y].transform, Vector3.down * 0.0011f));
+                Puzzle.OnAdventurePress(y);
+                return false;
+            };
+        }
+
+        for (int i = 0; i < Symbols.Length; i++)
+        {
+            int y = i;
+            Symbols[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
+            {
+                StartCoroutine(AnimateButtonPress(Symbols[y].transform, Vector3.down * 0.00258f));
+                Puzzle.OnSymbolPress(y);
+                return false;
+            };
+        }
+
+        for (int i = 0; i < Alphabet.Length; i++)
+        {
+            int y = i;
+            Alphabet[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
+            {
+                StartCoroutine(AnimateButtonPress(Alphabet[y].transform, Vector3.down * 0.00258f));
+                Puzzle.OnAlphabetPress(y);
+                return false;
+            };
+        }
+
+        /*for (int x = 0; x < alphabet.Length; x++)
+        {
+            int y = x;
+            alphabet[x].GetComponentInChildren<KMSelectable>().OnInteract += delegate {
+                StartCoroutine(AnimateButtonPress(alphabet[y].transform, Vector3.down * 0.005f));
+                p.OnAlphabetPress(y);
+                return false;
+            };
+        }
+        for (int x = 0; x < arrows.Length; x++)
+        {
+            int y = x;
+            arrows[x].GetComponentInChildren<KMSelectable>().OnInteract += delegate {
+                StartCoroutine(AnimateButtonPress(arrowsBase.transform, Vector3.down * 0.002f));
+                StartCoroutine(AnimateButtonRotationPress(arrowsBase.transform, new[] { Vector3.right, Vector3.left, Vector3.back, Vector3.forward }.ElementAt(y) * 5));
+                p.OnArrowPress(y);
+                return false;
+            };
+        }
+
+        utilityBtn.OnInteract += delegate {
+            StartCoroutine(AnimateButtonPress(utilityBtn.transform, Vector3.down * 0.005f));
+            p.OnUtilityPress();
+            return false;
+        };
+        if (enableBruteTest)
+            p.BruteForceTest();*/
+    }
+    
 
     // Materials
     void ChangeDisplayComponent(KMSelectable Button, int i)
@@ -592,61 +740,7 @@ public class CruelModkitScript : MonoBehaviour
         //       always have at least two numbers and two letters. The puzzle ID range is 100 < x < 1855 as a result
         var Products = SerialNumberPairs.Sum(x => Base36.IndexOf(x[0]) * Base36.IndexOf(x[1])) % 2048;
         TargetComponents = Products.ToString("2").PadLeft(11, '0').Select(x => x == '1').ToArray();
-        Debug.LogFormat("[The Cruel Modkit #{0}] Calculated puzzle ID is {1}.", ModuleID, Products.ToString());
-    }
-
-    // Also animations
-    void AssignHandlers()
-    {
-        Puzzle = new Puzzle(this, ModuleID, Info, true, TargetComponents);
-
-        for (int i = 0; i < Wires.Length; i++)
-        {
-            int y = i;
-            Wires[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate ()
-            {
-                Puzzle.OnWireCut(y);
-                return false;
-            };
-        }
-
-        /*for (int x = 0; x < symbols.Length; x++)
-        {
-            int y = x;
-            symbols[x].GetComponentInChildren<KMSelectable>().OnInteract += delegate {
-                StartCoroutine(AnimateButtonPress(symbols[y].transform, Vector3.down * 0.005f));
-                p.OnSymbolPress(y);
-                return false;
-            };
-        }
-
-        for (int x = 0; x < alphabet.Length; x++)
-        {
-            int y = x;
-            alphabet[x].GetComponentInChildren<KMSelectable>().OnInteract += delegate {
-                StartCoroutine(AnimateButtonPress(alphabet[y].transform, Vector3.down * 0.005f));
-                p.OnAlphabetPress(y);
-                return false;
-            };
-        }
-        for (int x = 0; x < arrows.Length; x++)
-        {
-            int y = x;
-            arrows[x].GetComponentInChildren<KMSelectable>().OnInteract += delegate {
-                StartCoroutine(AnimateButtonPress(arrowsBase.transform, Vector3.down * 0.002f));
-                StartCoroutine(AnimateButtonRotationPress(arrowsBase.transform, new[] { Vector3.right, Vector3.left, Vector3.back, Vector3.forward }.ElementAt(y) * 5));
-                p.OnArrowPress(y);
-                return false;
-            };
-        }
-
-        utilityBtn.OnInteract += delegate {
-            StartCoroutine(AnimateButtonPress(utilityBtn.transform, Vector3.down * 0.005f));
-            p.OnUtilityPress();
-            return false;
-        };
-        if (enableBruteTest)
-            p.BruteForceTest();*/
+        Debug.LogFormat("[The Cruel Modkit #{0}] Puzzle ID is {1}.", ModuleID, Products.ToString());
     }
 
     // Logging

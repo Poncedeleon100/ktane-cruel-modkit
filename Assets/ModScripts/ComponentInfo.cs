@@ -276,4 +276,33 @@ public class ComponentInfo
             MeterValue = 1;
         }
     }
+
+    public void RegenWires()
+    {
+        List<int> Temp = new List<int>();
+        //Generate colors for Wires
+        for (int i = 0; i < 7; i++)
+        {
+            int TempColor1 = Random.Range(0, 12);
+            int TempColor2 = Random.Range(0, 12);
+            if (TempColor1 > TempColor2)
+            {
+                int x = TempColor2;
+                TempColor2 = TempColor1;
+                TempColor1 = x;
+            }
+            Wires[0][i] = TempColor1;
+            Wires[1][i] = TempColor2;
+        }
+        //Generate LEDs/Stars for Wire LEDs
+        while (Temp.Count < 7)
+        {
+            int Star = Random.Range(0, 3);
+            int Color = Random.Range(0, 11);
+            int Coefficient = (Star * 11);
+            Color += Coefficient;
+            Temp.Add(Color);
+        }
+        WireLED = Temp.ToArray();
+    }
 }
