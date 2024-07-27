@@ -13,10 +13,10 @@ public class ComponentInfo
     public static readonly string[] SymbolCharacters = { "©", "★", "☆", "ټ", "Җ", "Ω", "Ѭ", "Ѽ", "ϗ", "ϫ", "Ϭ", "Ϟ", "Ѧ", "æ", "Ԇ", "Ӭ", "҈", "Ҋ", "Ѯ", "¿", "¶", "Ͼ", "Ͽ", "ψ", "Ѫ", "Ҩ", "҂", "Ϙ", "ζ", "ƛ", "Ѣ", "ע", "⦖", "ኒ", "エ", "π", "Э", "⁋", "ᛤ", "Ƿ", "Щ", "ξ", "Ᵹ", "Ю", "௵", "ϑ", "Triquetra", "ꎵ", "よ" };
     //                                                                blue,                  green,                red,             yellow,               cyan,            gold-yellow,            magenta,                 orange,              black,           white
     public static readonly Color[] ArrowLightColors = { new Color(0, 0, 1), new Color(0, .737f, 0), new Color(1, 0, 0), new Color(1, 1, 0), new Color(0, 1, 1), new Color(1, .753f, 0), new Color(1, 0, 1), new Color(1, .647f, 0), new Color(0, 0, 0), new Color(1, 1, 1) };
-    public static readonly string[] IdentityNames = { "Clondar", "Colonel Mustard", "Cyanix", "Dr Orchid", "GhostSalt", "Konoko", "Lanaluff", "Magmy", "Melbor", "Miss Scarlett", "Mrs Peacock", "Mrs White", "Nibs", "Percy", "Pouse", "Professor Plum", "Red Penguin", "Reverend Green", "Sameone", "VFlyer", "Yabbaguy", "Yoshi Dojo" };
-    public static readonly string[] IdentityItems = { "Candlestick", "Wrench", "Lead Pipe", "Rope", "Dagger", "Broom", "Revolver", "Water Gun", "Pearls", "Cane", "Bundle of Wires", "Giant Ring", "Specimen", "Fruit Basket", "Dozen Eggs", "Toolkit", "Hand Mirror", "Simon Says", "Manga", "Fishbowl", "Bomb" };
-    public static readonly string[] IdentityLocations = { "Ballroom", "Conservatory", "Study", "Lounge", "Library", "Dining Room", "Hall", "Dojo", "Barnyard", "Treehouse", "I.T. Centre", "vOld", "Laboratory", "Supermarket", "Island", "Factory", "Home Depot", "Office", "Anime Con", "Arctic Base", "Solitary" };
-    public static readonly string[] IdentityRarity = {"●", "♦", "★", "☆"};
+    public readonly string[] IdentityNames = { "Clondar", "Colonel Mustard", "Cyanix", "Dr Orchid", "GhostSalt", "Konoko", "Lanaluff", "Magmy", "Melbor", "Miss Scarlett", "Mrs Peacock", "Mrs White", "Nibs", "Percy", "Pouse", "Professor Plum", "Red Penguin", "Reverend Green", "Sameone", "VFlyer", "Yabbaguy", "Yoshi Dojo" };
+    public readonly string[] IdentityItems = { "Candlestick", "Wrench", "Lead Pipe", "Rope", "Dagger", "Broom", "Revolver", "Water Gun", "Pearls", "Cane", "Bundle of Wires", "Giant Ring", "Specimen", "Fruit Basket", "Dozen Eggs", "Toolkit", "Hand Mirror", "Simon Says", "Manga", "Fishbowl", "Bomb" };
+    public readonly string[] IdentityLocations = { "Ballroom", "Conservatory", "Study", "Lounge", "Library", "Dining Room", "Hall", "Dojo", "Barnyard", "Treehouse", "I.T. Centre", "vOld", "Laboratory", "Supermarket", "Island", "Factory", "Home Depot", "Office", "Anime Con", "Arctic Base", "Solitary" };
+    public readonly string[] IdentityRarity = {"●", "♦", "★", "☆"};
     //                                                              black,                   blue,               cyan,                      green,               lime,                 orange,                       pink,                     purple,                red,              white,            yellow
     public static readonly Color[] BulbColorsArray = { new Color(0, 0, 0), new Color(0, .498f, 0), new Color(0, 1, 1), new Color(0, .557f, .078f), new Color(0, 1, 0), new Color(1, .502f, 0), new Color(1, .235f, .784f), new Color(.498f, 0, .498f), new Color(1, 0, 0), new Color(1, 1, 1), new Color(1, 1, 0) };
     public static readonly Color[] BulbColorHalosArray = { new Color(0, 0, 0), new Color(0, .498f, 0), new Color(0, 1, 1), new Color(0, .557f, .078f), new Color(0, 1, 0), new Color(1, .502f, 0), new Color(1, .235f, .784f), new Color(.498f, 0, .498f), new Color(1, 0, 0), new Color(1, 1, 1), new Color(1, 1, 0) };
@@ -37,6 +37,11 @@ public class ComponentInfo
     //Colors
     public static readonly Color ButtonTextWhite = new Color(1, 1, 1);
 
+    //Logging
+    public readonly string[] AdventureNames = { "Attack", "Defend", "Item", "Left", "Up", "Down", "Right" };
+    public readonly string[] PianoKeyNames = { "C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B" };
+    public readonly string[] ArrowDirections = { "Up", "Right", "Down", "Left", "Up/Right", "Down/Right", "Down/Left", "Up/Left", "Center" };
+
     //Variables to be accessed in the main script
     public int[][] Wires = new int[][]
     {
@@ -49,9 +54,10 @@ public class ComponentInfo
     public int[] LED;
     public int[] Symbols;
     public string[] Alphabet = new string[6];
+    public int Piano;
     public int[] Arrows = new int[9];
     public Color[] ArrowLights = new Color[9];
-    public string[][] Identity = new string[4][];
+    public int[][] Identity = new int[4][];
     public bool BulbOLeft;
     public bool[] BulbInfo = new bool[4];
     public Color[] BulbColors = new Color[4];
@@ -131,6 +137,8 @@ public class ComponentInfo
             }
             Alphabet[i] = AlphabetKey;
         }
+        //Generate Piano octave
+        Piano = Random.Range(0, 3);
         //Generate arrow colors
         int[] ArrowColors = new int[] { 0, 1, 2, 3 }.OrderBy(x => Random.Range(0, 1000)).ToArray();
         for(int i = 0; i < 4; i++)
@@ -170,10 +178,10 @@ public class ComponentInfo
             ArrowLights[i] = ArrowLightColors[Arrows[i]];
         }
         //Generate Identity information
-        List<string> IdentityTemp = new List<string>();
+        List<int> IdentityTemp = new List<int>();
         while(IdentityTemp.Count < 3)
         {
-            string Name = IdentityNames[Random.Range(0, 22)];
+            int Name = Random.Range(0, 22);
             if(!IdentityTemp.Contains(Name))
                 IdentityTemp.Add(Name);
         }
@@ -181,7 +189,7 @@ public class ComponentInfo
         IdentityTemp.Clear();
         while(IdentityTemp.Count < 3)
         {
-            string Item = IdentityItems[Random.Range(0, 21)];
+            int Item = Random.Range(0, 21);
             if(!IdentityTemp.Contains(Item))
                 IdentityTemp.Add(Item);
         }
@@ -189,13 +197,13 @@ public class ComponentInfo
         IdentityTemp.Clear();
         while(IdentityTemp.Count < 3)
         {
-            string Location = IdentityLocations[Random.Range(0, 21)];
+            int Location = Random.Range(0, 21);
             if(!IdentityTemp.Contains(Location))
                 IdentityTemp.Add(Location);
         }
         Identity[2] = IdentityTemp.ToArray();
         IdentityTemp.Clear();
-        IdentityTemp.Add(IdentityRarity[Random.Range(0, 4)]);
+        IdentityTemp.Add(Random.Range(0, 4));
         Identity[3] = IdentityTemp.ToArray();
         //Generate Bulb colors and button labels
         BulbOLeft = Random.Range(0, 2) == 0;

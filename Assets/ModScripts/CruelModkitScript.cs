@@ -16,7 +16,7 @@ public class CruelModkitScript : MonoBehaviour
     public GameObject[] Doors;
     public GameObject[] Components;
     public KMSelectable[] SelectorButtons;
-    public KMSelectable[] UtilityButton;
+    public KMSelectable UtilityButton;
     public TextMesh DisplayText;
 
     //Materials
@@ -26,6 +26,7 @@ public class CruelModkitScript : MonoBehaviour
     public Material[] LEDMats;
     public Material[] KeyLightMats;
     public Material[] SymbolMats;
+    public AudioClip[] PianoSounds;
     public Material[] ArrowMats;
     public Material[] IdentityMats;
     public Material[] ResistorMats;
@@ -230,6 +231,34 @@ public class CruelModkitScript : MonoBehaviour
                     yield return new WaitForSeconds(0.01f);
                 }
                 break;
+        }
+    }
+
+    public IEnumerator AnimatePianoPress(Transform PianoKey)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            PianoKey.Rotate(0.6f, 0, 0, Space.Self);
+            yield return new WaitForSeconds(0.01f);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            PianoKey.Rotate(-0.6f, 0, 0, Space.Self);
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+
+    public IEnumerator AnimateButtonRotationPress(Transform Object, Vector3 Angle)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            Object.localEulerAngles += Angle / 5;
+            yield return new WaitForSeconds(0.01f);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            Object.localEulerAngles -= Angle / 5;
+            yield return new WaitForSeconds(0.01f);
         }
     }
 
@@ -530,33 +559,56 @@ public class CruelModkitScript : MonoBehaviour
             };
         }
 
-        /*for (int x = 0; x < alphabet.Length; x++)
+        for (int i = 0; i < Piano.Length; i++)
         {
-            int y = x;
-            alphabet[x].GetComponentInChildren<KMSelectable>().OnInteract += delegate {
-                StartCoroutine(AnimateButtonPress(alphabet[y].transform, Vector3.down * 0.005f));
-                p.OnAlphabetPress(y);
-                return false;
-            };
-        }
-        for (int x = 0; x < arrows.Length; x++)
-        {
-            int y = x;
-            arrows[x].GetComponentInChildren<KMSelectable>().OnInteract += delegate {
-                StartCoroutine(AnimateButtonPress(arrowsBase.transform, Vector3.down * 0.002f));
-                StartCoroutine(AnimateButtonRotationPress(arrowsBase.transform, new[] { Vector3.right, Vector3.left, Vector3.back, Vector3.forward }.ElementAt(y) * 5));
-                p.OnArrowPress(y);
+            int y = i;
+            Piano[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
+            {
+                StartCoroutine(AnimatePianoPress(Piano[y].transform));
+                Puzzle.OnPianoPress(y);
                 return false;
             };
         }
 
-        utilityBtn.OnInteract += delegate {
-            StartCoroutine(AnimateButtonPress(utilityBtn.transform, Vector3.down * 0.005f));
-            p.OnUtilityPress();
+        for (int i = 0; i < Arrows.Length; i++)
+        {
+            int y = i;
+            Arrows[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
+            {
+                StartCoroutine(AnimateButtonPress(ArrowsBase.transform, Vector3.down * 0.0002f));
+                StartCoroutine(AnimateButtonRotationPress(ArrowsBase.transform, new[] { Vector3.right, Vector3.back, Vector3.left, Vector3.forward , Vector3.right + Vector3.back, Vector3.left + Vector3.back, Vector3.left + Vector3.forward, Vector3.right + Vector3.forward, Vector3.zero }.ElementAt(y) * 5));
+                Puzzle.OnArrowPress(y);
+                return false;
+            };
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            int y = i;
+            Identity[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
+            {
+                StartCoroutine(AnimateButtonPress(Identity[y].transform, Vector3.down * 0.0017f));
+                Puzzle.OnIdentityPress(y);
+                return false;
+            };
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            int y = i;
+            Resistor[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
+            {
+                Puzzle.OnResistorPress(y);
+                return false;
+            };
+        }
+
+        UtilityButton.OnInteract += delegate
+        {
+            StartCoroutine(AnimateButtonPress(UtilityButton.transform, Vector3.down * 0.00184f));
+            Puzzle.OnUtilityPress();
             return false;
         };
-        if (enableBruteTest)
-            p.BruteForceTest();*/
     }
     
 
@@ -636,13 +688,12 @@ public class CruelModkitScript : MonoBehaviour
             Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = Info.ArrowLights[i];
         }
         //Set materials and text for Identity
-        Identity[0].transform.Find("IdentityFaceIcon").GetComponentInChildren<Renderer>().material = IdentityMats.Where(x => x.name == Info.Identity[0][0]).ToArray()[0];
-        for(int i = 1; i < 4; i++)
-        {
-            Identity[i].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.Identity[i][0];
-        }
+        Identity[0].transform.Find("IdentityFaceIcon").GetComponentInChildren<Renderer>().material = IdentityMats[Info.Identity[0][0]];
+        Identity[1].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityItems[Info.Identity[1][0]];
+        Identity[2].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityLocations[Info.Identity[2][0]];
+        Identity[3].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityRarity[Info.Identity[3][0]];
         //Set I/O buttons and bulb colors/opacity for Bulbs
-        if(Info.BulbOLeft)
+        if (Info.BulbOLeft)
         {
             var p = BulbOFace.position;
             BulbOFace.position = BulbIFace.position;
