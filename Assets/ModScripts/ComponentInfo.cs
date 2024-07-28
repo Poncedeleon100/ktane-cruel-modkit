@@ -12,19 +12,18 @@ public class ComponentInfo
     public static readonly string[] ButtonList = { "Press", "Hold", "Detonate", "Mash", "Tap", "Push", "Abort", "Button", "Click", "_", "Nothing", "No", "I Don't Know", "Yes" };
     public static readonly string[] SymbolCharacters = { "©", "★", "☆", "ټ", "Җ", "Ω", "Ѭ", "Ѽ", "ϗ", "ϫ", "Ϭ", "Ϟ", "Ѧ", "æ", "Ԇ", "Ӭ", "҈", "Ҋ", "Ѯ", "¿", "¶", "Ͼ", "Ͽ", "ψ", "Ѫ", "Ҩ", "҂", "Ϙ", "ζ", "ƛ", "Ѣ", "ע", "⦖", "ኒ", "エ", "π", "Э", "⁋", "ᛤ", "Ƿ", "Щ", "ξ", "Ᵹ", "Ю", "௵", "ϑ", "Triquetra", "ꎵ", "よ" };
     //                                                                blue,                  green,                red,             yellow,               cyan,            gold-yellow,            magenta,                 orange,              black,           white
-    public static readonly Color[] ArrowLightColors = { new Color(0, 0, 1), new Color(0, .737f, 0), new Color(1, 0, 0), new Color(1, 1, 0), new Color(0, 1, 1), new Color(1, .753f, 0), new Color(1, 0, 1), new Color(1, .647f, 0), new Color(0, 0, 0), new Color(1, 1, 1) };
+    public readonly Color[] ArrowLightColors = { new Color(0, 0, 1), new Color(0, .737f, 0), new Color(1, 0, 0), new Color(1, 1, 0), new Color(0, 1, 1), new Color(1, .753f, 0), new Color(1, 0, 1), new Color(1, .647f, 0), new Color(0, 0, 0), new Color(1, 1, 1) };
     public readonly string[] IdentityNames = { "Clondar", "Colonel Mustard", "Cyanix", "Dr Orchid", "GhostSalt", "Konoko", "Lanaluff", "Magmy", "Melbor", "Miss Scarlett", "Mrs Peacock", "Mrs White", "Nibs", "Percy", "Pouse", "Professor Plum", "Red Penguin", "Reverend Green", "Sameone", "VFlyer", "Yabbaguy", "Yoshi Dojo" };
     public readonly string[] IdentityItems = { "Candlestick", "Wrench", "Lead Pipe", "Rope", "Dagger", "Broom", "Revolver", "Water Gun", "Pearls", "Cane", "Bundle of Wires", "Giant Ring", "Specimen", "Fruit Basket", "Dozen Eggs", "Toolkit", "Hand Mirror", "Simon Says", "Manga", "Fishbowl", "Bomb" };
     public readonly string[] IdentityLocations = { "Ballroom", "Conservatory", "Study", "Lounge", "Library", "Dining Room", "Hall", "Dojo", "Barnyard", "Treehouse", "I.T. Centre", "vOld", "Laboratory", "Supermarket", "Island", "Factory", "Home Depot", "Office", "Anime Con", "Arctic Base", "Solitary" };
     public readonly string[] IdentityRarity = {"●", "♦", "★", "☆"};
     //                                                              black,                   blue,               cyan,                      green,               lime,                 orange,                       pink,                     purple,                red,              white,            yellow
-    public static readonly Color[] BulbColorsArray = { new Color(0, 0, 0), new Color(0, .498f, 0), new Color(0, 1, 1), new Color(0, .557f, .078f), new Color(0, 1, 0), new Color(1, .502f, 0), new Color(1, .235f, .784f), new Color(.498f, 0, .498f), new Color(1, 0, 0), new Color(1, 1, 1), new Color(1, 1, 0) };
-    public static readonly Color[] BulbColorHalosArray = { new Color(0, 0, 0), new Color(0, .498f, 0), new Color(0, 1, 1), new Color(0, .557f, .078f), new Color(0, 1, 0), new Color(1, .502f, 0), new Color(1, .235f, .784f), new Color(.498f, 0, .498f), new Color(1, 0, 0), new Color(1, 1, 1), new Color(1, 1, 0) };
+    public readonly Color[] BulbColorsArray = { new Color(0, 0, 0), new Color(0, .498f, 0), new Color(0, 1, 1), new Color(0, .557f, .078f), new Color(0, 1, 0), new Color(1, .502f, 0), new Color(1, .235f, .784f), new Color(.498f, 0, .498f), new Color(1, 0, 0), new Color(1, 1, 1), new Color(1, 1, 0) };
     public static readonly string[] WordList = { "YES", "FIRST", "DISPLAY", "A DISPLAY", "OKAY", "OK", "SAYS", "SEZ", "NOTHING", "_", "BLANK", "IT’S BLANK", "NO", "KNOW", "NOSE", "KNOWS", "LED", "LEAD", "LEED", "READ", "RED", "REED", "HOLD ON", "YOU", "U", "YOU ARE", "UR", "YOUR", "YOU’RE", "THERE", "THEY’RE", "THEIR", "THEY ARE", "SEE", "C", "SEA", "CEE", "READY", "WHAT", "WHAT?", "UH", "UHHH", "UH UH", "UH HUH", "LEFT", "RIGHT", "WRITE", "MIDDLE", "WAIT", "WAIT!", "WEIGHT", "PRESS", "DONE", "DUMB", "NEXT", "HOLD", "SURE", "LIKE", "LICK", "LEEK", "LEAK", "I", "INDIA", "EYE" };
     public readonly string[] MorseList = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
     //For converting adjacent colors into their associated slider colors. Colors within string pairs are ordered alphabetically: Blue, Green, Red, Yellow
-    Dictionary<string, int> SliderColors = new Dictionary<string, int>
+    readonly Dictionary<string, int> SliderColors = new Dictionary<string, int>
     {
         { "01", 4 }, //Cyan
         { "12", 5 }, //Golden Yellow
@@ -56,11 +55,9 @@ public class ComponentInfo
     public string[] Alphabet = new string[6];
     public int Piano;
     public int[] Arrows = new int[9];
-    public Color[] ArrowLights = new Color[9];
     public int[][] Identity = new int[4][];
-    public bool BulbOLeft;
-    public bool[] BulbInfo = new bool[4];
-    public Color[] BulbColors = new Color[4];
+    public bool[] BulbInfo = new bool[5];
+    public Color[] BulbColors = new Color[2];
     public int[][] ResistorColors = new int[4][];
     public string[] ResistorText;
     public int TimerDisplay;
@@ -173,10 +170,6 @@ public class ComponentInfo
             Arrows[i + 4] = SliderColors[TempSliders[i]];
         }
         Arrows[8] = Random.Range(8, 10);
-        for(int i = 0; i < 9; i++)
-        {
-            ArrowLights[i] = ArrowLightColors[Arrows[i]];
-        }
         //Generate Identity information
         List<int> IdentityTemp = new List<int>();
         while(IdentityTemp.Count < 3)
@@ -206,8 +199,14 @@ public class ComponentInfo
         IdentityTemp.Add(Random.Range(0, 4));
         Identity[3] = IdentityTemp.ToArray();
         //Generate Bulb colors and button labels
-        BulbOLeft = Random.Range(0, 2) == 0;
-        for(int i = 0; i < 2; i++)
+        // BulbInfo layout:
+        // 0 = Opacity of Bulb 1
+        // 1 = Opacity of Bulb 2
+        // 2 = Whether Bulb 1 starts on or off
+        // 3 = Whether Bulb 2 starts on or off
+        // 4 = Is the O button on the left?
+        BulbInfo[4] = Random.Range(0, 2) == 0;
+        for (int i = 0; i < 2; i++)
         {
             //Opacity of the bulb
             BulbInfo[i] = Random.Range(0, 2) == 0;
@@ -217,10 +216,7 @@ public class ComponentInfo
             int ColorIndex = Random.Range(0, BulbColorsArray.Length);
             Color TempBulbColor1 = BulbColorsArray[ColorIndex];
             TempBulbColor1[3] = BulbInfo[i] ? 1f : .55f;
-            Color TempBulbColor2 = BulbColorHalosArray[ColorIndex];
-            TempBulbColor2[3] = BulbInfo[i] ? 1f : .55f;
             BulbColors[i] = TempBulbColor1;
-            BulbColors[i + 2] = TempBulbColor2;
         }
         //Generate text and colors for Resistor
         Temp.Clear();

@@ -45,11 +45,7 @@ public class CruelModkitScript : MonoBehaviour
     public GameObject[] Arrows;
     public Transform ArrowsBase;
     public GameObject[] Identity;
-    public Transform BulbOFace;
-    public Transform BulbIFace;
-    public Light[] BulbLights;
-    public MeshRenderer[] BulbGlass;
-    public GameObject[] BulbFilaments;
+    public GameObject[] Bulbs;
     public GameObject[] Resistor;
     public TextMesh[] WidgetText;
     public Light MorseLight;
@@ -685,7 +681,7 @@ public class CruelModkitScript : MonoBehaviour
         for(int i = 0; i < 9; i++)
         {
             Arrows[i].GetComponentInChildren<Renderer>().material = ArrowMats[Info.Arrows[i]];
-            Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = Info.ArrowLights[i];
+            Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = Info.ArrowLightColors[Info.Arrows[i]];
         }
         //Set materials and text for Identity
         Identity[0].transform.Find("IdentityFaceIcon").GetComponentInChildren<Renderer>().material = IdentityMats[Info.Identity[0][0]];
@@ -693,22 +689,22 @@ public class CruelModkitScript : MonoBehaviour
         Identity[2].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityLocations[Info.Identity[2][0]];
         Identity[3].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityRarity[Info.Identity[3][0]];
         //Set I/O buttons and bulb colors/opacity for Bulbs
-        if (Info.BulbOLeft)
+        if (Info.BulbInfo[4])
         {
-            var p = BulbOFace.position;
-            BulbOFace.position = BulbIFace.position;
-            BulbIFace.position = p;
+            var p = Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<Transform>().position;
+            Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<Transform>().position = Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<Transform>().position;
+            Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<Transform>().position = p;
         }
         for(int i = 0; i < 2; i++)
         {
             //Set filament visibility based on opacity of the bulb
-            BulbFilaments[i].SetActive(!Info.BulbInfo[i]);
+            Bulbs[i].transform.Find("Filament").gameObject.SetActive(!Info.BulbInfo[i]);
             //Set bulb glass color and opacity
-            BulbGlass[i].material.color = Info.BulbColors[i];
+            Bulbs[i].transform.Find("Glass").GetComponentInChildren<Renderer>().material.color = Info.BulbColors[i];
             //Set bulb light color
-            BulbLights[i].color = BulbLights[i + 2].color = Info.BulbColors[i + 2];
+            Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().color = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().color = Info.BulbColors[i];
             //Turns the lights on or off, might be moved to a different function later
-            BulbLights[i].enabled = BulbLights[i + 2].enabled = Info.BulbInfo[i + 2];
+            Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = Info.BulbInfo[i + 2];
         }
         //Set materials and text for Resistor
         for(int i = 0; i < 4; i++)
