@@ -29,6 +29,7 @@ public class CruelModkitScript : MonoBehaviour
     public AudioClip[] PianoSounds;
     public Material[] ArrowMats;
     public Material[] IdentityMats;
+    public AudioClip[] BulbSounds;
     public Material[] ResistorMats;
     public Material[] MorseMats;
     public Material[] MeterMats;
@@ -257,6 +258,30 @@ public class CruelModkitScript : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
     }
+    public void HandleBulbScrew(int Bulb, bool ScrewIn)
+    {
+        StartCoroutine(AnimateBulbScrew(Bulb, ScrewIn));
+    }
+
+    public IEnumerator AnimateBulbScrew(int Bulb, bool ScrewIn)
+    {
+        Animating = true;
+
+        if (ScrewIn)
+            Bulbs[Bulb].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Bulbs[Bulb].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = false;
+
+        for (int i = 0; i < 100; i++)
+        {
+            Bulbs[Bulb].transform.localEulerAngles += new Vector3(0, (ScrewIn ? 540 : -540), 0) / 100;
+            Bulbs[Bulb].transform.localPosition += new Vector3(0, (ScrewIn ? 0.0055f : -0.0055f), 0) / 100;
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        if (!ScrewIn)
+            Bulbs[Bulb].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Bulbs[Bulb].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = Info.BulbInfo[2 + Bulb];
+
+        Animating = false;
+    }
 
     public IEnumerator ShowComponent(int Component)
     {
@@ -422,6 +447,10 @@ public class CruelModkitScript : MonoBehaviour
             case 8:
                     foreach (GameObject Identity in Identity)
                         Identity.SetActive(Enable);
+                    break;
+            case 9:
+                    foreach (GameObject Bulbs in Bulbs)
+                        Bulbs.SetActive(Enable);
                     break;
             case 10:
                     foreach (GameObject Resistor in Resistor)
@@ -589,6 +618,27 @@ public class CruelModkitScript : MonoBehaviour
             };
         }
 
+        for (int i = 0; i < 2; i++)
+        {
+            int y = i;
+            Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
+            {
+                Puzzle.OnBulbInteract(y);
+                return false;
+            };
+        }
+
+        for (int i = 2; i < 4; i++)
+        {
+            int y = i;
+            Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
+            {
+                StartCoroutine(AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f));
+                Puzzle.OnBulbButtonPress(y);
+                return false;
+            };
+        }
+
         for (int i = 0; i < 4; i++)
         {
             int y = i;
@@ -691,9 +741,9 @@ public class CruelModkitScript : MonoBehaviour
         //Set I/O buttons and bulb colors/opacity for Bulbs
         if (Info.BulbInfo[4])
         {
-            var p = Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<Transform>().position;
-            Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<Transform>().position = Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<Transform>().position;
-            Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<Transform>().position = p;
+            var p = Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh;
+            Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh;
+            Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = p;
         }
         for(int i = 0; i < 2; i++)
         {
@@ -703,7 +753,7 @@ public class CruelModkitScript : MonoBehaviour
             Bulbs[i].transform.Find("Glass").GetComponentInChildren<Renderer>().material.color = Info.BulbColors[i];
             //Set bulb light color
             Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().color = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().color = Info.BulbColors[i];
-            //Turns the lights on or off, might be moved to a different function later
+            //Turns the lights on or off
             Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = Info.BulbInfo[i + 2];
         }
         //Set materials and text for Resistor

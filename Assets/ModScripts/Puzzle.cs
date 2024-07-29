@@ -26,6 +26,7 @@ public class Puzzle
 
     private readonly int[] IdentityDisplay = new int[3];
     private readonly int[] ResistorDisplay = new int[4];
+    private readonly bool[] BulbScrewedIn = { true, true };
 
     public virtual void OnWireCut(int Wire)
     {
@@ -195,6 +196,52 @@ public class Puzzle
         Module.Identity[Identity].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
 
         ChangeIdentityDisplay(Identity);
+
+        return;
+    }
+
+    public virtual void OnBulbButtonPress(int Button)
+    {
+        if (Module.IsAnimating())
+            return;
+
+        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
+        Module.Bulbs[Button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+
+        if (Module.IsModuleSolved())
+            return;
+
+        if (!Module.CheckValidComponents())
+        {
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 2) == Info.BulbInfo[4] ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
+            Module.CauseStrike();
+            return;
+        }
+
+        Module.StartSolve();
+    }
+
+    public virtual void OnBulbInteract(int Bulb)
+    {
+        if (Module.IsAnimating())
+            return;
+
+        Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb]);
+
+        BulbScrewedIn[Bulb] = !BulbScrewedIn[Bulb];
+
+        Module.Audio.PlaySoundAtTransform(Module.BulbSounds[BulbScrewedIn[Bulb] ? 0 : 1].name, Module.transform);
+        Module.Bulbs[Bulb].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+
+        if (Module.IsModuleSolved())
+            return;
+
+        if (!Module.CheckValidComponents() && !BulbScrewedIn[Bulb])
+        {
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} bulb was removed when the component selection was [{2}] instead of [{3}].", ModuleID, (Bulb + 1) == 1 ? "first" : "second", Module.GetOnComponents(), Module.GetTargetComponents());
+            Module.CauseStrike();
+            return;
+        }
 
         return;
     }
