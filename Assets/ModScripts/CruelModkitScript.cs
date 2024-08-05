@@ -57,9 +57,9 @@ public class CruelModkitScript : MonoBehaviour
     List<int> WiresCut = new List<int>();
 
     //Component Selector Info
-    readonly string[] ComponentNames = new string[] { "Wires", "Button", "Adventure", "LED", "Symbols", "Alphabet", "Piano", "Arrows", "Identity", "Bulbs", "Resistor" };
-    bool[] OnComponents = new bool[11];
-    bool[] TargetComponents = new bool[11];
+    readonly string[] ComponentNames = new string[] { "Wires", "Button", "Adventure", "Symbols", "Alphabet", "Piano", "Arrows", "Bulbs" };
+    readonly bool[] OnComponents = new bool[8];
+    bool[] TargetComponents = new bool[8];
     int CurrentComponent = 0;
 
     ComponentInfo Info;
@@ -116,20 +116,27 @@ public class CruelModkitScript : MonoBehaviour
     // Logging
     static int ModuleIDCounter = 1;
     int ModuleID;
-    private bool ModuleSolved;
+    readonly private bool ModuleSolved;
     private bool Solving;
     private bool Animating;
 
     // These are public variables needed to communicate with the Puzzle class.
 
     public bool IsModuleSolved() => ModuleSolved;
-    public bool CheckValidComponents() => OnComponents.SequenceEqual(TargetComponents);
+    public bool CheckValidComponents()
+    {
+        for (int i = 0; i < OnComponents.Length; i++)
+            if (OnComponents[i] != TargetComponents[i])
+                return false;
+
+        return true;
+    }
     public bool IsAnimating() => Animating;
 
     private bool HasStruck = false; // TP Handling, send a strike handling if the module struck. To prevent excessive inputs.
 
     // Use these for debugging individual puzzles.
-    private bool ForceComponents, ForceByModuleID;
+    readonly private bool ForceComponents, ForceByModuleID;
     // Settings
 
     void Awake ()
@@ -167,10 +174,10 @@ public class CruelModkitScript : MonoBehaviour
             DisplayText.text = ComponentNames[CurrentComponent];
         }
         AssignHandlers();
-        for (int i = 0; i < 11; i++)
+        for (int i = 0; i < Components.Length; i++)
         {
             SetSelectables(i, ForceComponents ? TargetComponents[i] : false);
-            OnComponents[i] = ForceComponents && TargetComponents[i];
+            //OnComponents[i] = ForceComponents && TargetComponents[i];
         }
         // Settings
     }
@@ -293,7 +300,6 @@ public class CruelModkitScript : MonoBehaviour
         {
             case 0:
             case 3:
-            case 4:
                 for (int i = 0; i < 10; i++)
                 {
                     Doors[Component].transform.localPosition += new Vector3(-0.08f, 0, 0);
@@ -308,30 +314,22 @@ public class CruelModkitScript : MonoBehaviour
                     yield return new WaitForSeconds(0.025f);
                 }
                 break;
+            case 4:
             case 5:
-            case 6:
                 for (int i = 0; i < 10; i++)
                 {
                     Doors[Component].transform.localPosition += new Vector3(0.08f, 0, 0);
                     yield return new WaitForSeconds(0.025f);
                 }
                 break;
-            case 7:
+            case 6:
                 for (int i = 0; i < 10; i++)
                 {
                     Doors[Component].transform.localPosition += new Vector3(0.0489f, 0, 0);
                     yield return new WaitForSeconds(0.025f);
                 }
                 break;
-            case 8:
-                for (int i = 0; i < 10; i++)
-                {
-                    Doors[Component].transform.localPosition += new Vector3(0.0298f, 0, 0);
-                    yield return new WaitForSeconds(0.025f);
-                }
-                break;
-            case 9:
-            case 10:
+            case 7:
                 for (int i = 0; i < 10; i++)
                 {
                     Doors[Component].transform.localPosition += new Vector3(0.0237f, 0, 0);
@@ -362,7 +360,6 @@ public class CruelModkitScript : MonoBehaviour
         {
             case 0:
             case 3:
-            case 4:
                 for (int i = 0; i < 10; i++)
                 {
                     Doors[Component].transform.localPosition += new Vector3(0.08f, 0, 0);
@@ -377,30 +374,22 @@ public class CruelModkitScript : MonoBehaviour
                     yield return new WaitForSeconds(0.025f);
                 }
                 break;
+            case 4:
             case 5:
-            case 6:
                 for (int i = 0; i < 10; i++)
                 {
                     Doors[Component].transform.localPosition += new Vector3(-0.08f, 0, 0);
                     yield return new WaitForSeconds(0.025f);
                 }
                 break;
-            case 7:
+            case 6:
                 for (int i = 0; i < 10; i++)
                 {
                     Doors[Component].transform.localPosition += new Vector3(-0.0489f, 0, 0);
                     yield return new WaitForSeconds(0.025f);
                 }
                 break;
-            case 8:
-                for (int i = 0; i < 10; i++)
-                {
-                    Doors[Component].transform.localPosition += new Vector3(-0.0298f, 0, 0);
-                    yield return new WaitForSeconds(0.025f);
-                }
-                break;
-            case 9:
-            case 10:
+            case 7:
                 for (int i = 0; i < 10; i++)
                 {
                     Doors[Component].transform.localPosition += new Vector3(-0.0237f, 0, 0);
@@ -428,33 +417,25 @@ public class CruelModkitScript : MonoBehaviour
                     foreach (GameObject Adventure in Adventure)
                         Adventure.SetActive(Enable);
                     break;
-            case 4:
+            case 3:
                     foreach (GameObject Symbol in Symbols)
                         Symbol.SetActive(Enable);
                     break;
-            case 5:
+            case 4:
                     foreach (GameObject Alphabet in Alphabet)
                         Alphabet.SetActive(Enable);
                     break;
-            case 6:
+            case 5:
                     foreach (GameObject Key in Piano)
                         Key.SetActive(Enable);
                     break;
-            case 7:
+            case 6:
                     foreach (GameObject Arrow in Arrows)
                         Arrow.SetActive(Enable);
                     break;
-            case 8:
-                    foreach (GameObject Identity in Identity)
-                        Identity.SetActive(Enable);
-                    break;
-            case 9:
+            case 7:
                     foreach (GameObject Bulbs in Bulbs)
                         Bulbs.SetActive(Enable);
-                    break;
-            case 10:
-                    foreach (GameObject Resistor in Resistor)
-                        Resistor.SetActive(Enable);
                     break;
         }
     }
@@ -526,7 +507,10 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        Puzzle = new Puzzle(this, ModuleID, Info, true, TargetComponents);
+        for (int i = 0; i < ComponentNames.Length; i++)
+            TargetComponents[i] = true;
+
+        Puzzle = new TestPuzzle(this, ModuleID, Info, true, TargetComponents);
 
         for (int i = 0; i < Wires.Length; i++)
         {
@@ -607,17 +591,6 @@ public class CruelModkitScript : MonoBehaviour
             };
         }
 
-        for (int i = 0; i < 3; i++)
-        {
-            int y = i;
-            Identity[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
-            {
-                StartCoroutine(AnimateButtonPress(Identity[y].transform, Vector3.down * 0.0017f));
-                Puzzle.OnIdentityPress(y);
-                return false;
-            };
-        }
-
         for (int i = 0; i < 2; i++)
         {
             int y = i;
@@ -635,16 +608,6 @@ public class CruelModkitScript : MonoBehaviour
             {
                 StartCoroutine(AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f));
                 Puzzle.OnBulbButtonPress(y);
-                return false;
-            };
-        }
-
-        for (int i = 0; i < 4; i++)
-        {
-            int y = i;
-            Resistor[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
-            {
-                Puzzle.OnResistorPress(y);
                 return false;
             };
         }
@@ -734,10 +697,10 @@ public class CruelModkitScript : MonoBehaviour
             Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = Info.ArrowLightColors[Info.Arrows[i]];
         }
         //Set materials and text for Identity
-        Identity[0].transform.Find("IdentityFaceIcon").GetComponentInChildren<Renderer>().material = IdentityMats[Info.Identity[0][0]];
-        Identity[1].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityItems[Info.Identity[1][0]];
-        Identity[2].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityLocations[Info.Identity[2][0]];
-        Identity[3].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityRarity[Info.Identity[3][0]];
+        Identity[0].transform.Find("IdentityFaceIcon").GetComponentInChildren<Renderer>().material = IdentityMats[Info.Identity[0]];
+        Identity[1].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityItems[Info.Identity[1]];
+        Identity[2].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityLocations[Info.Identity[2]];
+        Identity[3].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityRarity[Info.Identity[3]];
         //Set I/O buttons and bulb colors/opacity for Bulbs
         if (Info.BulbInfo[4])
         {
@@ -750,27 +713,23 @@ public class CruelModkitScript : MonoBehaviour
             //Set filament visibility based on opacity of the bulb
             Bulbs[i].transform.Find("Filament").gameObject.SetActive(!Info.BulbInfo[i]);
             //Set bulb glass color and opacity
-            Bulbs[i].transform.Find("Glass").GetComponentInChildren<Renderer>().material.color = Info.BulbColors[i];
+            Color TempBulbColor = Info.BulbColorsArray[Info.BulbColors[i]];
+            TempBulbColor[3] = Info.BulbInfo[i] ? 1f : .55f;
+            Bulbs[i].transform.Find("Glass").GetComponentInChildren<Renderer>().material.color = TempBulbColor;
             //Set bulb light color
-            Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().color = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().color = Info.BulbColors[i];
+            Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().color = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().color = TempBulbColor;
             //Turns the lights on or off
             Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = Info.BulbInfo[i + 2];
         }
         //Set materials and text for Resistor
         for(int i = 0; i < 4; i++)
         {
-            Resistor[i].GetComponentInChildren<Renderer>().material = ResistorMats[Info.ResistorColors[i][0]];
+            Resistor[i].GetComponentInChildren<Renderer>().material = ResistorMats[Info.ResistorColors[i]];
         }
         Resistor[4].GetComponentInChildren<TextMesh>().text = Info.ResistorText[0];
         Resistor[5].GetComponentInChildren<TextMesh>().text = Info.ResistorText[1];
         //Set timer display text
-        string TempString = System.String.Empty;
-        if (Info.TimerDisplay < 10)
-        {
-            TempString += "0";
-        }
-        TempString += Info.TimerDisplay.ToString();
-        WidgetText[0].text = TempString;
+        WidgetText[0].text = Info.TimerDisplay.ToString().PadLeft(2, '0');
         //Set word display text
         WidgetText[1].text = Info.WordDisplay;
         //Set number display text
@@ -780,9 +739,9 @@ public class CruelModkitScript : MonoBehaviour
         //Set meter value and color
         Meter.GetComponentInChildren<Renderer>().material = MeterMats[Info.MeterColor];
         //Changes the meter so it matches the value from Info.MeterValue; adjusts scale first then shifts the position down
-        float TempNumber = 0.003882663f * Info.MeterValue; //.00388 is the original Z scale
+        float TempNumber = 0.003882663f * (float)Info.MeterValue; //.00388 is the original Z scale
         Meter.transform.localScale = new Vector3(0.0005912599f, 0.01419745f, TempNumber);
-        TempNumber = -0.02739999f - ((0.03884f * (1 - Info.MeterValue)) / 2); //-.0273 is the original Z position, .0388 is the original length
+        TempNumber = -0.02739999f - ((0.03884f * (1 - (float)Info.MeterValue)) / 2); //-.0273 is the original Z position, .0388 is the original length
         Meter.transform.localPosition = new Vector3(-0.04243f, 0.01436f, TempNumber);
     }
 
@@ -831,28 +790,31 @@ public class CruelModkitScript : MonoBehaviour
         var Base36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         // 2. Calculate a puzzle ID from the base36 value
         // Formula : nth pair value, P(n) = base36 of first character * base36 of second character
-        // (Separated for convenience): Puzzle ID = ( P(1) + P(2) + P(3) ) % 2048
-        //
-        // Note: This will need to be modified since serial numbers can't contain O or Y and will
-        //       always have at least two numbers and two letters. The puzzle ID range is 100 < x < 1855 as a result
-        var Products = SerialNumberPairs.Sum(x => Base36.IndexOf(x[0]) * Base36.IndexOf(x[1])) % 2048;
+        // (Separated for convenience): Puzzle ID = ( P(1) + P(2) + P(3) ) % 255
+        var Products = SerialNumberPairs.Sum(x => Base36.IndexOf(x[0]) * Base36.IndexOf(x[1])) % 256;
         TargetComponents = Products.ToString("2").PadLeft(11, '0').Select(x => x == '1').ToArray();
-        Debug.LogFormat("[The Cruel Modkit #{0}] Puzzle ID is {1}.", ModuleID, Products.ToString());
+        Debug.LogFormat("[The Cruel Modkit #{0}] Puzzle ID is {1}. Binary conversion is {2}.", ModuleID, Products.ToString(), Convert.ToString(Products, 2).PadLeft(8, '0'));
+        var j = 0;
+        foreach (char c in Convert.ToString(Products, 2).PadLeft(8, '0'))
+        {
+            if (c == '1')
+                TargetComponents[j] = true;
+            else
+                TargetComponents[j] = false;
+            j++;
+        }
+        Debug.LogFormat("[The Cruel Modkit #{0}] Calculated components are: [{1}].", ModuleID, GetTargetComponents());
     }
 
     // Logging
     public string GetOnComponents()
     {
-        return OnComponents.Any(a => a)
-            ? ComponentNames.Where(x => OnComponents[Array.IndexOf(ComponentNames, x)]).Join(", ")
-            : "None";
+        return OnComponents.Any(a => a) ? ComponentNames.Where(x => OnComponents[Array.IndexOf(ComponentNames, x)]).Join(", ") : "None";
     }
 
     public string GetTargetComponents()
     {
-        return TargetComponents.Any(a => a)
-            ? ComponentNames.Where(x => TargetComponents[Array.IndexOf(ComponentNames, x)]).Join(", ")
-            : "None";
+        return TargetComponents.Any(a => a) ? ComponentNames.Where(x => TargetComponents[Array.IndexOf(ComponentNames, x)]).Join(", ") : "None";
     }
 
     // Twitch Plays

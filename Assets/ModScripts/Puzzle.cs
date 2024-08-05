@@ -6,13 +6,14 @@ using System.Net.NetworkInformation;
 using System.Security.Principal;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using KModkit;
 
 public class Puzzle
 {
-    private CruelModkitScript Module;
-    private int ModuleID;
-    private ComponentInfo Info;
-    private bool Vanilla;
+    protected CruelModkitScript Module;
+    protected int ModuleID;
+    protected ComponentInfo Info;
+    protected bool Vanilla;
     public bool[] Components;
 
     public Puzzle(CruelModkitScript Module, int ModuleID, ComponentInfo Info, bool Vanilla, bool[] Components)
@@ -24,14 +25,13 @@ public class Puzzle
         this.Components = Components;
     }
 
-    private readonly int[] IdentityDisplay = new int[3];
-    private readonly int[] ResistorDisplay = new int[4];
     private readonly bool[] BulbScrewedIn = { true, true };
 
     public virtual void OnWireCut(int Wire)
     {
         if (Module.IsAnimating())
             return;
+
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.WireSnip, Module.transform);
         Module.CutWire(Wire);
 
@@ -187,19 +187,6 @@ public class Puzzle
         Module.StartSolve();
     }
 
-    public virtual void OnIdentityPress(int Identity)
-    {
-        if (Module.IsAnimating())
-            return;
-
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Identity[Identity].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
-
-        ChangeIdentityDisplay(Identity);
-
-        return;
-    }
-
     public virtual void OnBulbButtonPress(int Button)
     {
         if (Module.IsAnimating())
@@ -242,19 +229,6 @@ public class Puzzle
             Module.CauseStrike();
             return;
         }
-
-        return;
-    }
-
-    public virtual void OnResistorPress(int Resistor)
-    {
-        if (Module.IsAnimating())
-            return;
-
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Resistor[Resistor].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
-
-        ChangeResistorDisplay(Resistor);
 
         return;
     }
@@ -304,23 +278,4 @@ public class Puzzle
     }
 
     public IEnumerator CurrentFlashingArrow;
-
-    void ChangeIdentityDisplay(int Button)
-    {
-        IdentityDisplay[Button] += 1;
-        if (IdentityDisplay[Button] >= 3)
-            IdentityDisplay[Button] -= 3;
-        if (Button == 0)
-            Module.Identity[0].transform.Find("IdentityFaceIcon").GetComponentInChildren<Renderer>().material = Module.IdentityMats[Info.Identity[0][IdentityDisplay[Button]]];
-        else
-            Module.Identity[Button].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityItems[Info.Identity[Button][IdentityDisplay[Button]]];
-    }
-
-    void ChangeResistorDisplay(int Button)
-    {
-        ResistorDisplay[Button] += 1;
-        if (ResistorDisplay[Button] >= 3)
-            ResistorDisplay[Button] -= 3;
-        Module.Resistor[Button].transform.GetComponentInChildren<Renderer>().material = Module.ResistorMats[Info.ResistorColors[Button][ResistorDisplay[Button]]];
-    }
 }
