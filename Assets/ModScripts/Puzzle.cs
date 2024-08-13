@@ -81,26 +81,6 @@ public class Puzzle
         return;
     }
 
-    public virtual void OnAdventurePress(int Button)
-    {
-        if (Module.IsAnimating())
-            return;
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Adventure[Button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
-
-        if (Module.IsModuleSolved())
-            return;
-
-        if (!Module.CheckValidComponents())
-        {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button on Adventure was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.AdventureNames[Button], Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
-        }
-
-        Module.StartSolve();
-    }
-
     public virtual void OnSymbolPress(int Symbol)
     {
         if (Module.IsAnimating())
@@ -116,7 +96,7 @@ public class Puzzle
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Symbol {1} was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Symbol + 1, Module.GetOnComponents(), Module.GetTargetComponents());
             Module.CauseStrike();
-            Module.CauseButtonStrike(true, Symbol);
+            Module.StartCoroutine(Module.ButtonStrike(true, Symbol));
             return;
         }
 
@@ -138,7 +118,7 @@ public class Puzzle
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Alphanumeric key {1} was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Alphabet + 1, Module.GetOnComponents(), Module.GetTargetComponents());
             Module.CauseStrike();
-            Module.CauseButtonStrike(false, Alphabet);
+            Module.ButtonStrike(false, Alphabet);
             return;
         }
 

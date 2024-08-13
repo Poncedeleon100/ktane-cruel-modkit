@@ -11,6 +11,7 @@ public class ComponentInfo
 {
     public static readonly string[] WireColors = { "Black", "Blue", "Cyan", "Green", "Grey", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow" };
     public readonly string[] MainColors = { "Black", "Blue", "Cyan", "Green", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow" , "Gold" , "Silver" };
+    public readonly string[] ResistorColorNames = { "Black", "White", "Blue", "Brown", "Grey", "Green", "Orange", "Purple", "Red", "Yellow", "Gold", "Silver" };
     public readonly string[] MeterColors = { "Red", "Orange", "Yellow", "Green", "Blue", "Purple" };
     public static readonly string[] ButtonList = { "Press", "Hold", "Detonate", "Mash", "Tap", "Push", "Abort", "Button", "Click", "_", "Nothing", "No", "I Don't Know", "Yes" };
     public static readonly string[] SymbolCharacters = { "©", "★", "☆", "ټ", "Җ", "Ω", "Ѭ", "Ѽ", "ϗ", "ϫ", "Ϭ", "Ϟ", "Ѧ", "æ", "Ԇ", "Ӭ", "҈", "Ҋ", "Ѯ", "¿", "¶", "Ͼ", "Ͽ", "ψ", "Ѫ", "Ҩ", "҂", "Ϙ", "ζ", "ƛ", "Ѣ", "ע", "⦖", "ኒ", "エ", "π", "Э", "⁋", "ᛤ", "Ƿ", "Щ", "ξ", "Ᵹ", "Ю", "௵", "ϑ", "Triquetra", "ꎵ", "よ" };
@@ -41,7 +42,6 @@ public class ComponentInfo
     public static readonly Color ButtonTextWhite = new Color(1, 1, 1);
 
     //Logging
-    public readonly string[] AdventureNames = { "Attack", "Defend", "Item", "Left", "Up", "Down", "Right" };
     public readonly string[] PianoKeyNames = { "C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B" };
     public readonly string[] ArrowDirections = { "Up", "Right", "Down", "Left", "Up/Right", "Down/Right", "Down/Left", "Up/Left", "Center" };
 
@@ -59,11 +59,12 @@ public class ComponentInfo
     public string[] Alphabet = new string[6];
     public int Piano;
     public int[] Arrows = new int[9];
-    public int[] Identity = new int[4];
     public bool[] BulbInfo = new bool[5];
     public int[] BulbColors = new int[2];
-    public int[] ResistorColors = new int[4];
-    public string[] ResistorText;
+    public int[] Identity = new int[4];
+    public bool[] ResistorReversed = new bool[2];
+    public int[] ResistorColors = new int[8];
+    public string[] ResistorText = new string[4];
     public int TimerDisplay;
     public string WordDisplay;
     public int NumberDisplay;
@@ -177,11 +178,6 @@ public class ComponentInfo
             Arrows[i + 4] = SliderColors[TempSliders[i]];
         }
         Arrows[8] = Random.Range(8, 10);
-        //Generate Identity information
-        Identity[0] = Random.Range(0, IdentityNames.Length);
-        Identity[1] = Random.Range(0, IdentityItems.Length);
-        Identity[2] = Random.Range(0, IdentityLocations.Length);
-        Identity[3] = Random.Range(0, IdentityRarity.Length);
         //Generate Bulb colors and button labels
         // BulbInfo layout:
         // 0 = Is Bulb 1 opaque?
@@ -192,25 +188,48 @@ public class ComponentInfo
         BulbInfo[4] = Random.Range(0, 2) == 0;
         for (int i = 0; i < 2; i++)
         {
+            //Color of the bulb
+            BulbColors[i] = Random.Range(0, BulbColorsArray.Length);
             //Opacity of the bulb
             BulbInfo[i] = Random.Range(0, 2) == 0;
             //Whether it starts on or not
             BulbInfo[i + 2] = Random.Range(0, 2) == 0;
-            //Color of the bulb
-            BulbColors[i] = Random.Range(0, BulbColorsArray.Length);
+            //If the bulb is black, then the light should be off
+            if (BulbColors[i] == 0)
+                BulbInfo[i + 2] = false;
         }
+        //Generate Identity information
+        Identity[0] = Random.Range(0, IdentityNames.Length);
+        Identity[1] = Random.Range(0, IdentityItems.Length);
+        Identity[2] = Random.Range(0, IdentityLocations.Length);
+        Identity[3] = Random.Range(0, IdentityRarity.Length);
         //Generate text and colors for Resistor
         Temp.Clear();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < ResistorReversed.Length; i++)
+            ResistorReversed[i] = Random.Range(0, 2) == 0;
+        // Generation based on actual resistors
+        for (int i = 0; i < 2; i++)
         {
-            ResistorColors[i] = Random.Range(0, 13);
+            if (ResistorReversed[i])
+            {
+                ResistorColors[i] = Random.Range(2, 12);
+                ResistorColors[i + 2] = Random.Range(0, 12);
+                ResistorColors[i + 4] = Random.Range(0, 10);
+                ResistorColors[i + 6] = Random.Range(1, 10);
+            }
+            else
+            {
+                ResistorColors[i] = Random.Range(1, 10);
+                ResistorColors[i + 2] = Random.Range(0, 10);
+                ResistorColors[i + 4] = Random.Range(0, 12);
+                ResistorColors[i + 6] = Random.Range(2, 12);
+            }
         }
         string[] ResistorLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray().Select(x => x.ToString()).OrderBy(x => Random.Range(0, 1000)).ToArray();
-        ResistorText = new string[2];
-        ResistorText[0] = ResistorLetters[0];
-        ResistorText[1] = ResistorLetters[1];
+        for (int i = 0; i < ResistorText.Length; i++)
+            ResistorText[i] = ResistorLetters[i];
         //Generate timer text
-        TimerDisplay = Random.Range(0, 100);
+        TimerDisplay = Random.Range(0, 100000);
         //Generate word display text
         WordDisplay = WordList[Random.Range(0, WordList.Length)];
         //Generate number display text
@@ -377,12 +396,24 @@ public class ComponentInfo
         return "Up: " + ArrowColors[Arrows[0]] + ", Right: " + ArrowColors[Arrows[1]] + ", Down: " + ArrowColors[Arrows[2]] + ", Left: " + ArrowColors[Arrows[3]] + ", Up-Right: " + ArrowColors[Arrows[4]] + ", Down-Right: " + ArrowColors[Arrows[5]] + ", Down-Left: " + ArrowColors[Arrows[6]] + ", Up-Left: " + ArrowColors[Arrows[7]] + ", Center: " + ArrowColors[Arrows[8]];
     }
 
-    public string GetResistorInfo()
+    public string GetResistorInfo(int ResistorNumber)
     {
         List<string> Names = new List<string>();
 
-        for (int i = 0; i < ResistorColors.Length; i++)
-            Names.Add(MainColors[ResistorColors[i]]);
+        if (ResistorReversed[ResistorNumber])
+        {
+            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 6]]);
+            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 4]]);
+            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 2]]);
+            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 0]]);
+        }
+        else
+        {
+            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 0]]);
+            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 2]]);
+            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 4]]);
+            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 6]]);
+        }
 
         return Names.Join(", ");
     }

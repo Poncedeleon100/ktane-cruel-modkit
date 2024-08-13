@@ -8,7 +8,7 @@
    height="256"
    viewBox="0 0 256 256"
    sodipodi:docname="Textures.svg"
-   inkscape:export-filename="Yellow.png"
+   inkscape:export-filename="..\Brown.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    xml:space="preserve"
@@ -29,7 +29,7 @@
      inkscape:deskcolor="#505050"
      inkscape:zoom="1.6676395"
      inkscape:cx="97.742947"
-     inkscape:cy="124.12755"
+     inkscape:cy="124.42737"
      inkscape:window-width="1920"
      inkscape:window-height="1001"
      inkscape:window-x="-9"
@@ -142,12 +142,12 @@
        x="-356.10062"
        y="-110.66029"
        inkscape:label="Black" /></g><rect
-     style="display:inline;fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:6.06976"
+     style="display:inline;fill:#7d4004;fill-opacity:1;stroke:none;stroke-width:6.06976"
      id="rect5"
      width="256"
      height="256"
      x="0"
      y="0" /><path
      id="path5"
-     style="display:inline;fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:3.99948"
+     style="display:inline;fill:#7d4004;fill-opacity:1;stroke:none;stroke-width:3.99948"
      d="M 219.91543,256 0.06698247,35.340771 0,50.890771 204.40314,256 Z m 15.57854,0 H 251.3677 L 0.06698247,3.3730312 V 19.781481 Z m -61.47019,0 h 15.0248 L 0.03347124,66.425141 v 15.27234 z M 126.66646,256 0.03347124,129.2256 v 15.71552 L 111.15417,256 Z m 15.57853,0 h 15.87374 L 0.03347124,97.257861 v 16.408449 z m -61.850787,0 H 95.419002 L 0.03347124,160.48892 v 15.27233 z M 33.036883,256 0.03347124,223.28939 V 239.0049 L 17.524592,256 Z m 15.578534,0 H 64.489154 L 0.03347124,191.32165 v 16.40844 z M 43.282735,0 255.93302,213.84013 256,198.29013 58.795027,0 Z M 27.704201,0 H 11.830465 L 255.93302,245.80787 V 229.39942 Z M 89.174392,0 H 74.149593 L 255.96653,182.75576 V 167.48342 Z M 136.53171,0 255.96653,119.9553 V 104.23978 L 152.044,0 Z m -15.57854,0 h -15.87373 l 150.88709,151.92304 v -16.40845 z m 61.85079,0 h -15.0248 l 88.18737,88.69198 V 73.419645 Z m 47.35732,0 25.80525,25.891512 V 10.176 L 245.67357,0 Z m -15.57853,0 h -15.87374 l 57.25752,57.859254 V 41.450805 Z" /></svg>
