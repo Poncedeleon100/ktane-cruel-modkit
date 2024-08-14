@@ -25,7 +25,7 @@ public class Puzzle
         this.Components = Components;
     }
 
-    private readonly bool[] BulbScrewedIn = { true, true };
+    public readonly bool[] BulbScrewedIn = { true, true };
 
     public virtual void OnWireCut(int Wire)
     {
@@ -193,7 +193,7 @@ public class Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb]);
+        Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], Info.BulbInfo[Bulb + 2]);
 
         BulbScrewedIn[Bulb] = !BulbScrewedIn[Bulb];
 

@@ -265,12 +265,12 @@ public class CruelModkitScript : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
     }
-    public void HandleBulbScrew(int Bulb, bool ScrewIn)
+    public void HandleBulbScrew(int Bulb, bool ScrewIn, bool KeepLightOn = true)
     {
-        StartCoroutine(AnimateBulbScrew(Bulb, ScrewIn));
+        StartCoroutine(AnimateBulbScrew(Bulb, ScrewIn, KeepLightOn));
     }
 
-    public IEnumerator AnimateBulbScrew(int Bulb, bool ScrewIn)
+    public IEnumerator AnimateBulbScrew(int Bulb, bool ScrewIn, bool KeepLightOn = true)
     {
         Animating = true;
 
@@ -285,7 +285,7 @@ public class CruelModkitScript : MonoBehaviour
         }
 
         if (!ScrewIn)
-            Bulbs[Bulb].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Bulbs[Bulb].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = Info.BulbInfo[2 + Bulb];
+            Bulbs[Bulb].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Bulbs[Bulb].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = KeepLightOn;
 
         Animating = false;
     }
@@ -498,12 +498,9 @@ public class CruelModkitScript : MonoBehaviour
     IEnumerator PlaySolveAnim()
     {
         // Solve animation is split into stages so that the doors don't overlap
-        bool[] Stage1Active = { OnComponents[0], OnComponents[1]  };
-        bool[] Stage2Active = { OnComponents[2], OnComponents[3] };
-        bool[] Stage3Active = { OnComponents[4], OnComponents[5], OnComponents[6], OnComponents[7] };
         for (int i = 0; i < OnComponents.Length; i++)
         {
-            if ((i == 2 && (Stage1Active[1] && Stage2Active[0]) || (i == 4 && (Stage2Active[1] && Stage3Active[0])) || (i == 5 && (Stage2Active[0] && (Stage3Active[1] || Stage3Active[2]))) || (i >= 6 && (Stage1Active[0] && (Stage3Active[2] || Stage3Active[3])))))
+            if ((i == 4 && ((OnComponents[3] && OnComponents[4]) || ((OnComponents[1] || OnComponents[2]) && (OnComponents[5] || OnComponents[6])) || (OnComponents[0] && (OnComponents[6] || OnComponents[7])))))
                 yield return new WaitForSeconds(1f);
             if (OnComponents[i])
                 StartCoroutine(HideComponent(i));
