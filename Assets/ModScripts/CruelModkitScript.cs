@@ -687,6 +687,7 @@ public class CruelModkitScript : MonoBehaviour
         {
             Arrows[i].GetComponentInChildren<Renderer>().material = ArrowMats[Info.Arrows[i]];
             Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = Info.ArrowLightColors[Info.Arrows[i]];
+            Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().intensity += (Info.Arrows[i] == 8) ? 10 : 0;
         }
         //Set I/O buttons and bulb colors/opacity for Bulbs
         if (Info.BulbInfo[4])
@@ -709,10 +710,10 @@ public class CruelModkitScript : MonoBehaviour
             Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = Info.BulbInfo[i + 2];
         }
         //Set materials and text for Identity
-        Identity[0].transform.Find("IdentityFaceIcon").GetComponentInChildren<Renderer>().material = IdentityMats[Info.Identity[0]];
-        Identity[1].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityItems[Info.Identity[1]];
-        Identity[2].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityLocations[Info.Identity[2]];
-        Identity[3].transform.Find("IdentityText").GetComponentInChildren<TextMesh>().text = Info.IdentityRarity[Info.Identity[3]];
+        Identity[0].transform.GetComponentInChildren<Renderer>().material = IdentityMats[Info.Identity[0]];
+        Identity[1].transform.GetComponentInChildren<TextMesh>().text = Info.IdentityItems[Info.Identity[1]];
+        Identity[2].transform.GetComponentInChildren<TextMesh>().text = Info.IdentityLocations[Info.Identity[2]];
+        Identity[3].transform.GetComponentInChildren<TextMesh>().text = Info.IdentityRarity[Info.Identity[3]];
         //Set materials and text for Resistor
         for (int i = 0; i < ResistorStrips.Length; i++)
             ResistorStrips[i].GetComponentInChildren<Renderer>().material = ResistorMats[Info.ResistorColors[i]];
@@ -797,17 +798,8 @@ public class CruelModkitScript : MonoBehaviour
         // Formula : nth pair value, P(n) = base36 of first character * base36 of second character
         // (Separated for convenience): Puzzle ID = ( P(1) + P(2) + P(3) ) % 255
         var Products = SerialNumberPairs.Sum(x => Base36.IndexOf(x[0]) * Base36.IndexOf(x[1])) % 256;
-        TargetComponents = Products.ToString("2").PadLeft(11, '0').Select(x => x == '1').ToArray();
         Debug.LogFormat("[The Cruel Modkit #{0}] Puzzle ID is {1}. Binary conversion is {2}.", ModuleID, Products.ToString(), Convert.ToString(Products, 2).PadLeft(8, '0'));
-        var j = 0;
-        foreach (char c in Convert.ToString(Products, 2).PadLeft(8, '0'))
-        {
-            if (c == '1')
-                TargetComponents[j] = true;
-            else
-                TargetComponents[j] = false;
-            j++;
-        }
+        TargetComponents = Convert.ToString(Products, 2).PadLeft(8, '0').Select(x => x == '1').ToArray();
         Debug.LogFormat("[The Cruel Modkit #{0}] Calculated components are: [{1}].", ModuleID, GetTargetComponents());
     }
 
