@@ -7290,7 +7290,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1714251885444588}
   m_LocalRotation: {x: -0.7071068, y: -0, z: 0.000000029802322, w: -0.7071067}
-  m_LocalPosition: {x: 0.00668, y: 0.00686, z: -0.009379912}
+  m_LocalPosition: {x: 0.0066799987, y: 0.00686, z: -0.009504008}
   m_LocalScale: {x: 0.21677622, y: 0.15634325, z: 0.21677619}
   m_Children: []
   m_Father: {fileID: 4768016307340140}
@@ -8622,7 +8622,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1265720989306944}
   m_LocalRotation: {x: 0.00000008940697, y: 0.7071068, z: 0.7071067, w: 0.00000011920929}
-  m_LocalPosition: {x: 0.0065700077, y: 0.006650003, z: -0.009379932}
+  m_LocalPosition: {x: 0.006570009, y: 0.006650003, z: -0.009504008}
   m_LocalScale: {x: 0.21677628, y: 0.1563432, z: 0.21677601}
   m_Children: []
   m_Father: {fileID: 4063782671357174}
@@ -9698,7 +9698,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1189084747716618}
   m_LocalRotation: {x: 0.50000006, y: -0.50000006, z: -0.49999994, w: 0.49999994}
-  m_LocalPosition: {x: 0.00686, y: 0.00659, z: -0.009379912}
+  m_LocalPosition: {x: 0.00686, y: 0.0065900013, z: -0.009503989}
   m_LocalScale: {x: 0.21677609, y: 0.15634325, z: 0.21677607}
   m_Children: []
   m_Father: {fileID: 4628368552444362}
@@ -10046,7 +10046,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1042190534272836}
   m_LocalRotation: {x: 0.5000002, y: 0.50000006, z: 0.4999999, w: 0.49999994}
-  m_LocalPosition: {x: 0.0066499966, y: 0.0065700007, z: -0.009379932}
+  m_LocalPosition: {x: 0.0066499966, y: 0.00657, z: -0.009504}
   m_LocalScale: {x: 0.21677588, y: 0.15634324, z: 0.21677603}
   m_Children: []
   m_Father: {fileID: 4919819321024442}
@@ -22025,8 +22025,8 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 0, b: 1, a: 1}
-  m_Intensity: 10
-  m_Range: 0.0045071533
+  m_Intensity: 15
+  m_Range: 0.006466577
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -22169,8 +22169,8 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0, g: 1, b: 1, a: 1}
-  m_Intensity: 10
-  m_Range: 0.0045071533
+  m_Intensity: 15
+  m_Range: 0.006466577
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -22205,8 +22205,8 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10
-  m_Range: 0.0045071533
+  m_Intensity: 15
+  m_Range: 0.006466577
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -22241,8 +22241,8 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 0.64705884, b: 0, a: 1}
-  m_Intensity: 10
-  m_Range: 0.0045071533
+  m_Intensity: 15
+  m_Range: 0.006466577
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -24626,6 +24626,16 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 2ecda823758716e4aa8792c37bb7200b, type: 2}
   - {fileID: 2100000, guid: 0f62d7d8002c05e4db7d11b9cb4ced5d, type: 2}
   - {fileID: 2100000, guid: ab8937bf36d95d141a2fb9f9fb9ce968, type: 2}
+  ArrowSounds:
+  - {fileID: 8300000, guid: 262fff27842b5984a837ae0853f32450, type: 3}
+  - {fileID: 8300000, guid: d6861f39d675b554e87594b6b5c1c996, type: 3}
+  - {fileID: 8300000, guid: 420fdeae3979f5b42b85f70fa770de8d, type: 3}
+  - {fileID: 8300000, guid: 671331208d32358408c335d7fd1e20b6, type: 3}
+  - {fileID: 8300000, guid: a60acd8fbb2dd044ca8820898943c9f3, type: 3}
+  - {fileID: 8300000, guid: bc8acca3012bb454c9235af5c8d12621, type: 3}
+  - {fileID: 8300000, guid: 55b1589cdb9a769409a86b7a6363f7e3, type: 3}
+  - {fileID: 8300000, guid: b055b28bb678134408557618aad11953, type: 3}
+  - {fileID: 8300000, guid: d275dab36a7bf2a42bf6a5c9277341a7, type: 3}
   BulbSounds:
   - {fileID: 8300000, guid: 9adf9db9ebd78354f993f02b19605522, type: 3}
   - {fileID: 8300000, guid: fb54f89d5c411ef4f9948dfea96d2efc, type: 3}
@@ -24773,6 +24783,21 @@ MonoBehaviour:
   WireMesh:
   - {fileID: 4300000, guid: c721f5cbb2b540b49950da0915400b86, type: 3}
   - {fileID: 4300000, guid: 3cceb1a5311fd7146844170f6cfe307a, type: 3}
+  LightsArray:
+  - {fileID: 108101105992676770}
+  - {fileID: 108143208411414582}
+  - {fileID: 108969478534523610}
+  - {fileID: 108035518203172786}
+  - {fileID: 108438769796550982}
+  - {fileID: 108950370324892020}
+  - {fileID: 108837309224747238}
+  - {fileID: 108801138779165304}
+  - {fileID: 108153665906686408}
+  - {fileID: 108578313057620834}
+  - {fileID: 108095120140124778}
+  - {fileID: 108999872893598872}
+  - {fileID: 108044152301425636}
+  - {fileID: 108325454685232092}
 --- !u!114 &114414340335025950
 MonoBehaviour:
   m_ObjectHideFlags: 1

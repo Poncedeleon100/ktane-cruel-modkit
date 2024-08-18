@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using KModkit;
+using HarmonyLib;
 
 public class CruelModkitScript : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class CruelModkitScript : MonoBehaviour
     public Material[] SymbolMats;
     public AudioClip[] PianoSounds;
     public Material[] ArrowMats;
+    public AudioClip[] ArrowSounds;
     public AudioClip[] BulbSounds;
     public Material[] IdentityMats;
     public Material[] ResistorMats;
@@ -55,6 +57,9 @@ public class CruelModkitScript : MonoBehaviour
 
     public Mesh[] WireMesh;
     List<int> WiresCut = new List<int>();
+
+    //Fixes light sizes on different bomb sizes
+    public Light[] LightsArray;
 
     //Component Selector Info
     readonly string[] ComponentNames = new string[] { "Wires", "Button", "LED", "Symbols", "Alphabet", "Piano", "Arrows", "Bulbs" };
@@ -162,6 +167,12 @@ public class CruelModkitScript : MonoBehaviour
 
     void Start ()
     {
+        //Fixes light sizes on different size bombs
+        float scalar = transform.lossyScale.x;
+        Debug.LogFormat(scalar.ToString());
+        for (int i = 0; i < LightsArray.Length; i++)
+            LightsArray[i].range *= scalar;
+
         SetUpComponents();
         // Settings
         if (ForceComponents) // Settings - Check if the components need to be forced on.
@@ -796,11 +807,19 @@ public class CruelModkitScript : MonoBehaviour
         var Base36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         // 2. Calculate a puzzle ID from the base36 value
         // Formula : nth pair value, P(n) = base36 of first character * base36 of second character
-        // (Separated for convenience): Puzzle ID = ( P(1) + P(2) + P(3) ) % 255
+        // (Separated for convenience): Puzzle ID = ( P(1) + P(2) + P(3) ) % 256
         var Products = SerialNumberPairs.Sum(x => Base36.IndexOf(x[0]) * Base36.IndexOf(x[1])) % 256;
         Debug.LogFormat("[The Cruel Modkit #{0}] Puzzle ID is {1}. Binary conversion is {2}.", ModuleID, Products.ToString(), Convert.ToString(Products, 2).PadLeft(8, '0'));
         TargetComponents = Convert.ToString(Products, 2).PadLeft(8, '0').Select(x => x == '1').ToArray();
         Debug.LogFormat("[The Cruel Modkit #{0}] Calculated components are: [{1}].", ModuleID, GetTargetComponents());
+        //Alternate calculation method: Convert serial number from base36 to base10, then to binary, then calculate the components
+        double AltPuzzleID = 0;
+        foreach (char c in SerialNumber)
+            AltPuzzleID += (Base36.IndexOf(c) * Math.Pow(36, (SerialNumber.Length - 1) - SerialNumber.IndexOf(c)));
+        var AltPuzzleBinary = Convert.ToString(Convert.ToInt64(AltPuzzleID), 2).PadLeft(8, '0');
+        Debug.LogFormat("[The Cruel Modkit #{0}] Alternate Puzzle ID is {1}. Binary conversion is {2}. Trimmed binary number is {3}.", ModuleID, AltPuzzleID, Convert.ToString(Convert.ToInt64(AltPuzzleID), 2), AltPuzzleBinary.Substring(1, 8));
+        TargetComponents = AltPuzzleBinary.Substring(1, 8).Select(x => x == '1').ToArray();
+        Debug.LogFormat("[The Cruel Modkit #{0}] Alternate calculated components are: [{1}].", ModuleID, GetTargetComponents());
     }
 
     // Logging

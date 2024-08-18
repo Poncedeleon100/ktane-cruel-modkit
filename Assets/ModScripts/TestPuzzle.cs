@@ -156,6 +156,7 @@ public class TestPuzzle : Puzzle
             return;
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
+        Module.Audio.PlaySoundAtTransform(Module.ArrowSounds[Arrow].name, Module.transform);
         Module.Arrows[Arrow].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
 
         if (Module.IsModuleSolved())
