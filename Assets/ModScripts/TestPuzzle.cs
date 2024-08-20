@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Security.Principal;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using KModkit;
-using Mono.Cecil;
 using Random = UnityEngine.Random;
 
 
@@ -17,7 +15,7 @@ public class TestPuzzle : Puzzle
 
     public TestPuzzle(CruelModkitScript Module, int ModuleID, ComponentInfo Info, bool Vanilla, bool[] Components) : base(Module, ModuleID, Info, Vanilla, Components)
     {
-        Debug.LogFormat("[The Cruel Modkit #{0}] Solving the TestPuzzle.", ModuleID);
+        Debug.LogFormat("[The Cruel Modkit #{0}] Solving the Test Puzzle.", ModuleID);
         Debug.LogFormat("[The Cruel Modkit #{0}] Wires present: {1}.", ModuleID, Info.GetWireInfo());
         Debug.LogFormat("[The Cruel Modkit #{0}] Wire LEDs present: {1}.", ModuleID, Info.GetWireLEDInfo());
         Debug.LogFormat("[The Cruel Modkit #{0}] Button is {1}.", ModuleID, Info.GetButtonInfo());
@@ -29,7 +27,7 @@ public class TestPuzzle : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] Identity is {1}, with item {2}, at the location {3}, and a rarity of {4}.", ModuleID, Info.IdentityNames[Info.Identity[0]], Info.IdentityItems[Info.Identity[1]], Info.IdentityLocations[Info.Identity[2]], Info.IdentityRarity[Info.Identity[3]]);
         Debug.LogFormat("[The Cruel Modkit #{0}] Resistor 1 colors are (Reading from {1}): {2}. Left letter is {3}, right letter is {4}.", ModuleID, Info.ResistorReversed[0] ? "right to left" : "left to right", Info.GetResistorInfo(0), Info.ResistorText[0], Info.ResistorText[1]);
         Debug.LogFormat("[The Cruel Modkit #{0}] Resistor 2 colors are (Reading from {1}): {2}. Left letter is {3}, right letter is {4}.", ModuleID, Info.ResistorReversed[1] ? "right to left" : "left to right", Info.GetResistorInfo(1), Info.ResistorText[2], Info.ResistorText[3]);
-        Debug.LogFormat("[The Cruel Modkit #{0}] Widgets: Timer display is {1}. Word display is {2}. Number display is {3}. Morse code LED is {4}. Meter is {5} and at {6}%.", ModuleID, Info.TimerDisplay.ToString().PadLeft(2, '0'), Info.WordDisplay == "" ? "blank" : Info.WordDisplay, Info.NumberDisplay, Info.Morse, (Info.MeterValue == 0) ? "none" : Info.MeterColors[Info.MeterColor], (100 * Math.Round(Info.MeterValue, 2)).ToString());
+        Debug.LogFormat("[The Cruel Modkit #{0}] Widgets: Timer display is {1}. Word display is {2}. Number display is {3}. Morse code LED is {4}. Meter is {5} and at {6}%.", ModuleID, Info.TimerDisplay.ToString().PadLeft(5, '0'), Info.WordDisplay == "" ? "blank" : Info.WordDisplay, Info.NumberDisplay, Info.Morse, (Info.MeterValue == 0) ? "none" : Info.MeterColors[Info.MeterColor], (100 * Math.Round(Info.MeterValue, 2)).ToString());
     }
 
     List<int> WiresCut = new List<int>();
@@ -66,7 +64,7 @@ public class TestPuzzle : Puzzle
             return;
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonPress, Module.transform);
-        Module.Button.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Button.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
 
         if (Module.IsModuleSolved())
             return;
@@ -92,7 +90,7 @@ public class TestPuzzle : Puzzle
             return;
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Symbols[Symbol].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Symbols[Symbol].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
 
         if (Module.IsModuleSolved())
             return;
@@ -117,7 +115,7 @@ public class TestPuzzle : Puzzle
             return;
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Alphabet[Alphabet].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Alphabet[Alphabet].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
 
         if (Module.IsModuleSolved())
             return;
@@ -142,7 +140,7 @@ public class TestPuzzle : Puzzle
             return;
 
         Module.Audio.PlaySoundAtTransform(Module.PianoSounds[Piano + (Info.Piano * 12)].name, Module.transform);
-        Module.Piano[Piano].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Piano[Piano].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
 
         if (Module.IsModuleSolved())
             return;
@@ -157,7 +155,7 @@ public class TestPuzzle : Puzzle
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
         Module.Audio.PlaySoundAtTransform(Module.ArrowSounds[Arrow].name, Module.transform);
-        Module.Arrows[Arrow].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Arrows[Arrow].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
 
         if (Module.IsModuleSolved())
             return;
@@ -172,7 +170,7 @@ public class TestPuzzle : Puzzle
             return;
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Bulbs[Button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Bulbs[Button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
 
         if (Module.IsModuleSolved())
             return;
@@ -192,7 +190,7 @@ public class TestPuzzle : Puzzle
         BulbScrewedIn[Bulb] = !BulbScrewedIn[Bulb];
 
         Module.Audio.PlaySoundAtTransform(Module.BulbSounds[BulbScrewedIn[Bulb] ? 0 : 1].name, Module.transform);
-        Module.Bulbs[Bulb].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Bulbs[Bulb].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
 
         if (Module.IsModuleSolved())
             return;

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using KModkit;
-using HarmonyLib;
 
 public class CruelModkitScript : MonoBehaviour
 {
@@ -142,7 +141,8 @@ public class CruelModkitScript : MonoBehaviour
 
     // Use these for debugging individual puzzles.
     readonly private bool ForceComponents, ForceByModuleID;
-    // Settings
+    CruelModkitSettings ModConfig = new CruelModkitSettings();
+    private string SelectModule;
 
     void Awake ()
     {
@@ -162,14 +162,25 @@ public class CruelModkitScript : MonoBehaviour
             ChangeDisplayComponent(SelectorButtons[2], 1);
             return false;
         };
-        // Settings
+
+        try
+        {
+            ModConfig<CruelModkitSettings> CruelModkitJSON = new ModConfig<CruelModkitSettings>("CruelModkitSettings");
+            ModConfig = CruelModkitJSON.Read();
+
+            SelectModule = ModConfig.SelectModule;
+        }
+        catch
+        {
+            Debug.LogErrorFormat("[The Cruel Modkit #{0}] The settings encountered an error and are going back to the default behavior.", ModuleID);
+            SelectModule = "Timer Timings";
+        }
     }
 
     void Start ()
     {
         //Fixes light sizes on different size bombs
         float scalar = transform.lossyScale.x;
-        Debug.LogFormat(scalar.ToString());
         for (int i = 0; i < LightsArray.Length; i++)
             LightsArray[i].range *= scalar;
 
@@ -521,10 +532,26 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        for (int i = 0; i < ComponentNames.Length; i++)
-            TargetComponents[i] = true;
+        switch (SelectModule)
+        {
+            case "Timer Timings":
+                for (int i = 0; i < ComponentNames.Length; i++)
+                    TargetComponents[i] = false;
+                Puzzle = new TimerTimings(this, ModuleID, Info, true, TargetComponents);
+                break;
+            case "Test Puzzle":
+                for (int i = 0; i < ComponentNames.Length; i++)
+                    TargetComponents[i] = true;
+                Puzzle = new TestPuzzle(this, ModuleID, Info, true, TargetComponents);
+                break;
+            default:
+                for (int i = 0; i < ComponentNames.Length; i++)
+                    TargetComponents[i] = true;
+                Puzzle = new TestPuzzle(this, ModuleID, Info, true, TargetComponents);
+                break;
+        }
 
-        Puzzle = new TestPuzzle(this, ModuleID, Info, true, TargetComponents);
+        
 
         for (int i = 0; i < Wires.Length; i++)
         {
@@ -813,13 +840,13 @@ public class CruelModkitScript : MonoBehaviour
         TargetComponents = Convert.ToString(Products, 2).PadLeft(8, '0').Select(x => x == '1').ToArray();
         Debug.LogFormat("[The Cruel Modkit #{0}] Calculated components are: [{1}].", ModuleID, GetTargetComponents());
         //Alternate calculation method: Convert serial number from base36 to base10, then to binary, then calculate the components
-        double AltPuzzleID = 0;
+        /*double AltPuzzleID = 0;
         foreach (char c in SerialNumber)
             AltPuzzleID += (Base36.IndexOf(c) * Math.Pow(36, (SerialNumber.Length - 1) - SerialNumber.IndexOf(c)));
         var AltPuzzleBinary = Convert.ToString(Convert.ToInt64(AltPuzzleID), 2).PadLeft(8, '0');
         Debug.LogFormat("[The Cruel Modkit #{0}] Alternate Puzzle ID is {1}. Binary conversion is {2}. Trimmed binary number is {3}.", ModuleID, AltPuzzleID, Convert.ToString(Convert.ToInt64(AltPuzzleID), 2), AltPuzzleBinary.Substring(1, 8));
         TargetComponents = AltPuzzleBinary.Substring(1, 8).Select(x => x == '1').ToArray();
-        Debug.LogFormat("[The Cruel Modkit #{0}] Alternate calculated components are: [{1}].", ModuleID, GetTargetComponents());
+        Debug.LogFormat("[The Cruel Modkit #{0}] Alternate calculated components are: [{1}].", ModuleID, GetTargetComponents());*/
     }
 
     // Logging
@@ -832,6 +859,28 @@ public class CruelModkitScript : MonoBehaviour
     {
         return TargetComponents.Any(a => a) ? ComponentNames.Where(x => TargetComponents[Array.IndexOf(ComponentNames, x)]).Join(", ") : "None";
     }
+
+    // Mod settings
+    public static readonly Dictionary<string, object>[] TweaksEditorSettings = new Dictionary<string, object>[]
+    {
+        new Dictionary<string, object>
+        {
+            { "Filename", "CruelModkitSettings.json" },
+            { "Name", "Cruel Modkit Settings" },
+            { "Listings", new List<Dictionary<string, object>>
+            {
+                new Dictionary<string, object>
+                {
+                    { "Key", "SelectModule" },
+                    { "Text", "Select Module" },
+                    { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
+                    { "Type", "Dropdown" },
+                    { "DropdownItems", new List<object> { "Timer Timings", "Test Puzzle" } }
+                },
+            }
+            },
+        }
+    };
 
     // Twitch Plays
 #pragma warning disable 414
