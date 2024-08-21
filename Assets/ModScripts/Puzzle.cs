@@ -13,9 +13,9 @@ public class Puzzle
     protected int ModuleID;
     protected ComponentInfo Info;
     protected bool Vanilla;
-    public bool[] Components;
+    public byte Components;
 
-    public Puzzle(CruelModkitScript Module, int ModuleID, ComponentInfo Info, bool Vanilla, bool[] Components)
+    public Puzzle(CruelModkitScript Module, int ModuleID, ComponentInfo Info, bool Vanilla, byte Components)
     {
         this.Module = Module;
         this.ModuleID = ModuleID;

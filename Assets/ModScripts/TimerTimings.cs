@@ -27,7 +27,7 @@ public class TimerTimings : Puzzle
         "A and B = the amount of lit or unlit indicators"
     };
 
-    public TimerTimings(CruelModkitScript Module, int ModuleID, ComponentInfo Info, bool Vanilla, bool[] Components) : base(Module, ModuleID, Info, Vanilla, Components)
+    public TimerTimings(CruelModkitScript Module, int ModuleID, ComponentInfo Info, bool Vanilla, byte Components) : base(Module, ModuleID, Info, Vanilla, Components)
     {
         Debug.LogFormat("[The Cruel Modkit #{0}] Solving Timer Timings. Press the ❖ button to activate the timer.", ModuleID);
         Debug.LogFormat("[The Cruel Modkit #{0}] Number display is {1}. Correct rule to follow is: \"{2}.\"", ModuleID, Info.NumberDisplay, RuleList[Info.NumberDisplay]);

@@ -61,10 +61,25 @@ public class CruelModkitScript : MonoBehaviour
     public Light[] LightsArray;
 
     //Component Selector Info
-    readonly string[] ComponentNames = new string[] { "Wires", "Button", "LED", "Symbols", "Alphabet", "Piano", "Arrows", "Bulbs" };
-    readonly bool[] OnComponents = new bool[8];
-    bool[] TargetComponents = new bool[8];
-    int CurrentComponent = 0;
+    [Flags]
+    public enum ComponentsEnum : byte {
+        Wires = 1,
+        Button = 2,
+        LED = 4,
+        Symbols = 8,
+        Alphabet = 16,
+        Piano = 32,
+        Arrows = 64,
+        Bulbs = 128
+    }
+
+    public int CountComponents(ComponentsEnum comps) {
+        return new BitArray(new[] {(byte)comps}).OfType<bool>().Count(x => x);
+    }
+
+    byte OnComponents = 0;
+    byte TargetComponents = 0;
+    ComponentsEnum CurrentComponent = ComponentsEnum.Wires;
 
     ComponentInfo Info;
     Puzzle Puzzle;
@@ -129,11 +144,7 @@ public class CruelModkitScript : MonoBehaviour
     public bool IsModuleSolved() => ModuleSolved;
     public bool CheckValidComponents()
     {
-        for (int i = 0; i < OnComponents.Length; i++)
-            if (OnComponents[i] != TargetComponents[i])
-                return false;
-
-        return true;
+        return OnComponents == TargetComponents;
     }
     public bool IsAnimating() => Animating;
 
@@ -193,12 +204,13 @@ public class CruelModkitScript : MonoBehaviour
         else
         {
             CalcComponents();
-            DisplayText.text = ComponentNames[CurrentComponent];
+            DisplayText.text = CurrentComponent.ToString("F");
         }
         AssignHandlers();
         for (int i = 0; i < Components.Length; i++)
         {
-            SetSelectables(i, ForceComponents ? TargetComponents[i] : false);
+            ComponentsEnum comp = (ComponentsEnum)Math.Pow(2, i);
+            SetSelectables(comp, ForceComponents ? ((ComponentsEnum)TargetComponents & comp) == comp : false);
             //OnComponents[i] = ForceComponents && TargetComponents[i];
         }
         // Settings
@@ -214,15 +226,17 @@ public class CruelModkitScript : MonoBehaviour
         {
             return;
         }
-        OnComponents[CurrentComponent] = !OnComponents[CurrentComponent];
-        if(OnComponents[CurrentComponent])
+        
+        if(((ComponentsEnum)OnComponents & CurrentComponent) == CurrentComponent)
         {
-            DisplayText.color = new Color(0, 1, 0);
+            OnComponents -= (byte)CurrentComponent;
+            DisplayText.color = new Color(1, 0, 0);
             StartCoroutine(ShowComponent(CurrentComponent));
         }
         else
         {
-            DisplayText.color = new Color(1, 0, 0);
+            OnComponents += (byte)CurrentComponent;
+            DisplayText.color = new Color(0, 1, 0);
             StartCoroutine(HideComponent(CurrentComponent));
         }
     }
@@ -312,146 +326,103 @@ public class CruelModkitScript : MonoBehaviour
         Animating = false;
     }
 
-    public IEnumerator ShowComponent(int Component)
+    public IEnumerator ShowComponent(ComponentsEnum Component)
     {
         Animating = true;
-        SetSelectables(Component, true);
         Audio.PlayGameSoundAtTransformWithRef(KMSoundOverride.SoundEffect.WireSequenceMechanism, transform);
-        Doors[Component].transform.localPosition += new Vector3(0, -0.001f, 0);
-        switch (Component)
-        {
-            case 0:
-            case 2:
-            case 3:
-                for (int i = 0; i < 10; i++)
-                {
-                    Doors[Component].transform.localPosition += new Vector3(-0.08f, 0, 0);
-                    yield return new WaitForSeconds(0.025f);
-                }
-                break;
-            case 1:
-                for (int i = 0; i < 10; i++)
-                {
-                    Doors[Component].transform.localPosition += new Vector3(-0.0374f, 0, 0);
-                    yield return new WaitForSeconds(0.025f);
-                }
-                break;
-            case 4:
-            case 5:
-                for (int i = 0; i < 10; i++)
-                {
-                    Doors[Component].transform.localPosition += new Vector3(0.08f, 0, 0);
-                    yield return new WaitForSeconds(0.025f);
-                }
-                break;
-            case 6:
-                for (int i = 0; i < 10; i++)
-                {
-                    Doors[Component].transform.localPosition += new Vector3(0.0489f, 0, 0);
-                    yield return new WaitForSeconds(0.025f);
-                }
-                break;
-            case 7:
-                for (int i = 0; i < 10; i++)
-                {
-                    Doors[Component].transform.localPosition += new Vector3(0.0237f, 0, 0);
-                    yield return new WaitForSeconds(0.025f);
-                }
-                break;
-        }
-        Doors[Component].SetActive(false);
+        Dictionary<ComponentsEnum, float> floats = new Dictionary<ComponentsEnum, float>(){
+            {ComponentsEnum.Wires,    -.08f   },
+            {ComponentsEnum.Button,   -.0374f },
+            {ComponentsEnum.LED,      -.08f   },
+            {ComponentsEnum.Symbols,  -.08f   },
+            {ComponentsEnum.Alphabet,  .08f   },
+            {ComponentsEnum.Piano,     .08f   },
+            {ComponentsEnum.Arrows,    .0489f },
+            {ComponentsEnum.Bulbs,     .0237f }
+        };
+        int index = floats.Keys.ToList().IndexOf(Component);
+        SetSelectables(Component, true);
+        Doors[index].transform.localPosition += new Vector3(0, -0.001f, 0);
         for (int i = 0; i < 10; i++)
         {
-            Components[Component].transform.localPosition += new Vector3(0, 0.00121f, 0);
+            Doors[index].transform.localPosition += new Vector3(floats[Component], 0, 0);
+            yield return new WaitForSeconds(0.025f);
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            Components[index].transform.localPosition += new Vector3(0, -0.00121f, 0);
+            yield return new WaitForSeconds(0.05f);
+        }
+        Doors[index].SetActive(false);
+        for (int i = 0; i < 10; i++)
+        {
+            Components[index].transform.localPosition += new Vector3(0, 0.00121f, 0);
             yield return new WaitForSeconds(0.05f);
         }
         Animating = false;
     }
 
-    public IEnumerator HideComponent(int Component)
+    // "Wires", "Button", "LED", "Symbols", "Alphabet", "Piano", "Arrows", "Bulbs"
+    public IEnumerator HideComponent(ComponentsEnum Component)
     {
         Animating = true;
         Audio.PlayGameSoundAtTransformWithRef(KMSoundOverride.SoundEffect.WireSequenceMechanism, transform);
+        Dictionary<ComponentsEnum, float> floats = new Dictionary<ComponentsEnum, float>(){
+            {ComponentsEnum.Wires,     .08f   },
+            {ComponentsEnum.Button,    .0374f },
+            {ComponentsEnum.LED,       .08f   },
+            {ComponentsEnum.Symbols,   .08f   },
+            {ComponentsEnum.Alphabet, -.08f   },
+            {ComponentsEnum.Piano,    -.08f   },
+            {ComponentsEnum.Arrows,   -.0489f },
+            {ComponentsEnum.Bulbs,    -.0237f }
+        };
+        int index = floats.Keys.ToList().IndexOf(Component);
+        
         for (int i = 0; i < 10; i++)
         {
-            Components[Component].transform.localPosition += new Vector3(0, -0.00121f, 0);
+            Doors[index].transform.localPosition += new Vector3(floats[Component], 0, 0);
+            yield return new WaitForSeconds(0.025f);
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            Components[index].transform.localPosition += new Vector3(0, -0.00121f, 0);
             yield return new WaitForSeconds(0.05f);
         }
-        Doors[Component].SetActive(true);
-        switch (Component)
-        {
-            case 0:
-            case 2:
-            case 3:
-                for (int i = 0; i < 10; i++)
-                {
-                    Doors[Component].transform.localPosition += new Vector3(0.08f, 0, 0);
-                    yield return new WaitForSeconds(0.025f);
-                }
-                break;
-            case 1:
-                for (int i = 0; i < 10; i++)
-                {
-                    Doors[Component].transform.localPosition += new Vector3(0.0374f, 0, 0);
-                    yield return new WaitForSeconds(0.025f);
-                }
-                break;
-            case 4:
-            case 5:
-                for (int i = 0; i < 10; i++)
-                {
-                    Doors[Component].transform.localPosition += new Vector3(-0.08f, 0, 0);
-                    yield return new WaitForSeconds(0.025f);
-                }
-                break;
-            case 6:
-                for (int i = 0; i < 10; i++)
-                {
-                    Doors[Component].transform.localPosition += new Vector3(-0.0489f, 0, 0);
-                    yield return new WaitForSeconds(0.025f);
-                }
-                break;
-            case 7:
-                for (int i = 0; i < 10; i++)
-                {
-                    Doors[Component].transform.localPosition += new Vector3(-0.0237f, 0, 0);
-                    yield return new WaitForSeconds(0.025f);
-                }
-                break;
-        }
-        Doors[Component].transform.localPosition += new Vector3(0, 0.001f, 0);
+        Doors[index].SetActive(true);
+        Doors[index].transform.localPosition += new Vector3(0, 0.001f, 0);
         SetSelectables(Component, false);
         Animating = false;
     }
 
-    public void SetSelectables(int Component, bool Enable)
+    public void SetSelectables(ComponentsEnum Component, bool Enable)
     {
         switch (Component)
         {
-            case 0:
+            case ComponentsEnum.Wires:
                     foreach (GameObject Wire in Wires)
                         Wire.SetActive(Enable);
                     break;
-            case 1:
+            case ComponentsEnum.Button:
                     Button.SetActive(Enable);
                     break;
-            case 3:
+            case ComponentsEnum.Symbols:
                     foreach (GameObject Symbol in Symbols)
                         Symbol.SetActive(Enable);
                     break;
-            case 4:
+            case ComponentsEnum.Alphabet:
                     foreach (GameObject Alphabet in Alphabet)
                         Alphabet.SetActive(Enable);
                     break;
-            case 5:
+            case ComponentsEnum.Piano:
                     foreach (GameObject Key in Piano)
                         Key.SetActive(Enable);
                     break;
-            case 6:
+            case ComponentsEnum.Arrows:
                     foreach (GameObject Arrow in Arrows)
                         Arrow.SetActive(Enable);
                     break;
-            case 7:
+            case ComponentsEnum.Bulbs:
                     foreach (GameObject Bulbs in Bulbs)
                         Bulbs.SetActive(Enable);
                     break;
@@ -520,12 +491,12 @@ public class CruelModkitScript : MonoBehaviour
     IEnumerator PlaySolveAnim()
     {
         // Solve animation is split into stages so that the doors don't overlap
-        for (int i = 0; i < OnComponents.Length; i++)
+        for (int i = 0; i < CountComponents((ComponentsEnum)OnComponents); i++)
         {
-            if ((i == 4 && ((OnComponents[3] && OnComponents[4]) || ((OnComponents[1] || OnComponents[2]) && (OnComponents[5] || OnComponents[6])) || (OnComponents[0] && (OnComponents[6] || OnComponents[7])))))
+            if ((i == 4 && (((OnComponents & 24) != 0) || (((OnComponents & 6) != 0) && (((OnComponents & 96) != 0))) || (((OnComponents & 1) != 0) && (((OnComponents & 192) != 0))))))
                 yield return new WaitForSeconds(1f);
-            if (OnComponents[i])
-                StartCoroutine(HideComponent(i));
+            if ((OnComponents & (byte)Math.Pow(2, i)) != 0)
+                StartCoroutine(HideComponent((ComponentsEnum)Math.Pow(2, i)));
         }
     }
 
@@ -535,18 +506,15 @@ public class CruelModkitScript : MonoBehaviour
         switch (SelectModule)
         {
             case "Timer Timings":
-                for (int i = 0; i < ComponentNames.Length; i++)
-                    TargetComponents[i] = false;
+                TargetComponents = 0;
                 Puzzle = new TimerTimings(this, ModuleID, Info, true, TargetComponents);
                 break;
             case "Test Puzzle":
-                for (int i = 0; i < ComponentNames.Length; i++)
-                    TargetComponents[i] = true;
+                TargetComponents = 255;
                 Puzzle = new TestPuzzle(this, ModuleID, Info, true, TargetComponents);
                 break;
             default:
-                for (int i = 0; i < ComponentNames.Length; i++)
-                    TargetComponents[i] = true;
+                TargetComponents = 255;
                 Puzzle = new TestPuzzle(this, ModuleID, Info, true, TargetComponents);
                 break;
         }
@@ -661,19 +629,14 @@ public class CruelModkitScript : MonoBehaviour
         {
             return;
         }
-        CurrentComponent += i;
+        if (CurrentComponent == ComponentsEnum.Wires && i == -1)
+            CurrentComponent = ComponentsEnum.Bulbs;
+        else if (CurrentComponent == ComponentsEnum.Bulbs && i == 1)
+            CurrentComponent = ComponentsEnum.Wires;
+        else CurrentComponent = (ComponentsEnum)Math.Pow(2, (int)(Math.Log((int)CurrentComponent, 2) + .1) + i);
 
-        if (CurrentComponent < 0)
-        {
-            CurrentComponent += ComponentNames.Length;
-        }
-        if (CurrentComponent >= ComponentNames.Length)
-        {
-            CurrentComponent -= ComponentNames.Length;
-        }
-
-        DisplayText.text = ComponentNames[CurrentComponent].ToUpper();
-        DisplayText.color = OnComponents[CurrentComponent] ? Color.green : Color.red;
+        DisplayText.text = CurrentComponent.ToString("F").ToUpper();
+        DisplayText.color = ((ComponentsEnum)OnComponents & CurrentComponent) == CurrentComponent ? Color.green : Color.red;
     }
 
     void SetUpComponents()
@@ -837,7 +800,7 @@ public class CruelModkitScript : MonoBehaviour
         // (Separated for convenience): Puzzle ID = ( P(1) + P(2) + P(3) ) % 256
         var Products = SerialNumberPairs.Sum(x => Base36.IndexOf(x[0]) * Base36.IndexOf(x[1])) % 256;
         Debug.LogFormat("[The Cruel Modkit #{0}] Puzzle ID is {1}. Binary conversion is {2}.", ModuleID, Products.ToString(), Convert.ToString(Products, 2).PadLeft(8, '0'));
-        TargetComponents = Convert.ToString(Products, 2).PadLeft(8, '0').Select(x => x == '1').ToArray();
+        TargetComponents = (byte)Products;
         Debug.LogFormat("[The Cruel Modkit #{0}] Calculated components are: [{1}].", ModuleID, GetTargetComponents());
         //Alternate calculation method: Convert serial number from base36 to base10, then to binary, then calculate the components
         /*double AltPuzzleID = 0;
@@ -852,12 +815,12 @@ public class CruelModkitScript : MonoBehaviour
     // Logging
     public string GetOnComponents()
     {
-        return OnComponents.Any(a => a) ? ComponentNames.Where(x => OnComponents[Array.IndexOf(ComponentNames, x)]).Join(", ") : "None";
+        return OnComponents == 0 ? "None" : OnComponents.ToString("F");
     }
 
     public string GetTargetComponents()
     {
-        return TargetComponents.Any(a => a) ? ComponentNames.Where(x => TargetComponents[Array.IndexOf(ComponentNames, x)]).Join(", ") : "None";
+        return TargetComponents == 0 ? "None" : TargetComponents.ToString("F");
     }
 
     // Mod settings
