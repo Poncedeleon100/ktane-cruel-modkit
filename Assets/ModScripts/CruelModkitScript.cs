@@ -457,7 +457,7 @@ public class CruelModkitScript : MonoBehaviour
 
     public IEnumerator RegenWiresAnim()
     {
-        yield return HideComponent(0);
+        yield return HideComponent(ComponentsEnum.Wires);
 
         for (int i = 0; i < 7; i++)
         {
@@ -481,7 +481,7 @@ public class CruelModkitScript : MonoBehaviour
             WireLED[i].transform.Find("WireLEDL").GetComponentInChildren<Renderer>().material = WireLEDMats[Info.WireLED[i]];
         }
 
-        yield return ShowComponent(0);
+        yield return ShowComponent(ComponentsEnum.Wires);
     }
 
     IEnumerator PlaySolveAnim()
@@ -812,12 +812,12 @@ public class CruelModkitScript : MonoBehaviour
     // Logging
     public string GetOnComponents()
     {
-        return OnComponents == 0 ? "None" : OnComponents.ToString("F");
+        return OnComponents == 0 ? "None" : ((ComponentsEnum)OnComponents).ToString("G");
     }
 
     public string GetTargetComponents()
     {
-        return TargetComponents == 0 ? "None" : TargetComponents.ToString("F");
+        return TargetComponents == 0 ? "None" : ((ComponentsEnum)TargetComponents).ToString("G");
     }
 
     // Mod settings
