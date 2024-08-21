@@ -1,9 +1,15 @@
-Community fork of the KTaNE Modkit.
+# The Cruel Modkit
 
-The [original (official) modkit](https://github.com/keeptalkinggame/ktanemodkit) isn't going to receive updates anymore. This is the fork that will be maintained from now on.
+A Keep Talking and Nobody Explodes mod based on [The Modkit](https://steamcommunity.com/sharedfiles/filedetails/?id=2137793443), with a total of 16 components and 256 submodules.
 
-Community-made plugins can be installed at the `Keep Talking ModKit > Plugins` menupoint.
+## Contribution
 
-[Documentation](https://github.com/Qkrisi/ktanemodkit/wiki)
+Join the [Discord](https://discord.gg/uk4KySDUNA) to contribute. Beta testing is far from possible at the moment, so we are currently focusing on creating and implementing submodules. The current progress is tracked via a [spreadsheet](https://docs.google.com/spreadsheets/d/1ISm4llmEhFaxU_DYh7ByeiE_S4cTfl4Mh4BnJ3HAOOo/edit#gid=0).
 
-To get more help, join the [Keep Talking and Nobody Explodes](https://discord.gg/ktane) or the [KTaNE Modding](https://discord.gg/qzy7Gdz) Discord servers.
+### Manual Progress
+
+![](https://geps.dev/progress/9)
+
+### Module Progress
+
+![](https://geps.dev/progress/0)
