@@ -131,6 +131,7 @@ public class CruelModkitScript : MonoBehaviour
         { 'Z', new[] { Symbol.Dash, Symbol.Dash, Symbol.Dot, Symbol.Dot } },
     };
     private const float MorseCodeDotLength = 0.25f;
+    public Coroutine MorseRoutine = null;
 
     // Logging
     static int ModuleIDCounter = 1;
@@ -499,9 +500,17 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        //SelectModule = "Test Puzzle";
+        SelectModule = "Unscrew Maze"; // THIS IS TEMPORARY
         switch (SelectModule)
         {
+            case "Unscrew Maze":
+                TargetComponents = 192;
+                Puzzle = new UnscrewMaze(this, ModuleID, Info, true, TargetComponents);
+                break;
+            //case "Simon Skips":   (WIP)
+            //  TargetComponents = 68;
+            //  Puzzle = new SimonSkips(this, ModuleID, Info, true, TargetComponents);
+            //  break;
             case "Timer Timings":
                 TargetComponents = 0;
                 Puzzle = new TimerTimings(this, ModuleID, Info, true, TargetComponents);
@@ -732,7 +741,7 @@ public class CruelModkitScript : MonoBehaviour
         //Set number display text
         WidgetText[2].text = Info.NumberDisplay.ToString();
         //Set morse code display
-        StartCoroutine(PlayWord(Info.Morse));
+        MorseRoutine = StartCoroutine(PlayWord(Info.Morse));
         //Set meter value and color
         Meter.GetComponentInChildren<Renderer>().material = MeterMats[Info.MeterColor];
         //Changes the meter so it matches the value from Info.MeterValue; adjusts scale first then shifts the position down
