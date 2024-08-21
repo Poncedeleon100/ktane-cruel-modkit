@@ -231,13 +231,13 @@ public class CruelModkitScript : MonoBehaviour
         {
             OnComponents -= (byte)CurrentComponent;
             DisplayText.color = new Color(1, 0, 0);
-            StartCoroutine(ShowComponent(CurrentComponent));
+            StartCoroutine(HideComponent(CurrentComponent));
         }
         else
         {
             OnComponents += (byte)CurrentComponent;
             DisplayText.color = new Color(0, 1, 0);
-            StartCoroutine(HideComponent(CurrentComponent));
+            StartCoroutine(ShowComponent(CurrentComponent));
         }
     }
 
@@ -348,11 +348,6 @@ public class CruelModkitScript : MonoBehaviour
             Doors[index].transform.localPosition += new Vector3(floats[Component], 0, 0);
             yield return new WaitForSeconds(0.025f);
         }
-        for (int i = 0; i < 10; i++)
-        {
-            Components[index].transform.localPosition += new Vector3(0, -0.00121f, 0);
-            yield return new WaitForSeconds(0.05f);
-        }
         Doors[index].SetActive(false);
         for (int i = 0; i < 10; i++)
         {
@@ -378,18 +373,19 @@ public class CruelModkitScript : MonoBehaviour
             {ComponentsEnum.Bulbs,    -.0237f }
         };
         int index = floats.Keys.ToList().IndexOf(Component);
-        
-        for (int i = 0; i < 10; i++)
-        {
-            Doors[index].transform.localPosition += new Vector3(floats[Component], 0, 0);
-            yield return new WaitForSeconds(0.025f);
-        }
+
         for (int i = 0; i < 10; i++)
         {
             Components[index].transform.localPosition += new Vector3(0, -0.00121f, 0);
             yield return new WaitForSeconds(0.05f);
         }
         Doors[index].SetActive(true);
+        for (int i = 0; i < 10; i++)
+        {
+            Doors[index].transform.localPosition += new Vector3(floats[Component], 0, 0);
+            yield return new WaitForSeconds(0.025f);
+        }
+        
         Doors[index].transform.localPosition += new Vector3(0, 0.001f, 0);
         SetSelectables(Component, false);
         Animating = false;
@@ -503,6 +499,7 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
+        //SelectModule = "Test Puzzle";
         switch (SelectModule)
         {
             case "Timer Timings":
