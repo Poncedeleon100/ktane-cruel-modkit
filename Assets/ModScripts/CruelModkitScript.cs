@@ -136,7 +136,7 @@ public class CruelModkitScript : MonoBehaviour
     static int ModuleIDCounter = 1;
     int ModuleID;
     private bool ModuleSolved;
-    private bool Solving;
+    public bool Solving;
     private bool Animating;
 
     // These are public variables needed to communicate with the Puzzle class.
@@ -499,9 +499,13 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        //SelectModule = "Test Puzzle";
+        SelectModule = "Simon Skips";
         switch (SelectModule)
         {
+            case "Simon Skips":
+                TargetComponents = 68;
+                Puzzle = new SimonSkips(this, ModuleID, Info, true, TargetComponents);
+                break;
             case "Timer Timings":
                 TargetComponents = 0;
                 Puzzle = new TimerTimings(this, ModuleID, Info, true, TargetComponents);
