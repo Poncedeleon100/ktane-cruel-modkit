@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -8,18 +8,13 @@
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="js/ktane-utils.js"></script>
+    <script src="js/jquery.3.7.0.min.js"></script>
+    <script src="js/Utilities/svg-utils.js"></script>
     <style>
         .dark table, table {
             margin: 1em auto;
             border: none;
         }
-
-        .custom-keypad-symbol-image {
-         height: 1.7em;
-        }
-
-        .page-footer::before { content: 'Page '; }
-        .page-footer::after { content: ' of 3'; }
     </style>
 </head>
 <body>
@@ -55,84 +50,22 @@
             </div>
             <div class="page-footer relative-footer">1</div>
         </div>
-
         <div class="page page-bg-03">
             <div class="page-header">
                 <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
                 <span class="page-header-section-title">The Cruel Modkit</span>
             </div>
             <div class="page-content">
-                <h2>On the Subject of Timer Timings</h2>
-                <p class="flavour-text">“Okay, give a read on the module.” “There’s nothing.” “Okay… 6/3.” “No, there’s actually nothing.” “1/8.” “No… THERE IS NOTHING ON THE MODULE!” “9/2.”</p>
-                <p><strong>Note: </strong>If your module contains <strong>any</strong> components, you are looking at the wrong section of this manual!</p>
-                <p>Press the "❖" button to activate the module. The timer on the module will begin displaying random digits from ØØØØØ-99999, changing every second. The number display will also give a number. Refer to the table below to find out what number to submit. The left-most digit represents A, and the right-most digit represents B.</p>
+                <p><strong>THIS PAGE IS UNDER DEVELOPMENT AND FINAL LAYOUT IS TBD.</strong></p>
                 <table>
-                    <tbody>
-                        <tr>
-                            <td>Number Display</td>
-                            <td>Rule</td>
-                        </tr>
-                        <tr>
-                            <td>Ø</td>
-                            <td>A + B = a prime number*</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>A > amount of lit indicators, B ≤ amount of unlit indicators</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>A / B = a whole number</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>A and B = a multiple of the module count, excluding needies**</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>The digital root of A + B is odd</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>A or B matches a digit on the bomb timer</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>B - Last digit of S# ≤ A</td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>B - A > the number of distinct ports modulo 10</td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>A + B ≥ sum of S# digits modulo 18</td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
-                            <td>A and B = the amount of lit or unlit indicators.</td>
-                        </tr>
-                    </tbody>
+                    <tr>
+                        <td><a href="Timer Timings.html">Timer Timings</a></td>
+                        <td><a href="Unscrew Maze.html">Unscrew Maze</a></td>
+                        <td><a href="Test Puzzle.html">Test Puzzle</a></td>
+                    </tr>
                 </table>
-                <p>When the rule applies to the digits, press the "❖" button again to solve the module. Pressing the "❖" button when the numbers displayed are invalid will result in a strike.</p>
-                <p style="font-style: italic">*Ø in this module is considered a composite number.</p>
-                <p style="font-style: italic">**If the module count is over 1ØØ, press the "❖" button when A and B share parity with the last digit of the serial number.</p>
             </div>
             <div class="page-footer relative-footer">2</div>
-        </div>
-
-        <div class="page page-bg-06">
-            <div class="page-header">
-                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
-                <span class="page-header-section-title">The Cruel Modkit</span>
-            </div>
-            <div class="page-content">
-                <h2>On the Subject of The Test Puzzle</h2>
-                <p class="flavour-text">I guess they do make it easy!</p>
-                <p><strong>Note: </strong>Your module's components can contain anything!</p>
-                <p>To disarm the module, press the "❖" button. Otherwise, this module cannot strike.</p>
-            </div>
-            <div class="page-footer relative-footer">3</div>
         </div>
     </div>
 </body>
