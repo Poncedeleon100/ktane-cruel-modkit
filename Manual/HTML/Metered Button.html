@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <title>Metered Button — Keep Talking and Nobody Explodes Module</title>
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <link rel="stylesheet" type="text/css" href="Css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/ktane-utils.js"></script>
+    <script src="js/jquery.3.7.0.min.js"></script>
+    <script src="js/Utilities/svg-utils.js"></script>
+    <style>
+        .dark table, table {
+            margin: 1em auto;
+            border: none;
+            width: 100%;
+        }
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+        .table1 tr:nth-child(2) { color: black; }
+        .color-r { background-color: red; }
+        .color-o { background-color: orange; }
+        .color-y { background-color: yellow; }
+        .color-l { background-color: lime; }
+        .color-g { background-color: green; }
+        .color-c { background-color: cyan; }
+        .color-b { background-color: blue; }
+        .color-i { background-color: purple; }
+        .color-k { background-color: black; color: white; }
+        .color-w { background-color: white; }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Metered Button</h2>
+                <p class="flavour-text">Also known as the Foot Button if you’re American</p>
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Button]</strong>, you are looking at the wrong section of this manual!</p>
+                <p>Note the color of the button along with its text, then press the ❖ symbol to initiate the module.</p>
+                <p>The meter will now rise. You have 1:30 to submit your answers, or the module will strike and reset.</p>
+                <p>Input the text and color of the button into the table below to get a number.</p>
+                <table class="table1">
+                    <tr>
+                        <th rowspan="2">Text ↓</th>
+                        <th colspan="10">Color</th>
+                    </tr>
+                    <tr>
+                        <th class="color-r">R</th>
+                        <th class="color-o">O</th>
+                        <th class="color-y">Y</th>
+                        <th class="color-l">L</th>
+                        <th class="color-g">G</th>
+                        <th class="color-c">C</th>
+                        <th class="color-b">B</th>
+                        <th class="color-i">P</th>
+                        <th class="color-k">K</th>
+                        <th class="color-w">W</th>
+                    </tr>
+                    <tr><td>Press</td><td>1</td><td>0</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td></tr>
+                    <tr><td>Hold</td><td>6</td><td>1</td><td>0</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td></tr>
+                    <tr><td>Detonate</td><td>5</td><td>6</td><td>1</td><td>0</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td></tr>
+                    <tr><td>Mash</td><td>7</td><td>5</td><td>6</td><td>1</td><td>0</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td></tr>
+                    <tr><td>Tap</td><td>4</td><td>7</td><td>5</td><td>6</td><td>1</td><td>0</td><td>2</td><td>9</td><td>3</td><td>8</td></tr>
+                    <tr><td>Push</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td><td>1</td><td>0</td><td>2</td><td>9</td><td>3</td></tr>
+                    <tr><td>Abort</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td><td>1</td><td>0</td><td>2</td><td>9</td></tr>
+                    <tr><td>Button</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td><td>1</td><td>0</td><td>2</td></tr>
+                    <tr><td>Click</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td><td>1</td><td>0</td></tr>
+                    <tr><td></td><td>0</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td><td>1</td></tr>
+                    <tr><td>Nothing</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>0</td></tr>
+                    <tr><td>No</td><td>0</td><td>9</td><td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td></tr>
+                    <tr><td>I don’t know</td><td>9</td><td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td><td>0</td></tr>
+                    <tr><td>Yes</td><td>2</td><td>4</td><td>6</td><td>8</td><td>0</td><td>1</td><td>3</td><td>5</td><td>7</td><td>9</td></tr>
+                </table>
+                <p>Call the received value “Value A” and input it into the table below to get an instruction.</p>
+            </div>
+            <div class="page-footer relative-footer">Page 1 of 1</div>
+        </div>
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table>
+                    <tr>
+                        <th rowspan="2">Value A ↓</th>
+                        <th colspan="10">Number Display</th>
+                    </tr>
+                    <tr>
+                        <th>0</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                    </tr>
+                    <tr><td>0</td><td>T6</td><td>H5</td><td>M3</td><td>T1</td><td>H7</td><td>M8</td><td>T1</td><td>H2</td><td>M5</td><td>X8</td></tr>
+                    <tr><td>1</td><td>X5</td><td>H6</td><td>T1</td><td>M5</td><td>H1</td><td>T9</td><td>M9</td><td>H4</td><td>T8</td><td>M1</td></tr>
+                    <tr><td>2</td><td>M5</td><td>T8</td><td>H5</td><td>M3</td><td>T5</td><td>H7</td><td>X6</td><td>T1</td><td>H3</td><td>M6</td></tr>
+                    <tr><td>3</td><td>H3</td><td>M7</td><td>M6</td><td>H2</td><td>M3</td><td>T5</td><td>T2</td><td>X4</td><td>T2</td><td>H7</td></tr>
+                    <tr><td>4</td><td>T4</td><td>H9</td><td>M9</td><td>H4</td><td>M8</td><td>X9</td><td>T8</td><td>T3</td><td>H5</td><td>M1</td></tr>
+                    <tr><td>5</td><td>M1</td><td>M2</td><td>X1</td><td>M9</td><td>T9</td><td>M4</td><td>H3</td><td>H8</td><td>T4</td><td>M3</td></tr>
+                    <tr><td>6</td><td>H2</td><td>M1</td><td>T4</td><td>T7</td><td>X3</td><td>H6</td><td>M7</td><td>T5</td><td>H7</td><td>H4</td></tr>
+                    <tr><td>7</td><td>T8</td><td>H3</td><td>M2</td><td>X9</td><td>T2</td><td>H1</td><td>H4</td><td>M6</td><td>M1</td><td>T1</td></tr>
+                    <tr><td>8</td><td>M9</td><td>X2</td><td>H8</td><td>T8</td><td>M4</td><td>T3</td><td>M6</td><td>H7</td><td>H3</td><td>T8</td></tr>
+                    <tr><td>9</td><td>T7</td><td>T4</td><td>M4</td><td>H6</td><td>H7</td><td>M2</td><td>M5</td><td>T9</td><td>X7</td><td>H9</td></tr>
+                </table>
+                <ul>
+                    <li>T#: Tap the button when the last digit of the timer is a #</li>
+                    <li>H#: Hold the button when the last digit of the bomb timer is (# + number display) modulo 10, and release when the last digit of the bomb timer is |# - number display|</li>
+                    <li>M#: Mash the button # times across 3 seconds.</li>
+                    <li>X#: Press the ❖ symbol (number display * #) times, then tap the button.</li>
+                </ul>
+                <p>Correctly performing the instruction will refresh the number display and the button and advance a stage. Completing all three stages will solve the module. Incorrectly pressing the button will cause a strike, resetting the module.</p>
+            </div>
+            <div class="page-footer relative-footer">Page 2 of 2</div>
+        </div>
+    </div>
+</body>
+</html>
