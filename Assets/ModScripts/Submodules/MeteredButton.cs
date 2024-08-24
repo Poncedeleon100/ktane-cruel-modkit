@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Security.Principal;
 using UnityEngine;
-using KModkit;
 using Random = UnityEngine.Random;
-using System.Timers;
-using System.Net.Configuration;
 
 public class MeteredButton : Puzzle
 {
@@ -19,19 +12,17 @@ public class MeteredButton : Puzzle
     int stage = 0;
 
     float mashTime = 3f;
-    bool mashTimeOver = false;
     bool mashing = false;
     int pressedNum;
 
     bool animating = false;
-    float meterTime;
     bool meterStarted = false;
 
     int utilPresses = 0;
 
     string[] finalActions = new string[3];  
 
-    int[,] table1 = new int[14, 10] {
+    readonly int[,] table1 = new int[14, 10] {
             {1, 0, 2, 9, 3, 8, 4, 7, 5, 6},
             {6, 1, 0, 2, 9, 3, 8, 4, 7, 5},
             {5, 6, 1, 0, 2, 9, 3, 8, 4, 7},
@@ -48,7 +39,7 @@ public class MeteredButton : Puzzle
             {2, 4, 6, 8, 0, 1, 3, 5, 7, 9}
         };
 
-    string[,] table2 = new string[10, 10] {
+    readonly string[,] table2 = new string[10, 10] {
             {"T6", "H5", "M3", "T1", "H7", "M8", "T1", "H2", "M5", "X8"},
             {"X5", "H6", "T1", "M5", "H1", "T9", "M9", "H4", "T8", "M1"},
             {"M5", "T8", "H5", "M3", "T5", "H7", "X6", "T1", "H3", "M6"},
@@ -167,14 +158,17 @@ public class MeteredButton : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving()) 
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
-        }
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
 
-        Module.StartSolve();
+            Module.StartSolve();
+        }
 
         if (meterStarted)
             utilPresses++;
@@ -183,8 +177,6 @@ public class MeteredButton : Puzzle
             Module.StartCoroutine(MeterRise());
 
         return;
-
-
     }
 
     string FindAction()
@@ -266,7 +258,7 @@ public class MeteredButton : Puzzle
     {
         animating = true;
         meterStarted = true;
-        double meterLevel = 0;
+        double meterLevel;
 
         float elapsed = 0f;
         float duration = 1f;
@@ -283,7 +275,7 @@ public class MeteredButton : Puzzle
 
     IEnumerator MeterTick()
     {
-        double meterLevel = 1;
+        double meterLevel;
         double meterTime = 90f;
         while (meterTime > 0f)
         {

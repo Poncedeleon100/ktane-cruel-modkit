@@ -776,6 +776,11 @@ public class CruelModkitScript : MonoBehaviour
         Solving = true;
     }
 
+    public bool IsSolving()
+    {
+        return Solving;
+    }
+
     public void Solve() // Disarms The Cruel Modkit
     {
         Module.HandlePass();
