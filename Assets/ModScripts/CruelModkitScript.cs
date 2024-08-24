@@ -499,12 +499,16 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        SelectModule = "Who's Who";
+        //SelectModule = "Timer Timings";
         switch (SelectModule)
         {
             case "Who's Who":
                 TargetComponents = 132;
                 Puzzle = new WhosWho(this, ModuleID, Info, true, TargetComponents);
+                break;
+            case "Metered Button":
+                TargetComponents = 2;
+                Puzzle = new MeteredButton(this, ModuleID, Info, true, TargetComponents);
                 break;
             case "Timer Timings":
                 TargetComponents = 0;
@@ -783,6 +787,11 @@ public class CruelModkitScript : MonoBehaviour
     public void StartSolve()
     {
         Solving = true;
+    }
+
+    public bool IsSolving()
+    {
+        return Solving;
     }
 
     public void Solve() // Disarms The Cruel Modkit
