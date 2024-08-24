@@ -1,5 +1,7 @@
-﻿using System;
+﻿using KModkit;
+using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -112,7 +114,7 @@ public class MeteredButton : Puzzle
         {
             double holdDigit = Math.Floor(pressTime % 10);
             double releaseDigit = Math.Floor(releaseTime % 10);
-            if (holdDigit == (actionNum + Info.NumberDisplay) % 10 && releaseDigit == Math.Abs(actionNum - Info.NumberDisplay))
+            if (holdDigit == (actionNum + Module.Bomb.GetBatteryCount()) % 10 && releaseDigit == Math.Abs(actionNum - Module.Bomb.GetPortCount()))
             {
                 Debug.LogFormat("[The Cruel Modkit #{0}] Button held correctly. Stage {1} passed.", ModuleID, stage + 1);
                 Module.StartCoroutine(AdvanceStage());
@@ -132,7 +134,9 @@ public class MeteredButton : Puzzle
         }
         else if (actionChar == "X")
         {
-            if (utilPresses == Info.NumberDisplay * actionNum)
+            int multiplyNum = Module.Bomb.GetSerialNumberNumbers().Last();
+            if (multiplyNum == 0) multiplyNum = 10;
+            if (utilPresses == (multiplyNum * actionNum) % 25)
             {
                 Debug.LogFormat("[The Cruel Modkit #{0}] ❖ button pressed correctly. Stage {1} passed.", ModuleID, stage + 1);
                 Module.StartCoroutine(AdvanceStage());
