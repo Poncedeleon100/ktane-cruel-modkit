@@ -203,8 +203,7 @@ public class MeteredButton : Puzzle
         animating = true;
         Info.NumberDisplay = Random.Range(0, 10);
         Module.WidgetText[2].text = Info.NumberDisplay.ToString();
-        Module.StartCoroutine(Module.HideComponent(CruelModkitScript.ComponentsEnum.Button));
-        yield return new WaitForSeconds(1f);
+        yield return Module.StartCoroutine(Module.HideComponent(CruelModkitScript.ComponentsEnum.Button));
         GenButton();
         Module.StartCoroutine(Module.ShowComponent(CruelModkitScript.ComponentsEnum.Button));
 
@@ -224,8 +223,7 @@ public class MeteredButton : Puzzle
         meterStarted = false;
 
         Module.WidgetText[2].text = Info.NumberDisplay.ToString();
-        Module.StartCoroutine(Module.HideComponent(CruelModkitScript.ComponentsEnum.Button));
-        yield return new WaitForSeconds(1f);
+        yield return Module.StartCoroutine(Module.HideComponent(CruelModkitScript.ComponentsEnum.Button));
         GenButton();
         Module.StartCoroutine(Module.ShowComponent(CruelModkitScript.ComponentsEnum.Button));
 
