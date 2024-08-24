@@ -187,6 +187,14 @@ public class Puzzle
         Module.StartSolve();
     }
 
+    public virtual void OnBulbButtonRelease(int Button)
+    {
+        if (Module.IsAnimating())
+            return;
+
+        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, Module.transform);
+    }
+
     public virtual void OnBulbInteract(int Bulb)
     {
         if (Module.IsAnimating())

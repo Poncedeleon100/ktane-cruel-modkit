@@ -499,9 +499,13 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        //SelectModule = "Test Puzzle";
+        SelectModule = "Who's Who";
         switch (SelectModule)
         {
+            case "Who's Who":
+                TargetComponents = 132;
+                Puzzle = new WhosWho(this, ModuleID, Info, true, TargetComponents);
+                break;
             case "Timer Timings":
                 TargetComponents = 0;
                 Puzzle = new TimerTimings(this, ModuleID, Info, true, TargetComponents);
@@ -604,6 +608,11 @@ public class CruelModkitScript : MonoBehaviour
                 StartCoroutine(AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f));
                 Puzzle.OnBulbButtonPress(y);
                 return false;
+            };
+            Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteractEnded += delegate
+            {
+                StartCoroutine(AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f));
+                Puzzle.OnBulbButtonRelease(y);
             };
         }
 
@@ -835,7 +844,7 @@ public class CruelModkitScript : MonoBehaviour
                     { "Text", "Select Module" },
                     { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
                     { "Type", "Dropdown" },
-                    { "DropdownItems", new List<object> { "Timer Timings", "Test Puzzle" } }
+                    { "DropdownItems", new List<object> { "Timer Timings", "Test Puzzle", "Who's Who" } }
                 },
             }
             },
