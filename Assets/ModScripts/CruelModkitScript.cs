@@ -140,8 +140,8 @@ public class CruelModkitScript : MonoBehaviour
     private bool Animating;
 
     // These are public variables needed to communicate with the Puzzle class.
-
     public bool IsModuleSolved() => ModuleSolved;
+    public bool IsModuleSolving() => Solving;
     public bool CheckValidComponents()
     {
         return OnComponents == TargetComponents;
@@ -500,7 +500,6 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        
         switch (SelectModule)
         {
             case "Timer Timings":
@@ -510,6 +509,10 @@ public class CruelModkitScript : MonoBehaviour
             case "Unscrew Maze":
                 TargetComponents = 3;
                 Puzzle = new UnscrewMaze(this, ModuleID, Info, TargetComponents);
+                break;
+            case "Simon Skips":
+                TargetComponents = 34;
+                Puzzle = new SimonSkips(this, ModuleID, Info, TargetComponents);
                 break;
             case "Metered Button":
                 TargetComponents = 64;
