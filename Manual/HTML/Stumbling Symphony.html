@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <title>Stumbling Symphony — Keep Talking and Nobody Explodes Module</title>
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <link rel="stylesheet" type="text/css" href="Css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/ktane-utils.js"></script>
+    <script src="js/jquery.3.7.0.min.js"></script>
+    <script src="js/Utilities/svg-utils.js"></script>
+    <style>
+        .dark table, table {
+            margin: 1em auto;
+            border: none;
+        }
+        .centered-table {  text-align: center; }
+        .color-table { font-size: 15px; }
+        .black { background-color: black; color: white; }
+        .red { background-color: red; color: white; }
+        .orange { background-color: orange; color: black; }
+        .yellow { background-color: yellow; color: black; }
+        .green { background-color: green; color: white; }
+        .lime { background-color: lime; color: black; }
+        .cyan { background-color: cyan; color: black; }
+        .blue { background-color: blue; color: white; }
+        .purple { background-color: purple; color: white; }
+        .pink { background-color: #FF3CC8; color: black; }
+        .white { background-color: white; color: black; }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Stumbling Symphony</h2>
+                <p class="flavour-text">Was it an E# or an Eb?...</p>
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Button, Piano]</strong>, you are looking at the wrong section of this manual!</p>
+                <p>Today, you will be playing a melody for the button to try to impress it and solve the module. You tried your best to practice the melody, but you still might stumble during your performance.</p>
+                <p>To initiate the module, press the ❖ button. The number display will display a number in such a way, so that the defuser will stumble (explained on the second page of this sub-module) exactly 3-7 times (or 0 in a special case).</p>
+                <p>To figure out what melody you'll be playing, take the new number on the number display, and use it in the table below to obtain your melody.</p>
+                <table class="centered-table centered">
+                    <tr>
+                        <th width="10%">Number Display</th>
+                        <th width="45%">Melody Name</th>
+                        <th width="45%">Note Sequence</th>
+                    </tr>
+                    <tr><td>0</td><td>Für Elise</td><td>E D# E D# E B D C</td></tr>
+                    <tr><td>1</td><td>All I Want for Christmas is You</td><td>B A G Eb D A B A G</td></tr>
+                    <tr><td>2</td><td>It’s the Most Wonderful Time of the Year</td><td>F# G A A D B A G E D</td></tr>
+                    <tr><td>3</td><td>We Three Kings</td><td>C# B A F# G# A G# F#</td></tr>
+                    <tr><td>4</td><td>Empire Strikes Back</td><td>G G G Eb Bb G Eb Bb G</td></tr>
+                    <tr><td>5</td><td>Shiny Smily Story</td><td>D# F G G# D# A# G# G G# A#</td></tr>
+                    <tr><td>6</td><td>Pink Panther</td><td>C# D E F C# D E F Bb A</td></tr>
+                    <tr><td>7</td><td>Pirates of the Caribbean</td><td>A C D D D E F F F G E E</td></tr>
+                    <tr><td>8</td><td>Let it Be</td><td>E D C E G A G E D C A G E</td></tr>
+                    <tr><td>9</td><td>A Town with an Ocean’s View</td><td>B G B F# B E D C D G A</td></tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">Page 1 of 2</div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <p>To determing when you will stumble, follow this list of rules:</p>
+                <ul>
+                    <li>If the button doesn't have a label, you are actually a piano maestro and you will never stumble - play the melody normally to solve the module.</li>
+                    <li>Otherwise, if the button’s label contains 2 or more vowels (not including “Y”), you will stumble on every sharp/flat note.</li>
+                    <li>Otherwise, if the button's label contains exactly 5 letters, you will stumble on every note from C to F.</li>
+                    <li>Otherwise, if the button's label is “Yes” or “No”, you will stumble on the first, last, and center* notes in the Note Sequence.</li>
+                    <li>Otherwise, if the button's label contains the letter “P”, you will stumble on every note from F# to B.</li>
+                    <li>Otherwise, you will stumble on every third note in the Note Sequence.</li>
+                </ul>
+                <p>If you are going to stumble on the next note, call that note the <u>Stumble Note</u> and do the following:</p>
+                <ul>
+                    <li>
+                        Play the <u>Stumble Note</u> shifted <u>X</u> semitones forwards**, where <u>X</u> is the number obtained from the table below:
+                        <table class="centered-table color-table">
+                            <tr><th colspan="11">Button's Color</th></tr>
+                            <tr>
+                                <td class="black">Black</td>
+                                <td class="red">Red</td>
+                                <td class="orange">Orange</td>
+                                <td class="yellow">Yellow</td>
+                                <td class="green">Green</td>
+                                <td class="lime">Lime</td>
+                                <td class="cyan">Cyan</td>
+                                <td class="blue">Blue</td>
+                                <td class="purple">Purple</td>
+                                <td class="pink">Pink</td>
+                                <td class="white">White</td>
+                            </tr>
+                            <tr><td>+1</td><td>+2</td><td>+3</td><td>+4</td><td>+5</td><td>+6</td><td>+7</td><td>+8</td><td>+9</td><td>+10</td><td>+11</td></tr>
+                        </table>
+                    </li>
+                    <li>Tap the button to soothe its nerves after it heard your stumble.</li>
+                    <li>Play the <u>Stumble Note</u> normally, and continue playing the Note Sequence.</li>
+                </ul>
+                <p>
+                    If at any point you play an incorrect note (including during a stumble), incorrectly tap the button, or forget to tap it at all, a strike will be issued, 
+                    the button will be disappointed in you, and the input will be completely reset.
+                </p>
+                <p>
+                    <i>* If the length of the Note Sequence is even, there will be 2 center notes. Otherwise, there will be only 1 center note.</i>
+                    <br><i>** Shifting forwards: C -> C# -> D -> D# -> E -> ... -> B -> C</i>
+                </p>
+            </div>
+            <div class="page-footer relative-footer">Page 2 of 2</div>
+        </div>
+    </div>
+</body>
+</html>
