@@ -176,7 +176,7 @@ public class AVInput : Puzzle
         }
         if (new List<int>() { 0, 2, 4, 5, 7, 9, 11 }.Contains(lastPress))
         {
-            if (Info.BulbInfo[4] == (Button == 0))
+            if (Info.BulbInfo[4] == (Button == 2))
             {
                 Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Pressed the O key for resetting after the white key {1}.", ModuleID, Info.PianoKeyNames[lastPress]);
                 Module.CauseStrike();
@@ -192,7 +192,7 @@ public class AVInput : Puzzle
         }
         else
         {
-            if (Info.BulbInfo[4] == (Button == 0))
+            if (Info.BulbInfo[4] == (Button == 2))
             {
                 Debug.LogFormat("[The Cruel Modkit #{0}] Correctly pressed the O key for resetting after the black key {1}.", ModuleID, Info.PianoKeyNames[lastPress]);
                 ChangeBulb(0, false);
