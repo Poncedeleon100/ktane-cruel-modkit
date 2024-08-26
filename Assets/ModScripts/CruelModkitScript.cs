@@ -522,6 +522,10 @@ public class CruelModkitScript : MonoBehaviour
                 TargetComponents = 64;
                 Puzzle = new MeteredButton(this, ModuleID, Info, TargetComponents);
                 break;
+            case "Stumbling Symphony":
+                TargetComponents = 68;
+                Puzzle = new StumblingSymphony(this, ModuleID, Info, TargetComponents);
+                break;
             case "Test Puzzle":
             default:
                 TargetComponents = 255;
@@ -859,7 +863,7 @@ public class CruelModkitScript : MonoBehaviour
                     { "Text", "Select Module" },
                     { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
                     { "Type", "Dropdown" },
-                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Who's Who", "Simon Skips", "Metered Button", "Test Puzzle" } }
+                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "Test Puzzle" } }
                 },
             }
             },
