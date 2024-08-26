@@ -46,6 +46,7 @@ public class ComponentInfo
 
     //Colors
     public static readonly Color ButtonTextWhite = new Color(1, 1, 1);
+    public static readonly Color ButtonTextBlack = new Color(0, 0, 0);
 
     //Logging
     public readonly string[] PianoKeyNames = { "C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B" };

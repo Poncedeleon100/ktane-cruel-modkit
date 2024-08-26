@@ -31,6 +31,12 @@
         .color-i { background-color: purple; }
         .color-k { background-color: black; color: white; }
         .color-w { background-color: white; }
+        .page-footer::before {
+            content: 'Page ';
+        }
+        .page-footer::after {
+            content: ' of 2';
+        }
     </style>
 </head>
 <body>
@@ -44,7 +50,7 @@
                 <h2>On the Subject of Metered Button</h2>
                 <p class="flavour-text">Also known as the Foot Button if you’re American</p>
                 <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Button]</strong>, you are looking at the wrong section of this manual!</p>
-                <p>Note the color of the button along with its text, then press the ❖ symbol to initiate the module.</p>
+                <p>Note the color of the button along with its text, then press the ❖ button to initiate the module.</p>
                 <p>The meter will now rise. You have 1:30 to submit your answers, or the module will strike and reset.</p>
                 <p>Input the text and color of the button into the table below to get a number.</p>
                 <table class="table1">
@@ -81,7 +87,7 @@
                 </table>
                 <p>Call the received value “Value A” and input it into the table below to get an instruction.</p>
             </div>
-            <div class="page-footer relative-footer">Page 1 of 1</div>
+            <div class="page-footer relative-footer">1</div>
         </div>
         <div class="page page-bg-01">
             <div class="page-header">
@@ -121,12 +127,12 @@
                     <li>T#: Tap the button when the last digit of the bomb timer is a #.</li>
                     <li>H#: Hold the button when the last digit of the bomb timer is (# + battery count) modulo 10, and release when the last digit of the bomb timer is |# - port count|.</li>
                     <li>M#: Mash the button # times across 3 seconds.</li>
-                    <li>X#: Press the ❖ symbol (last digit of S#† * #, modulo 25) times, then tap the button.</li>
+                    <li>X#: Press the ❖ button (last digit of S#† * #, modulo 25) times, then tap the button.</li>
                 </ul>
                 <p>Correctly performing the instruction will refresh the number display and the button and advance a stage. Completing all three stages will solve the module. Incorrectly pressing the button will cause a strike, resetting the module.</p>
                 <strong>†If this number is 0, add 10.</strong>
             </div>
-            <div class="page-footer relative-footer">Page 2 of 2</div>
+            <div class="page-footer relative-footer">2</div>
         </div>
     </div>
 </body>

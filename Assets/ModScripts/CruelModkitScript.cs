@@ -50,12 +50,11 @@ public class CruelModkitScript : MonoBehaviour
     public GameObject[] ResistorStrips;
     public TextMesh[] ResistorText;
     public TextMesh[] WidgetText;
-    public Light MorseLight;
-    public Renderer MorseMesh;
+    public GameObject MorseLED;
     public GameObject Meter;
 
     public Mesh[] WireMesh;
-    List<int> WiresCut = new List<int>();
+    readonly List<int> WiresCut = new List<int>();
 
     //Fixes light sizes on different bomb sizes
     public Light[] LightsArray;
@@ -63,14 +62,14 @@ public class CruelModkitScript : MonoBehaviour
     //Component Selector Info
     [Flags]
     public enum ComponentsEnum : byte {
-        Wires = 1,
-        Button = 2,
-        LED = 4,
-        Symbols = 8,
-        Alphabet = 16,
-        Piano = 32,
-        Arrows = 64,
-        Bulbs = 128
+        Wires = 128,
+        Button = 64,
+        LED = 32,
+        Symbols = 16,
+        Alphabet = 8,
+        Piano = 4,
+        Arrows = 2,
+        Bulbs = 1
     }
 
     public int CountComponents(ComponentsEnum comps) {
@@ -487,9 +486,10 @@ public class CruelModkitScript : MonoBehaviour
     IEnumerator PlaySolveAnim()
     {
         // Solve animation is split into stages so that the doors don't overlap
-        for (int i = 0; i < CountComponents((ComponentsEnum)OnComponents); i++)
+        bool Pause = (((OnComponents & 24) != 0) || ((((OnComponents & 64) != 0) || ((OnComponents & 32) != 0)) && (((OnComponents & 4) != 0) || ((OnComponents & 1) != 0))) || (((OnComponents & 128) != 0) && (((OnComponents & 2) != 0) || ((OnComponents & 1) != 0))));
+        for (int i = 7; i > -1; i--)
         {
-            if ((i == 4 && (((OnComponents & 24) != 0) || (((OnComponents & 6) != 0) && (((OnComponents & 96) != 0))) || (((OnComponents & 1) != 0) && (((OnComponents & 192) != 0))))))
+            if ((i == 3 && Pause))
                 yield return new WaitForSeconds(1f);
             if ((OnComponents & (byte)Math.Pow(2, i)) != 0)
                 StartCoroutine(HideComponent((ComponentsEnum)Math.Pow(2, i)));
@@ -499,16 +499,16 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        //SelectModule = "Timer Timings";
+        SelectModule = "Timer Timings";
         switch (SelectModule)
         {
-            case "Metered Button":
-                TargetComponents = 2;
-                Puzzle = new MeteredButton(this, ModuleID, Info, true, TargetComponents);
-                break;
             case "Timer Timings":
                 TargetComponents = 0;
                 Puzzle = new TimerTimings(this, ModuleID, Info, true, TargetComponents);
+                break;
+            case "Metered Button":
+                TargetComponents = 64;
+                Puzzle = new MeteredButton(this, ModuleID, Info, true, TargetComponents);
                 break;
             case "Test Puzzle":
                 TargetComponents = 255;
@@ -634,7 +634,7 @@ public class CruelModkitScript : MonoBehaviour
             CurrentComponent = ComponentsEnum.Bulbs;
         else if (CurrentComponent == ComponentsEnum.Bulbs && i == 1)
             CurrentComponent = ComponentsEnum.Wires;
-        else CurrentComponent = (ComponentsEnum)Math.Pow(2, (int)(Math.Log((int)CurrentComponent, 2) + .1) + i);
+        else CurrentComponent = (ComponentsEnum)Math.Pow(2, (int)(Math.Log((int)CurrentComponent, 2) + .1) - i);
 
         DisplayText.text = CurrentComponent.ToString("F").ToUpper();
         DisplayText.color = ((ComponentsEnum)OnComponents & CurrentComponent) == CurrentComponent ? Color.green : Color.red;
@@ -755,11 +755,11 @@ public class CruelModkitScript : MonoBehaviour
                 var Code = MorseCodeTable[char.ToUpper(c)];
                 foreach (var Symbol in Code)
                 {
-                    MorseLight.enabled = true;
-                    MorseMesh.material = MorseMats[1];
+                    MorseLED.transform.Find("MorseBulbLight").GetComponentInChildren<Light>().enabled = true;
+                    MorseLED.transform.GetComponentInChildren<MeshRenderer>().material = MorseMats[1];
                     yield return new WaitForSeconds(Symbol == Symbol.Dot ? MorseCodeDotLength : MorseCodeDotLength * 3);
-                    MorseLight.enabled = false;
-                    MorseMesh.material = MorseMats[0];
+                    MorseLED.transform.Find("MorseBulbLight").GetComponentInChildren<Light>().enabled = false;
+                    MorseLED.transform.GetComponentInChildren<MeshRenderer>().material = MorseMats[0];
                     yield return new WaitForSeconds(MorseCodeDotLength);
                 }
                 yield return new WaitForSeconds(MorseCodeDotLength * 3);  // 4 dots total
@@ -844,7 +844,7 @@ public class CruelModkitScript : MonoBehaviour
                     { "Text", "Select Module" },
                     { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
                     { "Type", "Dropdown" },
-                    { "DropdownItems", new List<object> { "Timer Timings", "Test Puzzle" } }
+                    { "DropdownItems", new List<object> { "Timer Timings", "Metered Button", "Test Puzzle" } }
                 },
             }
             },

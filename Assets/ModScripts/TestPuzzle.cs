@@ -30,7 +30,7 @@ public class TestPuzzle : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] Widgets: Timer display is {1}. Word display is {2}. Number display is {3}. Morse code LED is {4}. Meter is {5} and at {6}%.", ModuleID, Info.TimerDisplay.ToString().PadLeft(5, '0'), Info.WordDisplay == "" ? "blank" : Info.WordDisplay, Info.NumberDisplay, Info.Morse, (Info.MeterValue == 0) ? "none" : Info.MeterColors[Info.MeterColor], (100 * Math.Round(Info.MeterValue, 2)).ToString());
     }
 
-    List<int> WiresCut = new List<int>();
+    readonly List<int> WiresCut = new List<int>();
     readonly bool[] SymbolsOn = { false, false, false, false, false, false };
     readonly bool[] AlphabetOn = { false, false, false, false, false, false };
 
@@ -212,17 +212,6 @@ public class TestPuzzle : Puzzle
             return;
 
         Debug.LogFormat("[The Cruel Modkit #{0}] ❖ button pressed. Module solved.", ModuleID);
-        Module.StopAllCoroutines();
-        foreach (GameObject Symbols in Module.Symbols)
-            Symbols.transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = Module.KeyLightMats[0];
-        foreach (GameObject Alphabet in Module.Alphabet)
-            Alphabet.transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = Module.KeyLightMats[0];
-        foreach (GameObject Arrow in Module.Arrows)
-            Arrow.transform.Find("ArrowLight").gameObject.SetActive(false);
-        for (int i = 0; i < 2; i++)
-            Module.Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Module.Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = false;
-        Module.MorseLight.enabled = false;
-        Module.MorseMesh.material = Module.MorseMats[0];
         Module.Solve();
         return;
     }

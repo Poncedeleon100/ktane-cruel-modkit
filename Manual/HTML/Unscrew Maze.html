@@ -35,6 +35,12 @@
         }
         svg .walls {stroke: #000; stroke-width: 5px; fill:none;}
         .dark svg .border, .dark svg .walls {stroke: #DDD;}
+        .page-footer::before {
+            content: 'Page ';
+        }
+        .page-footer::after {
+            content: ' of 1';
+        }
     </style>
 </head>
 <body>
@@ -66,7 +72,7 @@
                     <path class="walls" d="M5 405 h100 v100 m100 100 v-200 h200"></path>
                 </svg>
             </div>
-            <div class="page-footer relative-footer">Page 1 of 1</div>
+            <div class="page-footer relative-footer">1</div>
         </div>
     </div>
 </body>
