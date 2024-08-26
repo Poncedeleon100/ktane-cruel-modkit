@@ -37,24 +37,24 @@
                 <p class="flavour-text">Like a disoriented grasshopper...</p>
                 <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[LED, Arrows]</strong>, you are looking at the wrong section of this manual!</p>
                 <p>To solve the module you must submit a color sequence on the arrows and sliders. For this sub-module, 1 clockwise from the top arrow is the top-right slider.</p>
-                <p>To initiate the module, press the ❖ button. The LEDs will change colors to contain only the colors that appear on the arrows or a close representation of those colours:</p>
-                <ul><li>Magenta Slider -> Purple LED</li><li>Grey Slider -> Black LED</li></ul>
+                <p>To initiate the module, press the ❖ button. The LEDs will change colors to contain only the colors that appear on the arrows or a close representation of those colors:</p>
+                <ul><li>Magenta slider -> Purple LED</li><li>Grey slider -> Black LED</li></ul>
                 <p>Figure out the starting color by doing the following:</p>
                 <ul>
-                    <li>Take the product of all non-zero digits in the Serial Number;</li>
+                    <li>Take the product of all non-zero digits in the serial number;</li>
                     <li>Add the number on the number display;</li>
                     <li>Take the result modulo 8, call the result <strong>X</strong>;</li>
                     <li>On the arrows, start at the top arrow, then go <strong>X</strong> times clockwise;</li>
                     <li>The color of the arrow/slider you land on is the starting color.</li>
                 </ul>
-                <p>After calculating the starting color, press it on the arrows or sliders, <strong>UNLESS</strong> it is Black or White, in which case press the Center Button on the arrows to immediately submit an empty sequence.</p>
+                <p>After calculating the starting color, press it on the arrows or sliders, <strong>UNLESS</strong> it is black or white, in which case press the center button on the arrows to immediately submit an empty sequence.</p>
                 <p>Next, for each LED:</p>
                 <ul>
                     <li>Count the number of times you need to go clockwise from the previously pressed color to the current LED color on the arrows or sliders.</li>
                     <li>Go that many times counter-clockwise from the previously pressed color on the arrows.</li>
-                    <li>If the color you land on is Black or White, press the Center Button on the arrows to submit your sequence. Otherwise, press the color you landed on.</li>
+                    <li>If the color you land on is black or white, press the Center Button on the arrows to submit your sequence. Otherwise, press the color you landed on.</li>
                 </ul>
-                <p>If you went over all 8 of the LEDs without ever landing on Black or on White, press the Center Button to submit.</p>
+                <p>If you went over all 8 of the LEDs without ever landing on black or on white, press the center button to submit.</p>
                 <p>Upon submission, if the submitted sequence was correct, the module will solve. Otherwise, a strike will be given and the inputted sequence will reset.</p>
             </div>
             <div class="page-footer relative-footer">1</div>

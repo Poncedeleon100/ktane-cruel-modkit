@@ -510,6 +510,10 @@ public class CruelModkitScript : MonoBehaviour
                 TargetComponents = 3;
                 Puzzle = new UnscrewMaze(this, ModuleID, Info, TargetComponents);
                 break;
+            case "Who's Who":
+                TargetComponents = 33;
+                Puzzle = new WhosWho(this, ModuleID, Info, TargetComponents);
+                break;
             case "Simon Skips":
                 TargetComponents = 34;
                 Puzzle = new SimonSkips(this, ModuleID, Info, TargetComponents);
@@ -610,9 +614,14 @@ public class CruelModkitScript : MonoBehaviour
             int y = i;
             Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f));
+                StartCoroutine(AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 1));
                 Puzzle.OnBulbButtonPress(y);
                 return false;
+            };
+            Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteractEnded += delegate
+            {
+                StartCoroutine(AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 2));
+                Puzzle.OnBulbButtonRelease(y);
             };
         }
 
@@ -850,7 +859,7 @@ public class CruelModkitScript : MonoBehaviour
                     { "Text", "Select Module" },
                     { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
                     { "Type", "Dropdown" },
-                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Metered Button", "Test Puzzle" } }
+                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Who's Who", "Simon Skips", "Metered Button", "Test Puzzle" } }
                 },
             }
             },
