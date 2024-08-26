@@ -13,7 +13,7 @@ using Random = UnityEngine.Random;
 public class TestPuzzle : Puzzle
 {
 
-    public TestPuzzle(CruelModkitScript Module, int ModuleID, ComponentInfo Info, bool Vanilla, byte Components) : base(Module, ModuleID, Info, Vanilla, Components)
+    public TestPuzzle(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
         Debug.LogFormat("[The Cruel Modkit #{0}] Solving the Test Puzzle.", ModuleID);
         Debug.LogFormat("[The Cruel Modkit #{0}] Wires present: {1}.", ModuleID, Info.GetWireInfo());

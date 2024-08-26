@@ -54,7 +54,7 @@ public class MeteredButton : Puzzle
             {"T7", "T4", "M4", "H6", "H7", "M2", "M5", "T9", "X7", "H9"}
         };
 
-    public MeteredButton(CruelModkitScript Module, int ModuleID, ComponentInfo Info, bool Vanilla, byte Components) : base(Module, ModuleID, Info, Vanilla, Components)
+    public MeteredButton(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
         Debug.LogFormat("[The Cruel Modkit #{0}] Solving Metered Button. Press the ❖ button to activate the timer.", ModuleID);
         GenButton();

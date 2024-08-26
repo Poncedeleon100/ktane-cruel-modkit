@@ -130,6 +130,7 @@ public class CruelModkitScript : MonoBehaviour
         { 'Z', new[] { Symbol.Dash, Symbol.Dash, Symbol.Dot, Symbol.Dot } },
     };
     private const float MorseCodeDotLength = 0.25f;
+    public IEnumerator MorseCodeAnimation;
 
     // Logging
     static int ModuleIDCounter = 1;
@@ -499,24 +500,25 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        SelectModule = "Timer Timings";
+        
         switch (SelectModule)
         {
             case "Timer Timings":
                 TargetComponents = 0;
-                Puzzle = new TimerTimings(this, ModuleID, Info, true, TargetComponents);
+                Puzzle = new TimerTimings(this, ModuleID, Info, TargetComponents);
+                break;
+            case "Unscrew Maze":
+                TargetComponents = 3;
+                Puzzle = new UnscrewMaze(this, ModuleID, Info, TargetComponents);
                 break;
             case "Metered Button":
                 TargetComponents = 64;
-                Puzzle = new MeteredButton(this, ModuleID, Info, true, TargetComponents);
+                Puzzle = new MeteredButton(this, ModuleID, Info, TargetComponents);
                 break;
             case "Test Puzzle":
-                TargetComponents = 255;
-                Puzzle = new TestPuzzle(this, ModuleID, Info, true, TargetComponents);
-                break;
             default:
                 TargetComponents = 255;
-                Puzzle = new TestPuzzle(this, ModuleID, Info, true, TargetComponents);
+                Puzzle = new TestPuzzle(this, ModuleID, Info, TargetComponents);
                 break;
         }
 
@@ -736,7 +738,8 @@ public class CruelModkitScript : MonoBehaviour
         //Set number display text
         WidgetText[2].text = Info.NumberDisplay.ToString();
         //Set morse code display
-        StartCoroutine(PlayWord(Info.Morse));
+        MorseCodeAnimation = PlayWord(Info.Morse);
+        StartCoroutine(MorseCodeAnimation);
         //Set meter value and color
         Meter.GetComponentInChildren<Renderer>().material = MeterMats[Info.MeterColor];
         //Changes the meter so it matches the value from Info.MeterValue; adjusts scale first then shifts the position down
@@ -844,7 +847,7 @@ public class CruelModkitScript : MonoBehaviour
                     { "Text", "Select Module" },
                     { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
                     { "Type", "Dropdown" },
-                    { "DropdownItems", new List<object> { "Timer Timings", "Metered Button", "Test Puzzle" } }
+                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Metered Button", "Test Puzzle" } }
                 },
             }
             },
