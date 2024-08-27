@@ -92,10 +92,10 @@ public class WhosWho : Puzzle {
             else
                 listA.Add(cellWord);
             row += 8;
-            row -= offsets[LEDcolor];
+            row += offsets[LEDcolor];
             row %= 8;
             column += 8;
-            column -= offsets[cellColor];
+            column += offsets[cellColor];
             column %= 8;
         }
         string word;
