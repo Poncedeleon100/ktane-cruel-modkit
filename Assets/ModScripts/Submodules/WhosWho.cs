@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics; // to track how long each button has been held
 using System.Linq;
@@ -89,10 +87,10 @@ public class WhosWho : Puzzle {
         listA.Add(cellWord);
       }
       row += 8;
-      row -= offsets[LEDcolor];
+      row += offsets[LEDcolor];
       row %= 8;
       column += 8;
-      column -= offsets[cellColor];
+      column += offsets[cellColor];
       column %= 8;
     }
     string word;
