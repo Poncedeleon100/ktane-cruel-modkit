@@ -61,7 +61,8 @@ public class CruelModkitScript : MonoBehaviour
 
     //Component Selector Info
     [Flags]
-    public enum ComponentsEnum : byte {
+    public enum ComponentsEnum : byte
+    {
         Wires = 128,
         Button = 64,
         LED = 32,
@@ -72,7 +73,8 @@ public class CruelModkitScript : MonoBehaviour
         Bulbs = 1
     }
 
-    public int CountComponents(ComponentsEnum comps) {
+    public int CountComponents(ComponentsEnum comps)
+    {
         return new BitArray(new[] {(byte)comps}).OfType<bool>().Count(x => x);
     }
 
@@ -223,9 +225,7 @@ public class CruelModkitScript : MonoBehaviour
         SelectorButtons[1].AddInteractionPunch(0.5f);
         StartCoroutine(AnimateButtonPress(SelectorButtons[1].transform, Vector3.down * 0.005f));
         if (ModuleSolved || Solving || ForceComponents || Animating)
-        {
             return;
-        }
         
         if(((ComponentsEnum)OnComponents & CurrentComponent) == CurrentComponent)
         {
@@ -330,7 +330,8 @@ public class CruelModkitScript : MonoBehaviour
     {
         Animating = true;
         Audio.PlayGameSoundAtTransformWithRef(KMSoundOverride.SoundEffect.WireSequenceMechanism, transform);
-        Dictionary<ComponentsEnum, float> floats = new Dictionary<ComponentsEnum, float>(){
+        Dictionary<ComponentsEnum, float> floats = new Dictionary<ComponentsEnum, float>()
+        {
             {ComponentsEnum.Wires,    -.08f   },
             {ComponentsEnum.Button,   -.0374f },
             {ComponentsEnum.LED,      -.08f   },
@@ -362,7 +363,8 @@ public class CruelModkitScript : MonoBehaviour
     {
         Animating = true;
         Audio.PlayGameSoundAtTransformWithRef(KMSoundOverride.SoundEffect.WireSequenceMechanism, transform);
-        Dictionary<ComponentsEnum, float> floats = new Dictionary<ComponentsEnum, float>(){
+        Dictionary<ComponentsEnum, float> floats = new Dictionary<ComponentsEnum, float>()
+        {
             {ComponentsEnum.Wires,     .08f   },
             {ComponentsEnum.Button,    .0374f },
             {ComponentsEnum.LED,       .08f   },
@@ -464,22 +466,16 @@ public class CruelModkitScript : MonoBehaviour
             int Color1 = Info.Wires[0][i];
             int Color2 = Info.Wires[1][i];
             if (Color1 != Color2)
-            {
                 Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1] + "_" + ComponentInfo.WireColors[Color2]).ToArray()[0];
-            }
             else
-            {
                 Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1]).ToArray()[0];
-            }
 
             Wires[i].transform.Find("WireHL").gameObject.SetActive(true);
             Wires[i].GetComponent<MeshFilter>().mesh = WireMesh[0];
         }
 
         for (int i = 0; i < WireLED.Length; i++)
-        {
             WireLED[i].transform.Find("WireLEDL").GetComponentInChildren<Renderer>().material = WireLEDMats[Info.WireLED[i]];
-        }
 
         yield return ShowComponent(ComponentsEnum.Wires);
     }
@@ -649,9 +645,8 @@ public class CruelModkitScript : MonoBehaviour
         Button.AddInteractionPunch(0.5f);
         StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.005f));
         if (ModuleSolved || ForceComponents)
-        {
             return;
-        }
+
         if (CurrentComponent == ComponentsEnum.Wires && i == -1)
             CurrentComponent = ComponentsEnum.Bulbs;
         else if (CurrentComponent == ComponentsEnum.Bulbs && i == 1)
@@ -671,41 +666,27 @@ public class CruelModkitScript : MonoBehaviour
             int Color1 = Info.Wires[0][i];
             int Color2 = Info.Wires[1][i];
             if(Color1 != Color2)
-            {
                 Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1] + "_" + ComponentInfo.WireColors[Color2]).ToArray()[0];
-            }
             else
-            {
                 Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1]).ToArray()[0];
-            }
         }
         //Set materials for Wire LEDs
         for(int i = 0; i < WireLED.Length; i++)
-        {
             WireLED[i].transform.Find("WireLEDL").GetComponentInChildren<Renderer>().material = WireLEDMats[Info.WireLED[i]];
-        }
         //Set text and material for Button
         Button.transform.GetComponentInChildren<Renderer>().material = ButtonMats[Info.Button];
         Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
         if(Info.Button == 0 || Info.Button == 1 || Info.Button == 7)
-        {
             Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ComponentInfo.ButtonTextWhite;
-        }
         //Set materials for LEDs
         for(int i = 0; i < LED.Length; i++)
-        {
             LED[i].transform.Find("LEDL").GetComponentInChildren<Renderer>().material = LEDMats[Info.LED[i]];
-        }
         //Set materials for Symbols
         for(int i = 0; i < Symbols.Length; i++)
-        {
             Symbols[i].transform.Find("Symbol").GetComponentInChildren<Renderer>().material = SymbolMats[Info.Symbols[i]];
-        }
         //Set Alphabet text
         for(int i = 0; i < Alphabet.Length; i++)
-        {
             Alphabet[i].transform.Find("AlphabetText").GetComponentInChildren<TextMesh>().text = Info.Alphabet[i];
-        }
         //Set materials and light colors for Arrows
         for(int i = 0; i < 9; i++)
         {
@@ -831,14 +812,6 @@ public class CruelModkitScript : MonoBehaviour
         Debug.LogFormat("[The Cruel Modkit #{0}] Puzzle ID is {1}. Binary conversion is {2}.", ModuleID, Products.ToString(), Convert.ToString(Products, 2).PadLeft(8, '0'));
         TargetComponents = (byte)Products;
         Debug.LogFormat("[The Cruel Modkit #{0}] Calculated components are: [{1}].", ModuleID, GetTargetComponents());
-        //Alternate calculation method: Convert serial number from base36 to base10, then to binary, then calculate the components
-        /*double AltPuzzleID = 0;
-        foreach (char c in SerialNumber)
-            AltPuzzleID += (Base36.IndexOf(c) * Math.Pow(36, (SerialNumber.Length - 1) - SerialNumber.IndexOf(c)));
-        var AltPuzzleBinary = Convert.ToString(Convert.ToInt64(AltPuzzleID), 2).PadLeft(8, '0');
-        Debug.LogFormat("[The Cruel Modkit #{0}] Alternate Puzzle ID is {1}. Binary conversion is {2}. Trimmed binary number is {3}.", ModuleID, AltPuzzleID, Convert.ToString(Convert.ToInt64(AltPuzzleID), 2), AltPuzzleBinary.Substring(1, 8));
-        TargetComponents = AltPuzzleBinary.Substring(1, 8).Select(x => x == '1').ToArray();
-        Debug.LogFormat("[The Cruel Modkit #{0}] Alternate calculated components are: [{1}].", ModuleID, GetTargetComponents());*/
     }
 
     // Logging

@@ -134,7 +134,7 @@ public class ComponentInfo
             for (int x = 0; x <= LetterAmount; x++)
                 AlphabetKey += Letters[x];
             if (LetterAmount == 1 && NumberAmount == 1)
-                AlphabetKey += Environment.NewLine;
+                AlphabetKey += "\n";
             for (int x = 0; x <= NumberAmount; x++)
                 AlphabetKey += Numbers[x];
             Alphabet[i] = AlphabetKey;
