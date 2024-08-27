@@ -17,6 +17,8 @@ public class AVInput : Puzzle
     int lastPress = -1;
     List<int> scaleInput = new List<int>();
     List<int> uniquePresses = new List<int>();
+    int[] bulb1Actions = new int[12];
+    int[] bulb2Actions = new int[12];
 
     public AVInput(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
@@ -30,17 +32,29 @@ public class AVInput : Puzzle
                 note = Random.Range(0, 12);
 
             bulb1Notes.Add(note);
+            bulb1Actions[note] = 2;
 
             note = Random.Range(0, 12);
             while (bulb2Notes.Contains(note))
                 note = Random.Range(0, 12);
 
             bulb2Notes.Add(note);
+            bulb2Actions[note] = 2;
         }
         bulb1Notes.Sort();
         bulb2Notes.Sort();
         Debug.LogFormat("[The Cruel Modkit #{0}] Left bulb's scale is {1}.", ModuleID, LogScale(bulb1Notes));
         Debug.LogFormat("[The Cruel Modkit #{0}] Right bulb's scale is {1}.", ModuleID, LogScale(bulb2Notes));
+
+        for (int i = 0; i < 12; i++)
+        {
+            if (bulb1Actions[i] != 2)
+                bulb1Actions[i] = Random.Range(0, 2);
+            if (bulb2Actions[i] != 2)
+                bulb2Actions[i] = Random.Range(0, 2);
+        }
+        Debug.LogFormat("[The Cruel Modkit #{0}] Left bulb's key actions are {1}.", ModuleID, bulb1Actions.Select(x => new string[] { "Off", "On", "Toggle" }[x]).Join(", "));
+        Debug.LogFormat("[The Cruel Modkit #{0}] Right bulb's key actions are {1}.", ModuleID, bulb2Actions.Select(x => new string[] { "Off", "On", "Toggle" }[x]).Join(", "));
     }
     
     public override void OnPianoPress(int Piano)
@@ -65,7 +79,7 @@ public class AVInput : Puzzle
 
             Module.StartSolve();
         }
-        if (Piano == lastPress)
+        if (Piano == lastPress & !BulbScrewedIn.Contains(false))
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Pressed the {1} key twice in a row. Turning both bulbs off.", ModuleID, Info.PianoKeyNames[Piano]);
             ChangeBulb(0, false);
@@ -81,14 +95,14 @@ public class AVInput : Puzzle
                 if (bulb1Notes.Contains(Piano))
                     ChangeBulb(0, !bulbStates[0]);
                 else
-                    ChangeBulb(0, Random.value > 0.5f & !bulbSolved[0]);
+                    ChangeBulb(0, bulb1Actions[Piano] == 1);
             }
             if (!bulbSolved[1])
             {
                 if (bulb2Notes.Contains(Piano))
                     ChangeBulb(1, !bulbStates[1]);
                 else
-                    ChangeBulb(1, Random.value > 0.5f & !bulbSolved[1]);
+                    ChangeBulb(1, bulb2Actions[Piano] == 1);
             }
         }
         else
@@ -133,7 +147,8 @@ public class AVInput : Puzzle
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Inputted the correct scale {1} for the {2} bulb. Permanently turning it off.", ModuleID, LogScale(scaleInput), Bulb == 0 ? "left" : "right");
             bulbSolved[Bulb] = true;
-            ChangeBulb(Bulb, false);
+            Info.BulbInfo[Bulb + 2] = false;
+            lastPress = -1;
             if (bulbSolved.SequenceEqual(new bool[2] { true, true }))
             {
                 Debug.LogFormat("[The Cruel Modkit #{0}] Inputted the correct scale for both bulbs. Module solved.", ModuleID);
@@ -141,7 +156,10 @@ public class AVInput : Puzzle
             }
         }
         else
+        {
             Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Inputted the incorrect scale {1} for the {2} bulb.", ModuleID, LogScale(scaleInput), Bulb == 0 ? "left" : "right");
+            Module.CauseStrike();
+        }
         scaleInput = new List<int>();
     }
 
