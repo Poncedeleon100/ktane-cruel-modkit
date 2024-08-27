@@ -132,17 +132,11 @@ public class ComponentInfo
             int LetterAmount = Random.Range(0, 2);
             int NumberAmount = Random.Range(0, 2);
             for (int x = 0; x <= LetterAmount; x++)
-            {
                 AlphabetKey += Letters[x];
-            }
             if (LetterAmount == 1 && NumberAmount == 1)
-            {
                 AlphabetKey += Environment.NewLine;
-            }
             for (int x = 0; x <= NumberAmount; x++)
-            {
                 AlphabetKey += Numbers[x];
-            }
             Alphabet[i] = AlphabetKey;
         }
         //Generate Piano octave
@@ -150,9 +144,7 @@ public class ComponentInfo
         //Generate arrow colors
         int[] ArrowColors = new int[] { 0, 1, 2, 3 }.OrderBy(x => Random.Range(0, 1000)).ToArray();
         for (int i = 0; i < 4; i++)
-        {
             Arrows[i] = ArrowColors[i];
-        }
         //Create slider colors based on generated arrow colors
         string[] TempSliders = new string[4];
         for (int i = 0; i < 4; i++)
@@ -160,27 +152,17 @@ public class ComponentInfo
             if (i == 3)
             {
                 if (Arrows[0] > Arrows[i])
-                {
                     TempSliders[i] = Arrows[i].ToString() + Arrows[0].ToString();
-                }
                 else
-                {
                     TempSliders[i] = Arrows[0].ToString() + Arrows[i].ToString();
-                }
             }
             else if (Arrows[i] > Arrows[i + 1])
-            {
                 TempSliders[i] = Arrows[i + 1].ToString() + Arrows[i].ToString();
-            }
             else
-            {
                 TempSliders[i] = Arrows[i].ToString() + Arrows[i + 1].ToString();
-            }
         }
         for (int i = 0; i < 4; i++)
-        {
             Arrows[i + 4] = SliderColors[TempSliders[i]];
-        }
         Arrows[8] = Random.Range(8, 10);
         //Generate Bulb colors and button labels
         // BulbInfo layout:
@@ -238,41 +220,25 @@ public class ComponentInfo
         //Generate morse code display (Random string of 3 characters; may be changed by modules)
         Morse = String.Empty;
         for (int i = 0; i < 3; i++)
-        {
             Morse += MorseList[Random.Range(0, MorseList.Length)];
-        }
         //Generate meter value and color
         MeterColor = Random.Range(0, 6);
         MeterValue = Random.value;
         //Rounds the value if it's close enough to one of the lines on the meter (0, 1/4, 1/3, 1/2, 2/3, 3/4, 1)
         if (MeterValue < 0.02d)
-        {
             MeterValue = 0;
-        }
         else if (0.23f < MeterValue && MeterValue < 0.27f)
-        {
             MeterValue = 0.25d;
-        }
         else if (0.32f < MeterValue && MeterValue < 0.345f)
-        {
             MeterValue = 0.333d;
-        }
         else if (0.48f < MeterValue && MeterValue < 0.52f)
-        {
             MeterValue = 0.5d;
-        }
         else if (0.65f < MeterValue && MeterValue < 0.68f)
-        {
             MeterValue = 0.667d;
-        }
         else if (0.765f < MeterValue && MeterValue < 0.735f)
-        {
             MeterValue = 0.75d;
-        }
         else if (0.98f < MeterValue)
-        {
             MeterValue = 1;
-        }
     }
 
     public void RegenWires()

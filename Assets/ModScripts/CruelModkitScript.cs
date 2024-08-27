@@ -510,6 +510,10 @@ public class CruelModkitScript : MonoBehaviour
                 TargetComponents = 3;
                 Puzzle = new UnscrewMaze(this, ModuleID, Info, TargetComponents);
                 break;
+            case "AV Input":
+                TargetComponents = 5;
+                Puzzle = new AVInput(this, ModuleID, Info, TargetComponents);
+                break;
             case "Who's Who":
                 TargetComponents = 33;
                 Puzzle = new WhosWho(this, ModuleID, Info, TargetComponents);
@@ -863,7 +867,7 @@ public class CruelModkitScript : MonoBehaviour
                     { "Text", "Select Module" },
                     { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
                     { "Type", "Dropdown" },
-                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "Test Puzzle" } }
+                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "AV Input", "Test Puzzle" } }
                 },
             }
             },

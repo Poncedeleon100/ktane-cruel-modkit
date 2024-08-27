@@ -1,20 +1,27 @@
 {
   "Compatibility": "Compatible",
   "Contributors": {
-    "Developer": [ "Moon" ],
+    "Developer": [
+	  "Moon",
+      "Konoko",
+      "GoodHood",
+      "_Play_",
+      "ObjectsCountries",
+      "Kilo Bites",
+      "UnrulyJuli3"
+	],
     "Manual": [
       "Yoshi Dojo",
       "Sameone",
       "CyanixDash",
-      "_Play_",
       "Upsilon",
-      "RazorBlade",
+      "RazorBlade_Graywolfe",
       "Red Penguin",
       "ktane1",
       "Masked Mystery",
       "1254",
       "BCMGF1137",
-      "Obvi"
+      "Obvious"
     ]
   },
   "DefuserDifficulty": "VeryHard",
@@ -23,10 +30,13 @@
   "ModuleID": "cruelModkit",
   "Name": "The Cruel Modkit",
   "Origin": "Mods",
-  "Published": "2024-08-20",
+  "Published": "2024-08-26",
   "SortKey": "CRUELMODKIT",
   "SourceUrl": "https://github.com/Poncedeleon100/ktane-cruel-modkit",
-  "Souvenir": { "Status": "NotACandidate" },
+  "Souvenir": {
+    "Explanation": "Souvenir could ask for the name of the module that was solved.",
+    "Status": "Considered"
+  },
   "SteamID": null,
   "Symbol": "Cmdk",
   "Type": "Regular"
