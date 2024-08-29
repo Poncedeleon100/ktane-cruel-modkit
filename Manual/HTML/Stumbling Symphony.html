@@ -11,26 +11,90 @@
     <script src="js/jquery.3.7.0.min.js"></script>
     <script src="js/Utilities/svg-utils.js"></script>
     <style>
+        .stumbling-symphony-table {
+            text-align: center;
+        }
+
+        .stumbling-symphony-table th:nth-child(1) {
+            width: 10%;
+        }
+
+        .stumbling-symphony-table th:nth-child(2) {
+            width: 45%;
+        }
+
+        .stumbling-symphony-table th:nth-child(3) {
+            width: 45%;
+        }
+
+        .stumbling-symphony-color-table {
+            font-size: 15px;
+        }
+
+        .black {
+            background-color: black;
+            color: white;
+        }
+
+        .red {
+            background-color: red;
+            color: black;
+        }
+
+        .orange {
+            background-color: orange;
+            color: black;
+        }
+
+        .yellow {
+            background-color: yellow;
+            color: black;
+        }
+
+        .green {
+            background-color: green;
+            color: black;
+        }
+
+        .lime {
+            background-color: lime;
+            color: black;
+        }
+
+        .cyan {
+            background-color: cyan;
+            color: black;
+        }
+
+        .blue {
+            background-color: blue;
+            color: white;
+        }
+
+        .purple {
+            background-color: purple;
+            color: white;
+        }
+
+        .pink {
+            background-color: #FF3CC8;
+            color: white;
+        }
+
+        .white {
+            background-color: white;
+            color: black;
+        }
+
         .dark table, table {
             margin: 1em auto;
             border: none;
         }
-        .centered-table {  text-align: center; }
-        .color-table { font-size: 15px; }
-        .black { background-color: black; color: white; }
-        .red { background-color: red; color: white; }
-        .orange { background-color: orange; color: black; }
-        .yellow { background-color: yellow; color: black; }
-        .green { background-color: green; color: white; }
-        .lime { background-color: lime; color: black; }
-        .cyan { background-color: cyan; color: black; }
-        .blue { background-color: blue; color: white; }
-        .purple { background-color: purple; color: white; }
-        .pink { background-color: #FF3CC8; color: black; }
-        .white { background-color: white; color: black; }
+
         .page-footer::before {
             content: 'Page ';
         }
+
         .page-footer::after {
             content: ' of 2';
         }
@@ -50,11 +114,11 @@
                 <p>Today, you will be playing a melody for the button to try to impress it and solve the module. You tried your best to practice the melody, but you still might stumble during your performance.</p>
                 <p>To initiate the module, press the "❖" button. The number display will display a number in such a way, so that the defuser will stumble (explained on the second page of this sub-module) exactly 3-7 times (or Ø in a special case).</p>
                 <p>To figure out what melody you'll be playing, take the new number on the number display, and use it in the table below to obtain your melody.</p>
-                <table class="centered-table centered">
+                <table class="stumbling-symphony-table centered">
                     <tr>
-                        <th width="10%">Number Display</th>
-                        <th width="45%">Melody Name</th>
-                        <th width="45%">Note Sequence</th>
+                        <th>Number Display</th>
+                        <th>Melody Name</th>
+                        <th>Note Sequence</th>
                     </tr>
                     <tr><td>Ø</td><td>Für Elise</td><td>E D# E D# E B D C</td></tr>
                     <tr><td>1</td><td>All I Want for Christmas is You</td><td>B A G Eb D A B A G</td></tr>
@@ -78,7 +142,7 @@
                 <span class="page-header-section-title">The Cruel Modkit</span>
             </div>
             <div class="page-content">
-                <p>To determing when you will stumble, follow this list of rules:</p>
+                <p>To determine when you will stumble, follow this list of rules:</p>
                 <ul>
                     <li>If the button doesn't have a label, you are actually a piano maestro and you will never stumble - play the melody normally to solve the module.</li>
                     <li>Otherwise, if the button’s label contains 2 or more vowels (not including “Y”), you will stumble on every sharp/flat note.</li>
@@ -91,7 +155,7 @@
                 <ul>
                     <li>
                         Play the <u>Stumble Note</u> shifted <u>X</u> semitones forwards**, where <u>X</u> is the number obtained from the table below:
-                        <table class="centered-table color-table">
+                        <table class="stumbling-symphony-centered-table stumbling-symphony-color-table">
                             <tr><th colspan="11">Button's Color</th></tr>
                             <tr>
                                 <td class="black">Black</td>
@@ -113,7 +177,7 @@
                     <li>Play the <u>Stumble Note</u> normally, and continue playing the Note Sequence.</li>
                 </ul>
                 <p>
-                    If at any point you play an incorrect note (including during a stumble), incorrectly tap the button, or forget to tap it at all, a strike will be issued, 
+                    If at any point you play an incorrect note (including during a stumble), incorrectly tap the button, or forget to tap it at all, a strike will be issued,
                     the button will be disappointed in you, and the input will be completely reset.
                 </p>
                 <p>

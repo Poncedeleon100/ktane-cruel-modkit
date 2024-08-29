@@ -27,17 +27,30 @@
         });
     </script>
     <style>
-        svg.unscrew-maze { width: 58%; }
+        svg.unscrew-maze {
+            width: 58%;
+        }
+
         svg.unscrew-maze .border {
             fill: none;
             stroke-width: 5px;
             stroke: #000;
         }
-        svg .walls {stroke: #000; stroke-width: 5px; fill:none;}
-        .dark svg .border, .dark svg .walls {stroke: #DDD;}
+
+        svg .unscrew-maze-walls {
+            stroke: #000;
+            stroke-width: 5px;
+            fill: none;
+        }
+
+        .dark svg .border, .dark svg .unscrew-maze-walls {
+            stroke: #DDD;
+        }
+
         .page-footer::before {
             content: 'Page ';
         }
+
         .page-footer::after {
             content: ' of 1';
         }
@@ -56,21 +69,25 @@
                 <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Arrows, Bulbs]</strong>, you are looking at the wrong section of this manual!</p>
                 <p>On the module are two bulbs, four arrows, and a morse LED.</p>
                 <p>
-                    Your current position in the maze is equal to the first character given in the Morse LED. 
+                    Your current position in the maze is equal to the first character given in the Morse LED.
                     Convert the character from Base36 to decimal, and use the cell that shows up in reading order (top left cell is Ø). The same applies to the Bulb positions, using the second character for the left bulb and the third for the right.
                 </p>
-                <p>To unscrew a bulb, go to its coordinates. To solve the module, unscrew both bulbs. Unscrewing a bulb when you’re not at its coordinates or hitting a wall will cause a strike, 
-                    resetting your position in the maze to the starting position, but it won’t reset the module.</p>
+                <p>
+                    To unscrew a bulb, go to its coordinates. To solve the module, unscrew both bulbs. Unscrewing a bulb when you’re not at its coordinates or hitting a wall will cause a strike,
+                    resetting your position in the maze to the starting position, but it won’t reset the module.
+                </p>
                 <p>To move through the maze:</p>
                 <ul>
                     <li>If the center button is white, move using the arrow’s direction.</li>
-                    <li>If the center button is grey, move using the arrow’s color.
-                        <br />(Red = Up, Yellow = Right, Green = Down, and Blue = Left)</li>
+                    <li>
+                        If the center button is grey, move using the arrow’s color.
+                        <br>(Red = Up, Yellow = Right, Green = Down, and Blue = Left)
+                    </li>
                 </ul>
                 <svg xmlns="http://www.w3.org/2000/svg" class="centered-img unscrew-maze" viewBox="0 0 700 700">
-                    <path class="walls" d="M5 105 h200 v200 h-100 m0 -100 h100"></path>
-                    <path class="walls" d="M305 5 v200 h100 v-100 h100 v100 m100 100 h-300 m200 0 v200 h-100 m-100 0 h-100"></path>
-                    <path class="walls" d="M5 405 h100 v100 m100 100 v-200 h200"></path>
+                    <path class="unscrew-maze-walls" d="M5 105 h200 v200 h-100 m0 -100 h100"></path>
+                    <path class="unscrew-maze-walls" d="M305 5 v200 h100 v-100 h100 v100 m100 100 h-300 m200 0 v200 h-100 m-100 0 h-100"></path>
+                    <path class="unscrew-maze-walls" d="M5 405 h100 v100 m100 100 v-200 h200"></path>
                 </svg>
             </div>
             <div class="page-footer relative-footer">1</div>

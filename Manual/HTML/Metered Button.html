@@ -11,26 +11,79 @@
     <script src="js/jquery.3.7.0.min.js"></script>
     <script src="js/Utilities/svg-utils.js"></script>
     <style>
-        .dark table, table {
-            margin: 1em auto;
-            border: none;
-            width: 100%;
-        }
-        th, td {
+        .metered-button-table th {
             padding: 5px;
             text-align: center;
         }
-        .table1 tr:nth-child(2) { color: black; }
-        .color-r { background-color: red; }
-        .color-o { background-color: orange; }
-        .color-y { background-color: yellow; }
-        .color-l { background-color: lime; }
-        .color-g { background-color: green; }
-        .color-c { background-color: cyan; }
-        .color-b { background-color: blue; }
-        .color-i { background-color: purple; }
-        .color-k { background-color: black; color: white; }
-        .color-w { background-color: white; }
+
+        .metered-button-table td {
+            padding: 5px;
+            text-align: center;
+        }
+
+        .metered-button-table {
+            width: 100%;
+        }
+
+        .metered-button-table1 tr:nth-child(2) {
+            color: black;
+        }
+
+        .black {
+            background-color: black;
+            color: white;
+        }
+
+        .red {
+            background-color: red;
+            color: black;
+        }
+
+        .orange {
+            background-color: orange;
+            color: black;
+        }
+
+        .yellow {
+            background-color: yellow;
+            color: black;
+        }
+
+        .green {
+            background-color: green;
+            color: black;
+        }
+
+        .lime {
+            background-color: lime;
+            color: black;
+        }
+
+        .cyan {
+            background-color: cyan;
+            color: black;
+        }
+
+        .blue {
+            background-color: blue;
+            color: white;
+        }
+
+        .purple {
+            background-color: purple;
+            color: white;
+        }
+
+        .pink {
+            background-color: #FF3CC8;
+            color: white;
+        }
+
+        .white {
+            background-color: white;
+            color: black;
+        }
+
         .page-footer::before {
             content: 'Page ';
         }
@@ -48,27 +101,27 @@
             </div>
             <div class="page-content">
                 <h2>On the Subject of Metered Button</h2>
-                <p class="flavour-text">Also known as the Foot Button if you’re American</p>
+                <p class="flavour-text">Also known as the Foot Button if you’re American.</p>
                 <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Button]</strong>, you are looking at the wrong section of this manual!</p>
                 <p>Note the color of the button along with its text, then press the "❖" button to initiate the module.</p>
                 <p>The meter will now rise. You have 1:3Ø to submit your answers, or the module will strike and reset.</p>
                 <p>Input the text and color of the button into the table below to get a number.</p>
-                <table class="table1">
+                <table class="metered-button-table metered-button-table1">
                     <tr>
                         <th rowspan="2">Text ↓</th>
                         <th colspan="10">Color</th>
                     </tr>
                     <tr>
-                        <th class="color-r">R</th>
-                        <th class="color-o">O</th>
-                        <th class="color-y">Y</th>
-                        <th class="color-l">L</th>
-                        <th class="color-g">G</th>
-                        <th class="color-c">C</th>
-                        <th class="color-b">B</th>
-                        <th class="color-i">P</th>
-                        <th class="color-k">K</th>
-                        <th class="color-w">W</th>
+                        <th class="red">R</th>
+                        <th class="orange">O</th>
+                        <th class="yellow">Y</th>
+                        <th class="lime">L</th>
+                        <th class="green">G</th>
+                        <th class="cyan">C</th>
+                        <th class="blue">B</th>
+                        <th class="purple">P</th>
+                        <th class="black">K</th>
+                        <th class="white">W</th>
                     </tr>
                     <tr><td>Press</td><td>1</td><td>Ø</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td></tr>
                     <tr><td>Hold</td><td>6</td><td>1</td><td>Ø</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td></tr>
@@ -82,7 +135,7 @@
                     <tr><td></td><td>Ø</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td><td>1</td></tr>
                     <tr><td>Nothing</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>Ø</td></tr>
                     <tr><td>No</td><td>Ø</td><td>9</td><td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td></tr>
-                    <tr><td>I don’t know</td><td>9</td><td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td><td>Ø</td></tr>
+                    <tr><td>I Don’t Know</td><td>9</td><td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td><td>Ø</td></tr>
                     <tr><td>Yes</td><td>2</td><td>4</td><td>6</td><td>8</td><td>Ø</td><td>1</td><td>3</td><td>5</td><td>7</td><td>9</td></tr>
                 </table>
                 <p>Call the received value “Value A” and input it into the table below to get an instruction.</p>
@@ -95,7 +148,7 @@
                 <span class="page-header-section-title">The Cruel Modkit</span>
             </div>
             <div class="page-content">
-                <table>
+                <table class="metered-button-table">
                     <tr>
                         <th rowspan="2">Value A ↓</th>
                         <th colspan="10">Number Display</th>

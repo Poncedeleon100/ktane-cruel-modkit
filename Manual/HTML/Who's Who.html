@@ -11,65 +11,64 @@
     <script src="js/jquery.3.7.0.min.js"></script>
     <script src="js/Utilities/svg-utils.js"></script>
     <style>
-        .dark table,
-        table {
+        .black {
+            background-color: black;
+            color: white;
+        }
+
+        .red {
+            background-color: red;
+            color: black;
+        }
+
+        .orange {
+            background-color: orange;
+            color: black;
+        }
+
+        .yellow {
+            background-color: yellow;
+            color: black;
+        }
+
+        .green {
+            background-color: green;
+            color: black;
+        }
+
+        .lime {
+            background-color: lime;
+            color: black;
+        }
+
+        .cyan {
+            background-color: cyan;
+            color: black;
+        }
+
+        .blue {
+            background-color: blue;
+            color: white;
+        }
+
+        .purple {
+            background-color: purple;
+            color: white;
+        }
+
+        .pink {
+            background-color: #FF3CC8;
+            color: white;
+        }
+
+        .white {
+            background-color: white;
+            color: black;
+        }
+
+        .dark table, table {
             margin: 1em auto;
             border: none;
-        }
-
-        td.whos-who-red {
-            background-color: #ff0000;
-            color: #000000;
-        }
-
-        td.whos-who-orange {
-            background-color: #ff7f00;
-            color: #000000;
-        }
-
-        td.whos-who-yellow {
-            background-color: #ffff00;
-            color: #000000;
-        }
-
-        td.whos-who-green {
-            background-color: #007f00;
-            color: #ffffff;
-        }
-
-        td.whos-who-lime {
-            background-color: #00ff00;
-            color: #000000;
-        }
-
-        td.whos-who-cyan {
-            background-color: #00ffff;
-            color: #000000;
-        }
-
-        td.whos-who-blue {
-            background-color: #00007f;
-            color: #ffffff;
-        }
-
-        td.whos-who-purple {
-            background-color: #7f007f;
-            color: #ffffff;
-        }
-
-        td.whos-who-pink {
-            background-color: #ff3cc8;
-            color: #ffffff;
-        }
-
-        td.whos-who-black {
-            background-color: #000000;
-            color: #ffffff;
-        }
-
-        td.whos-who-white {
-            background-color: #ffffff;
-            color: #000000;
         }
 
         .page-footer::before {
@@ -149,17 +148,17 @@
                     <tbody>
                         <tr>
                             <td>Color</td>
-                            <td class="whos-who-red">+1</td>
-                            <td class="whos-who-orange">+2</td>
-                            <td class="whos-who-yellow">+3</td>
-                            <td class="whos-who-green">-3</td>
-                            <td class="whos-who-lime">-1</td>
-                            <td class="whos-who-cyan">-2</td>
-                            <td class="whos-who-blue">+4</td>
-                            <td class="whos-who-purple">+5</td>
-                            <td class="whos-who-pink">-5</td>
-                            <td class="whos-who-black">-4</td>
-                            <td class="whos-who-white">+6</td>
+                            <td class="red">+1</td>
+                            <td class="orange">+2</td>
+                            <td class="yellow">+3</td>
+                            <td class="green">-3</td>
+                            <td class="lime">-1</td>
+                            <td class="cyan">-2</td>
+                            <td class="blue">+4</td>
+                            <td class="purple">+5</td>
+                            <td class="pink">-5</td>
+                            <td class="black">-4</td>
+                            <td class="white">+6</td>
                         </tr>
                         <tr>
                             <td>Row</td>
@@ -184,8 +183,8 @@
                 <p>
                     Note the word given from the position. Shift the rows by the offset
                     of the initial LED, and shift the columns by the offset of the
-                    cell’s color. A positive shift means to shift the cell down and to the
-                    the right. Repeat this until either you repeat words or
+                    cell’s color. A positive shift means to shift the rows down and the
+                    columns to the right. Repeat this until either you repeat words or
                     ten words have been used. Call this list “List A”. Pressing the I/O
                     buttons cycles the word display through a list called List B,
                     wrapping around. Pressing the "❖" button will reset the module to the
@@ -195,6 +194,7 @@
             </div>
             <div class="page-footer relative-footer">1</div>
         </div>
+
         <div class="page page-bg-04">
             <div class="page-header">
                 <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
@@ -227,91 +227,91 @@
                         </tr>
                         <tr>
                             <td>1</td>
-                            <td class="whos-who-red">Yes</td>
-                            <td class="whos-who-orange">First</td>
-                            <td class="whos-who-lime">Display</td>
-                            <td class="whos-who-blue">A Display</td>
-                            <td class="whos-who-cyan">Okay</td>
-                            <td class="whos-who-purple">Ok</td>
-                            <td class="whos-who-white">Says</td>
-                            <td class="whos-who-pink">Sez</td>
+                            <td class="red">Yes</td>
+                            <td class="orange">First</td>
+                            <td class="lime">Display</td>
+                            <td class="blue">A Display</td>
+                            <td class="cyan">Okay</td>
+                            <td class="purple">Ok</td>
+                            <td class="white">Says</td>
+                            <td class="pink">Sez</td>
                         </tr>
                         <tr>
                             <td>2</td>
-                            <td class="whos-who-orange">Nothing</td>
-                            <td class="whos-who-white"></td>
-                            <td class="whos-who-purple">Blank</td>
-                            <td class="whos-who-green">It’s Blank</td>
-                            <td class="whos-who-red">No</td>
-                            <td class="whos-who-cyan">Know</td>
-                            <td class="whos-who-yellow">Nose</td>
-                            <td class="whos-who-green">Knows</td>
+                            <td class="orange">Nothing</td>
+                            <td class="white"></td>
+                            <td class="purple">Blank</td>
+                            <td class="green">It’s Blank</td>
+                            <td class="red">No</td>
+                            <td class="cyan">Know</td>
+                            <td class="yellow">Nose</td>
+                            <td class="green">Knows</td>
                         </tr>
                         <tr>
                             <td>3</td>
-                            <td class="whos-who-lime">Led</td>
-                            <td class="whos-who-black">Lead</td>
-                            <td class="whos-who-blue">Leed</td>
-                            <td class="whos-who-purple">Read</td>
-                            <td class="whos-who-blue">Red</td>
-                            <td class="whos-who-green">Reed</td>
-                            <td class="whos-who-cyan">Hold On</td>
-                            <td class="whos-who-orange">You</td>
+                            <td class="lime">Led</td>
+                            <td class="black">Lead</td>
+                            <td class="blue">Leed</td>
+                            <td class="purple">Read</td>
+                            <td class="blue">Red</td>
+                            <td class="green">Reed</td>
+                            <td class="cyan">Hold On</td>
+                            <td class="orange">You</td>
                         </tr>
                         <tr>
                             <td>4</td>
-                            <td class="whos-who-cyan">U</td>
-                            <td class="whos-who-lime">You Are</td>
-                            <td class="whos-who-cyan">UR</td>
-                            <td class="whos-who-pink">Your</td>
-                            <td class="whos-who-purple">You’re</td>
-                            <td class="whos-who-pink">There</td>
-                            <td class="whos-who-blue">They’re</td>
-                            <td class="whos-who-cyan">Their</td>
+                            <td class="cyan">U</td>
+                            <td class="lime">You Are</td>
+                            <td class="cyan">UR</td>
+                            <td class="pink">Your</td>
+                            <td class="purple">You’re</td>
+                            <td class="pink">There</td>
+                            <td class="blue">They’re</td>
+                            <td class="cyan">Their</td>
                         </tr>
                         <tr>
                             <td>5</td>
-                            <td class="whos-who-black">They Are</td>
-                            <td class="whos-who-pink">See</td>
-                            <td class="whos-who-yellow">C</td>
-                            <td class="whos-who-orange">Sea</td>
-                            <td class="whos-who-lime">Cee</td>
-                            <td class="whos-who-yellow">Ready</td>
-                            <td class="whos-who-lime">What</td>
-                            <td class="whos-who-blue">What?</td>
+                            <td class="black">They Are</td>
+                            <td class="pink">See</td>
+                            <td class="yellow">C</td>
+                            <td class="orange">Sea</td>
+                            <td class="lime">Cee</td>
+                            <td class="yellow">Ready</td>
+                            <td class="lime">What</td>
+                            <td class="blue">What?</td>
                         </tr>
                         <tr>
                             <td>6</td>
-                            <td class="whos-who-blue">Uh</td>
-                            <td class="whos-who-cyan">Uhhh</td>
-                            <td class="whos-who-white">Uh Uh</td>
-                            <td class="whos-who-black">Uh Huh</td>
-                            <td class="whos-who-pink">Left</td>
-                            <td class="whos-who-cyan">Right</td>
-                            <td class="whos-who-pink">Write</td>
-                            <td class="whos-who-purple">Middle</td>
+                            <td class="blue">Uh</td>
+                            <td class="cyan">Uhhh</td>
+                            <td class="white">Uh Uh</td>
+                            <td class="black">Uh Huh</td>
+                            <td class="pink">Left</td>
+                            <td class="cyan">Right</td>
+                            <td class="pink">Write</td>
+                            <td class="purple">Middle</td>
                         </tr>
                         <tr>
                             <td>7</td>
-                            <td class="whos-who-purple">Wait</td>
-                            <td class="whos-who-yellow">Wait!</td>
-                            <td class="whos-who-cyan">Weight</td>
-                            <td class="whos-who-white">Press</td>
-                            <td class="whos-who-orange">Done</td>
-                            <td class="whos-who-yellow">Dumb</td>
-                            <td class="whos-who-blue">Next</td>
-                            <td class="whos-who-lime">Hold</td>
+                            <td class="purple">Wait</td>
+                            <td class="yellow">Wait!</td>
+                            <td class="cyan">Weight</td>
+                            <td class="white">Press</td>
+                            <td class="orange">Done</td>
+                            <td class="yellow">Dumb</td>
+                            <td class="blue">Next</td>
+                            <td class="lime">Hold</td>
                         </tr>
                         <tr>
                             <td>8</td>
-                            <td class="whos-who-yellow">Sure</td>
-                            <td class="whos-who-purple">Like</td>
-                            <td class="whos-who-orange">Lick</td>
-                            <td class="whos-who-black">Leek</td>
-                            <td class="whos-who-white">Leak</td>
-                            <td class="whos-who-purple">I</td>
-                            <td class="whos-who-black">India</td>
-                            <td class="whos-who-pink">Eye</td>
+                            <td class="yellow">Sure</td>
+                            <td class="purple">Like</td>
+                            <td class="orange">Lick</td>
+                            <td class="black">Leek</td>
+                            <td class="white">Leak</td>
+                            <td class="purple">I</td>
+                            <td class="black">India</td>
+                            <td class="pink">Eye</td>
                         </tr>
                     </tbody>
                 </table>
