@@ -9,10 +9,10 @@ using Random = UnityEngine.Random;
 public class SimonSkips : Puzzle
 {
     int[] arrowColours;
-    int[] orderedArrows;
-    List<int> finalSequence = new List<int>(); // List of indexes to press
-    List<int> inputtedSequence = new List<int>();
-    bool submitEmpty = false;
+    readonly int[] orderedArrows;
+    readonly List<int> finalSequence = new List<int>(); // List of indexes to press
+    readonly List<int> inputtedSequence = new List<int>();
+    readonly bool submitEmpty = false;
 
     public SimonSkips(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
