@@ -5,40 +5,56 @@ using UnityEngine;
 using KModkit;
 using Random = UnityEngine.Random;
 
-public class WhosWho : Puzzle {
+public class WhosWho : Puzzle
+{
     readonly int LEDtoUse;
-    readonly string LEDcolor;
-    readonly Dictionary<string, int> offsets = new Dictionary<string, int>()
+    readonly Color LEDcolor;
+    // public readonly string[] MainColors = { "Black", "Blue", "Cyan", "Green", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow" , "Gold" , "Silver" };
+    enum Color
     {
-        {"red", 1},
-        {"orange", 2},
-        {"yellow", 3},
-        {"green", -3},
-        {"lime", -1},
-        {"cyan", -2},
-        {"blue", 4},
-        {"purple", 5},
-        {"pink", -5},
-        {"black", -4},
-        {"white", 6},
+        BLACK,
+        BLUE,
+        CYAN,
+        GREEN,
+        LIME,
+        ORANGE,
+        PINK,
+        PURPLE,
+        RED,
+        WHITE,
+        YELLOW
+    }
+
+    readonly Dictionary<Color, int> offsets = new Dictionary<Color, int>()
+    {
+        {Color.RED, 1},
+        {Color.ORANGE, 2},
+        {Color.YELLOW, 3},
+        {Color.GREEN, -3},
+        {Color.LIME, -1},
+        {Color.CYAN, -2},
+        {Color.BLUE, 4},
+        {Color.PURPLE, 5},
+        {Color.PINK, -5},
+        {Color.BLACK, -4},
+        {Color.WHITE, 6},
     };
-    readonly Dictionary<string, int> rows = new Dictionary<string, int>()
+    readonly Dictionary<Color, int> rows = new Dictionary<Color, int>()
     {
-        {"red", 2},
-        {"orange", 1},
-        {"yellow", 1},
-        {"green", 3},
-        {"lime", 4},
-        {"cyan", 0},
-        {"blue", 5},
-        {"purple", 6},
-        {"pink", 2},
-        {"black", 0},
-        {"white", 7},
+        {Color.RED, 2},
+        {Color.ORANGE, 1},
+        {Color.YELLOW, 1},
+        {Color.GREEN, 3},
+        {Color.LIME, 4},
+        {Color.CYAN, 0},
+        {Color.BLUE, 5},
+        {Color.PURPLE, 6},
+        {Color.PINK, 2},
+        {Color.BLACK, 0},
+        {Color.WHITE, 7},
     };
 
-    readonly Stopwatch O_PressTime = new Stopwatch();
-    readonly Stopwatch I_PressTime = new Stopwatch();
+    readonly Stopwatch PressTime = new Stopwatch();
 
     bool submissionMode = false;
 
@@ -56,16 +72,16 @@ public class WhosWho : Puzzle {
         new string[]{"SURE", "LIKE", "LICK", "LEEK", "LEAK", "I", "INDIA", "EYE"}
     };
 
-    readonly string[][]colors = new string[][]
+    readonly Color[][] colors = new Color[][]
     {
-        new string[]{"red", "orange", "lime", "blue", "cyan", "purple", "white", "pink"},
-        new string[]{"orange", "white", "purple", "green", "red", "cyan", "yellow", "green"},
-        new string[]{"lime", "black", "blue", "purple", "blue", "green", "cyan", "orange"},
-        new string[]{"cyan", "lime", "cyan", "pink", "purple", "pink", "blue", "cyan"},
-        new string[]{"black", "pink", "yellow", "orange", "lime", "yellow", "lime", "blue"},
-        new string[]{"blue", "cyan", "white", "black", "pink", "cyan", "pink", "purple"},
-        new string[]{"purple", "yellow", "cyan", "white", "orange", "yellow", "blue", "lime"},
-        new string[]{"yellow", "purple", "orange", "black", "white", "purple", "black", "pink"},
+        new Color[]{Color.RED, Color.ORANGE, Color.LIME, Color.BLUE, Color.CYAN, Color.PURPLE, Color.WHITE, Color.PINK},
+        new Color[]{Color.ORANGE, Color.WHITE, Color.PURPLE, Color.GREEN, Color.RED, Color.CYAN, Color.YELLOW, Color.GREEN},
+        new Color[]{Color.LIME, Color.BLACK, Color.BLUE, Color.PURPLE, Color.BLUE, Color.GREEN, Color.CYAN, Color.ORANGE},
+        new Color[]{Color.CYAN, Color.LIME, Color.CYAN, Color.PINK, Color.PURPLE, Color.PINK, Color.BLUE, Color.CYAN},
+        new Color[]{Color.BLACK, Color.PINK, Color.YELLOW, Color.ORANGE, Color.LIME, Color.YELLOW, Color.LIME, Color.BLUE},
+        new Color[]{Color.BLUE, Color.CYAN, Color.WHITE, Color.BLACK, Color.PINK, Color.CYAN, Color.PINK, Color.PURPLE},
+        new Color[]{Color.PURPLE, Color.YELLOW, Color.CYAN, Color.WHITE, Color.ORANGE, Color.YELLOW, Color.BLUE, Color.LIME},
+        new Color[]{Color.YELLOW, Color.PURPLE, Color.ORANGE, Color.BLACK, Color.WHITE, Color.PURPLE, Color.BLACK, Color.PINK},
     };
 
     readonly List<string> listA = new List<string>();
@@ -77,12 +93,12 @@ public class WhosWho : Puzzle {
     {
         UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Solving Who's Who.", ModuleID);
         LEDtoUse = DetermineLED();
-        LEDcolor = Module.LED[LEDtoUse].transform.Find("LEDL").GetComponentInChildren<Renderer>().material.name.ToLowerInvariant();
-        LEDcolor = LEDcolor.Substring(0, LEDcolor.IndexOf(' ')); // because the name has " (instance)" at the end
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The chosen LED is {1}; the offset is {2} and the row to begin with is {3}.", ModuleID, LEDcolor, offsets[LEDcolor] > 0 ? "+" + offsets[LEDcolor] : "" + offsets[LEDcolor], rows[LEDcolor] + 1);
+        LEDcolor = (Color)Info.LED[LEDtoUse];
+        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The chosen LED is {1}; the offset is {2} and the row to begin with is {3}.", ModuleID, LEDcolor.ToString().ToLowerInvariant(), offsets[LEDcolor] > 0 ? "+" + offsets[LEDcolor] : "" + offsets[LEDcolor], rows[LEDcolor] + 1);
         int row = rows[LEDcolor];
         int column = LEDtoUse;
-        string cellWord, cellColor;
+        string cellWord;
+        Color cellColor;
         for (int i = 0; i < 10; i++)
         {
             cellWord = words[row][column];
@@ -114,10 +130,11 @@ public class WhosWho : Puzzle {
         {
             UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Neither list has anything in common; the number to submit is 0.", ModuleID);
             finalNumber = 0;
-        } else
+        }
+        else
         {
             UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The first word that each list has in common is {1}.", ModuleID, commonWord);
-            int index = ComponentInfo.WordList.IndexOf(x => x == commonWord);
+            int index = listB.IndexOf(x => x == commonWord);
             index = (((index / 8) + 1) + ((index % 8) + 1)) % 10;
             finalNumber = index;
             UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The number to submit is {1}.", ModuleID, finalNumber);
@@ -126,9 +143,8 @@ public class WhosWho : Puzzle {
 
     private int DetermineLED()
     {
-        string[] warmColors = new string[]{"red", "orange", "yellow"};
-        string[] LEDcolors = Module.LED.Select(l => l.transform.Find("LEDL").GetComponentInChildren<Renderer>().material.name).ToArray();
-        LEDcolors = LEDcolors.Select(x => x.ToLowerInvariant().Substring(0, x.IndexOf(' '))).ToArray();
+        Color[] warmColors = new Color[] { Color.RED, Color.ORANGE, Color.YELLOW };
+        Color[] LEDcolors = Info.LED.Select(l => (Color)l).ToArray();
         if (Module.Bomb.GetSerialNumberNumbers().All(x => x % 2 == 0) || Module.Bomb.GetSerialNumberNumbers().All(x => x % 2 == 1))
         {
             UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] All serial number digits have matching parity, using the third LED.", ModuleID);
@@ -171,16 +187,17 @@ public class WhosWho : Puzzle {
         }
         else
         {
-            string[] ordinals = new string[]{"first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth"};
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] None of the conditions applied, using the {1} LED.", ModuleID, ordinals[Module.Bomb.GetSerialNumberNumbers().Sum() % 8]);
-            return Module.Bomb.GetSerialNumberNumbers().Sum() % 8;
+            string[] ordinals = new string[] { "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth" };
+            int value = Module.Bomb.GetSerialNumberNumbers().Sum() % 8;
+            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] None of the conditions applied, using the {1} LED.", ModuleID, ordinals[value]);
+            return value;
         }
     }
 
-    private bool SameColorTwiceInARow(string[] colors)
+    private bool SameColorTwiceInARow(Color[] colors)
     {
-        for(int i = 0; i < colors.Length - 1; i++)
-            if (colors[i] == colors[i+1])
+        for (int i = 0; i < colors.Length - 1; i++)
+            if (colors[i] == colors[i + 1])
                 return true;
         return false;
     }
@@ -196,36 +213,32 @@ public class WhosWho : Puzzle {
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving() && !Module.CheckValidComponents())
         {
             UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 2) == Info.BulbInfo[4] ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
             Module.CauseStrike();
             return;
         }
-        if ((Button == 2) == Info.BulbInfo[4])
-            O_PressTime.Start();
-        else
-            I_PressTime.Start();
+        PressTime.Start();
     }
 
     public override void OnBulbButtonRelease(int Button)
     {
-        O_PressTime.Stop();
-        I_PressTime.Stop();
+        PressTime.Stop();
 
         if (Module.IsAnimating())
             return;
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, Module.transform);
 
-        if (O_PressTime.Elapsed.TotalSeconds >= 1 || I_PressTime.Elapsed.TotalSeconds >= 1)
+        if (PressTime.Elapsed.TotalSeconds >= 1)
         {
             if (!submissionMode)
             {
                 submissionMode = true;
                 UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Entering submission mode.", ModuleID);
             }
-            else if (int.Parse(Module.WidgetText[2].text) == finalNumber)
+            else if (Info.NumberDisplay == finalNumber)
             {
                 UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Correctly submitted {1}. Module solved.", ModuleID, finalNumber);
                 Module.StartSolve();
@@ -263,8 +276,7 @@ public class WhosWho : Puzzle {
                 Module.WidgetText[2].text = Info.NumberDisplay.ToString();
             }
         }
-        O_PressTime.Reset();
-        I_PressTime.Reset();
+        PressTime.Reset();
     }
 
     public override void OnUtilityPress()
@@ -278,7 +290,7 @@ public class WhosWho : Puzzle {
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving() && !Module.CheckValidComponents())
         {
             UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
             Module.CauseStrike();
