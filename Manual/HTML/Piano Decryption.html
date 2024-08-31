@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <title>Piano Decryption — Keep Talking and Nobody Explodes Module</title>
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <link rel="stylesheet" type="text/css" href="Css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/ktane-utils.js"></script>
+    <script src="js/jquery.3.7.0.min.js"></script>
+    <script src="js/Utilities/svg-utils.js"></script>
+    <style>
+        .dark table, table {
+            margin: 1em auto;
+            border: none;
+        }
+
+        .page-footer::before {
+            content: 'Page ';
+        }
+
+        .page-footer::after {
+            content: ' of 4';
+        }
+
+        .cipher-example {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Piano Decryption</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Piano Decryption</h2>
+                <p class="flavour-text">.-- .... -.-- / .- .-. . / -.-- --- ..- / - .-. .- -. ... .-.. .- - .. -. --. / - .... .. ... / -.. ..- .-. .. -. --. / .- / -... --- -- -... ..--.. / ... --- .-.. ...- . / - .... . / -- --- -.. ..- .-.. . / -.-- --- ..- / ... .. .-.. .-.. -.-- .... . .- -.. -.-.--</p>
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Piano]</strong>, you are looking at the wrong section of this manual!</p>
+                <p>Interpret the LED as Morse Code and decode it to get a text string. Go through the below conditions to decrypt the word.</p>
+                <p>(Note: these steps show how to <u>decrypt</u> the word, not encrypt. You can find instructions on how to decrypt each cipher on the last two pages of this sub-module’s manual)</p>
+                <ul>
+                    <li>Caesar Shift the letters forward by the amount of indicators on the bomb. If there are no indicators, shift the letters backward instead and use the last digit of the serial number.</li>
+                    <li>If the port count is equal to or less than the port plate amount, apply the Rail Fence Cipher with a key of 3.</li>
+                    <li>Apply Affine ×X Cipher, with X being (the indicator count * first digit of serial number) + 1.</li>
+                    <li>If the current text string has a letter in the serial number, apply the ROT13 Cipher.</li>
+                    <li>Apply Atbash Cipher.</li>
+                </ul>
+                <p>If done correctly, the resulting string will be a word in the table on the next page. The word will correspond to a piano sequence. To solve the module, input this piano sequence into the module.
+                    Inputting the wrong key will cause a strike, resetting the module’s presses. Pressing the ❖ symbol will also reset the piano presses.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">1</div>
+        </div>
+        <div class="page page-bg-02">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Piano Decryption</span>
+            </div>
+            <div class="page-content">
+                <table>
+                    <tr><th>Decrypted word</th><th>Piano sequence</th></tr>
+                    <tr><td>ANSWER</td><td>E F# F# F# F# E E E</td></tr>
+                    <tr><td>BANTER</td><td>A E F G F E D D F A</td></tr>
+                    <tr><td>CREOLE</td><td>Bb Bb Bb Bb Gb Ab Bb Ab Bb</td></tr>
+                    <tr><td>DRIVEN</td><td>B D A G A B D A</td></tr>
+                    <tr><td>ELEVEN</td><td>E E E C E G G</td></tr>
+                    <tr><td>FAKERS</td><td>Eb Eb D D Eb Eb D Eb Eb D D Eb</td></tr>
+                    <tr><td>GARAGE</td><td>G G C G G C G C</td></tr>
+                    <tr><td>HORROR</td><td>C# D E F C# D E F Bb A</td></tr>
+                    <tr><td>JULIET</td><td>Bb A Bb F Eb Bb A Bb F Eb</td></tr>
+                    <tr><td>KEVLAR</td><td>G G G Eb Bb G Eb Bb G</td></tr>
+                    <tr><td>NETHER</td><td>C# B A F# G# A G# F#</td></tr>
+                    <tr><td>OPIOID</td><td>G A G E G A G E</td></tr>
+                    <tr><td>PARENT</td><td>G G G G G G G Bb Eb F G</td></tr>
+                    <tr><td>QUESTS</td><td>F# G A A D B A G E D</td></tr>
+                    <tr><td>UMPIRE</td><td>Eb Eb Db Ab Eb Eb F Db</td></tr>
+                    <tr><td>VICTOR</td><td>B A G Eb D A B A G</td></tr>
+                    <tr><td>WIRING</td><td>Eb F Eb C Ab F Eb</td></tr>
+                    <tr><td>XENONS</td><td>D D D C# C# C# B C# B F#</td></tr>
+                    <tr><td>YIELDS</td><td>G E F G C B C D C B A G</td></tr>
+                    <tr><td>ZAMBIA</td><td>Bb A Bb G (repeat this until the module solves)</td></tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">2</div>
+        </div>
+        <div class="page page-bg-03">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Piano Decryption</span>
+            </div>
+            <div class="page-content">
+                <h3>Decrypting Ciphers:</h3>
+                <p>Caesar Shift (Cipher): shift every letter of the encrypted word forwards/backwards through the alphabet a number of times equal to the offset (looping around the alphabet if needed).</p>
+                <p>ROT13 Cipher: shift every letter of the encrypted word forwards/backwards (the direction does not matter) 13 times (looping around the alphabet if needed).</p>
+                <p>Atbash Cipher: for each of the encrypted word’s letters:
+                    <ui>
+                        <li>Convert the letter into its alphabetic position (A0Z25) to get a number.</li>
+                        <li>Subtract that number from 25.</li>
+                        <li>Convert the result to a letter A0Z25 to get the decrypted letter.</li>
+                    </ui></p>
+                <p><strong>Affine ×X Cipher</strong>: for each of the encrypted word’s letters:
+                    <ui>
+                        <li>Convert the letter into its alphabetic position (A0Z25) to get a number.</li>
+                        <li>Keep adding 26 to the number until it becomes divisible by X.</li>
+                        <li>Divide the number by X.</li>
+                        <li>Convert the result to a letter A0Z25 to get the decrypted letter.</li>
+                    </ui></p>
+                <h4 class="cipher-example">Example</h4>
+                <p class="cipher-example">
+                    Encrypted word: SNUYCP<br>
+                    X = 7<br>
+                    S = 18 + 26 = 44 + 26 = 70 / 7 = 10 -> K<br>
+                    N = 13 + 26 = 39 + 26 = 65 + 26 = 91 / 7 = 13 -> N<br>
+                    U = 20 + 26 = 46 + 26 = 72 + 26 = 98 / 7 = 14 -> O<br>
+                    Y = 24 + 26 = 50 + 26 = 76 + 26 = 102 + 26 = 128 + 26 = 154 / 7 = 22 -> W<br>
+                    C = 2 + 26 = 28 / 7 = 4 -> E<br>
+                    P = 15 + 26 = 41 + 26 = 67 + 26 = 93 + 26 = 119 / 7 = 17 -> R<br>
+                    Decrypted word: KNOWER<br>
+                    Note: In some cases, some letters can have ambiguous decryptions.<br>Example: X = 10, the letter is Q, which can be decrypted to either A or N.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">3</div>
+        </div>
+        <div class="page page-bg-03">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Piano Decryption</span>
+            </div>
+            <div class="page-content">
+                <p><strong>Rail Fence Cipher:</strong>
+                    <ui>
+                        <li>Create as many rails (rows) top-to-bottom as the key number with the length of each rail being equal to the length of the encrypted word.</li>
+                        <li>Place down asterisks in a zig-zag pattern starting from the top left corner (going down-right until you reach the bottom rail, then going up-right until you reach the top rail, and so on).</li>
+                        <li>In reading order, fill in the asterisks with the letters of the encrypted word.</li>
+                        <li>Read the letters in the same zig-zag pattern to obtain the decrypted word.</li>
+                    </ui>
+                </p>
+                <h4 class="cipher-example">Example</h4>
+                <p class="cipher-example">
+                    Encrypted word: REAGRN<br>
+                    Key = 3<br>
+                    *&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp*&nbsp&nbsp<br>
+                    &nbsp&nbsp*&nbsp&nbsp&nbsp*&nbsp&nbsp&nbsp*<br>
+                    &nbsp&nbsp&nbsp&nbsp*&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br>
+                    ↓↓↓<br>
+                    R&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspE&nbsp&nbsp<br>
+                    &nbsp&nbspA&nbsp&nbsp&nbspG&nbsp&nbsp&nbspR<br>
+                    &nbsp&nbsp&nbsp&nbspN&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br>
+                    Decrypted word: RANGER
+                </p>
+            </div>
+            <div class="page-footer relative-footer">4</div>
+        </div>
+    </div>
+</body>
+</html>
