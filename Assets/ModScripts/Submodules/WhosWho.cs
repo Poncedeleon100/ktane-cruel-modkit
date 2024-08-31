@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics; // to track how long each button has been held
 using System.Linq;
-using UnityEngine;
 using KModkit;
 using Random = UnityEngine.Random;
 
@@ -213,6 +212,9 @@ public class WhosWho : Puzzle
         if (Module.IsModuleSolved())
             return;
 
+        if (!Module.IsSolving())
+            Module.StartSolve();
+
         if (!Module.IsSolving() && !Module.CheckValidComponents())
         {
             UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 2) == Info.BulbInfo[4] ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
@@ -228,6 +230,9 @@ public class WhosWho : Puzzle
 
         if (Module.IsAnimating())
             return;
+
+        if (!Module.IsSolving())
+            Module.StartSolve();
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, Module.transform);
 
@@ -289,6 +294,9 @@ public class WhosWho : Puzzle
 
         if (Module.IsModuleSolved())
             return;
+
+        if (!Module.IsSolving())
+            Module.StartSolve();
 
         if (!Module.IsSolving() && !Module.CheckValidComponents())
         {
