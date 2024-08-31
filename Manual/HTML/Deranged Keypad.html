@@ -1,0 +1,230 @@
+﻿<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1" />
+    <title>Deranged Keypad — Keep Talking and Nobody Explodes Module</title>
+    <link rel="stylesheet" type="text/css" href="css/font.css" />
+    <link rel="stylesheet" type="text/css" href="Css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <script src="js/ktane-utils.js"></script>
+    <script src="js/jquery.3.7.0.min.js"></script>
+    <script src="js/Utilities/svg-utils.js"></script>
+    <style>
+      .dark table,
+      table {
+        margin: 1em auto;
+        border: none;
+      }
+
+      .page-footer::before {
+        content: "Page ";
+      }
+
+      .page-footer::after {
+        content: " of 2";
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="section">
+      <div class="page page-bg-01">
+        <div class="page-header">
+          <span class="page-header-doc-title"
+            >Keep Talking and Nobody Explodes Mod</span
+          >
+          <span class="page-header-section-title">The Cruel Modkit</span>
+        </div>
+        <div class="page-content">
+          <h2>On the Subject of The Deranged Keypad</h2>
+          <p class="flavour-text">
+            The person responsible for this mod probably was too obsessed with
+            Blue Arrows.
+          </p>
+          <p>
+            <strong>Note: </strong>If your module’s components aren’t exactly
+            <strong>[Button, Alphabet]</strong>, you are looking at the wrong
+            section of this manual!
+          </p>
+          <p>
+            The module requires you to press keypads of the Alphabet section. To
+            begin, start with the base alphabet depending on the displayed color
+            of the button:
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Color of the Button</th>
+                <th>Starting Alphabet</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Black</td>
+                <td>ABCDEFGHIJKLMNOPQRSTUVWXYZ</td>
+              </tr>
+              <tr>
+                <td>Blue</td>
+                <td>ETIANMSURWDKGOHVFLPJBXCYZQ</td>
+              </tr>
+              <tr>
+                <td>Cyan</td>
+                <td>GORIYSHQBFLPZATNKVCUJMDEXW</td>
+              </tr>
+              <tr>
+                <td>Green</td>
+                <td>ABCDEGKNPSTXZFHIJLMOQRUVWY</td>
+              </tr>
+              <tr>
+                <td>Lime</td>
+                <td>SEQUFNCGTHRVIODJWKXYLPMZAB</td>
+              </tr>
+              <tr>
+                <td>Orange</td>
+                <td>WBSMEJTUCPFAHZOQLIKNYVGXRD</td>
+              </tr>
+              <tr>
+                <td>Pink</td>
+                <td>ADGJMPSVYBEHKNQTWZCFILORUX</td>
+              </tr>
+              <tr>
+                <td>Purple</td>
+                <td>BMVFQZYSXJGIWHAEPRLNTKUDCO</td>
+              </tr>
+              <tr>
+                <td>Red</td>
+                <td>XQUMFEPOWLTJDZHGBVYKCRIASN</td>
+              </tr>
+              <tr>
+                <td>White</td>
+                <td>QWERTYUIOPASDFGHJKLZXCVBNM</td>
+              </tr>
+              <tr>
+                <td>Yellow</td>
+                <td>AELFHBRVOTCYDQUXPWGNIMSKZJ</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="page-footer relative-footer">1</div>
+      </div>
+      <div class="page page-bg-02">
+        <div class="page-header">
+          <span class="page-header-doc-title"
+            >Keep Talking and Nobody Explodes Mod</span
+          >
+          <span class="page-header-section-title">The Cruel Modkit</span>
+        </div>
+        <div class="page-content">
+          <p>Then, use the label of the button to modify the alphabet:</p>
+          <table style="font-size: 11pt">
+            <thead>
+              <tr>
+                <th>Label of the Button</th>
+                <th>Modification</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td>Do nothing.</td>
+              </tr>
+              <tr>
+                <td>PRESS</td>
+                <td>
+                  Move the first letter of the serial number to the beginning.
+                  If it’s already there, move it to the back.
+                </td>
+              </tr>
+              <tr>
+                <td>HOLD</td>
+                <td>Swap both halves of the string.</td>
+              </tr>
+              <tr>
+                <td>DETONATE</td>
+                <td>
+                  Encrypt the string into Atbash (subtract every letter’s
+                  positions from 27).
+                </td>
+              </tr>
+              <tr>
+                <td>MASH</td>
+                <td>
+                  Swap the first consonant with the last vowel in the string.
+                </td>
+              </tr>
+              <tr>
+                <td>TAP</td>
+                <td>
+                  Caesar-shift the string forward by the sum of the digits on
+                  the Alphabet section.
+                </td>
+              </tr>
+              <tr>
+                <td>PUSH</td>
+                <td>
+                  Take all of the letters between (and including) A and E, and
+                  move them immediately after Q.
+                </td>
+              </tr>
+              <tr>
+                <td>ABORT</td>
+                <td>
+                  Swap the first letter in the string with an odd-numbered
+                  alphabetic position with the last letter in the string with an
+                  even-numbered alphabetic position.
+                </td>
+              </tr>
+              <tr>
+                <td>BUTTON</td>
+                <td>
+                  Multiply the last character’s alphabetic position by five,
+                  take it modulo 26, add one, and move the corresponding letter
+                  to the beginning of the string.
+                </td>
+              </tr>
+              <tr>
+                <td>CLICK</td>
+                <td>
+                  Encrypt the string into ROT13 (Caesar-shift the letters
+                  forward by 13).
+                </td>
+              </tr>
+              <tr>
+                <td>NOTHING</td>
+                <td>
+                  Caesar-shift the first letter in the string forward by one,
+                  and move the resulting letter to the end of the string.
+                </td>
+              </tr>
+              <tr>
+                <td>NO</td>
+                <td>Reverse the first half.</td>
+              </tr>
+              <tr>
+                <td>I DON’T KNOW</td>
+                <td>Reverse the entire string.</td>
+              </tr>
+              <tr>
+                <td>YES</td>
+                <td>Reverse the second half.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            Once you have performed the operation on the previous page, take the
+            letters in the keypads, and go through your modified alphabet until
+            you get to a letter that is present on a keypad that has not already
+            been pressed. Repeat the process with a second press. After two
+            presses, press the button. The button will change text upon being
+            pressed, and you will have to apply the modifications again.
+            Attempting to press a keypad or the button when you’re not supposed
+            to will incur a strike, but will NOT reset the module.
+          </p>
+        </div>
+        <div class="page-footer relative-footer">2</div>
+      </div>
+    </div>
+  </body>
+</html>

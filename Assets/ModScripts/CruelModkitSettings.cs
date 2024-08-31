@@ -5,5 +5,5 @@ using System.Text;
 
 public class CruelModkitSettings
 {
-    public string SelectModule = "Timer Timings";
+    public string SelectModule = "Deranged Keypad";
 }
