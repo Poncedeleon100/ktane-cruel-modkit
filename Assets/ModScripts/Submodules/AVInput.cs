@@ -118,7 +118,7 @@ public class AVInput : Puzzle
         if (bulbSolved[Bulb] || !BulbScrewedIn[(Bulb + 1) % 2] || Module.IsAnimating())
             return;
 
-        Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], Info.BulbInfo[Bulb + 2]);
+        Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], false);
 
         BulbScrewedIn[Bulb] = !BulbScrewedIn[Bulb];
 
@@ -147,7 +147,6 @@ public class AVInput : Puzzle
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Inputted the correct scale {1} for the {2} bulb. Permanently turning it off.", ModuleID, LogScale(scaleInput), Bulb == 0 ? "left" : "right");
             bulbSolved[Bulb] = true;
-            Info.BulbInfo[Bulb + 2] = false;
             lastPress = -1;
             if (bulbSolved.SequenceEqual(new bool[2] { true, true }))
             {
