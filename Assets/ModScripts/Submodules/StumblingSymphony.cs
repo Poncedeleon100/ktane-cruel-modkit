@@ -45,7 +45,7 @@ public class StumblingSymphony : Puzzle
     void FindActiveRule()
     {
         if (Info.ButtonText == "") activeRule = 0;
-        else if (Info.ButtonText.Count(x => new string[] { "A", "E", "I", "O", "U" }.Contains(x.ToString().ToUpper())) >= 2) activeRule = 1;
+        else if (Info.ButtonText.Count(x => "AEIOU".Contains(x.ToString().ToUpper())) >= 2) activeRule = 1;
         else if (Info.ButtonText.Length == 5) activeRule = 2;
         else if (Info.ButtonText == "YES" || Info.ButtonText == "NO") activeRule = 3;
         else if (Info.ButtonText.Contains("P")) activeRule = 4;
@@ -64,49 +64,47 @@ public class StumblingSymphony : Puzzle
         List<int> noteSeq = noteIndices[Info.NumberDisplay];
         if (activeRule == 0)
             finalInput = noteSeq.ToList();
-        if (activeRule == 1)
+        switch (activeRule)
         {
-            int[] sharpNotes = { 1, 3, 6, 8, 10 };
-            FindNotesForNotesInSet(sharpNotes, noteSeq);
-        }
-        else if (activeRule == 2)
-        {
-            int[] CtoFNotes = { 0, 1, 2, 3, 4, 5 };
-            FindNotesForNotesInSet(CtoFNotes, noteSeq);
-        }
-        else if (activeRule == 3)
-        {
-            int[] centerNotesI;
-            if (noteSeq.Count() % 2 == 0) 
-                centerNotesI = new int[] { noteSeq.Count() / 2 - 1, noteSeq.Count() / 2 };
-            else
-                centerNotesI = new int[] { (int)Math.Ceiling(noteSeq.Count() / 2.0) - 1 };
-            for (int i = 0; i < noteSeq.Count(); i++)
-            {
-                if (i == 0 || i == noteSeq.Count()-1 || centerNotesI.Contains(i))
+            case 1:
+                int[] sharpNotes = { 1, 3, 6, 8, 10 };
+                FindNotesForNotesInSet(sharpNotes, noteSeq);
+                break;
+            case 2:
+                int[] CtoFNotes = { 0, 1, 2, 3, 4, 5 };
+                FindNotesForNotesInSet(CtoFNotes, noteSeq);
+                break;
+            case 3:
+                int[] centerNotesI;
+                if (noteSeq.Count() % 2 == 0)
+                    centerNotesI = new int[] { noteSeq.Count() / 2 - 1, noteSeq.Count() / 2 };
+                else
+                    centerNotesI = new int[] { (int)Math.Ceiling(noteSeq.Count() / 2.0) - 1 };
+                for (int i = 0; i < noteSeq.Count(); i++)
                 {
-                    finalInput.Add(FindStumbleNote(noteSeq[i]));
-                    buttonPresses.Add(finalInput.Count());
+                    if (i == 0 || i == noteSeq.Count() - 1 || centerNotesI.Contains(i))
+                    {
+                        finalInput.Add(FindStumbleNote(noteSeq[i]));
+                        buttonPresses.Add(finalInput.Count());
+                    }
+                    finalInput.Add(noteSeq[i]);
                 }
-                finalInput.Add(noteSeq[i]);
-            }
-        }
-        else if (activeRule == 4)
-        {
-            int[] FSharpToBNotes = { 6, 7, 8, 9, 10, 11 };
-            FindNotesForNotesInSet(FSharpToBNotes, noteSeq);
-        }
-        else if (activeRule == 5)
-        {
-            for (int i = 0; i < noteSeq.Count(); i++)
-            {
-                if ((i+1) % 3 == 0)
+                break;
+            case 4:
+                int[] FSharpToBNotes = { 6, 7, 8, 9, 10, 11 };
+                FindNotesForNotesInSet(FSharpToBNotes, noteSeq);
+                break;
+            case 5:
+                for (int i = 0; i < noteSeq.Count(); i++)
                 {
-                    finalInput.Add(FindStumbleNote(noteSeq[i]));
-                    buttonPresses.Add(finalInput.Count());
+                    if ((i + 1) % 3 == 0)
+                    {
+                        finalInput.Add(FindStumbleNote(noteSeq[i]));
+                        buttonPresses.Add(finalInput.Count());
+                    }
+                    finalInput.Add(noteSeq[i]);
                 }
-                finalInput.Add(noteSeq[i]);
-            }
+                break;
         }
     }
 
@@ -167,8 +165,17 @@ public class StumblingSymphony : Puzzle
         Module.Audio.PlaySoundAtTransform(Module.PianoSounds[Piano + (Info.Piano * 12)].name, Module.transform);
         Module.Piano[Piano].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
 
-        if (Module.IsModuleSolved() || !Module.IsSolving())
+        if (Module.IsModuleSolved())
             return;
+        if (!Module.IsSolving())
+        {
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
+        }
         
 
         if (Piano == finalInput[numInputs])
@@ -188,7 +195,7 @@ public class StumblingSymphony : Puzzle
             numInputs = 0;
             return;
         }
-        else if (buttonPresses.Contains(numInputs - 1) && buttonPressed)
+        else if (buttonPresses.Contains(numInputs - 1))
             buttonPressed = false;
 
         if (numInputs == finalInput.Count())
@@ -206,8 +213,17 @@ public class StumblingSymphony : Puzzle
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonPress, Module.transform);
         Module.Button.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
 
-        if (Module.IsModuleSolved() || !Module.IsSolving())
+        if (Module.IsModuleSolved())
             return;
+        if (!Module.IsSolving())
+        {
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
+        }
 
         if (buttonPresses.Contains(numInputs))
             buttonPressed = true;
