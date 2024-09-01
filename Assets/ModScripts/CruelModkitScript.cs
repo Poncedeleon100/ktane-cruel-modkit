@@ -224,7 +224,7 @@ public class CruelModkitScript : MonoBehaviour
     {
         Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, SelectorButtons[1].transform);
         SelectorButtons[1].AddInteractionPunch(0.5f);
-        StartCoroutine(AnimateButtonPress(SelectorButtons[1].transform, Vector3.down * 0.005f));
+        StartCoroutine(Puzzle.AnimateButtonPress(SelectorButtons[1].transform, Vector3.down * 0.005f));
         if (ModuleSolved || Solving || ForceComponents || Animating)
             return;
         
@@ -239,39 +239,6 @@ public class CruelModkitScript : MonoBehaviour
             OnComponents += (byte)CurrentComponent;
             DisplayText.color = new Color(0, 1, 0);
             StartCoroutine(ShowComponent(CurrentComponent));
-        }
-    }
-
-    public IEnumerator AnimateButtonPress(Transform Object, Vector3 Offset, int Index = 0)
-    {
-        switch (Index)
-        {
-            case 0:
-                for (int i = 0; i < 5; i++)
-                {
-                    Object.localPosition += Offset / 5;
-                    yield return new WaitForSeconds(0.01f);
-                }
-                for (int i = 0; i < 5; i++)
-                {
-                    Object.localPosition -= Offset / 5;
-                    yield return new WaitForSeconds(0.01f);
-                }
-                break;
-            case 1:
-                for (int i = 0; i < 5; i++)
-                {
-                    Object.localPosition += Offset / 5;
-                    yield return new WaitForSeconds(0.01f);
-                }
-                break;
-            case 2:
-                for (int i = 0; i < 5; i++)
-                {
-                    Object.localPosition -= Offset / 5;
-                    yield return new WaitForSeconds(0.01f);
-                }
-                break;
         }
     }
 
@@ -549,14 +516,14 @@ public class CruelModkitScript : MonoBehaviour
 
         Button.GetComponentInChildren<KMSelectable>().OnInteract += delegate ()
         {
-            StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 1));
+            StartCoroutine(Puzzle.AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 1));
             Puzzle.OnButtonPress();
             return false;
         };
 
         Button.GetComponentInChildren<KMSelectable>().OnInteractEnded += delegate ()
         {
-            StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 2));
+            StartCoroutine(Puzzle.AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 2));
             Puzzle.OnButtonRelease();
         };
 
@@ -565,7 +532,7 @@ public class CruelModkitScript : MonoBehaviour
             int y = i;
             Symbols[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(AnimateButtonPress(Symbols[y].transform, Vector3.down * 0.00258f));
+                StartCoroutine(Puzzle.AnimateButtonPress(Symbols[y].transform, Vector3.down * 0.00258f));
                 Puzzle.OnSymbolPress(y);
                 return false;
             };
@@ -576,7 +543,7 @@ public class CruelModkitScript : MonoBehaviour
             int y = i;
             Alphabet[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(AnimateButtonPress(Alphabet[y].transform, Vector3.down * 0.00258f));
+                StartCoroutine(Puzzle.AnimateButtonPress(Alphabet[y].transform, Vector3.down * 0.00258f));
                 Puzzle.OnAlphabetPress(y);
                 return false;
             };
@@ -598,7 +565,7 @@ public class CruelModkitScript : MonoBehaviour
             int y = i;
             Arrows[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(AnimateButtonPress(ArrowsBase.transform, Vector3.down * 0.0002f));
+                StartCoroutine(Puzzle.AnimateButtonPress(ArrowsBase.transform, Vector3.down * 0.0002f));
                 StartCoroutine(AnimateButtonRotationPress(ArrowsBase.transform, new[] { Vector3.right, Vector3.back, Vector3.left, Vector3.forward , Vector3.right + Vector3.back, Vector3.left + Vector3.back, Vector3.left + Vector3.forward, Vector3.right + Vector3.forward, Vector3.zero }.ElementAt(y) * 5));
                 Puzzle.OnArrowPress(y);
                 return false;
@@ -620,20 +587,20 @@ public class CruelModkitScript : MonoBehaviour
             int y = i;
             Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 1));
+                StartCoroutine(Puzzle.AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 1));
                 Puzzle.OnBulbButtonPress(y);
                 return false;
             };
             Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteractEnded += delegate
             {
-                StartCoroutine(AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 2));
+                StartCoroutine(Puzzle.AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 2));
                 Puzzle.OnBulbButtonRelease(y);
             };
         }
 
         UtilityButton.OnInteract += delegate
         {
-            StartCoroutine(AnimateButtonPress(UtilityButton.transform, Vector3.down * 0.00184f));
+            StartCoroutine(Puzzle.AnimateButtonPress(UtilityButton.transform, Vector3.down * 0.00184f));
             Puzzle.OnUtilityPress();
             return false;
         };
@@ -645,7 +612,7 @@ public class CruelModkitScript : MonoBehaviour
     {
         Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Button.transform);
         Button.AddInteractionPunch(0.5f);
-        StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.005f));
+        StartCoroutine(Puzzle.AnimateButtonPress(Button.transform, Vector3.down * 0.005f));
         if (ModuleSolved || ForceComponents)
             return;
 
