@@ -12,8 +12,8 @@ public class AVInput : Puzzle
     int lastPress = -1;
     List<int> scaleInput = new List<int>();
     List<int> uniquePresses = new List<int>();
-    int[] bulb1Actions = new int[12];
-    int[] bulb2Actions = new int[12];
+    readonly int[] bulb1Actions = new int[12];
+    readonly int[] bulb2Actions = new int[12];
 
     public AVInput(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
