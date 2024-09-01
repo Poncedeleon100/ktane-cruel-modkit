@@ -212,15 +212,16 @@ public class WhosWho : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.IsSolving())
-            Module.StartSolve();
-
         if (!Module.IsSolving() && !Module.CheckValidComponents())
         {
             UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 2) == Info.BulbInfo[4] ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
             Module.CauseStrike();
             return;
         }
+
+        if (!Module.IsSolving())
+            Module.StartSolve();
+
         PressTime.Start();
     }
 
@@ -230,9 +231,6 @@ public class WhosWho : Puzzle
 
         if (Module.IsAnimating())
             return;
-
-        if (!Module.IsSolving())
-            Module.StartSolve();
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, Module.transform);
 
@@ -295,15 +293,16 @@ public class WhosWho : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.IsSolving())
-            Module.StartSolve();
-
         if (!Module.IsSolving() && !Module.CheckValidComponents())
         {
             UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
             Module.CauseStrike();
             return;
         }
+
+        if (!Module.IsSolving())
+            Module.StartSolve();
+
         if (!submissionMode)
         {
             listB_Index = 0;
