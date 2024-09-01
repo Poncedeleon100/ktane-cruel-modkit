@@ -123,15 +123,18 @@ public class AVInput : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving())
         {
-            if (BulbScrewedIn[Bulb]) return;
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} bulb was removed when the component selection was [{2}] instead of [{3}].", ModuleID, (Bulb + 1) == 1 ? "first" : "second", Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
-        }
+            if (!Module.CheckValidComponents())
+            {
+                if (BulbScrewedIn[Bulb]) return;
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} bulb was removed when the component selection was [{2}] instead of [{3}].", ModuleID, (Bulb + 1) == 1 ? "first" : "second", Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
 
-        Module.StartSolve();
+            Module.StartSolve();
+        }
 
         if (!BulbScrewedIn[Bulb])
             return;
