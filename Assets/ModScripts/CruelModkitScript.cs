@@ -70,7 +70,8 @@ public class CruelModkitScript : MonoBehaviour
         Alphabet = 8,
         Piano = 4,
         Arrows = 2,
-        Bulbs = 1
+        Bulbs = 1,
+        None = 0,
     }
 
     public int CountComponents(ComponentsEnum comps)
@@ -78,8 +79,8 @@ public class CruelModkitScript : MonoBehaviour
         return new BitArray(new[] {(byte)comps}).OfType<bool>().Count(x => x);
     }
 
-    byte OnComponents = 0;
-    byte TargetComponents = 0;
+    byte OnComponents = (byte)ComponentsEnum.None;
+    byte TargetComponents = (byte)ComponentsEnum.None;
     ComponentsEnum CurrentComponent = ComponentsEnum.Wires;
 
     ComponentInfo Info;
@@ -223,7 +224,7 @@ public class CruelModkitScript : MonoBehaviour
     {
         Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, SelectorButtons[1].transform);
         SelectorButtons[1].AddInteractionPunch(0.5f);
-        StartCoroutine(AnimateButtonPress(SelectorButtons[1].transform, Vector3.down * 0.005f));
+        StartCoroutine(Puzzle.AnimateButtonPress(SelectorButtons[1].transform, Vector3.down * 0.005f));
         if (ModuleSolved || Solving || ForceComponents || Animating)
             return;
         
@@ -238,39 +239,6 @@ public class CruelModkitScript : MonoBehaviour
             OnComponents += (byte)CurrentComponent;
             DisplayText.color = new Color(0, 1, 0);
             StartCoroutine(ShowComponent(CurrentComponent));
-        }
-    }
-
-    public IEnumerator AnimateButtonPress(Transform Object, Vector3 Offset, int Index = 0)
-    {
-        switch (Index)
-        {
-            case 0:
-                for (int i = 0; i < 5; i++)
-                {
-                    Object.localPosition += Offset / 5;
-                    yield return new WaitForSeconds(0.01f);
-                }
-                for (int i = 0; i < 5; i++)
-                {
-                    Object.localPosition -= Offset / 5;
-                    yield return new WaitForSeconds(0.01f);
-                }
-                break;
-            case 1:
-                for (int i = 0; i < 5; i++)
-                {
-                    Object.localPosition += Offset / 5;
-                    yield return new WaitForSeconds(0.01f);
-                }
-                break;
-            case 2:
-                for (int i = 0; i < 5; i++)
-                {
-                    Object.localPosition -= Offset / 5;
-                    yield return new WaitForSeconds(0.01f);
-                }
-                break;
         }
     }
 
@@ -482,11 +450,13 @@ public class CruelModkitScript : MonoBehaviour
 
     IEnumerator PlaySolveAnim()
     {
-        // Solve animation is split into stages so that the doors don't overlap
-        bool Pause = (((OnComponents & 24) != 0) || ((((OnComponents & 64) != 0) || ((OnComponents & 32) != 0)) && (((OnComponents & 4) != 0) || ((OnComponents & 1) != 0))) || (((OnComponents & 128) != 0) && (((OnComponents & 2) != 0) || ((OnComponents & 1) != 0))));
+        ComponentsEnum LeftSide = ComponentsEnum.Wires | ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Symbols;
+        ComponentsEnum RightSide = ComponentsEnum.Alphabet | ComponentsEnum.Piano | ComponentsEnum.Arrows | ComponentsEnum.Bulbs;
+        bool IsLeftSideEnabled = (OnComponents & (byte)(LeftSide)) != 0;
+        bool IsRightSideEnabled = (OnComponents & (byte)(RightSide)) != 0;
         for (int i = 7; i > -1; i--)
         {
-            if ((i == 3 && Pause))
+            if ((i == 3 && (IsLeftSideEnabled && IsRightSideEnabled)))
                 yield return new WaitForSeconds(1f);
             if ((OnComponents & (byte)Math.Pow(2, i)) != 0)
                 StartCoroutine(HideComponent((ComponentsEnum)Math.Pow(2, i)));
@@ -496,35 +466,35 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        SelectModule = "Deranged Keypad";
+        SelectModule = "Unscrew Maze";
         switch (SelectModule)
         {
             case "Timer Timings":
-                TargetComponents = 0;
+                TargetComponents = (byte)(ComponentsEnum.None);
                 Puzzle = new TimerTimings(this, ModuleID, Info, TargetComponents);
                 break;
             case "Unscrew Maze":
-                TargetComponents = 3;
+                TargetComponents = (byte)(ComponentsEnum.Arrows | ComponentsEnum.Bulbs);
                 Puzzle = new UnscrewMaze(this, ModuleID, Info, TargetComponents);
                 break;
             case "AV Input":
-                TargetComponents = 5;
+                TargetComponents = (byte)(ComponentsEnum.Piano | ComponentsEnum.Bulbs);
                 Puzzle = new AVInput(this, ModuleID, Info, TargetComponents);
                 break;
             case "Who's Who":
-                TargetComponents = 33;
+                TargetComponents = (byte)(ComponentsEnum.LED | ComponentsEnum.Bulbs);
                 Puzzle = new WhosWho(this, ModuleID, Info, TargetComponents);
                 break;
             case "Simon Skips":
-                TargetComponents = 34;
+                TargetComponents = (byte)(ComponentsEnum.LED | ComponentsEnum.Arrows);
                 Puzzle = new SimonSkips(this, ModuleID, Info, TargetComponents);
                 break;
             case "Metered Button":
-                TargetComponents = 64;
+                TargetComponents = (byte)(ComponentsEnum.Button);
                 Puzzle = new MeteredButton(this, ModuleID, Info, TargetComponents);
                 break;
             case "Stumbling Symphony":
-                TargetComponents = 68;
+                TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.Piano);
                 Puzzle = new StumblingSymphony(this, ModuleID, Info, TargetComponents);
                 break;
             case "Deranged Keypad":
@@ -533,12 +503,10 @@ public class CruelModkitScript : MonoBehaviour
                 break;
             case "Test Puzzle":
             default:
-                TargetComponents = 255;
+                TargetComponents = (byte)(ComponentsEnum.Wires | ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Symbols | ComponentsEnum.Alphabet | ComponentsEnum.Piano | ComponentsEnum.Arrows | ComponentsEnum.Bulbs);
                 Puzzle = new TestPuzzle(this, ModuleID, Info, TargetComponents);
                 break;
         }
-
-        
 
         for (int i = 0; i < Wires.Length; i++)
         {
@@ -552,14 +520,14 @@ public class CruelModkitScript : MonoBehaviour
 
         Button.GetComponentInChildren<KMSelectable>().OnInteract += delegate ()
         {
-            StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 1));
+            StartCoroutine(Puzzle.AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 1));
             Puzzle.OnButtonPress();
             return false;
         };
 
         Button.GetComponentInChildren<KMSelectable>().OnInteractEnded += delegate ()
         {
-            StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 2));
+            StartCoroutine(Puzzle.AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 2));
             Puzzle.OnButtonRelease();
         };
 
@@ -568,7 +536,7 @@ public class CruelModkitScript : MonoBehaviour
             int y = i;
             Symbols[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(AnimateButtonPress(Symbols[y].transform, Vector3.down * 0.00258f));
+                StartCoroutine(Puzzle.AnimateButtonPress(Symbols[y].transform, Vector3.down * 0.00258f));
                 Puzzle.OnSymbolPress(y);
                 return false;
             };
@@ -579,7 +547,7 @@ public class CruelModkitScript : MonoBehaviour
             int y = i;
             Alphabet[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(AnimateButtonPress(Alphabet[y].transform, Vector3.down * 0.00258f));
+                StartCoroutine(Puzzle.AnimateButtonPress(Alphabet[y].transform, Vector3.down * 0.00258f));
                 Puzzle.OnAlphabetPress(y);
                 return false;
             };
@@ -601,7 +569,7 @@ public class CruelModkitScript : MonoBehaviour
             int y = i;
             Arrows[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(AnimateButtonPress(ArrowsBase.transform, Vector3.down * 0.0002f));
+                StartCoroutine(Puzzle.AnimateButtonPress(ArrowsBase.transform, Vector3.down * 0.0002f));
                 StartCoroutine(AnimateButtonRotationPress(ArrowsBase.transform, new[] { Vector3.right, Vector3.back, Vector3.left, Vector3.forward , Vector3.right + Vector3.back, Vector3.left + Vector3.back, Vector3.left + Vector3.forward, Vector3.right + Vector3.forward, Vector3.zero }.ElementAt(y) * 5));
                 Puzzle.OnArrowPress(y);
                 return false;
@@ -623,20 +591,20 @@ public class CruelModkitScript : MonoBehaviour
             int y = i;
             Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 1));
+                StartCoroutine(Puzzle.AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 1));
                 Puzzle.OnBulbButtonPress(y);
                 return false;
             };
             Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteractEnded += delegate
             {
-                StartCoroutine(AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 2));
+                StartCoroutine(Puzzle.AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 2));
                 Puzzle.OnBulbButtonRelease(y);
             };
         }
 
         UtilityButton.OnInteract += delegate
         {
-            StartCoroutine(AnimateButtonPress(UtilityButton.transform, Vector3.down * 0.00184f));
+            StartCoroutine(Puzzle.AnimateButtonPress(UtilityButton.transform, Vector3.down * 0.00184f));
             Puzzle.OnUtilityPress();
             return false;
         };
@@ -648,7 +616,7 @@ public class CruelModkitScript : MonoBehaviour
     {
         Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Button.transform);
         Button.AddInteractionPunch(0.5f);
-        StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.005f));
+        StartCoroutine(Puzzle.AnimateButtonPress(Button.transform, Vector3.down * 0.005f));
         if (ModuleSolved || ForceComponents)
             return;
 
@@ -759,6 +727,7 @@ public class CruelModkitScript : MonoBehaviour
     {
         while (true)
         {
+            yield return new WaitForSeconds(MorseCodeDotLength * 6);  // 10 dots total
             foreach (var c in Word)
             {
                 var Code = MorseCodeTable[char.ToUpper(c)];
@@ -773,7 +742,6 @@ public class CruelModkitScript : MonoBehaviour
                 }
                 yield return new WaitForSeconds(MorseCodeDotLength * 3);  // 4 dots total
             }
-            yield return new WaitForSeconds(MorseCodeDotLength * 6);  // 10 dots total
         }
     }
 
@@ -822,12 +790,12 @@ public class CruelModkitScript : MonoBehaviour
     // Logging
     public string GetOnComponents()
     {
-        return OnComponents == 0 ? "None" : ((ComponentsEnum)OnComponents).ToString("G");
+        return ((ComponentsEnum)OnComponents).ToString("G");
     }
 
     public string GetTargetComponents()
     {
-        return TargetComponents == 0 ? "None" : ((ComponentsEnum)TargetComponents).ToString("G");
+        return ((ComponentsEnum)TargetComponents).ToString("G");
     }
 
     // Mod settings
