@@ -13,7 +13,7 @@ public class UnscrewMaze : Puzzle
                                "01", "03", "1", "013", "13", "03" };
     readonly int[] positions;
     int curPos;
-    readonly bool[] bulbsSolved = { false, false };
+    bool[] bulbsSolved = { false, false };
 
     public UnscrewMaze(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
@@ -95,6 +95,8 @@ public class UnscrewMaze : Puzzle
     {
         if (Module.IsAnimating())
             return;
+        if (!Module.IsSolving())
+            bulbsSolved = new bool[] { !BulbScrewedIn[0], !BulbScrewedIn[1] };
 
         Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], Info.BulbInfo[Bulb + 2]);
 
@@ -128,7 +130,7 @@ public class UnscrewMaze : Puzzle
             Module.CauseStrike();
         }
 
-        bulbsSolved[Bulb] = true;
+        bulbsSolved[Bulb] = !bulbsSolved[Bulb];
 
         if (bulbsSolved[0] && bulbsSolved[1])
         {

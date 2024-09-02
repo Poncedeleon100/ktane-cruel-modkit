@@ -151,8 +151,17 @@ public class SimonSkips : Puzzle
 
         Module.StartCoroutine(HandleArrowFlash(Arrow));
 
-        if (!Module.IsModuleSolving())
+        if (!Module.IsSolving())
+        {
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.ArrowDirections[Arrow], Module.GetOnComponents(), Module.GetTargetComponents());
+            }
+            else
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Module not initialized.", ModuleID);
+            Module.CauseStrike();
             return;
+        }
 
         if (Arrow == 8)
         {

@@ -172,12 +172,16 @@ public class StumblingSymphony : Puzzle
             if (!Module.CheckValidComponents())
             {
                 Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
-                return;
+
             }
+            else
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Module not initialized.", ModuleID);
+            }
+            Module.CauseStrike();
+            return;
         }
         
-
         if (Piano == finalInput[numInputs])
             numInputs++;
         else
@@ -219,10 +223,12 @@ public class StumblingSymphony : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
-                return;
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
             }
+            else
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Module not initialized.", ModuleID);
+            Module.CauseStrike();
+            return;
         }
 
         if (buttonPresses.Contains(numInputs))
