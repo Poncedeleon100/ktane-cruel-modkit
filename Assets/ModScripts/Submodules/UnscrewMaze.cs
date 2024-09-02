@@ -13,7 +13,7 @@ public class UnscrewMaze : Puzzle
                                "01", "03", "1", "013", "13", "03" };
     readonly int[] positions;
     int curPos;
-    bool[] bulbsSolved = { false, false };
+    readonly bool[] bulbsSolved = { false, false };
 
     public UnscrewMaze(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
@@ -95,18 +95,7 @@ public class UnscrewMaze : Puzzle
     {
         if (Module.IsAnimating())
             return;
-        if (!Module.IsSolving())
-            bulbsSolved = new bool[] { !BulbScrewedIn[0], !BulbScrewedIn[1] };
 
-        Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], Info.BulbInfo[Bulb + 2]);
-
-        BulbScrewedIn[Bulb] = !BulbScrewedIn[Bulb];
-
-        Module.Audio.PlaySoundAtTransform(Module.BulbSounds[BulbScrewedIn[Bulb] ? 0 : 1].name, Module.transform);
-        Module.Bulbs[Bulb].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
-
-        if (Module.IsModuleSolved() || BulbScrewedIn[Bulb])
-            return;
         if (!Module.IsSolving())
         {
             if (!Module.CheckValidComponents())
@@ -119,7 +108,15 @@ public class UnscrewMaze : Puzzle
             Module.StartSolve();
         }
 
-        if (bulbsSolved[Bulb])
+        Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], Info.BulbInfo[Bulb + 2]);
+
+        BulbScrewedIn[Bulb] = !BulbScrewedIn[Bulb];
+        bulbsSolved[Bulb] = !bulbsSolved[Bulb];
+
+        Module.Audio.PlaySoundAtTransform(Module.BulbSounds[BulbScrewedIn[Bulb] ? 0 : 1].name, Module.transform);
+        Module.Bulbs[Bulb].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+
+        if (Module.IsModuleSolved() || BulbScrewedIn[Bulb])
             return;
 
         if (positions[Bulb + 1] != curPos)
@@ -129,8 +126,6 @@ public class UnscrewMaze : Puzzle
             UpdateMorse();
             Module.CauseStrike();
         }
-
-        bulbsSolved[Bulb] = !bulbsSolved[Bulb];
 
         if (bulbsSolved[0] && bulbsSolved[1])
         {
