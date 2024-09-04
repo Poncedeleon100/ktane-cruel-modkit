@@ -12,7 +12,7 @@ Join the [Discord](https://discord.gg/uk4KySDUNA) to contribute. Beta testing is
 
 ### Module Progress
 
-![](https://geps.dev/progress/3)
+![](https://geps.dev/progress/4)
 
 ## Rules for Git collaboration
 
