@@ -15,6 +15,14 @@
             margin: 1em auto;
             border: none;
         }
+
+        .page-footer::before {
+            content: 'Page ';
+        }
+
+        .page-footer::after {
+            content: ' of 2';
+        }
     </style>
 </head>
 <body>
@@ -42,7 +50,7 @@
                     <li>Split the serial number into three groups of two characters.</li>
                     <li>Take the individual groups and multiply their characters together using their Base36 values.</li>
                     <li>Take the sum of each of the three products, modulo 256.</li>
-                    <li>Convert the number to binary.</li>
+                    <li>Convert the sum to an eight-digit binary number, prepending zeros if necessary.</li>
                     <li>With the first digit of the binary number representing the wires component, activate each component that has a 1.</li>
                 </ol>
                 <p style="font-style: italic">*Go <a href="https://ktane.timwi.de/HTML/Morse Code.html">here</a> for a Morse Code reference.</p>
@@ -56,11 +64,28 @@
                 <span class="page-header-section-title">The Cruel Modkit</span>
             </div>
             <div class="page-content">
-                <p><strong>THIS PAGE IS UNDER DEVELOPMENT AND FINAL LAYOUT IS TBD.</strong></p>
+                <p><strong>THIS PAGE IS UNDER DEVELOPMENT AND FINAL LAYOUT IS TO BE DETERMINED.</strong></p>
                 <table>
                     <tr>
+                        <th>ØØØØØØØØ</th>
                         <td><a href="Timer Timings.html">Timer Timings</a></td>
+                        <th>ØØØØØØ11</th>
                         <td><a href="Unscrew Maze.html">Unscrew Maze</a></td>
+                        <th>ØØ1ØØØ1Ø</th>
+                        <td><a href="Who's Who.html">Who's Who</a></td>
+                    </tr>
+                    <tr>
+                        <th>ØØ1ØØØ1Ø</th>
+                        <td><a href="Simon Skips.html">Simon Skips</a></td>
+                        <th>Ø1ØØØØØØ</th>
+                        <td><a href="Metered Button.html">Metered Button</a></td>
+                        <th>Ø1ØØØ1ØØ</th>
+                        <td><a href="Stumbling Symphony.html">Stumbling Symphony</a></td>
+                    </tr>
+                    <tr>
+                        <th>ØØØØØ1Ø1</th>
+                        <td><a href="AV Input.html">AV Input</a></td>
+                        <th>11111111</th>
                         <td><a href="Test Puzzle.html">Test Puzzle</a></td>
                     </tr>
                 </table>

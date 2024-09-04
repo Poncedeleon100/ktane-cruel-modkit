@@ -15,6 +15,14 @@
             margin: 1em auto;
             border: none;
         }
+
+        .page-footer::before {
+            content: 'Page ';
+        }
+
+        .page-footer::after {
+            content: ' of 1';
+        }
     </style>
 </head>
 <body>
@@ -30,7 +38,7 @@
                 <p><strong>Note: </strong>Your module's components can contain anything!</p>
                 <p>To disarm the module, press the "❖" button. Otherwise, this module cannot strike.</p>
             </div>
-            <div class="page-footer relative-footer">4</div>
+            <div class="page-footer relative-footer">1</div>
         </div>
     </div>
 </body>

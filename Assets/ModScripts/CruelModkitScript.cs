@@ -50,35 +50,37 @@ public class CruelModkitScript : MonoBehaviour
     public GameObject[] ResistorStrips;
     public TextMesh[] ResistorText;
     public TextMesh[] WidgetText;
-    public Light MorseLight;
-    public Renderer MorseMesh;
+    public GameObject MorseLED;
     public GameObject Meter;
 
     public Mesh[] WireMesh;
-    List<int> WiresCut = new List<int>();
+    readonly List<int> WiresCut = new List<int>();
 
     //Fixes light sizes on different bomb sizes
     public Light[] LightsArray;
 
     //Component Selector Info
     [Flags]
-    public enum ComponentsEnum : byte {
-        Wires = 1,
-        Button = 2,
-        LED = 4,
-        Symbols = 8,
-        Alphabet = 16,
-        Piano = 32,
-        Arrows = 64,
-        Bulbs = 128
+    public enum ComponentsEnum : byte
+    {
+        Wires = 128,
+        Button = 64,
+        LED = 32,
+        Symbols = 16,
+        Alphabet = 8,
+        Piano = 4,
+        Arrows = 2,
+        Bulbs = 1,
+        None = 0,
     }
 
-    public int CountComponents(ComponentsEnum comps) {
+    public int CountComponents(ComponentsEnum comps)
+    {
         return new BitArray(new[] {(byte)comps}).OfType<bool>().Count(x => x);
     }
 
-    byte OnComponents = 0;
-    byte TargetComponents = 0;
+    byte OnComponents = (byte)ComponentsEnum.None;
+    byte TargetComponents = (byte)ComponentsEnum.None;
     ComponentsEnum CurrentComponent = ComponentsEnum.Wires;
 
     ComponentInfo Info;
@@ -131,6 +133,7 @@ public class CruelModkitScript : MonoBehaviour
         { 'Z', new[] { Symbol.Dash, Symbol.Dash, Symbol.Dot, Symbol.Dot } },
     };
     private const float MorseCodeDotLength = 0.25f;
+    public IEnumerator MorseCodeAnimation;
 
     // Logging
     static int ModuleIDCounter = 1;
@@ -140,8 +143,8 @@ public class CruelModkitScript : MonoBehaviour
     private bool Animating;
 
     // These are public variables needed to communicate with the Puzzle class.
-
     public bool IsModuleSolved() => ModuleSolved;
+    public bool IsModuleSolving() => Solving;
     public bool CheckValidComponents()
     {
         return OnComponents == TargetComponents;
@@ -221,11 +224,9 @@ public class CruelModkitScript : MonoBehaviour
     {
         Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, SelectorButtons[1].transform);
         SelectorButtons[1].AddInteractionPunch(0.5f);
-        StartCoroutine(AnimateButtonPress(SelectorButtons[1].transform, Vector3.down * 0.005f));
+        StartCoroutine(Puzzle.AnimateButtonPress(SelectorButtons[1].transform, Vector3.down * 0.005f));
         if (ModuleSolved || Solving || ForceComponents || Animating)
-        {
             return;
-        }
         
         if(((ComponentsEnum)OnComponents & CurrentComponent) == CurrentComponent)
         {
@@ -238,39 +239,6 @@ public class CruelModkitScript : MonoBehaviour
             OnComponents += (byte)CurrentComponent;
             DisplayText.color = new Color(0, 1, 0);
             StartCoroutine(ShowComponent(CurrentComponent));
-        }
-    }
-
-    public IEnumerator AnimateButtonPress(Transform Object, Vector3 Offset, int Index = 0)
-    {
-        switch (Index)
-        {
-            case 0:
-                for (int i = 0; i < 5; i++)
-                {
-                    Object.localPosition += Offset / 5;
-                    yield return new WaitForSeconds(0.01f);
-                }
-                for (int i = 0; i < 5; i++)
-                {
-                    Object.localPosition -= Offset / 5;
-                    yield return new WaitForSeconds(0.01f);
-                }
-                break;
-            case 1:
-                for (int i = 0; i < 5; i++)
-                {
-                    Object.localPosition += Offset / 5;
-                    yield return new WaitForSeconds(0.01f);
-                }
-                break;
-            case 2:
-                for (int i = 0; i < 5; i++)
-                {
-                    Object.localPosition -= Offset / 5;
-                    yield return new WaitForSeconds(0.01f);
-                }
-                break;
         }
     }
 
@@ -330,7 +298,8 @@ public class CruelModkitScript : MonoBehaviour
     {
         Animating = true;
         Audio.PlayGameSoundAtTransformWithRef(KMSoundOverride.SoundEffect.WireSequenceMechanism, transform);
-        Dictionary<ComponentsEnum, float> floats = new Dictionary<ComponentsEnum, float>(){
+        Dictionary<ComponentsEnum, float> floats = new Dictionary<ComponentsEnum, float>()
+        {
             {ComponentsEnum.Wires,    -.08f   },
             {ComponentsEnum.Button,   -.0374f },
             {ComponentsEnum.LED,      -.08f   },
@@ -362,7 +331,8 @@ public class CruelModkitScript : MonoBehaviour
     {
         Animating = true;
         Audio.PlayGameSoundAtTransformWithRef(KMSoundOverride.SoundEffect.WireSequenceMechanism, transform);
-        Dictionary<ComponentsEnum, float> floats = new Dictionary<ComponentsEnum, float>(){
+        Dictionary<ComponentsEnum, float> floats = new Dictionary<ComponentsEnum, float>()
+        {
             {ComponentsEnum.Wires,     .08f   },
             {ComponentsEnum.Button,    .0374f },
             {ComponentsEnum.LED,       .08f   },
@@ -464,32 +434,29 @@ public class CruelModkitScript : MonoBehaviour
             int Color1 = Info.Wires[0][i];
             int Color2 = Info.Wires[1][i];
             if (Color1 != Color2)
-            {
                 Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1] + "_" + ComponentInfo.WireColors[Color2]).ToArray()[0];
-            }
             else
-            {
                 Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1]).ToArray()[0];
-            }
 
             Wires[i].transform.Find("WireHL").gameObject.SetActive(true);
             Wires[i].GetComponent<MeshFilter>().mesh = WireMesh[0];
         }
 
         for (int i = 0; i < WireLED.Length; i++)
-        {
             WireLED[i].transform.Find("WireLEDL").GetComponentInChildren<Renderer>().material = WireLEDMats[Info.WireLED[i]];
-        }
 
         yield return ShowComponent(ComponentsEnum.Wires);
     }
 
     IEnumerator PlaySolveAnim()
     {
-        // Solve animation is split into stages so that the doors don't overlap
-        for (int i = 0; i < CountComponents((ComponentsEnum)OnComponents); i++)
+        ComponentsEnum LeftSide = ComponentsEnum.Wires | ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Symbols;
+        ComponentsEnum RightSide = ComponentsEnum.Alphabet | ComponentsEnum.Piano | ComponentsEnum.Arrows | ComponentsEnum.Bulbs;
+        bool IsLeftSideEnabled = (OnComponents & (byte)(LeftSide)) != 0;
+        bool IsRightSideEnabled = (OnComponents & (byte)(RightSide)) != 0;
+        for (int i = 7; i > -1; i--)
         {
-            if ((i == 4 && (((OnComponents & 24) != 0) || (((OnComponents & 6) != 0) && (((OnComponents & 96) != 0))) || (((OnComponents & 1) != 0) && (((OnComponents & 192) != 0))))))
+            if ((i == 3 && (IsLeftSideEnabled && IsRightSideEnabled)))
                 yield return new WaitForSeconds(1f);
             if ((OnComponents & (byte)Math.Pow(2, i)) != 0)
                 StartCoroutine(HideComponent((ComponentsEnum)Math.Pow(2, i)));
@@ -499,28 +466,43 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        //SelectModule = "Timer Timings";
+        SelectModule = "Unscrew Maze";
         switch (SelectModule)
         {
-            case "Metered Button":
-                TargetComponents = 2;
-                Puzzle = new MeteredButton(this, ModuleID, Info, true, TargetComponents);
-                break;
             case "Timer Timings":
-                TargetComponents = 0;
-                Puzzle = new TimerTimings(this, ModuleID, Info, true, TargetComponents);
+                TargetComponents = (byte)(ComponentsEnum.None);
+                Puzzle = new TimerTimings(this, ModuleID, Info, TargetComponents);
+                break;
+            case "Unscrew Maze":
+                TargetComponents = (byte)(ComponentsEnum.Arrows | ComponentsEnum.Bulbs);
+                Puzzle = new UnscrewMaze(this, ModuleID, Info, TargetComponents);
+                break;
+            case "AV Input":
+                TargetComponents = (byte)(ComponentsEnum.Piano | ComponentsEnum.Bulbs);
+                Puzzle = new AVInput(this, ModuleID, Info, TargetComponents);
+                break;
+            case "Who's Who":
+                TargetComponents = (byte)(ComponentsEnum.LED | ComponentsEnum.Bulbs);
+                Puzzle = new WhosWho(this, ModuleID, Info, TargetComponents);
+                break;
+            case "Simon Skips":
+                TargetComponents = (byte)(ComponentsEnum.LED | ComponentsEnum.Arrows);
+                Puzzle = new SimonSkips(this, ModuleID, Info, TargetComponents);
+                break;
+            case "Metered Button":
+                TargetComponents = (byte)(ComponentsEnum.Button);
+                Puzzle = new MeteredButton(this, ModuleID, Info, TargetComponents);
+                break;
+            case "Stumbling Symphony":
+                TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.Piano);
+                Puzzle = new StumblingSymphony(this, ModuleID, Info, TargetComponents);
                 break;
             case "Test Puzzle":
-                TargetComponents = 255;
-                Puzzle = new TestPuzzle(this, ModuleID, Info, true, TargetComponents);
-                break;
             default:
-                TargetComponents = 255;
-                Puzzle = new TestPuzzle(this, ModuleID, Info, true, TargetComponents);
+                TargetComponents = (byte)(ComponentsEnum.Wires | ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Symbols | ComponentsEnum.Alphabet | ComponentsEnum.Piano | ComponentsEnum.Arrows | ComponentsEnum.Bulbs);
+                Puzzle = new TestPuzzle(this, ModuleID, Info, TargetComponents);
                 break;
         }
-
-        
 
         for (int i = 0; i < Wires.Length; i++)
         {
@@ -534,14 +516,14 @@ public class CruelModkitScript : MonoBehaviour
 
         Button.GetComponentInChildren<KMSelectable>().OnInteract += delegate ()
         {
-            StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 1));
+            StartCoroutine(Puzzle.AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 1));
             Puzzle.OnButtonPress();
             return false;
         };
 
         Button.GetComponentInChildren<KMSelectable>().OnInteractEnded += delegate ()
         {
-            StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 2));
+            StartCoroutine(Puzzle.AnimateButtonPress(Button.transform, Vector3.down * 0.0014f, 2));
             Puzzle.OnButtonRelease();
         };
 
@@ -550,7 +532,7 @@ public class CruelModkitScript : MonoBehaviour
             int y = i;
             Symbols[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(AnimateButtonPress(Symbols[y].transform, Vector3.down * 0.00258f));
+                StartCoroutine(Puzzle.AnimateButtonPress(Symbols[y].transform, Vector3.down * 0.00258f));
                 Puzzle.OnSymbolPress(y);
                 return false;
             };
@@ -561,7 +543,7 @@ public class CruelModkitScript : MonoBehaviour
             int y = i;
             Alphabet[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(AnimateButtonPress(Alphabet[y].transform, Vector3.down * 0.00258f));
+                StartCoroutine(Puzzle.AnimateButtonPress(Alphabet[y].transform, Vector3.down * 0.00258f));
                 Puzzle.OnAlphabetPress(y);
                 return false;
             };
@@ -583,7 +565,7 @@ public class CruelModkitScript : MonoBehaviour
             int y = i;
             Arrows[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(AnimateButtonPress(ArrowsBase.transform, Vector3.down * 0.0002f));
+                StartCoroutine(Puzzle.AnimateButtonPress(ArrowsBase.transform, Vector3.down * 0.0002f));
                 StartCoroutine(AnimateButtonRotationPress(ArrowsBase.transform, new[] { Vector3.right, Vector3.back, Vector3.left, Vector3.forward , Vector3.right + Vector3.back, Vector3.left + Vector3.back, Vector3.left + Vector3.forward, Vector3.right + Vector3.forward, Vector3.zero }.ElementAt(y) * 5));
                 Puzzle.OnArrowPress(y);
                 return false;
@@ -605,15 +587,20 @@ public class CruelModkitScript : MonoBehaviour
             int y = i;
             Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f));
+                StartCoroutine(Puzzle.AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 1));
                 Puzzle.OnBulbButtonPress(y);
                 return false;
+            };
+            Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteractEnded += delegate
+            {
+                StartCoroutine(Puzzle.AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 2));
+                Puzzle.OnBulbButtonRelease(y);
             };
         }
 
         UtilityButton.OnInteract += delegate
         {
-            StartCoroutine(AnimateButtonPress(UtilityButton.transform, Vector3.down * 0.00184f));
+            StartCoroutine(Puzzle.AnimateButtonPress(UtilityButton.transform, Vector3.down * 0.00184f));
             Puzzle.OnUtilityPress();
             return false;
         };
@@ -625,16 +612,15 @@ public class CruelModkitScript : MonoBehaviour
     {
         Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Button.transform);
         Button.AddInteractionPunch(0.5f);
-        StartCoroutine(AnimateButtonPress(Button.transform, Vector3.down * 0.005f));
+        StartCoroutine(Puzzle.AnimateButtonPress(Button.transform, Vector3.down * 0.005f));
         if (ModuleSolved || ForceComponents)
-        {
             return;
-        }
+
         if (CurrentComponent == ComponentsEnum.Wires && i == -1)
             CurrentComponent = ComponentsEnum.Bulbs;
         else if (CurrentComponent == ComponentsEnum.Bulbs && i == 1)
             CurrentComponent = ComponentsEnum.Wires;
-        else CurrentComponent = (ComponentsEnum)Math.Pow(2, (int)(Math.Log((int)CurrentComponent, 2) + .1) + i);
+        else CurrentComponent = (ComponentsEnum)Math.Pow(2, (int)(Math.Log((int)CurrentComponent, 2) + .1) - i);
 
         DisplayText.text = CurrentComponent.ToString("F").ToUpper();
         DisplayText.color = ((ComponentsEnum)OnComponents & CurrentComponent) == CurrentComponent ? Color.green : Color.red;
@@ -649,41 +635,27 @@ public class CruelModkitScript : MonoBehaviour
             int Color1 = Info.Wires[0][i];
             int Color2 = Info.Wires[1][i];
             if(Color1 != Color2)
-            {
                 Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1] + "_" + ComponentInfo.WireColors[Color2]).ToArray()[0];
-            }
             else
-            {
                 Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1]).ToArray()[0];
-            }
         }
         //Set materials for Wire LEDs
         for(int i = 0; i < WireLED.Length; i++)
-        {
             WireLED[i].transform.Find("WireLEDL").GetComponentInChildren<Renderer>().material = WireLEDMats[Info.WireLED[i]];
-        }
         //Set text and material for Button
         Button.transform.GetComponentInChildren<Renderer>().material = ButtonMats[Info.Button];
         Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
         if(Info.Button == 0 || Info.Button == 1 || Info.Button == 7)
-        {
             Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ComponentInfo.ButtonTextWhite;
-        }
         //Set materials for LEDs
         for(int i = 0; i < LED.Length; i++)
-        {
             LED[i].transform.Find("LEDL").GetComponentInChildren<Renderer>().material = LEDMats[Info.LED[i]];
-        }
         //Set materials for Symbols
         for(int i = 0; i < Symbols.Length; i++)
-        {
             Symbols[i].transform.Find("Symbol").GetComponentInChildren<Renderer>().material = SymbolMats[Info.Symbols[i]];
-        }
         //Set Alphabet text
         for(int i = 0; i < Alphabet.Length; i++)
-        {
             Alphabet[i].transform.Find("AlphabetText").GetComponentInChildren<TextMesh>().text = Info.Alphabet[i];
-        }
         //Set materials and light colors for Arrows
         for(int i = 0; i < 9; i++)
         {
@@ -736,7 +708,8 @@ public class CruelModkitScript : MonoBehaviour
         //Set number display text
         WidgetText[2].text = Info.NumberDisplay.ToString();
         //Set morse code display
-        StartCoroutine(PlayWord(Info.Morse));
+        MorseCodeAnimation = PlayWord(Info.Morse);
+        StartCoroutine(MorseCodeAnimation);
         //Set meter value and color
         Meter.GetComponentInChildren<Renderer>().material = MeterMats[Info.MeterColor];
         //Changes the meter so it matches the value from Info.MeterValue; adjusts scale first then shifts the position down
@@ -750,21 +723,21 @@ public class CruelModkitScript : MonoBehaviour
     {
         while (true)
         {
+            yield return new WaitForSeconds(MorseCodeDotLength * 6);  // 10 dots total
             foreach (var c in Word)
             {
                 var Code = MorseCodeTable[char.ToUpper(c)];
                 foreach (var Symbol in Code)
                 {
-                    MorseLight.enabled = true;
-                    MorseMesh.material = MorseMats[1];
+                    MorseLED.transform.Find("MorseBulbLight").GetComponentInChildren<Light>().enabled = true;
+                    MorseLED.transform.GetComponentInChildren<MeshRenderer>().material = MorseMats[1];
                     yield return new WaitForSeconds(Symbol == Symbol.Dot ? MorseCodeDotLength : MorseCodeDotLength * 3);
-                    MorseLight.enabled = false;
-                    MorseMesh.material = MorseMats[0];
+                    MorseLED.transform.Find("MorseBulbLight").GetComponentInChildren<Light>().enabled = false;
+                    MorseLED.transform.GetComponentInChildren<MeshRenderer>().material = MorseMats[0];
                     yield return new WaitForSeconds(MorseCodeDotLength);
                 }
                 yield return new WaitForSeconds(MorseCodeDotLength * 3);  // 4 dots total
             }
-            yield return new WaitForSeconds(MorseCodeDotLength * 6);  // 10 dots total
         }
     }
 
@@ -808,25 +781,17 @@ public class CruelModkitScript : MonoBehaviour
         Debug.LogFormat("[The Cruel Modkit #{0}] Puzzle ID is {1}. Binary conversion is {2}.", ModuleID, Products.ToString(), Convert.ToString(Products, 2).PadLeft(8, '0'));
         TargetComponents = (byte)Products;
         Debug.LogFormat("[The Cruel Modkit #{0}] Calculated components are: [{1}].", ModuleID, GetTargetComponents());
-        //Alternate calculation method: Convert serial number from base36 to base10, then to binary, then calculate the components
-        /*double AltPuzzleID = 0;
-        foreach (char c in SerialNumber)
-            AltPuzzleID += (Base36.IndexOf(c) * Math.Pow(36, (SerialNumber.Length - 1) - SerialNumber.IndexOf(c)));
-        var AltPuzzleBinary = Convert.ToString(Convert.ToInt64(AltPuzzleID), 2).PadLeft(8, '0');
-        Debug.LogFormat("[The Cruel Modkit #{0}] Alternate Puzzle ID is {1}. Binary conversion is {2}. Trimmed binary number is {3}.", ModuleID, AltPuzzleID, Convert.ToString(Convert.ToInt64(AltPuzzleID), 2), AltPuzzleBinary.Substring(1, 8));
-        TargetComponents = AltPuzzleBinary.Substring(1, 8).Select(x => x == '1').ToArray();
-        Debug.LogFormat("[The Cruel Modkit #{0}] Alternate calculated components are: [{1}].", ModuleID, GetTargetComponents());*/
     }
 
     // Logging
     public string GetOnComponents()
     {
-        return OnComponents == 0 ? "None" : ((ComponentsEnum)OnComponents).ToString("G");
+        return ((ComponentsEnum)OnComponents).ToString("G");
     }
 
     public string GetTargetComponents()
     {
-        return TargetComponents == 0 ? "None" : ((ComponentsEnum)TargetComponents).ToString("G");
+        return ((ComponentsEnum)TargetComponents).ToString("G");
     }
 
     // Mod settings
@@ -844,7 +809,7 @@ public class CruelModkitScript : MonoBehaviour
                     { "Text", "Select Module" },
                     { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
                     { "Type", "Dropdown" },
-                    { "DropdownItems", new List<object> { "Timer Timings", "Test Puzzle" } }
+                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "AV Input", "Test Puzzle" } }
                 },
             }
             },

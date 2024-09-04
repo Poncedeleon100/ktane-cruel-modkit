@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Security.Principal;
+﻿using System.Collections;
 using UnityEngine;
-using KModkit;
 
 public class Puzzle
 {
@@ -15,12 +9,11 @@ public class Puzzle
     protected bool Vanilla;
     public byte Components;
 
-    public Puzzle(CruelModkitScript Module, int ModuleID, ComponentInfo Info, bool Vanilla, byte Components)
+    public Puzzle(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components)
     {
         this.Module = Module;
         this.ModuleID = ModuleID;
         this.Info = Info;
-        this.Vanilla = Vanilla;
         this.Components = Components;
     }
 
@@ -187,6 +180,14 @@ public class Puzzle
         Module.StartSolve();
     }
 
+    public virtual void OnBulbButtonRelease(int Button)
+    {
+        if (Module.IsAnimating())
+            return;
+
+        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, Module.transform);
+    }
+
     public virtual void OnBulbInteract(int Bulb)
     {
         if (Module.IsAnimating())
@@ -231,6 +232,39 @@ public class Puzzle
         }
 
         Module.StartSolve();
+    }
+
+    public virtual IEnumerator AnimateButtonPress(Transform Object, Vector3 Offset, int Index = 0)
+    {
+        switch (Index)
+        {
+            case 0:
+                for (int i = 0; i < 5; i++)
+                {
+                    Object.localPosition += Offset / 5;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                for (int i = 0; i < 5; i++)
+                {
+                    Object.localPosition -= Offset / 5;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                break;
+            case 1:
+                for (int i = 0; i < 5; i++)
+                {
+                    Object.localPosition += Offset / 5;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                break;
+            case 2:
+                for (int i = 0; i < 5; i++)
+                {
+                    Object.localPosition -= Offset / 5;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                break;
+        }
     }
 
     public IEnumerator HandleArrowDelayFlash()
