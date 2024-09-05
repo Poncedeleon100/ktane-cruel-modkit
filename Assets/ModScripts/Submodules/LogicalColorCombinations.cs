@@ -82,14 +82,14 @@ public class LogicalColorCombinations : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] The LEDs are {1}.", ModuleID, Info.GetLEDInfo());
         for (int i = 0; i < 4; i++)
         {
-            string pair = "";pair += pairTable[MainColorConvert(Info.LED[i * 2]), ArrowColorConvert(i * 2)];
-            pair += pairTable[MainColorConvert(Info.LED[i * 2 + 1]), ArrowColorConvert(i * 2 + 1)];
+            string pair = "";pair += pairTable[MainColorConvert(Info.LED[i * 2], false), ArrowColorConvert(i * 2)];
+            pair += pairTable[MainColorConvert(Info.LED[i * 2 + 1], false), ArrowColorConvert(i * 2 + 1)];
             LogABCD[i] = pair;
             ABCD[i] = Base36Convert(pair);
         }
         Debug.LogFormat("[The Cruel Modkit #{0}] A, B, C and D respectively are {1}.", ModuleID, LogABCD.Join(", "));
-        logicOperator = logicOperatorTable[MainColorConvert(Info.Button), Array.IndexOf(ComponentInfo.ButtonList, Info.ButtonText)];
-        pairOrder = pairOrderTable[MainColorConvert(Info.Button), Array.IndexOf(ComponentInfo.ButtonList, Info.ButtonText)];
+        logicOperator = logicOperatorTable[MainColorConvert(Info.Button, true), Array.IndexOf(ComponentInfo.ButtonList, Info.ButtonText)];
+        pairOrder = pairOrderTable[MainColorConvert(Info.Button, true), Array.IndexOf(ComponentInfo.ButtonList, Info.ButtonText)];
         Debug.LogFormat("[The Cruel Modkit #{0}] The correct operator to use is {1}. The two letter pairs are {2} and {3}", ModuleID, operatorNames[logicOperator], "ABCD"[pairOrder[0] - 48].ToString() + "ABCD"[pairOrder[1] - 48].ToString(), "ABCD"[pairOrder[2] - 48].ToString() + "ABCD"[pairOrder[3] - 48].ToString());
         for (int i = 0; i < 2; i++)
         {
@@ -290,9 +290,9 @@ public class LogicalColorCombinations : Puzzle
         return new int[] { 0, 3, 1, 2 }[Arrow];
     }
 
-    int MainColorConvert(int Color)
+    int MainColorConvert(int Color, bool Button)
     {
-        return new int[] { 10, 6, 5, 4, 3, 1, 8, 7, 0, 9, 2 }[Color];
+        return new int[] { Button ? 9 : 10, 6, 5, 4, 3, 1, 8, 7, 0, Button ? 10 : 9, 2 }[Color];
     }
 
     int ToMainColor(int Color)
