@@ -2,10 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Security.Principal;
 using UnityEngine;
-using KModkit;
 using Random = UnityEngine.Random;
 
 public class LogicalColorCombinations : Puzzle
@@ -71,7 +68,7 @@ public class LogicalColorCombinations : Puzzle
     List<int> solvedLEDs = new List<int>();
     List<int> solvedColors = new List<int>();
 
-    public LogicalColorCombinations(CruelModkitScript Module, int ModuleID, ComponentInfo Info, bool Vanilla, byte Components) : base(Module, ModuleID, Info, Vanilla, Components)
+    public LogicalColorCombinations(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
         Debug.LogFormat("[The Cruel Modkit #{0}] Solving Logical Color Combinations.", ModuleID);
         for (int i = 0; i < 8; i++)
