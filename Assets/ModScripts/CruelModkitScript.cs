@@ -502,25 +502,42 @@ public class CruelModkitScript : MonoBehaviour
         SelectModule = "Logical Color Combinations";
         switch (SelectModule)
         {
-            case "Logical Color Combinations":
-                TargetComponents = 70;
-                Puzzle = new LogicalColorCombinations(this, ModuleID, Info, true, TargetComponents);
+            case "Timer Timings":
+                TargetComponents = (byte)(ComponentsEnum.None);
+                Puzzle = new TimerTimings(this, ModuleID, Info, TargetComponents);
+                break;
+            case "Unscrew Maze":
+                TargetComponents = (byte)(ComponentsEnum.Arrows | ComponentsEnum.Bulbs);
+                Puzzle = new UnscrewMaze(this, ModuleID, Info, TargetComponents);
+                break;
+            case "AV Input":
+                TargetComponents = (byte)(ComponentsEnum.Piano | ComponentsEnum.Bulbs);
+                Puzzle = new AVInput(this, ModuleID, Info, TargetComponents);
+                break;
+            case "Who's Who":
+                TargetComponents = (byte)(ComponentsEnum.LED | ComponentsEnum.Bulbs);
+                Puzzle = new WhosWho(this, ModuleID, Info, TargetComponents);
+                break;
+            case "Simon Skips":
+                TargetComponents = (byte)(ComponentsEnum.LED | ComponentsEnum.Arrows);
+                Puzzle = new SimonSkips(this, ModuleID, Info, TargetComponents);
                 break;
             case "Metered Button":
-                TargetComponents = 2;
-                Puzzle = new MeteredButton(this, ModuleID, Info, true, TargetComponents);
+                TargetComponents = (byte)(ComponentsEnum.Button);
+                Puzzle = new MeteredButton(this, ModuleID, Info, TargetComponents);
                 break;
-            case "Timer Timings":
-                TargetComponents = 0;
-                Puzzle = new TimerTimings(this, ModuleID, Info, true, TargetComponents);
+            case "Stumbling Symphony":
+                TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.Piano);
+                Puzzle = new StumblingSymphony(this, ModuleID, Info, TargetComponents);
+                break;
+            case "Logical Color Combinations":
+                TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Arrows);
+                Puzzle = new LogicalColorCombinations(this, ModuleID, Info, TargetComponents);
                 break;
             case "Test Puzzle":
-                TargetComponents = 255;
-                Puzzle = new TestPuzzle(this, ModuleID, Info, true, TargetComponents);
-                break;
             default:
-                TargetComponents = 255;
-                Puzzle = new TestPuzzle(this, ModuleID, Info, true, TargetComponents);
+                TargetComponents = (byte)(ComponentsEnum.Wires | ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Symbols | ComponentsEnum.Alphabet | ComponentsEnum.Piano | ComponentsEnum.Arrows | ComponentsEnum.Bulbs);
+                Puzzle = new TestPuzzle(this, ModuleID, Info, TargetComponents);
                 break;
         }
 
