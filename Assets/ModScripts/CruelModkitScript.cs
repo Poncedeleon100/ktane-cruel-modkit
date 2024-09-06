@@ -499,7 +499,7 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        SelectModule = "Logical Color Combinations";
+        SelectModule = "Unscrew Maze";
         switch (SelectModule)
         {
             case "Timer Timings":
