@@ -507,7 +507,7 @@ public class CruelModkitScript : MonoBehaviour
                 Puzzle = new UnscrewMaze(this, ModuleID, Info, TargetComponents);
                 break;
             case "Piano Decryption":
-                TargetComponents = 4;
+                TargetComponents = (byte)(ComponentsEnum.Piano); ;
                 Puzzle = new PianoDecryption(this, ModuleID, Info, TargetComponents);
                 break;
             case "AV Input":

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -32,10 +31,10 @@ public class PianoDecryption : Puzzle
         { "YIELDS", new int[] { 7, 4, 5, 7, 0, 11, 0, 2, 0, 11, 9, 7 } }, 
         { "ZAMBIA", new int[] { 10, 9, 10, 7 } }
     };
-    string[] WordList = { "ANSWER", "BANTER", "CREOLE", "DRIVEN", "ELEVEN", "FAKERS", "GARAGE", "HORROR", "JULIET", "KEVLAR", "NETHER", "OPIOID", "PARENT", "QUESTS", "UMPIRE", "VICTOR", "WIRING", "XENONS", "YIELDS", "ZAMBIA" };
+    readonly string[] WordList = { "ANSWER", "BANTER", "CREOLE", "DRIVEN", "ELEVEN", "FAKERS", "GARAGE", "HORROR", "JULIET", "KEVLAR", "NETHER", "OPIOID", "PARENT", "QUESTS", "UMPIRE", "VICTOR", "WIRING", "XENONS", "YIELDS", "ZAMBIA" };
     string encryptedWord, decryptedWord = "";
-    int[] solutionSequence = new int[] { };
-    int repeats = 1;
+    readonly int[] solutionSequence = new int[] { };
+    readonly int repeats = 1;
     int currentNote = 0;
 
     public PianoDecryption(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
@@ -60,15 +59,18 @@ public class PianoDecryption : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.PianoKeyNames[Piano], Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
-        }
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.PianoKeyNames[Piano], Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
 
-        Module.StartSolve();
-        if (Piano != solutionSequence[repeats > 1 ? currentNote % 4 : currentNote])
+            Module.StartSolve();
+        }
+        if (Piano != solutionSequence[repeats > 1 ? currentNote % solutionSequence.Length : currentNote])
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key was pressed instead of {2}. Resetting input.", ModuleID, Info.PianoKeyNames[Piano], Info.PianoKeyNames[solutionSequence[currentNote]]);
             Module.CauseStrike();
@@ -95,14 +97,17 @@ public class PianoDecryption : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
-        }
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
 
-        Module.StartSolve();
+            Module.StartSolve();
+        }
         currentNote = 0;
     }
 
@@ -120,10 +125,14 @@ public class PianoDecryption : Puzzle
 
             string rot13 = Rot13Cipher(encryptedWord);
             char[] serialLetters = Module.GetComponent<KMBombInfo>().GetSerialNumberLetters().ToArray();
-            if (encryptedWord.Any(x => serialLetters.Contains(x)) & !rot13.Any(x => serialLetters.Contains(x))) continue;
+            /* Contradicting case for this cipher: encrypted word contains a letter in S#, but ROT13 doesn't.
+             * Encrypting with ROT13 would cause a contradiction during decryption - the encrypted word won't have a letter in S#, so ROT13 won't be needed, but we said the otherwise during encryption.
+             * Not encrypting with ROT13 would also cause a contradiction during decryption - the encrypted word will have a letter in S#, so ROT13 will be needed, but we said the otherwise during encryption.
+             * If this case is reached, the word will be impossible to encrypt. */
+            if (encryptedWord.Any(x => serialLetters.Contains(x)) && !rot13.Any(x => serialLetters.Contains(x))) continue; // Check for the contradicting case
             Debug.LogFormat("[The Cruel Modkit #{0}] Decrypted word: {1}. Beginning encryption.", ModuleID, Encryption[0]);
             Debug.LogFormat("[The Cruel Modkit #{0}] Atbash Cipher: {1} -> {2}", ModuleID, Encryption[0], Encryption[1]);
-            if (rot13.Any(x => serialLetters.Contains(x)))
+            if (rot13.Any(x => serialLetters.Contains(x))) // Check for the need of ROT13
             {
                 encryptedWord = rot13;
                 Encryption.Add(encryptedWord);
@@ -180,26 +189,7 @@ public class PianoDecryption : Puzzle
 
     string Key3RailFenceCipher(string w)
     {
-        string[] Rails = new string[3] { "", "", "" };
-        for (int i = 0; i < w.Length; i++)
-        {
-            switch (i % 4)
-            {
-                case 0:
-                    Rails[0] += w[i];
-                    break;
-                case 1:
-                case 3:
-                    Rails[1] += w[i];
-                    break;
-                case 2:
-                    Rails[2] += w[i];
-                    break;
-            }
-        }
-        string e = "";
-        for (int i = 0; i < 3; i++) e += Rails[i];
-        return e;
+        return w[0].ToString() + w[4].ToString() + w[1].ToString() + w[3].ToString() + w[5].ToString() + w[2].ToString();
     }
 
     string CaesarShift(string w, int offset, bool forward)
