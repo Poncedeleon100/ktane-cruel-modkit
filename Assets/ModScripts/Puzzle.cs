@@ -234,6 +234,39 @@ public class Puzzle
         Module.StartSolve();
     }
 
+    public virtual IEnumerator AnimateButtonPress(Transform Object, Vector3 Offset, int Index = 0)
+    {
+        switch (Index)
+        {
+            case 0:
+                for (int i = 0; i < 5; i++)
+                {
+                    Object.localPosition += Offset / 5;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                for (int i = 0; i < 5; i++)
+                {
+                    Object.localPosition -= Offset / 5;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                break;
+            case 1:
+                for (int i = 0; i < 5; i++)
+                {
+                    Object.localPosition += Offset / 5;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                break;
+            case 2:
+                for (int i = 0; i < 5; i++)
+                {
+                    Object.localPosition -= Offset / 5;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                break;
+        }
+    }
+
     public IEnumerator HandleArrowDelayFlash()
     {
         yield return null;

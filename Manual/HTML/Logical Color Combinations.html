@@ -1,0 +1,475 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <title>Logical Color Combinations — Keep Talking and Nobody Explodes Module</title>
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/ktane-utils.js"></script>
+    <script src="js/jquery.3.7.0.min.js"></script>
+    <script src="js/Utilities/svg-utils.js"></script>
+    <style>
+        .black { background-color: black; color: white; }
+        .red { background-color: red; color: black; }
+        .orange { background-color: orange; color: black; }
+        .yellow { background-color: yellow; color: black; }
+        .green { background-color: green; color: black; }
+        .lime { background-color: lime; color: black; }
+        .cyan { background-color: cyan; color: black; }
+        .blue { background-color: blue; color: white; }
+        .purple { background-color: purple; color: white; }
+        .pink { background-color: #FF3CC8; color: white; }
+        .white { background-color: white; color: black; }
+        .grey { background-color: #535353; color: white }
+
+        .logical-color-combinations-led-table { text-align: center; }
+        .logical-color-combinations-operator-table { text-align: center; }
+        .logical-color-combinations-operator-table td { font-size: 80%; }
+
+        .dark table, table {
+            margin: 1em auto;
+            border: none;
+        }
+
+        .page-footer::before {
+            content: 'Page ';
+        }
+
+        .page-footer::after {
+            content: ' of 2';
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="page page-bg-07">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Logical Color Combinations</h2>
+                <p class="flavour-text">Who knew logic gates become so much harder when you are colorblind?</p>
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Button, LEDs, Arrows]</strong>, you are looking at the wrong section of this manual!</p>
+                <ul>
+                    <li>To disarm the module, submit the correct combinations of LED colors and arrow directions to submit the correct Base 36 number.</li>
+                    <li>To begin the module, press the "❖" button. A sequence of 8 colors will flash on the arrow module.</li>
+                    <li>Pressing the "❖" button again will repeat the same sequence.</li>
+                    <li>Pair each flash with the corresponding LED from left to right.</li>
+                    <li>Find each pair in the table below where the LED color is the row, the flashing color is the column, and the color of the module’s arrow’s center button is the main column.</li>
+                    <li>The intersection is a Base 36 digit.</li>
+                </ul>
+                <table class="logical-color-combinations-led-table">
+                    <tr>
+                        <th class="corner" rowspan="2"></th>
+                        <th colspan="4" class="white">White</th>
+                        <th colspan="4" class="grey">Grey</th>
+                    </tr>
+                    <tr>
+                        <th class="red">RED</th>
+                        <th class="yellow">YELLOW</th>
+                        <th class="blue">BLUE</th>
+                        <th class="green">GREEN</th>
+                        <th class="red">RED</th>
+                        <th class="yellow">YELLOW</th>
+                        <th class="blue">BLUE</th>
+                        <th class="green">GREEN</th>
+                    </tr>
+                    <tr><th class="red">RED</th><td>Ø</td><td>H</td><td>W</td><td>M</td><td>Z</td><td>G</td><td>Y</td><td>9</td></tr>
+                    <tr><th class="orange">ORANGE</th><td>S</td><td>4</td><td>Z</td><td>I</td><td>U</td><td>7</td><td>2</td><td>H</td></tr>
+                    <tr><th class="yellow">YELLOW</th><td>C</td><td>J</td><td>V</td><td>A</td><td>6</td><td>B</td><td>M</td><td>5</td></tr>
+                    <tr><th class="lime">LIME</th><td>P</td><td>2</td><td>F</td><td>7</td><td>W</td><td>L</td><td>N</td><td>D</td></tr>
+                    <tr><th class="green">GREEN</th><td>E</td><td>9</td><td>G</td><td>O</td><td>A</td><td>P</td><td>1</td><td>J</td></tr>
+                    <tr><th class="cyan">CYAN</th><td>5</td><td>T</td><td>L</td><td>3</td><td>O</td><td>E</td><td>I</td><td>C</td></tr>
+                    <tr><th class="blue">BLUE</th><td>K</td><td>6</td><td>D</td><td>R</td><td>F</td><td>Ø</td><td>X</td><td>Q</td></tr>
+                    <tr><th class="purple">PURPLE</th><td>Q</td><td>1</td><td>8</td><td>X</td><td>R</td><td>3</td><td>T</td><td>K</td></tr>
+                    <tr><th class="pink">PINK</th><td>U</td><td>Y</td><td>B</td><td>N</td><td>8</td><td>K</td><td>4</td><td>S</td></tr>
+                    <tr><th class="white">WHITE</th><td>Z</td><td>Z</td><td>Z</td><td>Z</td><td>Ø</td><td>Ø</td><td>Ø</td><td>Ø</td></tr>
+                    <tr><th class="black">BLACK</th><td>Ø</td><td>Ø</td><td>Ø</td><td>Ø</td><td>Z</td><td>Z</td><td>Z</td><td>Z</td></tr>
+                </table>
+                <ul>
+                    <li>Concatenate the digits and split them into 4 pairs. Call each pair A-D respectively.</li>
+                    <li>Convert each pair to binary. Prepend Ø at the start until they are all 11 digits long.</li>
+                    <li>Find the intersection in one of the two tables below with the button’s color used for the row, and the button’s label for the column.</li>
+                </ul>
+            </div>
+            <div class="page-footer relative-footer">1</div>
+        </div>
+
+        <div class="page page-bg-02">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <ul>
+                    <li>Find the intersection in one of the two tables below with the button’s color used for the row, and the button’s label for the column.</li>
+                    <li>The result from the table will give a logic gate and two letter pairs.</li>
+                </ul>
+                <table class="logical-color-combinations-operator-table">
+                    <tr>
+                        <th class="corner"></th>
+                        <th>PRESS</th>
+                        <th>HOLD</th>
+                        <th>DETONATE</th>
+                        <th>MASH</th>
+                        <th>TAP</th>
+                        <th>PUSH</th>
+                        <th>ABORT</th>
+                    </tr>
+                    <tr>
+                        <th class="red">RED</th>
+                        <td>∨<br>AB/CD</td>
+                        <td>↓<br>AC/BD</td>
+                        <td>∧<br>AB/CD</td>
+                        <td>⊻<br>AB/CD</td>
+                        <td>↓<br>BD/AC</td>
+                        <td>↔<br>BD/AC</td>
+                        <td>|<br>BD/AC</td>
+                    </tr>
+                    <tr>
+                        <th class="orange">ORANGE</th>
+                        <td>|<br>AD/BC</td>
+                        <td>↔<br>AB/CD</td>
+                        <td>⊻<br>BD/AC</td>
+                        <td>∨<br>AD/BC</td>
+                        <td>|<br>AC/BD</td>
+                        <td>∧<br>AC/BD</td>
+                        <td>⊻<br>AD/BC</td>
+                    </tr>
+                    <tr>
+                        <th class="yellow">YELLOW</th>
+                        <td>⊻<br>BC/AD</td>
+                        <td>∧<br>AD/BC</td>
+                        <td>↓<br>CD/AB</td>
+                        <td>|<br>AB/CD</td>
+                        <td>|<br>BD/AC</td>
+                        <td>↓<br>AB/CD</td>
+                        <td>∨<br>AC/BD</td>
+                    </tr>
+                    <tr>
+                        <th class="lime">LIME</th>
+                        <td>↔<br>BD/AC</td>
+                        <td>|<br>AC/BD</td>
+                        <td>∨<br>AB/CD</td>
+                        <td>∧<br>BD/AC</td>
+                        <td>↓<br>AC/BD</td>
+                        <td>⊻<br>AC/BD</td>
+                        <td>↔<br>BC/AD</td>
+                    </tr>
+                    <tr>
+                        <th class="green">GREEN</th>
+                        <td>↓<br>AD/BC</td>
+                        <td>∧<br>AC/BD</td>
+                        <td>↔<br>AD/BC</td>
+                        <td>∧<br>AB/CD</td>
+                        <td>∧<br>AD/BC</td>
+                        <td>∨<br>BC/AD</td>
+                        <td>|<br>CD/AB</td>
+                    </tr>
+                    <tr>
+                        <th class="cyan">CYAN</th>
+                        <td>∧<br>CD/AB</td>
+                        <td>↔<br>CD/AB</td>
+                        <td>⊻<br>AD/BC</td>
+                        <td>|<br>AD/BC</td>
+                        <td>∨<br>BD/AC</td>
+                        <td>↓<br>BC/AD</td>
+                        <td>↔<br>AC/BD</td>
+                    </tr>
+                    <tr>
+                        <th class="blue">BLUE</th>
+                        <td>∨<br>BC/AD</td>
+                        <td>∧<br>BC/AD</td>
+                        <td>|<br>CD/AB</td>
+                        <td>↔<br>AB/CD</td>
+                        <td>⊻<br>AC/BD</td>
+                        <td>⊻<br>BC/AD</td>
+                        <td>↓<br>AD/BC</td>
+                    </tr>
+                    <tr>
+                        <th class="purple">PURPLE</th>
+                        <td>⊻<br>CD/AB</td>
+                        <td>↔<br>AC/BD</td>
+                        <td>∨<br>BD/AC</td>
+                        <td>↔<br>BC/AD</td>
+                        <td>⊻<br>AB/CD</td>
+                        <td>|<br>BC/AD</td>
+                        <td>|<br>AC/BD</td>
+                    </tr>
+                    <tr>
+                        <th class="pink">PINK</th>
+                        <td>|<br>BC/AD</td>
+                        <td>∨<br>AD/BC</td>
+                        <td>↓<br>BC/AD</td>
+                        <td>⊻<br>CD/AB</td>
+                        <td>↔<br>AD/BC</td>
+                        <td>∧<br>BC/AD</td>
+                        <td>↓<br>CD/AB</td>
+                    </tr>
+                    <tr>
+                        <th class="black">BLACK</th>
+                        <td>↓<br>AB/CD</td>
+                        <td>⊻<br>AC/BD</td>
+                        <td>|<br>AB/CD</td>
+                        <td>∧<br>BD/AC</td>
+                        <td>↔<br>CD/AB</td>
+                        <td>⊻<br>BD/AC</td>
+                        <td>∨<br>CD/AB</td>
+                    </tr>
+                    <tr>
+                        <th class="white">WHITE</th>
+                        <td>∧<br>AB/CD</td>
+                        <td>↔<br>AC/BD</td>
+                        <td>↓<br>BD/AC</td>
+                        <td>∨<br>BD/AC</td>
+                        <td>∨<br>AC/BD</td>
+                        <td>∨<br>BC/AD</td>
+                        <td>∧<br>CD/AB</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">2</div>
+        </div>
+
+        <div class="page page-bg-06">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table class="logical-color-combinations-operator-table">
+                    <tr>
+                        <th class="corner"></th>
+                        <th>BUTTON</th>
+                        <th>CLICK</th>
+                        <th></th>
+                        <th>NOTHING</th>
+                        <th>NO</th>
+                        <th>I DON’T KNOW</th>
+                        <th>YES</th>
+                    </tr>
+                    <tr>
+                        <th class="red">RED</th>
+                        <td>|<br>AB/CD</td>
+                        <td>↓<br>BD/AC</td>
+                        <td>∧<br>AC/BD</td>
+                        <td>⊻<br>BC/AD</td>
+                        <td>∧<br>BD/AC</td>
+                        <td>↔<br>BC/AD</td>
+                        <td>∨<br>AD/BC</td>
+                    </tr>
+                    <tr>
+                        <th class="orange">ORANGE</th>
+                        <td>∧<br>BC/AD</td>
+                        <td>↓<br>AC/BD</td>
+                        <td>|<br>BC/AD</td>
+                        <td>↔<br>CD/AB</td>
+                        <td>∨<br>BD/AC</td>
+                        <td>⊻<br>AB/CD</td>
+                        <td>|<br>CD/AB</td>
+                    </tr>
+                    <tr>
+                        <th class="yellow">YELLOW</th>
+                        <td>⊻<br>CD/AB</td>
+                        <td>∨<br>AC/BD</td>
+                        <td>↔<br>AB/CD</td>
+                        <td>⊻<br>AC/BD</td>
+                        <td>|<br>AD/BC</td>
+                        <td>∧<br>AB/CD</td>
+                        <td>↔<br>AB/CD</td>
+                    </tr>
+                    <tr>
+                        <th class="lime">LIME</th>
+                        <td>|<br>AC/BD</td>
+                        <td>⊻<br>AD/BC</td>
+                        <td>↓<br>BC/AD</td>
+                        <td>∨<br>BC/AD</td>
+                        <td>↔<br>AC/BD</td>
+                        <td>|<br>BD/AC</td>
+                        <td>∧<br>CD/AB</td>
+                    </tr>
+                    <tr>
+                        <th class="green">GREEN</th>
+                        <td>∧<br>AB/CD</td>
+                        <td>↓<br>CD/AB</td>
+                        <td>∧<br>AD/BC</td>
+                        <td>∨<br>AD/BC</td>
+                        <td>⊻<br>BD/AC</td>
+                        <td>|<br>AD/BC</td>
+                        <td>↓<br>AC/BD</td>
+                    </tr>
+                    <tr>
+                        <th class="cyan">CYAN</th>
+                        <td>↔<br>AD/BC</td>
+                        <td>∨<br>BD/AC</td>
+                        <td>⊻<br>AB/CD</td>
+                        <td>↓<br>AD/BC</td>
+                        <td>⊻<br>AB/CD</td>
+                        <td>∧<br>BC/AD</td>
+                        <td>↔<br>BD/AC</td>
+                    </tr>
+                    <tr>
+                        <th class="blue">BLUE</th>
+                        <td>↓<br>AB/CD</td>
+                        <td>∧<br>BD/AC</td>
+                        <td>↔<br>BC/AD</td>
+                        <td>|<br>BC/AD</td>
+                        <td>∨<br>AC/BD</td>
+                        <td>↓<br>BD/AC</td>
+                        <td>⊻<br>AC/BD</td>
+                    </tr>
+                    <tr>
+                        <th class="purple">PURPLE</th>
+                        <td>↔<br>AB/CD</td>
+                        <td>|<br>BD/AC</td>
+                        <td>∨<br>BD/AC</td>
+                        <td>↓<br>BD/AC</td>
+                        <td>∧<br>CD/AB</td>
+                        <td>↔<br>AD/BC</td>
+                        <td>⊻<br>AD/BC</td>
+                    </tr>
+                    <tr>
+                        <th class="pink">PINK</th>
+                        <td>∨<br>BC/AD</td>
+                        <td>↔<br>CD/AB</td>
+                        <td>↔<br>AC/BD</td>
+                        <td>∧<br>AD/BC</td>
+                        <td>⊻<br>CD/AB</td>
+                        <td>∨<br>AB/CD</td>
+                        <td>↓<br>AB/CD</td>
+                    </tr>
+                    <tr>
+                        <th class="black">BLACK</th>
+                        <td>∨<br>CD/AB</td>
+                        <td>↓<br>BC/AD</td>
+                        <td>|<br>AC/BD</td>
+                        <td>⊻<br>BD/AC</td>
+                        <td>↔<br>AD/BC</td>
+                        <td>|<br>CD/AB</td>
+                        <td>∨<br>AC/BD</td>
+                    </tr>
+                    <tr>
+                        <th class="white">WHITE</th>
+                        <td>⊻<br>BC/AD</td>
+                        <td>↔<br>BD/AC</td>
+                        <td>∨<br>AB/CD</td>
+                        <td>↓<br>CD/AB</td>
+                        <td>|<br>AB/CD</td>
+                        <td>↓<br>AD/BC</td>
+                        <td>∧<br>AC/BD</td>
+                    </tr>
+                </table>
+                <ul>
+                    <li>Apply the logic gate to each letter pair to get 2 binary numbers.</li>
+                    <li>Convert both binary numbers to Base 36. Prepend Ø until they are 3 digits long. Concatenate the numbers.</li>
+                </ul>
+            </div>
+            <div class="page-footer relative-footer">3</div>
+        </div>
+
+        <div class="page page-bg-03">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table>
+                    <tr>
+                        <th>Logical Connective</th>
+                        <th>Symbol</th>
+                        <th>Logic Gate Equivalent</th>
+                        <th>Meaning</th>
+                    </tr>
+                    <tr>
+                        <td>Conjunction</td>
+                        <td>∧</td>
+                        <td>AND</td>
+                        <td>Returns true if all inputs are true. Else returns false.</td>
+                    </tr>
+                    <tr>
+                        <td>Disjunction</td>
+                        <td>∨</td>
+                        <td>OR</td>
+                        <td>Returns true if any input is true. Else returns false.</td>
+                    </tr>
+                    <tr>
+                        <td>Exclusive Disjunction</td>
+                        <td>⊻</td>
+                        <td>XOR</td>
+                        <td>Returns true if exactly one input is true. Else returns false.</td>
+                    </tr>
+                    <tr>
+                        <td>Alternative Denial</td>
+                        <td>|</td>
+                        <td>NAND</td>
+                        <td>Returns false if all inputs are true. Else returns true.</td>
+                    </tr>
+                    <tr>
+                        <td>Joint Denial</td>
+                        <td>↓</td>
+                        <td>NOR</td>
+                        <td>Returns false if any input is true. Else returns true.</td>
+                    </tr>
+                    <tr>
+                        <td>Biconditional</td>
+                        <td>↔</td>
+                        <td>XNOR</td>
+                        <td>Returns false if exactly one input is true. Else returns true.</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">4</div>
+        </div>
+
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <ul>
+                    <li>Find each digit in the table below, using the color of the module’s arrow’s center button is the main column.</li>
+                    <li>Refer to the row header as the LED color and the column header as the direction to press.</li>
+                </ul>
+                <table class="logical-color-combinations-led-table">
+                    <tr>
+                        <th class="corner" rowspan="2"></th>
+                        <th colspan="4" class="white">White</th>
+                        <th colspan="4" class="grey">Grey</th>
+                    </tr>
+                    <tr>
+                        <th>UP</th>
+                        <th>DOWN</th>
+                        <th>LEFT</th>
+                        <th>RIGHT</th>
+                        <th>UP</th>
+                        <th>DOWN</th>
+                        <th>LEFT</th>
+                        <th>RIGHT</th>
+                    </tr>
+                    <tr><th class="red">RED</th><td>Ø</td><td>1</td><td>2</td><td>3</td><td>Z</td><td>Y</td><td>X</td><td>W</td></tr>
+                    <tr><th class="orange">ORANGE</th><td>4</td><td>5</td><td>6</td><td>7</td><td>V</td><td>U</td><td>T</td><td>S</td></tr>
+                    <tr><th class="yellow">YELLOW</th><td>8</td><td>9</td><td>A</td><td>B</td><td>R</td><td>Q</td><td>P</td><td>O</td></tr>
+                    <tr><th class="lime">LIME</th><td>C</td><td>D</td><td>E</td><td>F</td><td>N</td><td>M</td><td>L</td><td>K</td></tr>
+                    <tr><th class="green">GREEN</th><td>G</td><td>H</td><td>I</td><td>J</td><td>J</td><td>I</td><td>H</td><td>G</td></tr>
+                    <tr><th class="cyan">CYAN</th><td>K</td><td>L</td><td>M</td><td>N</td><td>F</td><td>E</td><td>D</td><td>C</td></tr>
+                    <tr><th class="blue">BLUE</th><td>O</td><td>P</td><td>Q</td><td>R</td><td>B</td><td>A</td><td>9</td><td>8</td></tr>
+                    <tr><th class="purple">PURPLE</th><td>S</td><td>T</td><td>U</td><td>V</td><td>7</td><td>6</td><td>5</td><td>4</td></tr>
+                    <tr><th class="pink">PINK</th><td>W</td><td>X</td><td>Y</td><td>Z</td><td>3</td><td>2</td><td>1</td><td>Ø</td></tr>
+                </table>
+                <ul>
+                    <li>Press the button to enter submission mode. All of the LEDs will turn black except for one.</li>
+                    <li>Press the button to cycle the current LED to the correct color found in the table above, then press the corresponding arrow direction.</li>
+                    <li>If the input is correct, the LED will submit and the next LED will light up.</li>
+                    <li>If the input is incorrect, a strike will be given and the module will exit submission mode. The module will not reset.</li>
+                    <li>Submit all 6 digits to solve the module.</li>
+                </ul>
+            </div>
+            <div class="page-footer relative-footer">5</div>
+        </div>
+    </div>
+</body>
+</html>
