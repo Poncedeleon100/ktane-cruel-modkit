@@ -5517,7 +5517,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4344693855185346}
   - component: {fileID: 33488077065340590}
-  - component: {fileID: 136295346417478494}
   - component: {fileID: 23921410279454986}
   - component: {fileID: 114056333026706418}
   - component: {fileID: 114426087868314408}
@@ -17563,7 +17562,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: a185f6fe7ba89464aaa09bb6860112aa, type: 2}
+  - {fileID: 2100000, guid: 6a74b39c6a0025f49b8379d1ea4a0822, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -22086,7 +22085,7 @@ Light:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1252029474086022}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 8
   m_Type: 0
   m_Color: {r: 1, g: 0.54509807, b: 0, a: 1}
@@ -24962,8 +24961,7 @@ MonoBehaviour:
   - {fileID: 102316887374493410}
   - {fileID: 102804178677044948}
   - {fileID: 102895418956312372}
-  MorseLight: {fileID: 108325454685232092}
-  MorseMesh: {fileID: 23759105175550566}
+  MorseLED: {fileID: 1720328747396164}
   Meter: {fileID: 1107025415908896}
   WireMesh:
   - {fileID: 4300000, guid: c721f5cbb2b540b49950da0915400b86, type: 3}
@@ -27973,19 +27971,6 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1705230805403606}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &136295346417478494
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1900309960023404}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1

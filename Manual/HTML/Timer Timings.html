@@ -15,11 +15,19 @@
             margin: 1em auto;
             border: none;
         }
+
+        .page-footer::before {
+            content: 'Page ';
+        }
+
+        .page-footer::after {
+            content: ' of 1';
+        }
     </style>
 </head>
 <body>
     <div class="section">
-        <div class="page page-bg-03">
+        <div class="page page-bg-06">
             <div class="page-header">
                 <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
                 <span class="page-header-section-title">The Cruel Modkit</span>
@@ -34,11 +42,11 @@
                     <tr><td>Ø</td><td>A + B = a prime number*</td></tr>
                     <tr><td>1</td><td>A > amount of lit indicators, B ≤ amount of unlit indicators</td></tr>
                     <tr><td>2</td><td>A / B = a whole number</td></tr>
-                    <tr><td>3</td><td>A and B = a multiple of the module count, excluding needies**</td></tr>
+                    <tr><td>3</td><td>A and B concatenated = a multiple of the module count, excluding needies**</td></tr>
                     <tr><td>4</td><td>The digital root of A + B is odd</td></tr>
                     <tr><td>5</td><td>A or B matches a digit on the bomb timer</td></tr>
                     <tr><td>6</td><td>B - Last digit of S# ≤ A</td></tr>
-                    <tr><td>7</td><td>B - A > the number of distinct ports modulo 10</td></tr>
+                    <tr><td>7</td><td>B - A > the number of distinct ports modulo 1Ø</td></tr>
                     <tr><td>8</td><td>A + B ≥ sum of S# digits modulo 18</td></tr>
                     <tr><td>9</td><td>A and B = the amount of lit or unlit indicators.</td></tr>
                 </table>
@@ -46,7 +54,7 @@
                 <p style="font-style: italic">*Ø in this module is considered a composite number.</p>
                 <p style="font-style: italic">**If the module count is over 1ØØ, press the "❖" button when A and B share parity with the last digit of the serial number.</p>
             </div>
-            <div class="page-footer relative-footer">2</div>
+            <div class="page-footer relative-footer">1</div>
         </div>
     </div>
 </body>

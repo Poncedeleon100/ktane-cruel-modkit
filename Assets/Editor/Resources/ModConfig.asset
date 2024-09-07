@@ -14,7 +14,8 @@ MonoBehaviour:
   id: cruelModkit
   title: The Cruel Modkit
   author: Moon, Yoshi Dojo, Sameone, CyanixDash, _Play_, Upsilon, RazorBlade, Red
-    Penguin, ktane1, Masked Mystery, 1254, BCMGF1137, Obvi
+    Penguin, ktane1, Masked Mystery, 1254, BCMGF1137, Obvi, Konoko, GoodHood, ObjectsCountries,
+    Kilo Bites, UnrulyJuli3
   description: Create your own module and then solve it.
   version: 1.0
   outputFolder: build

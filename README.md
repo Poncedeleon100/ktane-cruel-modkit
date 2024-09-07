@@ -8,11 +8,11 @@ Join the [Discord](https://discord.gg/uk4KySDUNA) to contribute. Beta testing is
 
 ### Manual Progress
 
-![](https://geps.dev/progress/9)
+![](https://geps.dev/progress/13)
 
 ### Module Progress
 
-![](https://geps.dev/progress/0)
+![](https://geps.dev/progress/4)
 
 ## Rules for Git collaboration
 

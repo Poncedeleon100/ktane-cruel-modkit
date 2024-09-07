@@ -1,0 +1,323 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1" />
+    <title>Who’s Who — Keep Talking and Nobody Explodes Module</title>
+    <link rel="stylesheet" type="text/css" href="css/font.css" />
+    <link rel="stylesheet" type="text/css" href="Css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <script src="js/ktane-utils.js"></script>
+    <script src="js/jquery.3.7.0.min.js"></script>
+    <script src="js/Utilities/svg-utils.js"></script>
+    <style>
+        .black {
+            background-color: black;
+            color: white;
+        }
+
+        .red {
+            background-color: red;
+            color: black;
+        }
+
+        .orange {
+            background-color: orange;
+            color: black;
+        }
+
+        .yellow {
+            background-color: yellow;
+            color: black;
+        }
+
+        .green {
+            background-color: green;
+            color: black;
+        }
+
+        .lime {
+            background-color: lime;
+            color: black;
+        }
+
+        .cyan {
+            background-color: cyan;
+            color: black;
+        }
+
+        .blue {
+            background-color: blue;
+            color: white;
+        }
+
+        .purple {
+            background-color: purple;
+            color: white;
+        }
+
+        .pink {
+            background-color: #FF3CC8;
+            color: white;
+        }
+
+        .white {
+            background-color: white;
+            color: black;
+        }
+
+        .dark table, table {
+            margin: 1em auto;
+            border: none;
+        }
+
+        .page-footer::before {
+            content: 'Page ';
+        }
+
+        .page-footer::after {
+            content: ' of 2';
+        }
+    </style>
+</head>
+
+<body>
+    <div class="section">
+        <div class="page page-bg-05">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Who’s Who</h2>
+                <p class="flavour-text">
+                    Wait, so the person on first was Simon? Nonsense! The person on
+                    first was actually ████████!
+                </p>
+                <p>
+                    <strong>Note: </strong>If your module’s components aren’t exactly
+                    <strong>[LED, Bulbs]</strong>, you are looking at the wrong section
+                    of this manual!
+                </p>
+                <p>
+                    Go through the following conditions to determine what LED to use.
+                </p>
+                <ul>
+                    <li>
+                        If all the digits of the serial number have matching parity, use
+                        the third LED.
+                    </li>
+                    <li>
+                        Otherwise, if the amount of batteries matches a number in the
+                        serial number, use the eighth LED.
+                    </li>
+                    <li>
+                        Otherwise, if the amount of lit and unlit indicators are equal,
+                        use the first LED.
+                    </li>
+                    <li>
+                        Otherwise, if three or more LEDs are warm colors (red, orange, or
+                        yellow), use the seventh LED.
+                    </li>
+                    <li>
+                        Otherwise, if the port plate count is less than or equal to the
+                        port count, use the fifth LED.
+                    </li>
+                    <li>
+                        Otherwise, if two matching LEDs are next to each other, use the
+                        second LED.
+                    </li>
+                    <li>
+                        Otherwise, if a DVI-D port is on the same port plate as a Stereo
+                        RCA port OR a PS/2 port, use the sixth LED.
+                    </li>
+                    <li>
+                        Otherwise, if there are only D batteries or AA batteries, use the
+                        fourth LED.
+                    </li>
+                    <li>
+                        Otherwise, sum the digits in the serial number modulo 8 add 1. Use
+                        the corresponding LED.
+                    </li>
+                </ul>
+                <p>
+                    Using the color received in the table below will give an offset and
+                    a row.
+                </p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Color</td>
+                            <td class="red">+1</td>
+                            <td class="orange">+2</td>
+                            <td class="yellow">+3</td>
+                            <td class="green">-3</td>
+                            <td class="lime">-1</td>
+                            <td class="cyan">-2</td>
+                            <td class="blue">+4</td>
+                            <td class="purple">+5</td>
+                            <td class="pink">-5</td>
+                            <td class="black">-4</td>
+                            <td class="white">+6</td>
+                        </tr>
+                        <tr>
+                            <td>Row</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>1</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>8</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    The table below lists the words that can appear on the word display.
+                    Use the row in the table below; the column is the LED position.
+                </p>
+                <p>
+                    Note the word given from the position. Shift the rows by the offset
+                    of the initial LED, and shift the columns by the offset of the
+                    cell’s color. A positive shift means to shift the rows down and the
+                    columns to the right. Repeat this until either you repeat words or
+                    ten words have been used. Call this list “List A”. Pressing the I/O
+                    buttons cycles the word display through a list called List B,
+                    wrapping around. Pressing the "❖" button will reset the module to the
+                    first word on List B. Take the first word on List B that matches a
+                    word on List A.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">1</div>
+        </div>
+
+        <div class="page page-bg-04">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <p>
+                    Take the word's position in both the row and the column and add them
+                    together mod 1Ø.* To solve the module, enter submission by holding
+                    the I/O buttons for one second. Pressing I/O will increment the number display, and
+                    holding either button will submit the number. Inputting the wrong
+                    number issues a strike and exits submission but
+                    <b><u>does not</u></b> reset the module.
+                </p>
+                <p style="font-style: italic">
+                    *If List B has no word in List A, the number to use is Ø.
+                </p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td style="border-left: 0px; border-top: 0px"></td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td class="red">Yes</td>
+                            <td class="orange">First</td>
+                            <td class="lime">Display</td>
+                            <td class="blue">A Display</td>
+                            <td class="cyan">Okay</td>
+                            <td class="purple">Ok</td>
+                            <td class="white">Says</td>
+                            <td class="pink">Sez</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td class="orange">Nothing</td>
+                            <td class="white"></td>
+                            <td class="purple">Blank</td>
+                            <td class="green">It’s Blank</td>
+                            <td class="red">No</td>
+                            <td class="cyan">Know</td>
+                            <td class="yellow">Nose</td>
+                            <td class="green">Knows</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td class="lime">Led</td>
+                            <td class="black">Lead</td>
+                            <td class="blue">Leed</td>
+                            <td class="purple">Read</td>
+                            <td class="blue">Red</td>
+                            <td class="green">Reed</td>
+                            <td class="cyan">Hold On</td>
+                            <td class="orange">You</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td class="cyan">U</td>
+                            <td class="lime">You Are</td>
+                            <td class="cyan">UR</td>
+                            <td class="pink">Your</td>
+                            <td class="purple">You’re</td>
+                            <td class="pink">There</td>
+                            <td class="blue">They’re</td>
+                            <td class="cyan">Their</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td class="black">They Are</td>
+                            <td class="pink">See</td>
+                            <td class="yellow">C</td>
+                            <td class="orange">Sea</td>
+                            <td class="lime">Cee</td>
+                            <td class="yellow">Ready</td>
+                            <td class="lime">What</td>
+                            <td class="blue">What?</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td class="blue">Uh</td>
+                            <td class="cyan">Uhhh</td>
+                            <td class="white">Uh Uh</td>
+                            <td class="black">Uh Huh</td>
+                            <td class="pink">Left</td>
+                            <td class="cyan">Right</td>
+                            <td class="pink">Write</td>
+                            <td class="purple">Middle</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td class="purple">Wait</td>
+                            <td class="yellow">Wait!</td>
+                            <td class="cyan">Weight</td>
+                            <td class="white">Press</td>
+                            <td class="orange">Done</td>
+                            <td class="yellow">Dumb</td>
+                            <td class="blue">Next</td>
+                            <td class="lime">Hold</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td class="yellow">Sure</td>
+                            <td class="purple">Like</td>
+                            <td class="orange">Lick</td>
+                            <td class="black">Leek</td>
+                            <td class="white">Leak</td>
+                            <td class="purple">I</td>
+                            <td class="black">India</td>
+                            <td class="pink">Eye</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">2</div>
+        </div>
+    </div>
+</body>
+</html>
