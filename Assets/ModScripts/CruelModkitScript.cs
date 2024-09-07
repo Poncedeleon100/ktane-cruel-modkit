@@ -466,7 +466,6 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        SelectModule = "Unscrew Maze";
         switch (SelectModule)
         {
             case "Timer Timings":
@@ -813,7 +812,7 @@ public class CruelModkitScript : MonoBehaviour
                     { "Text", "Select Module" },
                     { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
                     { "Type", "Dropdown" },
-                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "AV Input", "Test Puzzle" } }
+                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "AV Input", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "Logical Color Combinations", "Test Puzzle" } }
                 },
             }
             },
