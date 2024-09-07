@@ -125,7 +125,7 @@ public class PianoDecryption : Puzzle
 
             string rot13 = Rot13Cipher(encryptedWord);
             char[] serialLetters = Module.GetComponent<KMBombInfo>().GetSerialNumberLetters().ToArray();
-            /* Contradicting case for this cipher: encrypted word contains a letter in S#, but ROT13 doesn't.
+            /* Contradicting case for this cipher: encrypted word contains a letter in S#, but ROT13 doesn't:
              * Encrypting with ROT13 would cause a contradiction during decryption - the encrypted word won't have a letter in S#, so ROT13 won't be needed, but we said the otherwise during encryption.
              * Not encrypting with ROT13 would also cause a contradiction during decryption - the encrypted word will have a letter in S#, so ROT13 will be needed, but we said the otherwise during encryption.
              * If this case is reached, the word will be impossible to encrypt. */
