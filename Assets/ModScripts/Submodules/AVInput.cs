@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Security.Principal;
 using UnityEngine;
-using KModkit;
 using Random = UnityEngine.Random;
 
 public class AVInput : Puzzle
@@ -17,8 +12,8 @@ public class AVInput : Puzzle
     int lastPress = -1;
     List<int> scaleInput = new List<int>();
     List<int> uniquePresses = new List<int>();
-    int[] bulb1Actions = new int[12];
-    int[] bulb2Actions = new int[12];
+    readonly int[] bulb1Actions = new int[12];
+    readonly int[] bulb2Actions = new int[12];
 
     public AVInput(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
@@ -88,7 +83,7 @@ public class AVInput : Puzzle
             return;
         }
 
-        if (BulbScrewedIn[0] & BulbScrewedIn[1])
+        if (BulbScrewedIn[0] && BulbScrewedIn[1])
         {
             if (!bulbSolved[0])
             {
@@ -115,10 +110,10 @@ public class AVInput : Puzzle
 
     public override void OnBulbInteract(int Bulb)
     {
-        if (bulbSolved[Bulb] || !BulbScrewedIn[(Bulb + 1) % 2] || Module.IsAnimating())
+        if (bulbSolved[Bulb] || !BulbScrewedIn[1 - Bulb] || Module.IsAnimating())
             return;
 
-        Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], Info.BulbInfo[Bulb + 2]);
+        Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], false);
 
         BulbScrewedIn[Bulb] = !BulbScrewedIn[Bulb];
 
@@ -130,8 +125,9 @@ public class AVInput : Puzzle
 
         if (!Module.IsSolving())
         {
-            if (!Module.CheckValidComponents() && !BulbScrewedIn[Bulb])
+            if (!Module.CheckValidComponents())
             {
+                if (BulbScrewedIn[Bulb]) return;
                 Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} bulb was removed when the component selection was [{2}] instead of [{3}].", ModuleID, (Bulb + 1) == 1 ? "first" : "second", Module.GetOnComponents(), Module.GetTargetComponents());
                 Module.CauseStrike();
                 return;
@@ -140,16 +136,15 @@ public class AVInput : Puzzle
             Module.StartSolve();
         }
 
-        if (BulbScrewedIn[Bulb] == false)
+        if (!BulbScrewedIn[Bulb])
             return;
 
         if (scaleInput.OrderBy(x => x).SequenceEqual(Bulb == 0 ? bulb1Notes : bulb2Notes))
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Inputted the correct scale {1} for the {2} bulb. Permanently turning it off.", ModuleID, LogScale(scaleInput), Bulb == 0 ? "left" : "right");
             bulbSolved[Bulb] = true;
-            Info.BulbInfo[Bulb + 2] = false;
             lastPress = -1;
-            if (bulbSolved.SequenceEqual(new bool[2] { true, true }))
+            if (bulbSolved.All(b => b))
             {
                 Debug.LogFormat("[The Cruel Modkit #{0}] Inputted the correct scale for both bulbs. Module solved.", ModuleID);
                 Module.Solve();
@@ -235,6 +230,6 @@ public class AVInput : Puzzle
 
     private string LogScale (List<int> Scale)
     {
-        return Scale.Count != 0 ? Scale.Select(x => Info.PianoKeyNames[x]).Join(", ") : "";
+        return Scale.Select(x => Info.PianoKeyNames[x]).Join(", ");
     }
 }

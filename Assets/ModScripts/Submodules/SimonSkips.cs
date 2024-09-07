@@ -6,8 +6,6 @@ using UnityEngine;
 using KModkit;
 using Random = UnityEngine.Random;
 
-
-
 public class SimonSkips : Puzzle
 {
     int[] arrowColours;
@@ -15,7 +13,6 @@ public class SimonSkips : Puzzle
     readonly List<int> finalSequence = new List<int>(); // List of indexes to press
     readonly List<int> inputtedSequence = new List<int>();
     readonly bool submitEmpty = false;
-    readonly int inputNum = 0;
 
     public SimonSkips(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
@@ -56,19 +53,20 @@ public class SimonSkips : Puzzle
 
     void FindFullSequence()
     {
-        for (int i = 1; i < 9; i++)
+        for (int i = 0; i < 8; i++)
         {
-            int currentLEDNum = LEDNumToArrowNum(Info.LED[i-1]);
+            int currentLEDNum = LEDNumToArrowNum(Info.LED[i]);
+            int currentLEDIndex = Array.IndexOf(orderedArrows, currentLEDNum);
             int moveNum;
-            if (Array.IndexOf(orderedArrows, currentLEDNum) > finalSequence[i-1])
+            if (currentLEDIndex > finalSequence[i])
             {
-                moveNum = Array.IndexOf(orderedArrows, currentLEDNum) - finalSequence[i-1];
+                moveNum = currentLEDIndex - finalSequence[i];
             }
             else
             {
-                moveNum = 8 - (finalSequence[i-1] - Array.IndexOf(orderedArrows, currentLEDNum));
+                moveNum = 8 - (finalSequence[i] - currentLEDIndex);
             }
-            int newPos = finalSequence[i-1] - moveNum;
+            int newPos = finalSequence[i] - moveNum;    
             if (newPos < 0) newPos += 8;
             if (orderedArrows[newPos] > 7)
             {
@@ -153,8 +151,17 @@ public class SimonSkips : Puzzle
 
         Module.StartCoroutine(HandleArrowFlash(Arrow));
 
-        if (!Module.IsModuleSolving())
+        if (!Module.IsSolving())
+        {
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.ArrowDirections[Arrow], Module.GetOnComponents(), Module.GetTargetComponents());
+            }
+            else
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Module not initialized.", ModuleID);
+            Module.CauseStrike();
             return;
+        }
 
         if (Arrow == 8)
         {
@@ -182,7 +189,6 @@ public class SimonSkips : Puzzle
     public IEnumerator HandleArrowFlash(int Arrow)
     {
         if (Arrow < 0 || Arrow >= 9) yield break;
-        yield return null;
         Module.Arrows[Arrow].transform.Find("ArrowLight").gameObject.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         Module.Arrows[Arrow].transform.Find("ArrowLight").gameObject.SetActive(false);

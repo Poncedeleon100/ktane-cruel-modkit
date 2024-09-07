@@ -9,7 +9,7 @@ public class UnscrewMaze : Puzzle
                                "12", "3", "02", "0", "2", "02",
                                "012", "3", "012", "13", "013", "03",
                                "01", "123", "013", "13", "23", "2",
-                               "23", "02", "1", "123", "03", "02", 
+                               "2", "02", "1", "123", "03", "02", 
                                "01", "03", "1", "013", "13", "03" };
     readonly int[] positions;
     int curPos;
@@ -40,12 +40,16 @@ public class UnscrewMaze : Puzzle
 
         if (Module.IsModuleSolved())
             return;
-
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.ArrowDirections[Arrow], Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.ArrowDirections[Arrow], Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
+
+            Module.StartSolve();
         }
 
         if (Arrow > 3)
@@ -63,7 +67,9 @@ public class UnscrewMaze : Puzzle
         }
         if (!maze[curPos].Contains(movementNum.ToString()))
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! You hit a wall by moving {1} at the coordinates ({2}, {3}).", ModuleID, Info.ArrowDirections[movementNum].ToLower(), Math.Floor(curPos / 6f) + 1, (curPos % 6) + 1);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! You hit a wall by moving {1} at the coordinates ({2}, {3}). Resetting maze position.", ModuleID, Info.ArrowDirections[movementNum].ToLower(), Math.Floor(curPos / 6f) + 1, (curPos % 6) + 1);
+            curPos = positions[0];
+            UpdateMorse();
             Module.CauseStrike();
             return;
         }
@@ -90,35 +96,38 @@ public class UnscrewMaze : Puzzle
         if (Module.IsAnimating())
             return;
 
+        if (!Module.IsSolving())
+        {
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} bulb was removed when the component selection was [{2}] instead of [{3}].", ModuleID, (Bulb + 1) == 1 ? "first" : "second", Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
+
+            Module.StartSolve();
+        }
+
         Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], Info.BulbInfo[Bulb + 2]);
 
         BulbScrewedIn[Bulb] = !BulbScrewedIn[Bulb];
+        bulbsSolved[Bulb] = !bulbsSolved[Bulb];
 
         Module.Audio.PlaySoundAtTransform(Module.BulbSounds[BulbScrewedIn[Bulb] ? 0 : 1].name, Module.transform);
         Module.Bulbs[Bulb].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
 
-        if (Module.IsModuleSolved())
-            return;
-
-        if (!Module.CheckValidComponents() && !BulbScrewedIn[Bulb])
-        {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} bulb was removed when the component selection was [{2}] instead of [{3}].", ModuleID, (Bulb + 1) == 1 ? "first" : "second", Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
-        }
-
-        if (bulbsSolved[Bulb])
+        if (Module.IsModuleSolved() || BulbScrewedIn[Bulb])
             return;
 
         if (positions[Bulb + 1] != curPos)
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Bulb {1} incorrectly unscrewed at ({2}, {3}). Resetting maze position.", ModuleID, Bulb + 1, Math.Floor(curPos / 6f) + 1, (curPos % 6) + 1);
             curPos = positions[0];
+            UpdateMorse();
             Module.CauseStrike();
         }
-        bulbsSolved[Bulb] = true;
 
-        if (bulbsSolved[0] == true && bulbsSolved[1] == true)
+        if (bulbsSolved[0] && bulbsSolved[1])
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Both bulbs have been unscrewed. Module solved.", ModuleID);
             Module.Solve();
@@ -137,8 +146,7 @@ public class UnscrewMaze : Puzzle
     {
         string alpha = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Module.StopCoroutine(Module.MorseCodeAnimation);
-        string newMorse = alpha[curPos] + Info.Morse.Substring(1, 2);
-        Info.Morse = newMorse;
+        Info.Morse = alpha[curPos] + Info.Morse.Substring(1, 2);
         Module.StartCoroutine(Module.MorseCodeAnimation);
     }
 
