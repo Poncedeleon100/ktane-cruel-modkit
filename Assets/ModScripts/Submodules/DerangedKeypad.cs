@@ -6,8 +6,7 @@ using UnityEngine;
 
 public class DerangedKeypad : Puzzle
 {
-    private string[] buttonColors = new string[] { "black", "blue", "cyan", "green", "lime", "orange", "pink", "purple", "red", "white", "yellow" };
-    private string[] startingAlphabets = new string[] {
+    private readonly string[] startingAlphabets = new string[] {
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
             "ETIANMSURWDKGOHVFLPJBXCYZQ",
             "GORIYSHQBFLPZATNKVCUJMDEXW",
@@ -21,7 +20,7 @@ public class DerangedKeypad : Puzzle
             "AELFHBRVOTCYDQUXPWGNIMSKZJ"
         };
 
-    private List<int> pressedKeys = new List<int>();
+    private readonly List<int> pressedKeys = new List<int>();
 
     int shouldBePressed;
 
@@ -86,14 +85,7 @@ public class DerangedKeypad : Puzzle
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Pressed the button after 2 alphabet key presses.", ModuleID);
             Info.ButtonText = ComponentInfo.ButtonList[UnityEngine.Random.Range(0, 14)];
-            Info.Button = UnityEngine.Random.Range(0, 11);
-            Module.Button.transform.GetComponentInChildren<Renderer>().material = Module.ButtonMats[Info.Button];
             Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
-            if (Info.Button == 0 || Info.Button == 1 || Info.Button == 7)
-                Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ComponentInfo.ButtonTextWhite;
-            Debug.LogFormat("[The Cruel Modkit #{0}] The button is now {1}.", ModuleID, Info.GetButtonInfo());
-            alph = startingAlphabets[Info.Button];
-            Debug.LogFormat("[The Cruel Modkit #{0}] The starting alphabet is {1}.", ModuleID, alph);
             alph = Modify(Info.ButtonText, alph);
             Debug.LogFormat("[The Cruel Modkit #{0}] The resulting alphabet is {1}.", ModuleID, alph);
             shouldBePressed = determinePress(alph, Info.Alphabet, pressedKeys);
@@ -158,7 +150,8 @@ public class DerangedKeypad : Puzzle
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Strike! A key was pressed when the button was supposed to be pressed.", ModuleID);
             Module.CauseStrike();
-        }else
+        }
+        else
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The key labeled {1} was pressed when the correct key was {2}.", ModuleID, Info.Alphabet[Alphabet].Replace('\n', ' '), Info.Alphabet[shouldBePressed].Replace('\n', ' '));
             Module.CauseStrike();
@@ -205,9 +198,10 @@ public class DerangedKeypad : Puzzle
                 break;
             case "MASH":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads MASH, so the first consonant will be swapped with the last vowel.", ModuleID);
-                string vowels = "AEIOU";
-                int firstConsonant = alphabet.First(x => !vowels.Contains(x));
-                int lastVowel = alphabet.Last(x => vowels.Contains(x));
+                char[] consonants = "BCDFGHJKLMNPQRSTVWXYZ".ToCharArray();
+                char[] vowels = "AEIOU".ToCharArray();
+                int firstConsonant = alphabet.IndexOfAny(consonants);
+                int lastVowel = alphabet.LastIndexOfAny(vowels);
                 alphabet = SwapChars(alphabet, firstConsonant, lastVowel);
                 break;
             case "TAP":
@@ -246,7 +240,7 @@ public class DerangedKeypad : Puzzle
             case "BUTTON":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads BUTTON, so the last character's alphabetic position will be multiplied by 5, moduloed by 26, have 1 added to it, and be moved to the beginning of the string.", ModuleID);
                 string letterIndices = " ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // space at the beginning so A is 1
-                int lastCharPosition = (letterIndices.IndexOf(alphabet[25]) * 5) % 26;
+                int lastCharPosition = alphabet.IndexOf(letterIndices[(letterIndices.IndexOf(alphabet[25]) * 5) % 26 + 1]);
                 if (lastCharPosition == 25)
                 {
                     alphabet = alphabet[lastCharPosition] + alphabet.Substring(0, lastCharPosition);
@@ -306,7 +300,7 @@ public class DerangedKeypad : Puzzle
         return new String(charArray);
     }
 
-    private string SwapChars(String str, int index1, int index2)
+    private string SwapChars(string str, int index1, int index2)
     {
         char[] strChar = str.ToCharArray();
         char temp = strChar[index1];

@@ -466,7 +466,7 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        SelectModule = "Unscrew Maze";
+        SelectModule = "Timer Timings";
         switch (SelectModule)
         {
             case "Timer Timings":
@@ -498,7 +498,7 @@ public class CruelModkitScript : MonoBehaviour
                 Puzzle = new StumblingSymphony(this, ModuleID, Info, TargetComponents);
                 break;
             case "Deranged Keypad":
-                TargetComponents = 72;
+                TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.Alphabet);
                 Puzzle = new DerangedKeypad(this, ModuleID, Info, TargetComponents);
                 break;
             case "Test Puzzle":
