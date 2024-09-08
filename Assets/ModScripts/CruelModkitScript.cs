@@ -477,6 +477,10 @@ public class CruelModkitScript : MonoBehaviour
                 TargetComponents = (byte)(ComponentsEnum.Arrows | ComponentsEnum.Bulbs);
                 Puzzle = new UnscrewMaze(this, ModuleID, Info, TargetComponents);
                 break;
+            case "Piano Decryption":
+                TargetComponents = (byte)(ComponentsEnum.Piano);
+                Puzzle = new PianoDecryption(this, ModuleID, Info, TargetComponents);
+                break;
             case "AV Input":
                 TargetComponents = (byte)(ComponentsEnum.Piano | ComponentsEnum.Bulbs);
                 Puzzle = new AVInput(this, ModuleID, Info, TargetComponents);
@@ -500,6 +504,9 @@ public class CruelModkitScript : MonoBehaviour
             case "Deranged Keypad":
                 TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.Alphabet);
                 Puzzle = new DerangedKeypad(this, ModuleID, Info, TargetComponents);
+            case "Logical Color Combinations":
+                TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Arrows);
+                Puzzle = new LogicalColorCombinations(this, ModuleID, Info, TargetComponents);
                 break;
             case "Test Puzzle":
             default:
@@ -813,7 +820,7 @@ public class CruelModkitScript : MonoBehaviour
                     { "Text", "Select Module" },
                     { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
                     { "Type", "Dropdown" },
-                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "AV Input", "Test Puzzle" } }
+                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Piano Decryption", "AV Input", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "Logical Color Combinations", "Test Puzzle" } }
                 },
             }
             },
