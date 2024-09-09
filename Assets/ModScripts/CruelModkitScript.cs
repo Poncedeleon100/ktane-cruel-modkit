@@ -450,13 +450,18 @@ public class CruelModkitScript : MonoBehaviour
 
     IEnumerator PlaySolveAnim()
     {
-        ComponentsEnum LeftSide = ComponentsEnum.Wires | ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Symbols;
-        ComponentsEnum RightSide = ComponentsEnum.Alphabet | ComponentsEnum.Piano | ComponentsEnum.Arrows | ComponentsEnum.Bulbs;
-        bool IsLeftSideEnabled = (OnComponents & (byte)(LeftSide)) != 0;
-        bool IsRightSideEnabled = (OnComponents & (byte)(RightSide)) != 0;
+        // Animation must pause halfway through if adjacent components are active
+        // Symbols and Alphabet
+        bool Pause1 = (OnComponents & (byte)(ComponentsEnum.Symbols | ComponentsEnum.Alphabet)) == (byte)(ComponentsEnum.Symbols | ComponentsEnum.Alphabet);
+        // Button/LED and Piano
+        bool Pause2 = (OnComponents & (byte)ComponentsEnum.Piano) != 0 && (OnComponents & (byte)(ComponentsEnum.Button | ComponentsEnum.LED)) != 0;
+        // Wires/Button and Arrows
+        bool Pause3 = (OnComponents & (byte)ComponentsEnum.Arrows) != 0 && (OnComponents & (byte)(ComponentsEnum.Wires | ComponentsEnum.Button)) != 0;
+        // Wires and Bulbs
+        bool Pause4 = (OnComponents & (byte)(ComponentsEnum.Wires | ComponentsEnum.Bulbs)) == (byte)(ComponentsEnum.Wires | ComponentsEnum.Bulbs);
         for (int i = 7; i > -1; i--)
         {
-            if ((i == 3 && (IsLeftSideEnabled && IsRightSideEnabled)))
+            if ((i == 3 && (Pause1 | Pause2 | Pause3 | Pause4)))
                 yield return new WaitForSeconds(1f);
             if ((OnComponents & (byte)Math.Pow(2, i)) != 0)
                 StartCoroutine(HideComponent((ComponentsEnum)Math.Pow(2, i)));
