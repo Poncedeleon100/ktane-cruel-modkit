@@ -504,6 +504,7 @@ public class CruelModkitScript : MonoBehaviour
             case "Deranged Keypad":
                 TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.Alphabet);
                 Puzzle = new DerangedKeypad(this, ModuleID, Info, TargetComponents);
+                break;
             case "Logical Color Combinations":
                 TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Arrows);
                 Puzzle = new LogicalColorCombinations(this, ModuleID, Info, TargetComponents);
