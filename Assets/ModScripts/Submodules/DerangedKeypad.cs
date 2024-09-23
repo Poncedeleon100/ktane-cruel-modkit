@@ -28,6 +28,13 @@ public class DerangedKeypad : Puzzle
 
     string alph;
 
+    private void updateAlphandShould()
+    {
+        alph = Modify();
+        Debug.LogFormat("[The Cruel Modkit #{0}] The resulting alphabet is {1}.", ModuleID, alph);
+        shouldBePressed = DeterminePress();
+    }
+
     public DerangedKeypad(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
         Debug.LogFormat("[The Cruel Modkit #{0}] Solving Deranged Keypad.", ModuleID);
@@ -35,18 +42,16 @@ public class DerangedKeypad : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] The button is {1}.", ModuleID, Info.GetButtonInfo());
         alph = startingAlphabets[Info.Button];
         Debug.LogFormat("[The Cruel Modkit #{0}] The starting alphabet is {1}.", ModuleID, alph);
-        alph = Modify(Info.ButtonText, alph);
-        Debug.LogFormat("[The Cruel Modkit #{0}] The resulting alphabet is {1}.", ModuleID, alph);
-        shouldBePressed = determinePress(alph, Info.Alphabet, pressedKeys);
+        updateAlphandShould();
     }
 
-    private int determinePress(string alphabet, string[] keys, List<int> alreadyPressed)
+    private int DeterminePress()
     {
-        foreach (char c in alphabet)
+        foreach (char c in alph)
         {
-            for (int i = 0; i < keys.Length; i++)
+            for (int i = 0; i < Info.Alphabet.Length; i++)
             {
-                if (keys[i].Contains(c) && !alreadyPressed.Contains(i))
+                if (Info.Alphabet[i].Contains(c) && !pressedKeys.Contains(i))
                 {
                     Debug.LogFormat("[The Cruel Modkit #{0}] The first character that appears in a non-pressed key is {1}, which is in key {2}.", ModuleID, c, i + 1);
                     return i;
@@ -67,16 +72,9 @@ public class DerangedKeypad : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving() && !Module.CheckValidComponents())
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
-        }
-
-        if (pressedKeys.Count == 0)
-        {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Pressed the button when no keys have been pressed.", ModuleID);
             Module.CauseStrike();
             return;
         }
@@ -86,9 +84,7 @@ public class DerangedKeypad : Puzzle
             Debug.LogFormat("[The Cruel Modkit #{0}] Pressed the button after 2 alphabet key presses.", ModuleID);
             Info.ButtonText = ComponentInfo.ButtonList[UnityEngine.Random.Range(0, 14)];
             Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
-            alph = Modify(Info.ButtonText, alph);
-            Debug.LogFormat("[The Cruel Modkit #{0}] The resulting alphabet is {1}.", ModuleID, alph);
-            shouldBePressed = determinePress(alph, Info.Alphabet, pressedKeys);
+            updateAlphandShould();
             buttonShouldBePressed = false;
         }
         else
@@ -97,9 +93,6 @@ public class DerangedKeypad : Puzzle
             Module.CauseStrike();
             return;
         }
-
-        if (!Module.IsSolving())
-            Module.StartSolve();
     }
 
     public override void OnAlphabetPress(int Alphabet)
@@ -138,7 +131,7 @@ public class DerangedKeypad : Puzzle
             }
             else if (pressedKeys.Count < 6)
             {
-                shouldBePressed = determinePress(alph, Info.Alphabet, pressedKeys);
+                shouldBePressed = DeterminePress();
             }
             if (pressedKeys.Count == 6)
             {
@@ -161,143 +154,132 @@ public class DerangedKeypad : Puzzle
             Module.StartSolve();
     }
 
-    private string Modify(string buttonLabel, string alphabet)
+    private string Modify()
     {
-        switch (buttonLabel)
+        switch (Info.ButtonText)
         {
             case "":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button label has no text, so the alphabet string is unchanged.", ModuleID);
                 break;
             case "PRESS":
-                if (alphabet[0] == Module.Bomb.GetSerialNumberLetters().ToArray()[0])
+                if (alph[0] == Module.Bomb.GetSerialNumberLetters().First())
                 {
                     Debug.LogFormat("[The Cruel Modkit #{0}] The button reads PRESS and the first character of the serial number is already at the beginning, so it will be moved to the end.", ModuleID);
-                    alphabet = alphabet.Substring(1) + alphabet[0];
+                    alph = alph.Substring(1) + alph[0];
                 }
                 else
                 {
                     Debug.LogFormat("[The Cruel Modkit #{0}] The button reads PRESS and the first character of the serial number is not already at the beginning, so it will be moved there.", ModuleID);
-                    int firstLetterIndex = alphabet.IndexOf(Module.Bomb.GetSerialNumberLetters().ToArray()[0]);
+                    int firstLetterIndex = alph.IndexOf(Module.Bomb.GetSerialNumberLetters().First());
                     if (firstLetterIndex == 25)
                     {
-                        alphabet = alphabet[firstLetterIndex] + alphabet.Substring(0, firstLetterIndex);
+                        alph = alph[firstLetterIndex] + alph.Substring(0, firstLetterIndex);
                     }
                     else
                     {
-                        alphabet = alphabet[firstLetterIndex] + alphabet.Substring(0, firstLetterIndex) + alphabet.Substring(firstLetterIndex + 1);
+                        alph = alph[firstLetterIndex] + alph.Substring(0, firstLetterIndex) + alph.Substring(firstLetterIndex + 1);
                     }
                 }
                 break;
             case "HOLD":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads HOLD, so both halves of the alphabet string will be swapped.", ModuleID);
-                alphabet = alphabet.Substring(13) + alphabet.Substring(0, 13);
+                alph = alph.Substring(13) + alph.Substring(0, 13);
                 break;
             case "DETONATE":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads DETONATE, so the alphabet string will be encrypted via the Atbash cipher.", ModuleID);
-                alphabet = GetAtbash(alphabet);
+                alph = GetAtbash(alph);
                 break;
             case "MASH":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads MASH, so the first consonant will be swapped with the last vowel.", ModuleID);
                 char[] consonants = "BCDFGHJKLMNPQRSTVWXYZ".ToCharArray();
                 char[] vowels = "AEIOU".ToCharArray();
-                int firstConsonant = alphabet.IndexOfAny(consonants);
-                int lastVowel = alphabet.LastIndexOfAny(vowels);
-                alphabet = SwapChars(alphabet, firstConsonant, lastVowel);
+                int firstConsonant = alph.IndexOfAny(consonants);
+                int lastVowel = alph.LastIndexOfAny(vowels);
+                alph = SwapChars(alph, firstConsonant, lastVowel);
                 break;
             case "TAP":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads TAP, so the alphabet string will be Caesar-shifted forward by the sum of the digits in the Alphabet section.", ModuleID);
                 string digits = "0123456789";
                 int caesarOffset = 0;
-                foreach (char key in Info.GetAlphabetInfo())
+                foreach (string button in Info.Alphabet)
                 {
-                    if (digits.Contains(key))
+                    foreach (char key in button)
                     {
-                        caesarOffset += key - '0';
+                        if (digits.Contains(key))
+                        {
+                            caesarOffset += key - '0';
+                        }
                     }
                 }
                 Debug.LogFormat("[The Cruel Modkit #{0}] The sum of all alphabet digits is {1}.", ModuleID, caesarOffset);
-                alphabet = Caesar(alphabet, caesarOffset);
+                alph = Caesar(alph, caesarOffset);
                 break;
             case "PUSH":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads PUSH, so the letters A, B, C, D and E will be moved immediately after Q.", ModuleID);
-                int[] ABCDE = new int[] { alphabet.IndexOf('A'), alphabet.IndexOf('B'), alphabet.IndexOf('C'), alphabet.IndexOf('D'), alphabet.IndexOf('E') };
+                int[] ABCDE = new int[] { alph.IndexOf('A'), alph.IndexOf('B'), alph.IndexOf('C'), alph.IndexOf('D'), alph.IndexOf('E') };
                 ABCDE = ABCDE.OrderByDescending(a => a).ToArray();
                 foreach (int n in ABCDE)
                 {
-                    alphabet.Remove(n);
+                    alph.Remove(n);
                 }
-                int Q = alphabet.IndexOf('Q');
-                alphabet = alphabet.Insert(Q, "ABCDE");
+                int Q = alph.IndexOf('Q');
+                alph = alph.Insert(Q, "ABCDE");
                 break;
             case "ABORT":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads ABORT, so the first letter in the alphabet string with an odd-numbered alphabetic position will be swapped with the last letter in the string with an even-numbered alphabetic position", ModuleID);
                 string oddLetters = "ACEGIKMOQSUWY";
                 string evenLetters = "BDFHJLNPRTVXZ";
-                int firstOdd = alphabet.IndexOfAny(oddLetters.ToCharArray());
-                int lastEven = alphabet.LastIndexOfAny(evenLetters.ToCharArray());
-                alphabet = SwapChars(alphabet, firstOdd, lastEven);
+                int firstOdd = alph.IndexOfAny(oddLetters.ToCharArray());
+                int lastEven = alph.LastIndexOfAny(evenLetters.ToCharArray());
+                alph = SwapChars(alph, firstOdd, lastEven);
                 break;
             case "BUTTON":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads BUTTON, so the last character's alphabetic position will be multiplied by 5, moduloed by 26, have 1 added to it, and be moved to the beginning of the string.", ModuleID);
                 string letterIndices = " ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // space at the beginning so A is 1
-                int lastCharPosition = alphabet.IndexOf(letterIndices[(letterIndices.IndexOf(alphabet[25]) * 5) % 26 + 1]);
+                int lastCharPosition = alph.IndexOf(letterIndices[(letterIndices.IndexOf(alph[25]) * 5) % 26 + 1]);
                 if (lastCharPosition == 25)
                 {
-                    alphabet = alphabet[lastCharPosition] + alphabet.Substring(0, lastCharPosition);
+                    alph = alph[lastCharPosition] + alph.Substring(0, lastCharPosition);
                 }
                 else
                 {
-                    alphabet = alphabet[lastCharPosition] + alphabet.Substring(0, lastCharPosition) + alphabet.Substring(lastCharPosition + 1);
+                    alph = alph[lastCharPosition] + alph.Substring(0, lastCharPosition) + alph.Substring(lastCharPosition + 1);
                 }
                 break;
             case "CLICK":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads CLICK, so the alphabet string will be encrypted into ROT13, or Caesar-shifted by 13.", ModuleID);
-                alphabet = Caesar(alphabet, 13);
+                alph = Caesar(alph, 13);
                 break;
             case "NOTHING":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads NOTHING, so the letter that comes after the first letter alphabetically will be moved to the end of the alphabet string.", ModuleID);
                 string nextLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZA"; // A at the end so i don't have to do wraparound shenanigans
-                int indexOfLetter = alphabet.IndexOf(nextLetters[nextLetters.IndexOf(alphabet[0]) + 1]);
-                string letter = alphabet[indexOfLetter].ToString();
-                alphabet = alphabet.Remove(indexOfLetter, 1);
-                alphabet = alphabet + letter;
+                int indexOfLetter = alph.IndexOf(nextLetters[nextLetters.IndexOf(alph[0]) + 1]);
+                string letter = alph[indexOfLetter].ToString();
+                alph = alph.Remove(indexOfLetter, 1);
+                alph = alph + letter;
                 break;
             case "NO":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads NO, so the first half will be reversed.", ModuleID);
-                alphabet = new string(alphabet.Substring(0, 13).Reverse().ToArray()) + alphabet.Substring(13);
+                alph = new string(alph.Substring(0, 13).Reverse().ToArray()) + alph.Substring(13);
                 break;
             case "I DON'T KNOW":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads I DON'T KNOW, so the entire alphabet string will be reversed.", ModuleID);
-                alphabet = new string(alphabet.Reverse().ToArray());
+                alph = new string(alph.Reverse().ToArray());
                 break;
             case "YES":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads YES, so the second half will be reversed.", ModuleID);
-                alphabet = alphabet.Substring(0, 13) + new string(alphabet.Substring(13).Reverse().ToArray());
+                alph = alph.Substring(0, 13) + new string(alph.Substring(13).Reverse().ToArray());
                 break;
         }
-        return alphabet;
+        return alph;
     }
 
     private string GetAtbash(string s)
     {
-        var charArray = s.ToCharArray();
-
-        for (int i = 0; i < charArray.Length; i++)
-        {
-            char c = charArray[i];
-
-            if (c >= 'a' && c <= 'z')
-            {
-                charArray[i] = (char)(96 + (123 - c));
-            }
-
-            if (c >= 'A' && c <= 'Z')
-            {
-                charArray[i] = (char)(64 + (91 - c));
-            }
-        }
-
-        return new String(charArray);
+        string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        string e = "";
+        for (int i = 0; i < s.Length; i++) e += alpha[25 - alpha.IndexOf(s[i])];
+        return e;
     }
 
     private string SwapChars(string str, int index1, int index2)
@@ -312,27 +294,24 @@ public class DerangedKeypad : Puzzle
 
     private string Caesar(string input, int key)
     {
-        string output = "";
-
-        foreach (char ch in input)
-        {
-            output += cipher(ch, key);
-        }
-
-        return output;
+        string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        string e = "";
+        for (int i = 0; i < input.Length; i++) e += alpha[RealModulo(alpha.IndexOf(input[i]) + key, 26)];
+        return e;
     }
 
-    private char cipher(char ch, int key)
+    int RealModulo(int n, int m)
     {
-        if (!char.IsLetter(ch))
+        if (n > -1) return n % m;
+        while (n < m)
         {
-            return ch;
+            n += m;
+            if (n > m)
+            {
+                n -= m;
+                break;
+            }
         }
-
-        char d = char.IsUpper(ch) ? 'A' : 'a';
-        return (char)((((ch + key) - d) % 26) + d);
-
-
+        return n;
     }
-
 }
