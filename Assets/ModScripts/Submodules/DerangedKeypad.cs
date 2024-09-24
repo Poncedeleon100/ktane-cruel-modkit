@@ -1,5 +1,6 @@
 using KModkit;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -61,6 +62,17 @@ public class DerangedKeypad : Puzzle
         throw new InvalidOperationException("erm what the sigma");
     }
 
+    private IEnumerator ChangeButton()
+    {
+        yield return Module.StartCoroutine(Module.HideComponent(CruelModkitScript.ComponentsEnum.Button));
+        Info.ButtonText = ComponentInfo.ButtonList[UnityEngine.Random.Range(0, 14)];
+        Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
+        yield return new WaitForSeconds(.5f);
+        yield return Module.StartCoroutine(Module.ShowComponent(CruelModkitScript.ComponentsEnum.Button));
+        updateAlphandShould();
+        buttonShouldBePressed = false;
+    }
+
     public override void OnButtonPress()
     {
         if (Module.IsAnimating())
@@ -82,10 +94,7 @@ public class DerangedKeypad : Puzzle
         if (buttonShouldBePressed)
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Pressed the button after 2 alphabet key presses.", ModuleID);
-            Info.ButtonText = ComponentInfo.ButtonList[UnityEngine.Random.Range(0, 14)];
-            Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
-            updateAlphandShould();
-            buttonShouldBePressed = false;
+            Module.StartCoroutine(ChangeButton());
         }
         else
         {
@@ -105,53 +114,65 @@ public class DerangedKeypad : Puzzle
 
         if (Module.IsModuleSolved())
             return;
-
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Alphanumeric key {1} was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Alphabet + 1, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Alphanumeric key {1} was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Alphabet + 1, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                Module.ButtonStrike(false, Alphabet);
+                return;
+            }
+            Module.StartSolve();
+        }
+
+        if (buttonShouldBePressed)
+        {
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! A key was pressed when the button was supposed to be pressed.", ModuleID);
             Module.ButtonStrike(false, Alphabet);
-            return;
+            Module.CauseStrike();
         }
-
-        if (Module.Alphabet[Alphabet].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material == Module.KeyLightMats[2])
-        {
-            return;
-        }
-
-        if (Alphabet == shouldBePressed)
+        else if (Alphabet == shouldBePressed)
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Correctly pressed the key labeled {1}.", ModuleID, Info.Alphabet[Alphabet].Replace('\n', ' '));
             Module.Alphabet[Alphabet].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = Module.KeyLightMats[2];
             pressedKeys.Add(shouldBePressed);
-            if (pressedKeys.Count % 2 == 0 && pressedKeys.Count < 6)
-            {
-                buttonShouldBePressed = true;
-                return;
-            }
-            else if (pressedKeys.Count < 6)
-            {
-                shouldBePressed = DeterminePress();
-            }
             if (pressedKeys.Count == 6)
             {
                 Debug.LogFormat("[The Cruel Modkit #{0}] All alphabet keys have been pressed! Solved!", ModuleID);
                 Module.Solve();
             }
+            else if (pressedKeys.Count % 2 == 0)
+            {
+                buttonShouldBePressed = true;
+            }
+            else
+            {
+                shouldBePressed = DeterminePress();
+            }
         }
-        else if (buttonShouldBePressed)
+        else if (pressedKeys.Contains(Alphabet))
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! A key was pressed when the button was supposed to be pressed.", ModuleID);
-            Module.CauseStrike();
+            return;
         }
         else
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The key labeled {1} was pressed when the correct key was {2}.", ModuleID, Info.Alphabet[Alphabet].Replace('\n', ' '), Info.Alphabet[shouldBePressed].Replace('\n', ' '));
+            Module.ButtonStrike(false, Alphabet);
             Module.CauseStrike();
         }
+    }
 
-        if (!Module.IsSolving())
-            Module.StartSolve();
+    private void MoveToBeginningOrEnd(int index)
+    {
+        if (index == 25)
+        {
+            alph = alph[index] + alph.Substring(0, index);
+        }
+        else
+        {
+            alph = alph[index] + alph.Substring(0, index) + alph.Substring(index + 1);
+        }
     }
 
     private string Modify()
@@ -171,14 +192,7 @@ public class DerangedKeypad : Puzzle
                 {
                     Debug.LogFormat("[The Cruel Modkit #{0}] The button reads PRESS and the first character of the serial number is not already at the beginning, so it will be moved there.", ModuleID);
                     int firstLetterIndex = alph.IndexOf(Module.Bomb.GetSerialNumberLetters().First());
-                    if (firstLetterIndex == 25)
-                    {
-                        alph = alph[firstLetterIndex] + alph.Substring(0, firstLetterIndex);
-                    }
-                    else
-                    {
-                        alph = alph[firstLetterIndex] + alph.Substring(0, firstLetterIndex) + alph.Substring(firstLetterIndex + 1);
-                    }
+                    MoveToBeginningOrEnd(firstLetterIndex);
                 }
                 break;
             case "HOLD":
@@ -199,15 +213,14 @@ public class DerangedKeypad : Puzzle
                 break;
             case "TAP":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads TAP, so the alphabet string will be Caesar-shifted forward by the sum of the digits in the Alphabet section.", ModuleID);
-                string digits = "0123456789";
                 int caesarOffset = 0;
                 foreach (string button in Info.Alphabet)
                 {
                     foreach (char key in button)
                     {
-                        if (digits.Contains(key))
+                        if (char.IsDigit(key))
                         {
-                            caesarOffset += key - '0';
+                            caesarOffset += int.Parse(key.ToString());
                         }
                     }
                 }
@@ -216,14 +229,13 @@ public class DerangedKeypad : Puzzle
                 break;
             case "PUSH":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads PUSH, so the letters A, B, C, D and E will be moved immediately after Q.", ModuleID);
-                int[] ABCDE = new int[] { alph.IndexOf('A'), alph.IndexOf('B'), alph.IndexOf('C'), alph.IndexOf('D'), alph.IndexOf('E') };
-                ABCDE = ABCDE.OrderByDescending(a => a).ToArray();
-                foreach (int n in ABCDE)
+                string[] ABCDE = new string[] { "A", "B", "C", "D", "E" };
+                foreach (string n in ABCDE)
                 {
-                    alph.Remove(n);
+                    alph.Replace(n, "");
                 }
                 int Q = alph.IndexOf('Q');
-                alph = alph.Insert(Q, "ABCDE");
+                alph = alph.Insert(Q + 1, "ABCDE");
                 break;
             case "ABORT":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads ABORT, so the first letter in the alphabet string with an odd-numbered alphabetic position will be swapped with the last letter in the string with an even-numbered alphabetic position", ModuleID);
@@ -235,16 +247,9 @@ public class DerangedKeypad : Puzzle
                 break;
             case "BUTTON":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads BUTTON, so the last character's alphabetic position will be multiplied by 5, moduloed by 26, have 1 added to it, and be moved to the beginning of the string.", ModuleID);
-                string letterIndices = " ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // space at the beginning so A is 1
-                int lastCharPosition = alph.IndexOf(letterIndices[(letterIndices.IndexOf(alph[25]) * 5) % 26 + 1]);
-                if (lastCharPosition == 25)
-                {
-                    alph = alph[lastCharPosition] + alph.Substring(0, lastCharPosition);
-                }
-                else
-                {
-                    alph = alph[lastCharPosition] + alph.Substring(0, lastCharPosition) + alph.Substring(lastCharPosition + 1);
-                }
+                string letterIndices = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                int lastCharPosition = alph.IndexOf(letterIndices[((letterIndices.IndexOf(alph[25]) + 1) * 5) % 26 + 1]);
+                MoveToBeginningOrEnd(lastCharPosition);
                 break;
             case "CLICK":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads CLICK, so the alphabet string will be encrypted into ROT13, or Caesar-shifted by 13.", ModuleID);
@@ -252,11 +257,10 @@ public class DerangedKeypad : Puzzle
                 break;
             case "NOTHING":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads NOTHING, so the letter that comes after the first letter alphabetically will be moved to the end of the alphabet string.", ModuleID);
-                string nextLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZA"; // A at the end so i don't have to do wraparound shenanigans
-                int indexOfLetter = alph.IndexOf(nextLetters[nextLetters.IndexOf(alph[0]) + 1]);
-                string letter = alph[indexOfLetter].ToString();
+                string letter = Caesar(alph[0].ToString(), 1);
+                int indexOfLetter = alph.IndexOf(letter);
                 alph = alph.Remove(indexOfLetter, 1);
-                alph = alph + letter;
+                alph += letter;
                 break;
             case "NO":
                 Debug.LogFormat("[The Cruel Modkit #{0}] The button reads NO, so the first half will be reversed.", ModuleID);
