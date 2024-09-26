@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1">
     <title>Piano Decryption — Keep Talking and Nobody Explodes Module</title>
     <link rel="stylesheet" type="text/css" href="css/font.css">
-    <link rel="stylesheet" type="text/css" href="Css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="js/ktane-utils.js"></script>
     <script src="js/jquery.3.7.0.min.js"></script>
@@ -96,19 +96,19 @@
                 <h3>Decrypting Ciphers:</h3>
                 <p>Caesar Shift (Cipher): shift every letter of the encrypted word forwards/backwards through the alphabet a number of times equal to the offset (looping around the alphabet if needed).</p>
                 <p>ROT13 Cipher: shift every letter of the encrypted word forwards/backwards (the direction does not matter) 13 times (looping around the alphabet if needed).</p>
-                <p>Atbash Cipher: for each of the encrypted word’s letters:
-                    <ui>
-                        <li>Convert the letter into its alphabetic position (A0Z25) to get a number.</li>
-                        <li>Subtract that number from 25.</li>
-                        <li>Convert the result to a letter A0Z25 to get the decrypted letter.</li>
-                    </ui></p>
-                <p><strong>Affine ×X Cipher</strong>: for each of the encrypted word’s letters:
-                    <ui>
-                        <li>Convert the letter into its alphabetic position (A0Z25) to get a number.</li>
-                        <li>Keep adding 26 to the number until it becomes divisible by X.</li>
-                        <li>Divide the number by X.</li>
-                        <li>Convert the result to a letter A0Z25 to get the decrypted letter.</li>
-                    </ui></p>
+                <p>Atbash Cipher: for each of the encrypted word’s letters:</p>
+                <ul>
+                    <li>Convert the letter into its alphabetic position (A0Z25) to get a number.</li>
+                    <li>Subtract that number from 25.</li>
+                    <li>Convert the result to a letter A0Z25 to get the decrypted letter.</li>
+                </ul>
+                <p><strong>Affine ×X Cipher</strong>: for each of the encrypted word’s letters:</p>
+                <ul>
+                    <li>Convert the letter into its alphabetic position (A0Z25) to get a number.</li>
+                    <li>Keep adding 26 to the number until it becomes divisible by X.</li>
+                    <li>Divide the number by X.</li>
+                    <li>Convert the result to a letter A0Z25 to get the decrypted letter.</li>
+                </ul>
                 <h4 class="cipher-example">Example</h4>
                 <p class="cipher-example">
                     Encrypted word: SNUYCP<br>
@@ -131,14 +131,13 @@
                 <span class="page-header-section-title">Piano Decryption</span>
             </div>
             <div class="page-content">
-                <p><strong>Rail Fence Cipher:</strong>
-                    <ui>
-                        <li>Create as many rails (rows) top-to-bottom as the key number with the length of each rail being equal to the length of the encrypted word.</li>
-                        <li>Place down asterisks in a zig-zag pattern starting from the top left corner (going down-right until you reach the bottom rail, then going up-right until you reach the top rail, and so on).</li>
-                        <li>In reading order, fill in the asterisks with the letters of the encrypted word.</li>
-                        <li>Read the letters in the same zig-zag pattern to obtain the decrypted word.</li>
-                    </ui>
-                </p>
+                <p><strong>Rail Fence Cipher:</strong></p>
+                <ul>
+                    <li>Create as many rails (rows) top-to-bottom as the key number with the length of each rail being equal to the length of the encrypted word.</li>
+                    <li>Place down asterisks in a zig-zag pattern starting from the top left corner (going down-right until you reach the bottom rail, then going up-right until you reach the top rail, and so on).</li>
+                    <li>In reading order, fill in the asterisks with the letters of the encrypted word.</li>
+                    <li>Read the letters in the same zig-zag pattern to obtain the decrypted word.</li>
+                </ul>
                 <h4 class="cipher-example">Example</h4>
                 <p class="cipher-example">
                     Encrypted word: REAGRN<br>

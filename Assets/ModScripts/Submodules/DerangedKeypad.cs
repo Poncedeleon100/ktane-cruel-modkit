@@ -39,8 +39,8 @@ public class DerangedKeypad : Puzzle
     public DerangedKeypad(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
         Debug.LogFormat("[The Cruel Modkit #{0}] Solving Deranged Keypad.", ModuleID);
-        Debug.LogFormat("[The Cruel Modkit #{0}] The alphabet keys are as follows: {1}.", ModuleID, Info.GetAlphabetInfo());
-        Debug.LogFormat("[The Cruel Modkit #{0}] The button is {1}.", ModuleID, Info.GetButtonInfo());
+        Debug.LogFormat("[The Cruel Modkit #{0}] Alphanumeric keys present: {1}.", ModuleID, Info.GetAlphabetInfo());
+        Debug.LogFormat("[The Cruel Modkit #{0}] Button is {1}.", ModuleID, Info.GetButtonInfo());
         alph = startingAlphabets[Info.Button];
         Debug.LogFormat("[The Cruel Modkit #{0}] The starting alphabet is {1}.", ModuleID, alph);
         UpdateAlphAndShould();
