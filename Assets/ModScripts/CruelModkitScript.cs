@@ -466,7 +466,6 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        SelectModule = "Timer Timings";
         switch (SelectModule)
         {
             case "Timer Timings":
