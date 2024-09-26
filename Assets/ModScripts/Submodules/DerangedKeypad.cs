@@ -29,7 +29,7 @@ public class DerangedKeypad : Puzzle
 
     string alph;
 
-    private void updateAlphandShould()
+    private void UpdateAlphAndShould()
     {
         alph = Modify();
         Debug.LogFormat("[The Cruel Modkit #{0}] The resulting alphabet is {1}.", ModuleID, alph);
@@ -43,7 +43,7 @@ public class DerangedKeypad : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] The button is {1}.", ModuleID, Info.GetButtonInfo());
         alph = startingAlphabets[Info.Button];
         Debug.LogFormat("[The Cruel Modkit #{0}] The starting alphabet is {1}.", ModuleID, alph);
-        updateAlphandShould();
+        UpdateAlphAndShould();
     }
 
     private int DeterminePress()
@@ -69,7 +69,7 @@ public class DerangedKeypad : Puzzle
         Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
         yield return new WaitForSeconds(.5f);
         yield return Module.StartCoroutine(Module.ShowComponent(CruelModkitScript.ComponentsEnum.Button));
-        updateAlphandShould();
+        UpdateAlphAndShould();
         buttonShouldBePressed = false;
     }
 
@@ -232,7 +232,7 @@ public class DerangedKeypad : Puzzle
                 string[] ABCDE = new string[] { "A", "B", "C", "D", "E" };
                 foreach (string n in ABCDE)
                 {
-                    alph.Replace(n, "");
+                    alph = alph.Replace(n, "");
                 }
                 int Q = alph.IndexOf('Q');
                 alph = alph.Insert(Q + 1, "ABCDE");
