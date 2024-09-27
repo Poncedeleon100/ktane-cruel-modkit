@@ -30,6 +30,7 @@ public class LyingWires : Puzzle
 
     public LyingWires(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
+        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Solving Lying Wires.", ModuleID);
         string buttonColorName = Info.MainColors[Info.Button].ToUpper();
         colorConditions.Add(0, Info.ButtonText[0] >= 78 && Info.ButtonText[0] <= 90);
         colorConditions.Add(1, Info.Button == 1);
@@ -59,8 +60,8 @@ public class LyingWires : Puzzle
 
         trueColors = colorConditions.Where(x => x.Value).Select(x => x.Key).ToArray();
         UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The button is {1}.", ModuleID, Info.GetButtonInfo());
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The wires are as follows: {1}", ModuleID, Info.GetWireInfo());
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The wire LEDs are as follows: {1}", ModuleID, Info.GetWireLEDInfo());
+        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The wires are as follows: {1}.", ModuleID, Info.GetWireInfo());
+        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The wire LEDs are as follows: {1}.", ModuleID, Info.GetWireLEDInfo());
         DetermineWires();
     }
 
