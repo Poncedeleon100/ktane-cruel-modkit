@@ -6,8 +6,6 @@ using Random = UnityEngine.Random;
 
 public class ComponentInfo
 {
-    //public readonly string[] MainColors = { "Black", "Blue", "Cyan", "Green", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow" , "Gold" , "Silver" };
-    public readonly string[] BulbColorNames = { "Grey", "Blue", "Cyan", "Green", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow", "Gold", "Silver" };
     public readonly string[] ResistorColorNames = { "Black", "White", "Blue", "Brown", "Grey", "Green", "Orange", "Purple", "Red", "Yellow", "Gold", "Silver" };
     public readonly string[] MeterColors = { "Red", "Orange", "Yellow", "Green", "Blue", "Purple" };
     public readonly string[] KeyColors = { "Black", "Blue", "Green", "Orange", "Pink", "Purple", "Red", "White", "Yellow" };
@@ -20,8 +18,8 @@ public class ComponentInfo
     public readonly string[] IdentityItems = { "Candlestick", "Wrench", "Lead Pipe", "Rope", "Dagger", "Broom", "Revolver", "Water Gun", "Pearls", "Cane", "Bundle of Wires", "Giant Ring", "Specimen", "Fruit Basket", "Dozen Eggs", "Toolkit", "Hand Mirror", "Simon Says", "Manga", "Fishbowl", "Bomb", "Salt" };
     public readonly string[] IdentityLocations = { "Ballroom", "Conservatory", "Study", "Lounge", "Library", "Dining Room", "Hall", "Dojo", "Barnyard", "Treehouse", "I.T. Centre", "vOld", "Laboratory", "Supermarket", "Island", "Factory", "Home Depot", "Office", "Anime Con", "Arctic Base", "Solitary", "Mansion" };
     public readonly string[] IdentityRarity = { "●", "♦", "★", "☆" };
-    //                                                                    grey,                   blue,               cyan,                      green,               lime,                 orange,                       pink,                     purple,                red,              white,            yellow
-    public readonly Color[] BulbColorsArray = { new Color(.326f, .326f, .326f), new Color(0, .498f, 0), new Color(0, 1, 1), new Color(0, .557f, .078f), new Color(0, 1, 0), new Color(1, .502f, 0), new Color(1, .235f, .784f), new Color(.498f, 0, .498f), new Color(1, 0, 0), new Color(1, 1, 1), new Color(1, 1, 0) };
+    //                                                           blue,               cyan,                green,                           grey,               lime,                 orange,                       pink,                     purple,                red,              white,            yellow
+    public readonly Color[] BulbColorValues = {  new Color(0, 0, .5f), new Color(0, 1, 1), new Color(0, .5f, 0), new Color(.326f, .326f, .326f), new Color(0, 1, 0), new Color(1, .502f, 0), new Color(1, .235f, .784f), new Color(.498f, 0, .498f), new Color(1, 0, 0), new Color(1, 1, 1), new Color(1, 1, 0) };
     public static readonly string[] WordList = { "YES", "FIRST", "DISPLAY", "A DISPLAY", "OKAY", "OK", "SAYS", "SEZ", "NOTHING", "", "BLANK", "IT’S BLANK", "NO", "KNOW", "NOSE", "KNOWS", "LED", "LEAD", "LEED", "READ", "RED", "REED", "HOLD ON", "YOU", "U", "YOU ARE", "UR", "YOUR", "YOU’RE", "THERE", "THEY’RE", "THEIR", "THEY ARE", "SEE", "C", "SEA", "CEE", "READY", "WHAT", "WHAT?", "UH", "UHHH", "UH UH", "UH HUH", "LEFT", "RIGHT", "WRITE", "MIDDLE", "WAIT", "WAIT!", "WEIGHT", "PRESS", "DONE", "DUMB", "NEXT", "HOLD", "SURE", "LIKE", "LICK", "LEEK", "LEAK", "I", "INDIA", "EYE" };
     public readonly string[] MorseList = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
@@ -56,7 +54,6 @@ public class ComponentInfo
         White,
         Yellow
     }
-
     public enum MainColors
     {
         Black,
@@ -72,6 +69,21 @@ public class ComponentInfo
         Yellow,
         Gold,
         Silver
+    }
+
+    public enum BulbColorNames
+    {
+        Blue,
+        Cyan,
+        Green,
+        Grey,
+        Lime,
+        Orange,
+        Pink,
+        Purple,
+        Red,
+        White,
+        Yellow
     }
 
     //Colors
@@ -208,7 +220,7 @@ public class ComponentInfo
         for (int i = 0; i < 2; i++)
         {
             //Color of the bulb
-            BulbColors[i] = Random.Range(0, BulbColorsArray.Length);
+            BulbColors[i] = Random.Range(0, BulbColorValues.Length);
             //Opacity of the bulb
             BulbInfo[i] = Random.Range(0, 2) == 0;
             //Whether it starts on or not

@@ -472,7 +472,6 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        SelectModule = "Logical Color Combinations";
         switch (SelectModule)
         {
             case "Timer Timings":
@@ -693,7 +692,7 @@ public class CruelModkitScript : MonoBehaviour
             //Set filament visibility based on opacity of the bulb
             Bulbs[i].transform.Find("Filament").gameObject.SetActive(!Info.BulbInfo[i]);
             //Set bulb glass color and opacity
-            Color TempBulbColor = Info.BulbColorsArray[Info.BulbColors[i]];
+            Color TempBulbColor = Info.BulbColorValues[Info.BulbColors[i]];
             TempBulbColor[3] = Info.BulbInfo[i] ? 1f : .55f;
             Bulbs[i].transform.Find("Glass").GetComponentInChildren<Renderer>().material.color = TempBulbColor;
             //Set bulb light color

@@ -87,7 +87,7 @@ public class LogicalColorCombinations : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] A, B, C and D respectively are {1}.", ModuleID, LogABCD.Join(", "));
         logicOperator = logicOperatorTable[MainColorConvert(Info.Button, true), Array.IndexOf(ComponentInfo.ButtonList, Info.ButtonText)];
         pairOrder = pairOrderTable[MainColorConvert(Info.Button, true), Array.IndexOf(ComponentInfo.ButtonList, Info.ButtonText)];
-        Debug.LogFormat("[The Cruel Modkit #{0}] The correct operator to use is {1}. The two letter pairs are {2} and {3}", ModuleID, operatorNames[logicOperator], "ABCD"[pairOrder[0] - 48].ToString() + "ABCD"[pairOrder[1] - 48].ToString(), "ABCD"[pairOrder[2] - 48].ToString() + "ABCD"[pairOrder[3] - 48].ToString());
+        Debug.LogFormat("[The Cruel Modkit #{0}] The correct operator to use is {1}. The two letter pairs are {2} and {3}.", ModuleID, operatorNames[logicOperator], "ABCD"[pairOrder[0] - 48].ToString() + "ABCD"[pairOrder[1] - 48].ToString(), "ABCD"[pairOrder[2] - 48].ToString() + "ABCD"[pairOrder[3] - 48].ToString());
         for (int i = 0; i < 2; i++)
         {
             operationPairs[i] = ApplyOperator(logicOperator, pairOrder.Substring(i * 2, 2));
