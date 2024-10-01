@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 
 public class ComponentInfo
 {
-    public readonly string[] MeterColors = { "Red", "Orange", "Yellow", "Green", "Blue", "Purple" };
     public readonly string[] KeyColors = { "Black", "Blue", "Green", "Orange", "Pink", "Purple", "Red", "White", "Yellow" };
     public static readonly string[] ButtonList = { "PRESS", "HOLD", "DETONATE", "MASH", "TAP", "PUSH", "ABORT", "BUTTON", "CLICK", "", "NOTHING", "NO", "I DON'T KNOW", "YES" };
     public static readonly string[] SymbolCharacters = { "©", "★", "☆", "ټ", "Җ", "Ω", "Ѭ", "Ѽ", "ϗ", "ϫ", "Ϭ", "Ϟ", "Ѧ", "æ", "Ԇ", "Ӭ", "҈", "Ҋ", "Ѯ", "¿", "¶", "Ͼ", "Ͽ", "ψ", "Ѫ", "Ҩ", "҂", "Ϙ", "ζ", "ƛ", "Ѣ", "ע", "⦖", "ኒ", "エ", "π", "Э", "⁋", "ᛤ", "Ƿ", "Щ", "ξ", "Ᵹ", "Ю", "௵", "ϑ", "Triquetra", "ꎵ", "よ" };
@@ -53,6 +52,7 @@ public class ComponentInfo
         White,
         Yellow
     }
+    // Used for Wire LEDs, Button, and LEDs
     public enum MainColors
     {
         Black,
@@ -66,10 +66,7 @@ public class ComponentInfo
         Red,
         White,
         Yellow,
-        Gold,
-        Silver
     }
-
     public enum BulbColorNames
     {
         Blue,
@@ -83,6 +80,15 @@ public class ComponentInfo
         Red,
         White,
         Yellow
+    }
+    public enum MeterColors
+    {
+        Red,
+        Orange,
+        Yellow,
+        Green,
+        Blue,
+        Purple
     }
 
     // This deviates from alphabetical order because of how each strip needs a specific range of colors.
