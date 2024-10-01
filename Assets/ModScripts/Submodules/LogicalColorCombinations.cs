@@ -51,13 +51,13 @@ public class LogicalColorCombinations : Puzzle
     readonly string[] operatorNames = { "AND", "OR", "XOR", "NAND", "NOR", "XNOR" };
     readonly string base36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     readonly string[] ArrowDirections = { "Up", "Down", "Left", "Right" };
-    int[] flashes = new int[8];
-    string[] LogABCD = new string[4];
-    int[] ABCD = new int[4];
-    int logicOperator;
-    string pairOrder = "";
-    string[] operationPairs = new string[2];
-    string[] finalPairs = new string[2];
+    readonly int[] flashes = new int[8];
+    readonly string[] LogABCD = new string[4];
+    readonly int[] ABCD = new int[4];
+    readonly int logicOperator;
+    readonly string pairOrder = "";
+    readonly string[] operationPairs = new string[2];
+    readonly string[] finalPairs = new string[2];
     bool customAnimating = false;
     bool submissionMode = false;
     bool struckThisStage;
@@ -65,8 +65,8 @@ public class LogicalColorCombinations : Puzzle
     int curLEDColor = Random.Range(0, 9);
     char inputChar;
     int targetColor, targetDir = 0;
-    List<int> solvedLEDs = new List<int>();
-    List<int> solvedColors = new List<int>();
+    readonly List<int> solvedLEDs = new List<int>();
+    readonly List<int> solvedColors = new List<int>();
 
     public LogicalColorCombinations(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
@@ -186,7 +186,7 @@ public class LogicalColorCombinations : Puzzle
         if (!submissionMode || Arrow > 3) return;
         if (curLEDColor != targetColor)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} color was submitted instead of {2}.", ModuleID, Info.MainColors[ToMainColor(curLEDColor)], Info.MainColors[ToMainColor(targetColor)]);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} color was submitted instead of {2}.", ModuleID, Enum.GetName(typeof(ComponentInfo.MainColors), ToMainColor(curLEDColor)), Enum.GetName(typeof(ComponentInfo.MainColors), ToMainColor(targetColor)));
             Module.CauseStrike();
             struckThisStage = true;
             ExitSubmission();
@@ -236,7 +236,7 @@ public class LogicalColorCombinations : Puzzle
         if (Info.Arrows[8] == 8) inputNum = 35 - inputNum;
         targetColor = (int)inputNum / 4;
         targetDir = inputNum % 4;
-        Debug.LogFormat("[The Cruel Modkit #{0}] Character {1}: target color - {2}, target direction - {3}.", ModuleID, inputChar, Info.MainColors[ToMainColor(targetColor)], ArrowDirections[targetDir]);
+        Debug.LogFormat("[The Cruel Modkit #{0}] Character {1}: target color - {2}, target direction - {3}.", ModuleID, inputChar, Enum.GetName(typeof(ComponentInfo.MainColors), ToMainColor(targetColor)), ArrowDirections[targetDir]);
     }
 
     string ApplyOperator(int o, string pair)

@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class ComponentInfo
 {
-    public readonly string[] MainColors = { "Black", "Blue", "Cyan", "Green", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow" , "Gold" , "Silver" };
+    //public readonly string[] MainColors = { "Black", "Blue", "Cyan", "Green", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow" , "Gold" , "Silver" };
     public readonly string[] BulbColorNames = { "Grey", "Blue", "Cyan", "Green", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow", "Gold", "Silver" };
     public readonly string[] ResistorColorNames = { "Black", "White", "Blue", "Brown", "Grey", "Green", "Orange", "Purple", "Red", "Yellow", "Gold", "Silver" };
     public readonly string[] MeterColors = { "Red", "Orange", "Yellow", "Green", "Blue", "Purple" };
@@ -40,7 +40,8 @@ public class ComponentInfo
         { "13", 9 }, //White
     };
 
-    public enum WireColorsEnum
+    // Enums
+    public enum WireColors
     {
         Black,
         Blue,
@@ -54,6 +55,23 @@ public class ComponentInfo
         Red,
         White,
         Yellow
+    }
+
+    public enum MainColors
+    {
+        Black,
+        Blue,
+        Cyan,
+        Green,
+        Lime,
+        Orange,
+        Pink,
+        Purple,
+        Red,
+        White,
+        Yellow,
+        Gold,
+        Silver
     }
 
     //Colors
@@ -292,9 +310,9 @@ public class ComponentInfo
         for (int i = 0; i < Wires[0].Length; i++)
         {
             if (Wires[0][i] == Wires[1][i])
-                Names.Add(Enum.GetName(typeof(WireColorsEnum), Wires[0][i]));
+                Names.Add(Enum.GetName(typeof(WireColors), Wires[0][i]));
             else
-                Names.Add(Enum.GetName(typeof(WireColorsEnum), Wires[0][i]) + "/" + Enum.GetName(typeof(WireColorsEnum), Wires[1][i]));
+                Names.Add(Enum.GetName(typeof(WireColors), Wires[0][i]) + "/" + Enum.GetName(typeof(WireColors), Wires[1][i]));
         }
 
         return Names.Join(", ");
@@ -306,7 +324,7 @@ public class ComponentInfo
 
         for (int i = 0; i < WireLED.Length; i++)
         {
-            string Color = (MainColors[WireLED[i] % 11]);
+            string Color = Enum.GetName(typeof(MainColors), WireLED[i] % 11);
             string StarName = String.Empty;
 
             int Star = Convert.ToInt32(Math.Floor(Convert.ToDecimal((WireLED[i] / 11))));
@@ -345,7 +363,7 @@ public class ComponentInfo
                 Article = "a ";
         }
         
-        return MainColors[Button] + " with " + Article + ButtonText.ToUpper() + " label";
+        return Enum.GetName(typeof(MainColors), Button) + " with " + Article + ButtonText.ToUpper() + " label";
     }
 
     public string GetLEDInfo()
@@ -353,7 +371,7 @@ public class ComponentInfo
         List<string> Names = new List<string>();
 
         for (int i = 0; i < LED.Length; i++)
-            Names.Add(MainColors[LED[i]]);
+            Names.Add(Enum.GetName(typeof(MainColors), LED[i]));
 
         return Names.Join(", ");
     }

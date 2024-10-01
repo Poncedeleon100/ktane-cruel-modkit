@@ -435,9 +435,9 @@ public class CruelModkitScript : MonoBehaviour
             int Color1 = Info.Wires[0][i];
             int Color2 = Info.Wires[1][i];
             if (Color1 != Color2)
-                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == Enum.GetName(typeof(WireColorsEnum), Color1) + "_" + Enum.GetName(typeof(WireColorsEnum), Color2)).ToArray()[0];
+                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == Enum.GetName(typeof(WireColors), Color1) + "_" + Enum.GetName(typeof(WireColors), Color2)).ToArray()[0];
             else
-                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == Enum.GetName(typeof(WireColorsEnum), Color1)).ToArray()[0];
+                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == Enum.GetName(typeof(WireColors), Color1)).ToArray()[0];
 
             Wires[i].transform.Find("WireHL").gameObject.SetActive(true);
             Wires[i].GetComponent<MeshFilter>().mesh = WireMesh[0];
@@ -472,7 +472,7 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        SelectModule = "Test Puzzle";
+        SelectModule = "Logical Color Combinations";
         switch (SelectModule)
         {
             case "Timer Timings":
@@ -653,9 +653,9 @@ public class CruelModkitScript : MonoBehaviour
             int Color1 = Info.Wires[0][i];
             int Color2 = Info.Wires[1][i];
             if(Color1 != Color2)
-                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == Enum.GetName(typeof(WireColorsEnum), Color1) + "_" + Enum.GetName(typeof(WireColorsEnum), Color2)).ToArray()[0];
+                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == Enum.GetName(typeof(WireColors), Color1) + "_" + Enum.GetName(typeof(WireColors), Color2)).ToArray()[0];
             else
-                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == Enum.GetName(typeof(WireColorsEnum), Color1)).ToArray()[0];
+                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == Enum.GetName(typeof(WireColors), Color1)).ToArray()[0];
         }
         //Set materials for Wire LEDs
         for(int i = 0; i < WireLED.Length; i++)

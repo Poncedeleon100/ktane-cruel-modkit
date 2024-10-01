@@ -153,7 +153,7 @@ public class StumblingSymphony : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] The rule used is rule {1}. {2}", ModuleID, activeRule + 1, ruleLog[activeRule]);
         CalcInputs();
         Debug.LogFormat("[The Cruel Modkit #{0}] The full sequence of notes to play (including stumbles) is {1}.", ModuleID, string.Join(", ", finalInput.Select(x => noteOrder[x]).ToArray()));
-        Debug.LogFormat("[The Cruel Modkit #{0}] The button is {1}. Your stumbles will be shifted {2} semitones forward", ModuleID, Info.MainColors[Info.Button], semiShift);
+        Debug.LogFormat("[The Cruel Modkit #{0}] The button is {1}. Your stumbles will be shifted {2} semitones forward", ModuleID, Enum.GetName(typeof(ComponentInfo.MainColors), Info.Button), semiShift);
         return;
     }
 
