@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 
 public class ComponentInfo
 {
-    public static readonly string[] WireColors = { "Black", "Blue", "Cyan", "Green", "Grey", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow" };
     public readonly string[] MainColors = { "Black", "Blue", "Cyan", "Green", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow" , "Gold" , "Silver" };
     public readonly string[] BulbColorNames = { "Grey", "Blue", "Cyan", "Green", "Lime", "Orange", "Pink", "Purple", "Red", "White", "Yellow", "Gold", "Silver" };
     public readonly string[] ResistorColorNames = { "Black", "White", "Blue", "Brown", "Grey", "Green", "Orange", "Purple", "Red", "Yellow", "Gold", "Silver" };
@@ -40,6 +39,22 @@ public class ComponentInfo
         { "03", 8 }, //Grey
         { "13", 9 }, //White
     };
+
+    public enum WireColorsEnum
+    {
+        Black,
+        Blue,
+        Cyan,
+        Green,
+        Grey,
+        Lime,
+        Orange,
+        Pink,
+        Purple,
+        Red,
+        White,
+        Yellow
+    }
 
     //Colors
     public static readonly Color ButtonTextWhite = new Color(1, 1, 1);
@@ -276,10 +291,10 @@ public class ComponentInfo
 
         for (int i = 0; i < Wires[0].Length; i++)
         {
-            if (WireColors[Wires[0][i]] == WireColors[Wires[1][i]])
-                Names.Add(WireColors[Wires[0][i]]);
+            if (Wires[0][i] == Wires[1][i])
+                Names.Add(Enum.GetName(typeof(WireColorsEnum), Wires[0][i]));
             else
-                Names.Add(WireColors[Wires[0][i]] + "/" + WireColors[Wires[1][i]]);
+                Names.Add(Enum.GetName(typeof(WireColorsEnum), Wires[0][i]) + "/" + Enum.GetName(typeof(WireColorsEnum), Wires[1][i]));
         }
 
         return Names.Join(", ");
