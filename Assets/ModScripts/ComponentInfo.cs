@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 
 public class ComponentInfo
 {
-    public readonly string[] ResistorColorNames = { "Black", "White", "Blue", "Brown", "Grey", "Green", "Orange", "Purple", "Red", "Yellow", "Gold", "Silver" };
     public readonly string[] MeterColors = { "Red", "Orange", "Yellow", "Green", "Blue", "Purple" };
     public readonly string[] KeyColors = { "Black", "Blue", "Green", "Orange", "Pink", "Purple", "Red", "White", "Yellow" };
     public static readonly string[] ButtonList = { "PRESS", "HOLD", "DETONATE", "MASH", "TAP", "PUSH", "ABORT", "BUTTON", "CLICK", "", "NOTHING", "NO", "I DON'T KNOW", "YES" };
@@ -84,6 +83,24 @@ public class ComponentInfo
         Red,
         White,
         Yellow
+    }
+
+    // This deviates from alphabetical order because of how each strip needs a specific range of colors.
+    // Every color is present on every strip except for black, white, gold, and silver.
+    public enum ResistorColorNames
+    {
+        Black,
+        White,
+        Blue,
+        Brown,
+        Grey,
+        Green,
+        Orange,
+        Purple,
+        Red,
+        Yellow,
+        Gold,
+        Silver
     }
 
     //Colors
@@ -419,17 +436,17 @@ public class ComponentInfo
 
         if (ResistorReversed[ResistorNumber])
         {
-            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 6]]);
-            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 4]]);
-            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 2]]);
-            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 0]]);
+            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 6]));
+            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 4]));
+            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 2]));
+            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 0]));
         }
         else
         {
-            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 0]]);
-            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 2]]);
-            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 4]]);
-            Names.Add(ResistorColorNames[ResistorColors[ResistorNumber + 6]]);
+            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 0]));
+            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 2]));
+            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 4]));
+            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 6]));
         }
 
         return Names.Join(", ");
