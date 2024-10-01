@@ -99,7 +99,7 @@ public class TestPuzzle : Puzzle
         else
         {
             int Color = Random.Range(1, 9);
-            Debug.LogFormat("[The Cruel Modkit #{0}] Symbol {1} was turned on with a {2} light.", ModuleID, Symbol + 1, Info.KeyColors[Color]);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Symbol {1} was turned on with a {2} light.", ModuleID, Symbol + 1, Enum.GetName(typeof(ComponentInfo.KeyColors), Color));
             Module.Symbols[Symbol].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = Module.KeyLightMats[Color];
         }
         SymbolsOn[Symbol] = !SymbolsOn[Symbol];
@@ -124,7 +124,7 @@ public class TestPuzzle : Puzzle
         else
         {
             int Color = Random.Range(1, 9);
-            Debug.LogFormat("[The Cruel Modkit #{0}] Alphanumeric key {1} was turned on with a {2} light.", ModuleID, Alphabet + 1, Info.KeyColors[Color]);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Alphanumeric key {1} was turned on with a {2} light.", ModuleID, Alphabet + 1, Enum.GetName(typeof(ComponentInfo.KeyColors), Color));
             Module.Alphabet[Alphabet].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = Module.KeyLightMats[Color];
         }
         AlphabetOn[Alphabet] = !AlphabetOn[Alphabet];

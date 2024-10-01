@@ -6,7 +6,6 @@ using Random = UnityEngine.Random;
 
 public class ComponentInfo
 {
-    public readonly string[] KeyColors = { "Black", "Blue", "Green", "Orange", "Pink", "Purple", "Red", "White", "Yellow" };
     public static readonly string[] ButtonList = { "PRESS", "HOLD", "DETONATE", "MASH", "TAP", "PUSH", "ABORT", "BUTTON", "CLICK", "", "NOTHING", "NO", "I DON'T KNOW", "YES" };
     public static readonly string[] SymbolCharacters = { "©", "★", "☆", "ټ", "Җ", "Ω", "Ѭ", "Ѽ", "ϗ", "ϫ", "Ϭ", "Ϟ", "Ѧ", "æ", "Ԇ", "Ӭ", "҈", "Ҋ", "Ѯ", "¿", "¶", "Ͼ", "Ͽ", "ψ", "Ѫ", "Ҩ", "҂", "Ϙ", "ζ", "ƛ", "Ѣ", "ע", "⦖", "ኒ", "エ", "π", "Э", "⁋", "ᛤ", "Ƿ", "Щ", "ξ", "Ᵹ", "Ю", "௵", "ϑ", "Triquetra", "ꎵ", "よ" };
     //                                                         blue,                  green,                red,             yellow,               cyan,            gold-yellow,            magenta,                 orange,                          grey,               white
@@ -81,16 +80,6 @@ public class ComponentInfo
         White,
         Yellow
     }
-    public enum MeterColors
-    {
-        Red,
-        Orange,
-        Yellow,
-        Green,
-        Blue,
-        Purple
-    }
-
     // This deviates from alphabetical order because of how each strip needs a specific range of colors.
     // Every color is present on every strip except for black, white, gold, and silver.
     public enum ResistorColorNames
@@ -107,6 +96,27 @@ public class ComponentInfo
         Yellow,
         Gold,
         Silver
+    }
+    public enum MeterColors
+    {
+        Red,
+        Orange,
+        Yellow,
+        Green,
+        Blue,
+        Purple
+    }
+    public enum KeyColors
+    {
+        Black,
+        Blue,
+        Green,
+        Orange,
+        Pink,
+        Purple,
+        Red,
+        White,
+        Yellow
     }
 
     //Colors

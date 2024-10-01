@@ -407,15 +407,15 @@ public class CruelModkitScript : MonoBehaviour
     {
         if (IsSymbols)
         {
-            Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[6];
+            Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Red];
             yield return new WaitForSeconds(1f);
-            Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[0];
+            Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Black];
         }
         else
         {
-            Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[6];
+            Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Red];
             yield return new WaitForSeconds(1f);
-            Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[0];
+            Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Black];
         }
     }
 
