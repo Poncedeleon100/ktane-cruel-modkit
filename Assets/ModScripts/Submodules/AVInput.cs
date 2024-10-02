@@ -67,7 +67,7 @@ public class AVInput : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.PianoKeyNames[Piano], Module.GetOnComponents(), Module.GetTargetComponents());
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)Piano], Module.GetOnComponents(), Module.GetTargetComponents());
                 Module.CauseStrike();
                 return;
             }
@@ -76,7 +76,7 @@ public class AVInput : Puzzle
         }
         if (Piano == lastPress & !BulbScrewedIn.Contains(false))
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Pressed the {1} key twice in a row. Turning both bulbs off.", ModuleID, Info.PianoKeyNames[Piano]);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Pressed the {1} key twice in a row. Turning both bulbs off.", ModuleID, ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)Piano]);
             ChangeBulb(0, false);
             ChangeBulb(1, false);
             Module.CauseStrike();
@@ -191,13 +191,13 @@ public class AVInput : Puzzle
         {
             if (Info.BulbInfo[4] == (Button == 2))
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Incorrectly pressed the O key for resetting after the white key {1}.", ModuleID, Info.PianoKeyNames[lastPress]);
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Incorrectly pressed the O key for resetting after the white key {1}.", ModuleID, ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)lastPress]);
                 Module.CauseStrike();
                 return;
             }
             else
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Correctly pressed the I key for resetting after the white key {1}.", ModuleID, Info.PianoKeyNames[lastPress]);
+                Debug.LogFormat("[The Cruel Modkit #{0}] Correctly pressed the I key for resetting after the white key {1}.", ModuleID, ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)lastPress]);
                 ChangeBulb(0, false);
                 ChangeBulb(1, false);
                 lastPress = -1;
@@ -207,14 +207,14 @@ public class AVInput : Puzzle
         {
             if (Info.BulbInfo[4] == (Button == 2))
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Correctly pressed the O key for resetting after the black key {1}.", ModuleID, Info.PianoKeyNames[lastPress]);
+                Debug.LogFormat("[The Cruel Modkit #{0}] Correctly pressed the O key for resetting after the black key {1}.", ModuleID, ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)lastPress]);
                 ChangeBulb(0, false);
                 ChangeBulb(1, false);
                 lastPress = -1; 
             }
             else
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Incorrectly pressed the I key for resetting after the black key {1}.", ModuleID, Info.PianoKeyNames[lastPress]);
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Incorrectly pressed the I key for resetting after the black key {1}.", ModuleID, ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)lastPress]);
                 Module.CauseStrike();
                 return;
             }
@@ -230,6 +230,6 @@ public class AVInput : Puzzle
 
     private string LogScale (List<int> Scale)
     {
-        return Scale.Select(x => Info.PianoKeyNames[x]).Join(", ");
+        return Scale.Select(x => ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)x]).Join(", ");
     }
 }

@@ -44,7 +44,7 @@ public class UnscrewMaze : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.ArrowDirections[Arrow], Module.GetOnComponents(), Module.GetTargetComponents());
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, ComponentInfo.ArrowDirectionNames[(ComponentInfo.ArrowDirections)Arrow], Module.GetOnComponents(), Module.GetTargetComponents());
                 Module.CauseStrike();
                 return;
             }
@@ -67,7 +67,7 @@ public class UnscrewMaze : Puzzle
         }
         if (!maze[curPos].Contains(movementNum.ToString()))
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! You hit a wall by moving {1} at the coordinates ({2}, {3}). Resetting maze position.", ModuleID, Info.ArrowDirections[movementNum].ToLower(), Math.Floor(curPos / 6f) + 1, (curPos % 6) + 1);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! You hit a wall by moving {1} at the coordinates ({2}, {3}). Resetting maze position.", ModuleID, ComponentInfo.ArrowDirectionNames[(ComponentInfo.ArrowDirections)movementNum].ToLower(), Math.Floor(curPos / 6f) + 1, (curPos % 6) + 1);
             curPos = positions[0];
             UpdateMorse();
             Module.CauseStrike();

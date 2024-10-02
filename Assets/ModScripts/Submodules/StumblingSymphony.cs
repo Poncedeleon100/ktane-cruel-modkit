@@ -171,7 +171,7 @@ public class StumblingSymphony : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.PianoKeyNames[Piano], Module.GetOnComponents(), Module.GetTargetComponents());
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)Piano], Module.GetOnComponents(), Module.GetTargetComponents());
 
             }
             else

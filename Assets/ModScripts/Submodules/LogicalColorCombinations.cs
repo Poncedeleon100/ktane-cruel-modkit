@@ -75,7 +75,7 @@ public class LogicalColorCombinations : Puzzle
         {
             flashes[i] = Random.Range(0, 4);
         }
-        Debug.LogFormat("[The Cruel Modkit #{0}] Arrow's flashing sequence is {1}. Press the ❖ button to play this sequence.", ModuleID, flashes.Select(x => ComponentInfo.ArrowColors[Info.Arrows[x]]).Join(", "));
+        Debug.LogFormat("[The Cruel Modkit #{0}] Arrow's flashing sequence is {1}. Press the ❖ button to play this sequence.", ModuleID, flashes.Select(x => ComponentInfo.ArrowColorNames[(ComponentInfo.ArrowColors)Info.Arrows[x]]).Join(", "));
         Debug.LogFormat("[The Cruel Modkit #{0}] The LEDs are {1}.", ModuleID, Info.GetLEDInfo());
         for (int i = 0; i < 4; i++)
         {
@@ -176,7 +176,7 @@ public class LogicalColorCombinations : Puzzle
 
         if (!Module.CheckValidComponents())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.ArrowDirections[Arrow], Module.GetOnComponents(), Module.GetTargetComponents());
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, ComponentInfo.ArrowDirectionNames[(ComponentInfo.ArrowDirections)Arrow], Module.GetOnComponents(), Module.GetTargetComponents());
             Module.CauseStrike();
             return;
         }

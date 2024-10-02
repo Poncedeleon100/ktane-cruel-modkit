@@ -6,126 +6,95 @@ using Random = UnityEngine.Random;
 
 public class ComponentInfo
 {
+    // Strings
     public static readonly string[] ButtonList = { "PRESS", "HOLD", "DETONATE", "MASH", "TAP", "PUSH", "ABORT", "BUTTON", "CLICK", "", "NOTHING", "NO", "I DON'T KNOW", "YES" };
     public static readonly string[] SymbolCharacters = { "©", "★", "☆", "ټ", "Җ", "Ω", "Ѭ", "Ѽ", "ϗ", "ϫ", "Ϭ", "Ϟ", "Ѧ", "æ", "Ԇ", "Ӭ", "҈", "Ҋ", "Ѯ", "¿", "¶", "Ͼ", "Ͽ", "ψ", "Ѫ", "Ҩ", "҂", "Ϙ", "ζ", "ƛ", "Ѣ", "ע", "⦖", "ኒ", "エ", "π", "Э", "⁋", "ᛤ", "Ƿ", "Щ", "ξ", "Ᵹ", "Ю", "௵", "ϑ", "Triquetra", "ꎵ", "よ" };
-    //                                                         blue,                  green,                red,             yellow,               cyan,            gold-yellow,            magenta,                 orange,                          grey,               white
-    public readonly Color[] ArrowLightColors = { new Color(0, 0, 1), new Color(0, .737f, 0), new Color(1, 0, 0), new Color(1, 1, 0), new Color(0, 1, 1), new Color(1, .753f, 0), new Color(1, 0, 1), new Color(1, .647f, 0), new Color(.326f, .326f, .326f), new Color(1, 1, 1) };
-    public static readonly string[] ArrowColors = { "Blue", "Green", "Red", "Yellow", "Cyan", "Gold-Yellow", "Magenta", "Orange", "Grey", "White" };
-    public readonly string[] IdentityNames = { "Clondar", "Colonel Mustard", "Cyanix", "Dr Orchid", "GhostSalt", "Konoko", "Lanaluff", "Magmy", "Melbor", "Miss Scarlett", "Mrs Peacock", "Mrs White", "Nibs", "Percy", "Pouse", "Professor Plum", "Red Penguin", "Reverend Green", "Sameone", "VFlyer", "Yabbaguy", "Yoshi Dojo" };
-    public readonly string[] IdentityItems = { "Candlestick", "Wrench", "Lead Pipe", "Rope", "Dagger", "Broom", "Revolver", "Water Gun", "Pearls", "Cane", "Bundle of Wires", "Giant Ring", "Specimen", "Fruit Basket", "Dozen Eggs", "Toolkit", "Hand Mirror", "Simon Says", "Manga", "Fishbowl", "Bomb", "Salt" };
-    public readonly string[] IdentityLocations = { "Ballroom", "Conservatory", "Study", "Lounge", "Library", "Dining Room", "Hall", "Dojo", "Barnyard", "Treehouse", "I.T. Centre", "vOld", "Laboratory", "Supermarket", "Island", "Factory", "Home Depot", "Office", "Anime Con", "Arctic Base", "Solitary", "Mansion" };
-    public readonly string[] IdentityRarity = { "●", "♦", "★", "☆" };
-    //                                                           blue,               cyan,                green,                           grey,               lime,                 orange,                       pink,                     purple,                red,              white,            yellow
-    public readonly Color[] BulbColorValues = {  new Color(0, 0, .5f), new Color(0, 1, 1), new Color(0, .5f, 0), new Color(.326f, .326f, .326f), new Color(0, 1, 0), new Color(1, .502f, 0), new Color(1, .235f, .784f), new Color(.498f, 0, .498f), new Color(1, 0, 0), new Color(1, 1, 1), new Color(1, 1, 0) };
+    public static readonly string[] IdentityNames = { "Clondar", "Colonel Mustard", "Cyanix", "Dr. Orchid", "GhostSalt", "Konoko", "Lanaluff", "Magmy", "Melbor", "Miss Scarlett", "Mrs. Peacock", "Mrs. White", "Nibs", "Percy", "Pouse", "Professor Plum", "Red Penguin", "Reverend Green", "Sameone", "VFlyer", "Yabbaguy", "Yoshi Dojo" };
+    public static readonly string[] IdentityItems = { "Candlestick", "Wrench", "Lead Pipe", "Rope", "Dagger", "Broom", "Revolver", "Water Gun", "Pearls", "Cane", "Bundle of Wires", "Giant Ring", "Specimen", "Fruit Basket", "Dozen Eggs", "Toolkit", "Hand Mirror", "Simon Says", "Manga", "Fishbowl", "Bomb", "Salt" };
+    public static readonly string[] IdentityLocations = { "Ballroom", "Conservatory", "Study", "Lounge", "Library", "Dining Room", "Hall", "Dojo", "Barnyard", "Treehouse", "I.T. Centre", "vOld", "Laboratory", "Supermarket", "Island", "Factory", "Home Depot", "Office", "Anime Con", "Arctic Base", "Solitary", "Mansion" };
+    public static readonly string[] IdentityRarity = { "●", "♦", "★", "☆" };
     public static readonly string[] WordList = { "YES", "FIRST", "DISPLAY", "A DISPLAY", "OKAY", "OK", "SAYS", "SEZ", "NOTHING", "", "BLANK", "IT’S BLANK", "NO", "KNOW", "NOSE", "KNOWS", "LED", "LEAD", "LEED", "READ", "RED", "REED", "HOLD ON", "YOU", "U", "YOU ARE", "UR", "YOUR", "YOU’RE", "THERE", "THEY’RE", "THEIR", "THEY ARE", "SEE", "C", "SEA", "CEE", "READY", "WHAT", "WHAT?", "UH", "UHHH", "UH UH", "UH HUH", "LEFT", "RIGHT", "WRITE", "MIDDLE", "WAIT", "WAIT!", "WEIGHT", "PRESS", "DONE", "DUMB", "NEXT", "HOLD", "SURE", "LIKE", "LICK", "LEEK", "LEAK", "I", "INDIA", "EYE" };
-    public readonly string[] MorseList = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+    public static readonly string[] MorseList = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
-    //For converting adjacent arrow colors into their associated slider colors. Colors within string pairs are ordered alphabetically: Blue, Green, Red, Yellow
-    readonly Dictionary<string, int> SliderColors = new Dictionary<string, int>
+    // Dictionaries
+    // For converting adjacent arrow colors into their associated slider colors. Colors within string pairs must be ordered alphabetically: Blue, Green, Red, Yellow
+    static readonly Dictionary<string, int> SliderColors = new Dictionary<string, int>
     {
-        { "00", 0 }, //Blue
-        { "11", 1 }, //Green
-        { "22", 2 }, //Red
-        { "33", 3 }, //Yellow
-        { "01", 4 }, //Cyan
-        { "12", 5 }, //Golden Yellow
-        { "02", 6 }, //Magenta
-        { "23", 7 }, //Orange
-        { "03", 8 }, //Grey
-        { "13", 9 }, //White
+        { ((int)ArrowColors.Blue).ToString() +   ((int)ArrowColors.Blue).ToString(),   (int)ArrowColors.Blue },
+        { ((int)ArrowColors.Green).ToString() +  ((int)ArrowColors.Green).ToString(),  (int)ArrowColors.Green },
+        { ((int)ArrowColors.Red).ToString() +    ((int)ArrowColors.Red).ToString(),    (int)ArrowColors.Red },
+        { ((int)ArrowColors.Yellow).ToString() + ((int)ArrowColors.Yellow).ToString(), (int)ArrowColors.Yellow },
+        { ((int)ArrowColors.Blue).ToString() +   ((int)ArrowColors.Green).ToString(),  (int)ArrowColors.Cyan },
+        { ((int)ArrowColors.Green).ToString() +  ((int)ArrowColors.Red).ToString(),    (int)ArrowColors.GoldYellow },
+        { ((int)ArrowColors.Blue).ToString() +   ((int)ArrowColors.Red).ToString(),    (int)ArrowColors.Magenta },
+        { ((int)ArrowColors.Red).ToString() +    ((int)ArrowColors.Yellow).ToString(), (int)ArrowColors.Orange },
+        { ((int)ArrowColors.Blue).ToString() +   ((int)ArrowColors.Yellow).ToString(), (int)ArrowColors.Grey },
+        { ((int)ArrowColors.Green).ToString() +  ((int)ArrowColors.Yellow).ToString(), (int)ArrowColors.White },
+    };
+    // These dictionaries are intended to convert unfriendly enum names into friendly names for helpful logging
+    public static readonly Dictionary<PianoKeys, string> PianoKeyNames = new Dictionary<PianoKeys, string>
+    {
+        { PianoKeys.C, "C" },
+        { PianoKeys.Db, "C#/Db" },
+        { PianoKeys.D, "D" },
+        { PianoKeys.Eb, "D#/Eb" },
+        { PianoKeys.E, "E" },
+        { PianoKeys.F, "F" },
+        { PianoKeys.Gb, "F#/Gb" },
+        { PianoKeys.G, "G" },
+        { PianoKeys.Ab, "G#/Ab" },
+        { PianoKeys.A, "A" },
+        { PianoKeys.Bb, "A#/Bb" },
+        { PianoKeys.B, "B" },
+    };
+    public static readonly Dictionary<ArrowColors, string> ArrowColorNames = new Dictionary<ArrowColors, string>
+    {
+        { ArrowColors.Blue, "Blue" },
+        { ArrowColors.Green, "Green" },
+        { ArrowColors.Red, "Red" },
+        { ArrowColors.Yellow, "Yellow" },
+        { ArrowColors.Cyan, "Cyan" },
+        { ArrowColors.GoldYellow, "Golden Yellow" },
+        { ArrowColors.Magenta, "Magenta" },
+        { ArrowColors.Orange, "Orange" },
+        { ArrowColors.Grey, "Grey" },
+        { ArrowColors.White, "White" }
+    };
+    public static readonly Dictionary<ArrowDirections, string> ArrowDirectionNames = new Dictionary<ArrowDirections, string>
+    {
+        { ArrowDirections.Up, "Up" },
+        { ArrowDirections.Right, "Right" },
+        { ArrowDirections.Down, "Down" },
+        { ArrowDirections.Left, "Left" },
+        { ArrowDirections.UpRight, "Up-Right" },
+        { ArrowDirections.DownRight, "Down-Right" },
+        { ArrowDirections.DownLeft, "Down-Left" },
+        { ArrowDirections.UpLeft, "Up-Left" },
+        { ArrowDirections.Center, "Center" },
     };
 
     // Enums
-    public enum WireColors
-    {
-        Black,
-        Blue,
-        Cyan,
-        Green,
-        Grey,
-        Lime,
-        Orange,
-        Pink,
-        Purple,
-        Red,
-        White,
-        Yellow
-    }
+    public enum WireColors { Black, Blue, Cyan, Green, Grey, Lime, Orange, Pink, Purple, Red, White, Yellow }
     // Used for Wire LEDs, Button, and LEDs
-    public enum MainColors
-    {
-        Black,
-        Blue,
-        Cyan,
-        Green,
-        Lime,
-        Orange,
-        Pink,
-        Purple,
-        Red,
-        White,
-        Yellow,
-    }
-    public enum BulbColorNames
-    {
-        Blue,
-        Cyan,
-        Green,
-        Grey,
-        Lime,
-        Orange,
-        Pink,
-        Purple,
-        Red,
-        White,
-        Yellow
-    }
-    // This deviates from alphabetical order because of how each strip needs a specific range of colors.
+    public enum MainColors { Black, Blue, Cyan, Green, Lime, Orange, Pink, Purple, Red, White, Yellow }
+    public enum BulbColorNames { Blue, Cyan, Green, Grey, Lime, Orange, Pink, Purple, Red, White, Yellow }
+    // This one deviates from alphabetical order because of how each strip needs a specific range of colors.
     // Every color is present on every strip except for black, white, gold, and silver.
-    public enum ResistorColorNames
-    {
-        Black,
-        White,
-        Blue,
-        Brown,
-        Grey,
-        Green,
-        Orange,
-        Purple,
-        Red,
-        Yellow,
-        Gold,
-        Silver
-    }
-    public enum MeterColors
-    {
-        Red,
-        Orange,
-        Yellow,
-        Green,
-        Blue,
-        Purple
-    }
-    public enum KeyColors
-    {
-        Black,
-        Blue,
-        Green,
-        Orange,
-        Pink,
-        Purple,
-        Red,
-        White,
-        Yellow
-    }
+    public enum ResistorColorNames { Black, White, Blue, Brown, Grey, Green, Orange, Purple, Red, Yellow, Gold, Silver }
+    public enum MeterColors { Red, Orange, Yellow, Green, Blue, Purple }
+    public enum KeyColors { Black, Blue, Green, Orange, Pink, Purple, Red, White, Yellow }
+    // The following enums have unfriendly names, so use them as puzzle constants only and use the associated dictionaries for logging
+    public enum PianoKeys { C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B }
+    public enum ArrowColors { Blue, Green, Red, Yellow, Cyan, GoldYellow, Magenta, Orange, Grey, White }
+    public enum ArrowDirections { Up, Right, Down, Left, UpRight, DownRight, DownLeft, UpLeft, Center }
 
     //Colors
     public static readonly Color ButtonTextWhite = new Color(1, 1, 1);
     public static readonly Color ButtonTextBlack = new Color(0, 0, 0);
-
-    //Logging
-    public readonly string[] PianoKeyNames = { "C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B" };
-    public readonly string[] ArrowDirections = { "Up", "Right", "Down", "Left", "Up/Right", "Down/Right", "Down/Left", "Up/Left", "Center" };
+    //                                                                blue,                  green,                red,             yellow,               cyan,            gold-yellow,            magenta,                 orange,                          grey,               white
+    public static readonly Color[] ArrowLightColors = { new Color(0, 0, 1), new Color(0, .737f, 0), new Color(1, 0, 0), new Color(1, 1, 0), new Color(0, 1, 1), new Color(1, .753f, 0), new Color(1, 0, 1), new Color(1, .647f, 0), new Color(.326f, .326f, .326f), new Color(1, 1, 1) };
+    //                                                                 blue,               cyan,                green,                           grey,               lime,                 orange,                       pink,                     purple,                red,              white,            yellow
+    public static readonly Color[] BulbColorValues = { new Color(0, 0, .5f), new Color(0, 1, 1), new Color(0, .5f, 0), new Color(.326f, .326f, .326f), new Color(0, 1, 0), new Color(1, .502f, 0), new Color(1, .235f, .784f), new Color(.498f, 0, .498f), new Color(1, 0, 0), new Color(1, 1, 1), new Color(1, 1, 0) };
 
     //Variables to be accessed in the main script
     public int[][] Wires = new int[][]
@@ -182,7 +151,7 @@ public class ComponentInfo
         }
         WireLED = Temp.ToArray();
         //Generate color and text for Button
-        ButtonText = ButtonList[Random.Range(0, 14)];
+        ButtonText = ButtonList[Random.Range(0, ButtonList.Length)];
         Button = Random.Range(0, 11);
         //Generate colors for LEDs
         Temp.Clear();
@@ -443,7 +412,12 @@ public class ComponentInfo
 
     public string GetArrowsInfo()
     {
-        return "Up: " + ArrowColors[Arrows[0]] + ", Right: " + ArrowColors[Arrows[1]] + ", Down: " + ArrowColors[Arrows[2]] + ", Left: " + ArrowColors[Arrows[3]] + ", Up-Right: " + ArrowColors[Arrows[4]] + ", Down-Right: " + ArrowColors[Arrows[5]] + ", Down-Left: " + ArrowColors[Arrows[6]] + ", Up-Left: " + ArrowColors[Arrows[7]] + ", Center: " + ArrowColors[Arrows[8]];
+        string[] Names = new string[Arrows.Length];
+
+        foreach (int Arrow in Arrows)
+            Names[Array.IndexOf(Arrows, Arrow)] = ArrowColorNames[(ArrowColors)Arrow];
+
+        return "Up: " + Names[0] + ", Right: " + Names[1] + ", Down: " + Names[2] + ", Left: " + Names[3] + ", Up-Right: " + Names[4] + ", Down-Right: " + Names[5] + ", Down-Left: " + Names[6] + ", Up-Left: " + Names[7] + ", Center: " + Names[8];
     }
 
     public string GetResistorInfo(int ResistorNumber)

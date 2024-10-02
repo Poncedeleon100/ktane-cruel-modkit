@@ -44,7 +44,7 @@ public class PianoDecryption : Puzzle
         EncryptWord();
         solutionSequence = noteSequences[decryptedWord];
         if (decryptedWord == "ZAMBIA") repeats = Random.Range(3, 7);
-        Debug.LogFormat("[The Cruel Modkit #{0}] Solution piano sequence: {1}{2}.", ModuleID, solutionSequence.Select(x => Info.PianoKeyNames[x]).Join(", "),
+        Debug.LogFormat("[The Cruel Modkit #{0}] Solution piano sequence: {1}{2}.", ModuleID, solutionSequence.Select(x => ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)x]).Join(", "),
             repeats > 1 ? (" (played " + repeats.ToString() + " times)") : "");
     }
 
@@ -63,7 +63,7 @@ public class PianoDecryption : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.PianoKeyNames[Piano], Module.GetOnComponents(), Module.GetTargetComponents());
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)Piano], Module.GetOnComponents(), Module.GetTargetComponents());
                 Module.CauseStrike();
                 return;
             }
@@ -72,7 +72,7 @@ public class PianoDecryption : Puzzle
         }
         if (Piano != solutionSequence[repeats > 1 ? currentNote % solutionSequence.Length : currentNote])
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key was pressed instead of {2}. Resetting input.", ModuleID, Info.PianoKeyNames[Piano], Info.PianoKeyNames[solutionSequence[currentNote]]);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key was pressed instead of {2}. Resetting input.", ModuleID, ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)Piano], ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)solutionSequence[currentNote]]);
             Module.CauseStrike();
             currentNote = 0;
             return;
