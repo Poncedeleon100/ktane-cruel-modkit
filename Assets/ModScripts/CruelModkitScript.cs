@@ -663,7 +663,7 @@ public class CruelModkitScript : MonoBehaviour
         Button.transform.GetComponentInChildren<Renderer>().material = ButtonMats[Info.Button];
         Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
         if(Info.Button == 0 || Info.Button == 1 || Info.Button == 7)
-            Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ComponentInfo.ButtonTextWhite;
+            Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ButtonTextWhite;
         //Set materials for LEDs
         for(int i = 0; i < LED.Length; i++)
             LED[i].transform.Find("LEDL").GetComponentInChildren<Renderer>().material = LEDMats[Info.LED[i]];
@@ -677,7 +677,7 @@ public class CruelModkitScript : MonoBehaviour
         for(int i = 0; i < 9; i++)
         {
             Arrows[i].GetComponentInChildren<Renderer>().material = ArrowMats[Info.Arrows[i]];
-            Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = ComponentInfo.ArrowLightColors[Info.Arrows[i]];
+            Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = ArrowLightColors[Info.Arrows[i]];
             Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().intensity += (Info.Arrows[i] == 8) ? 10 : 0;
         }
         //Set I/O buttons and bulb colors/opacity for Bulbs
@@ -692,7 +692,7 @@ public class CruelModkitScript : MonoBehaviour
             //Set filament visibility based on opacity of the bulb
             Bulbs[i].transform.Find("Filament").gameObject.SetActive(!Info.BulbInfo[i]);
             //Set bulb glass color and opacity
-            Color TempBulbColor = ComponentInfo.BulbColorValues[Info.BulbColors[i]];
+            Color TempBulbColor = BulbColorValues[Info.BulbColors[i]];
             TempBulbColor[3] = Info.BulbInfo[i] ? 1f : .55f;
             Bulbs[i].transform.Find("Glass").GetComponentInChildren<Renderer>().material.color = TempBulbColor;
             //Set bulb light color
@@ -702,9 +702,9 @@ public class CruelModkitScript : MonoBehaviour
         }
         //Set materials and text for Identity
         Identity[0].transform.GetComponentInChildren<Renderer>().material = IdentityMats[Info.Identity[0]];
-        Identity[1].transform.GetComponentInChildren<TextMesh>().text = ComponentInfo.IdentityItems[Info.Identity[1]];
-        Identity[2].transform.GetComponentInChildren<TextMesh>().text = ComponentInfo.IdentityLocations[Info.Identity[2]];
-        Identity[3].transform.GetComponentInChildren<TextMesh>().text = ComponentInfo.IdentityRarity[Info.Identity[3]];
+        Identity[1].transform.GetComponentInChildren<TextMesh>().text = IdentityItems[Info.Identity[1]];
+        Identity[2].transform.GetComponentInChildren<TextMesh>().text = IdentityLocations[Info.Identity[2]];
+        Identity[3].transform.GetComponentInChildren<TextMesh>().text = IdentityRarity[Info.Identity[3]];
         //Set materials and text for Resistor
         for (int i = 0; i < ResistorStrips.Length; i++)
             ResistorStrips[i].GetComponentInChildren<Renderer>().material = ResistorMats[Info.ResistorColors[i]];
