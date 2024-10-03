@@ -4,6 +4,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using static ComponentInfo;
 
 public class MeteredButton : Puzzle
 {
@@ -187,7 +188,7 @@ public class MeteredButton : Puzzle
     string FindAction()
     {
         int[] colorConverter = { 8, 6, 5, 4, 3, 1, 999, 7, 0, 9, 2 };
-        int table1Num = table1[Array.IndexOf(ComponentInfo.ButtonList, Info.ButtonText), colorConverter[Info.Button]];
+        int table1Num = table1[Array.IndexOf(ButtonList, Info.ButtonText), colorConverter[Info.Button]];
         string table2Action = table2[table1Num, Info.NumberDisplay];
 
         return table2Action;
@@ -253,16 +254,16 @@ public class MeteredButton : Puzzle
 
     void GenButton()
     {
-        Info.ButtonText = ComponentInfo.ButtonList[Random.Range(0, 14)];
+        Info.ButtonText = ButtonList[Random.Range(0, 14)];
         int newCol = Random.Range(0, 11);
         while (newCol == 6)  newCol = Random.Range(0, 11);
         Info.Button = newCol;
         Module.Button.transform.GetComponentInChildren<Renderer>().material = Module.ButtonMats[Info.Button];
         Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
         if (Info.Button == 0 || Info.Button == 1 || Info.Button == 7)
-            Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ComponentInfo.ButtonTextWhite;
+            Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ButtonTextWhite;
         else
-            Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ComponentInfo.ButtonTextBlack;
+            Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ButtonTextBlack;
         Debug.LogFormat("[The Cruel Modkit #{0}] Button is {1}.", ModuleID, Info.GetButtonInfo());
     }
 

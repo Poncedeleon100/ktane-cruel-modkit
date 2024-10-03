@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static ComponentInfo;
 
 public class DerangedKeypad : Puzzle
 {
@@ -65,7 +66,7 @@ public class DerangedKeypad : Puzzle
     private IEnumerator ChangeButton()
     {
         yield return Module.StartCoroutine(Module.HideComponent(CruelModkitScript.ComponentsEnum.Button));
-        Info.ButtonText = ComponentInfo.ButtonList[UnityEngine.Random.Range(0, 14)];
+        Info.ButtonText = ButtonList[UnityEngine.Random.Range(0, 14)];
         Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
         yield return new WaitForSeconds(.5f);
         yield return Module.StartCoroutine(Module.ShowComponent(CruelModkitScript.ComponentsEnum.Button));

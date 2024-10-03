@@ -3,6 +3,7 @@ using System.Diagnostics; // to track how long each button has been held
 using System.Linq;
 using KModkit;
 using Random = UnityEngine.Random;
+using static ComponentInfo;
 
 public class WhosWho : Puzzle
 {
@@ -117,7 +118,7 @@ public class WhosWho : Puzzle
         int listBLength = Random.Range(10, 16);
         do
         {
-            word = ComponentInfo.WordList.PickRandom();
+            word = WordList.PickRandom();
             if (!listB.Contains(word))
                 listB.Add(word);
         } while (listB.Count < listBLength);

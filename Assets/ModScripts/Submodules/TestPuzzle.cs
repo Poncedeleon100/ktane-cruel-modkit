@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
-
+using static ComponentInfo;
 
 public class TestPuzzle : Puzzle
 {
@@ -19,11 +18,11 @@ public class TestPuzzle : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] Symbols present: {1}.", ModuleID, Info.GetSymbolInfo());
         Debug.LogFormat("[The Cruel Modkit #{0}] Alphanumeric keys present: {1}.", ModuleID, Info.GetAlphabetInfo());
         Debug.LogFormat("[The Cruel Modkit #{0}] Arrows present: {1}.", ModuleID, Info.GetArrowsInfo());
-        Debug.LogFormat("[The Cruel Modkit #{0}] Bulb 1 is {1}, {2}, and {3}. Bulb 2 is {4}, {5}, and {6}. The O button is on the {7}.", ModuleID, Enum.GetName(typeof(ComponentInfo.BulbColorNames), Info.BulbColors[0]), Info.BulbInfo[0] ? "opaque" : "see-through", Info.BulbInfo[2] ? "on" : "off", Enum.GetName(typeof(ComponentInfo.BulbColorNames), Info.BulbColors[1]), Info.BulbInfo[1] ? "opaque" : "see-through", Info.BulbInfo[3] ? "on" : "off", Info.BulbInfo[4] ? "left" : "right");
-        Debug.LogFormat("[The Cruel Modkit #{0}] Identity is {1}, with item {2}, at the location {3}, and a rarity of {4}.", ModuleID, ComponentInfo.IdentityNames[Info.Identity[0]], ComponentInfo.IdentityItems[Info.Identity[1]], ComponentInfo.IdentityLocations[Info.Identity[2]], ComponentInfo.IdentityRarity[Info.Identity[3]]);
+        Debug.LogFormat("[The Cruel Modkit #{0}] Bulb 1 is {1}, {2}, and {3}. Bulb 2 is {4}, {5}, and {6}. The O button is on the {7}.", ModuleID, Enum.GetName(typeof(BulbColorNames), Info.BulbColors[0]), Info.BulbInfo[0] ? "opaque" : "see-through", Info.BulbInfo[2] ? "on" : "off", Enum.GetName(typeof(BulbColorNames), Info.BulbColors[1]), Info.BulbInfo[1] ? "opaque" : "see-through", Info.BulbInfo[3] ? "on" : "off", Info.BulbInfo[4] ? "left" : "right");
+        Debug.LogFormat("[The Cruel Modkit #{0}] Identity is {1}, with item {2}, at the location {3}, and a rarity of {4}.", ModuleID, IdentityNames[Info.Identity[0]], IdentityItems[Info.Identity[1]], IdentityLocations[Info.Identity[2]], IdentityRarity[Info.Identity[3]]);
         Debug.LogFormat("[The Cruel Modkit #{0}] Resistor 1 colors are (Reading from {1}): {2}. Left letter is {3}, right letter is {4}.", ModuleID, Info.ResistorReversed[0] ? "right to left" : "left to right", Info.GetResistorInfo(0), Info.ResistorText[0], Info.ResistorText[1]);
         Debug.LogFormat("[The Cruel Modkit #{0}] Resistor 2 colors are (Reading from {1}): {2}. Left letter is {3}, right letter is {4}.", ModuleID, Info.ResistorReversed[1] ? "right to left" : "left to right", Info.GetResistorInfo(1), Info.ResistorText[2], Info.ResistorText[3]);
-        Debug.LogFormat("[The Cruel Modkit #{0}] Widgets: Timer display is {1}. Word display is {2}. Number display is {3}. Morse code LED is {4}. Meter is {5} and at {6}%.", ModuleID, Info.TimerDisplay.ToString().PadLeft(5, '0'), Info.WordDisplay == "" ? "blank" : Info.WordDisplay, Info.NumberDisplay, Info.Morse, (Info.MeterValue == 0) ? "none" : Enum.GetName(typeof(ComponentInfo.MeterColors), Info.MeterColor), (100 * Math.Round(Info.MeterValue, 2)).ToString());
+        Debug.LogFormat("[The Cruel Modkit #{0}] Widgets: Timer display is {1}. Word display is {2}. Number display is {3}. Morse code LED is {4}. Meter is {5} and at {6}%.", ModuleID, Info.TimerDisplay.ToString().PadLeft(5, '0'), Info.WordDisplay == "" ? "blank" : Info.WordDisplay, Info.NumberDisplay, Info.Morse, (Info.MeterValue == 0) ? "none" : Enum.GetName(typeof(MeterColors), Info.MeterColor), (100 * Math.Round(Info.MeterValue, 2)).ToString());
     }
 
     readonly List<int> WiresCut = new List<int>();
@@ -99,7 +98,7 @@ public class TestPuzzle : Puzzle
         else
         {
             int Color = Random.Range(1, 9);
-            Debug.LogFormat("[The Cruel Modkit #{0}] Symbol {1} was turned on with a {2} light.", ModuleID, Symbol + 1, Enum.GetName(typeof(ComponentInfo.KeyColors), Color));
+            Debug.LogFormat("[The Cruel Modkit #{0}] Symbol {1} was turned on with a {2} light.", ModuleID, Symbol + 1, Enum.GetName(typeof(KeyColors), Color));
             Module.Symbols[Symbol].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = Module.KeyLightMats[Color];
         }
         SymbolsOn[Symbol] = !SymbolsOn[Symbol];
@@ -124,7 +123,7 @@ public class TestPuzzle : Puzzle
         else
         {
             int Color = Random.Range(1, 9);
-            Debug.LogFormat("[The Cruel Modkit #{0}] Alphanumeric key {1} was turned on with a {2} light.", ModuleID, Alphabet + 1, Enum.GetName(typeof(ComponentInfo.KeyColors), Color));
+            Debug.LogFormat("[The Cruel Modkit #{0}] Alphanumeric key {1} was turned on with a {2} light.", ModuleID, Alphabet + 1, Enum.GetName(typeof(KeyColors), Color));
             Module.Alphabet[Alphabet].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = Module.KeyLightMats[Color];
         }
         AlphabetOn[Alphabet] = !AlphabetOn[Alphabet];
@@ -141,7 +140,7 @@ public class TestPuzzle : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        Debug.LogFormat("[The Cruel Modkit #{0}] The {1} piano key was pressed.", ModuleID, ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)Piano]);
+        Debug.LogFormat("[The Cruel Modkit #{0}] The {1} piano key was pressed.", ModuleID, PianoKeyNames[(PianoKeys)Piano]);
     }
 
     public override void OnArrowPress(int Arrow)
@@ -156,7 +155,7 @@ public class TestPuzzle : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        Debug.LogFormat("[The Cruel Modkit #{0}] The {1} arrow button was pressed.", ModuleID, ComponentInfo.ArrowDirectionNames[(ComponentInfo.ArrowDirections)Arrow]);
+        Debug.LogFormat("[The Cruel Modkit #{0}] The {1} arrow button was pressed.", ModuleID, ArrowDirectionNames[(ArrowDirections)Arrow]);
         Module.StartCoroutine(HandleArrowFlash(Arrow));
     }
 

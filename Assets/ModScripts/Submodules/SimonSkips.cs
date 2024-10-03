@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using KModkit;
 using Random = UnityEngine.Random;
+using static ComponentInfo;
 
 public class SimonSkips : Puzzle
 {
@@ -26,14 +27,15 @@ public class SimonSkips : Puzzle
         for (int i = 4; i < 8; i++)
         {
             Module.Arrows[i].GetComponentInChildren<Renderer>().material = Module.ArrowMats[Info.Arrows[i]];
-            Module.Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = ComponentInfo.ArrowLightColors[Info.Arrows[i]];
+            Module.Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = ArrowLightColors[Info.Arrows[i]];
             Module.Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().intensity += (Info.Arrows[i] == 8) ? 10 : 0;
         }
 
-        orderedArrows = new int[] { Info.Arrows[0],  Info.Arrows[4], Info.Arrows[1], Info.Arrows[5], Info.Arrows[2], Info.Arrows[6], Info.Arrows[3], Info.Arrows[7] };
+        // Arrow colors in ordered clockwise starting with up
+        orderedArrows = new int[] { Info.Arrows[(int)ArrowDirections.Up], Info.Arrows[(int)ArrowDirections.UpRight], Info.Arrows[(int)ArrowDirections.Right], Info.Arrows[(int)ArrowDirections.DownRight], Info.Arrows[(int)ArrowDirections.Down], Info.Arrows[(int)ArrowDirections.DownLeft], Info.Arrows[(int)ArrowDirections.Left], Info.Arrows[(int)ArrowDirections.UpLeft] };
         finalSequence.Add(FindStartingColor());
         if (finalSequence[0] != 8)
-            Debug.LogFormat("[The Cruel Modkit #{0}] The starting colour is {1}.", ModuleID, ComponentInfo.ArrowColorNames[(ComponentInfo.ArrowColors)orderedArrows[finalSequence[0]]]);
+            Debug.LogFormat("[The Cruel Modkit #{0}] The starting colour is {1}.", ModuleID, ArrowColorNames[(ArrowColors)orderedArrows[finalSequence[0]]]);
         else
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] The starting color is white or black. Press the center button to submit an empty sequence.", ModuleID);
@@ -130,7 +132,7 @@ public class SimonSkips : Puzzle
         if (!submitEmpty)
         {
             FindFullSequence();
-            string[] pressColours = finalSequence.Where(x => x != 8).Select(x => ComponentInfo.ArrowColorNames[(ComponentInfo.ArrowColors)orderedArrows[x]]).ToArray();
+            string[] pressColours = finalSequence.Where(x => x != 8).Select(x => ArrowColorNames[(ArrowColors)orderedArrows[x]]).ToArray();
             Debug.LogFormat("[The Cruel Modkit #{0}] The sequence of colours to press is {1}, followed by the center button.", ModuleID, string.Join(", ", pressColours));
         }
 
@@ -149,13 +151,13 @@ public class SimonSkips : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        Module.StartCoroutine(HandleArrowFlash(Arrow));
+        Module.StartCoroutine(HandleArrowDelayFlashSingle(Arrow));
 
         if (!Module.IsSolving())
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, ComponentInfo.ArrowDirectionNames[(ComponentInfo.ArrowDirections)Arrow], Module.GetOnComponents(), Module.GetTargetComponents());
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, ArrowDirectionNames[(ArrowDirections)Arrow], Module.GetOnComponents(), Module.GetTargetComponents());
             }
             else
                 Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Module not initialized.", ModuleID);
@@ -173,7 +175,7 @@ public class SimonSkips : Puzzle
             }
             else
             {
-                string[] inputtedColours = inputtedSequence.Where(x => x != 8).Select(x => ComponentInfo.ArrowColorNames[(ComponentInfo.ArrowColors)orderedArrows[x]]).ToArray();
+                string[] inputtedColours = inputtedSequence.Where(x => x != 8).Select(x => ArrowColorNames[(ArrowColors)orderedArrows[x]]).ToArray();
                 Debug.LogFormat("[The Cruel Modkit #{0}] Strike! An incorrect sequence of {1} has been submitted.", ModuleID, string.Join(", ", inputtedColours));
                 Module.CauseStrike();
                 inputtedSequence.Clear();
@@ -185,13 +187,4 @@ public class SimonSkips : Puzzle
             inputtedSequence.Add(converter[Arrow]);
         }
     }
-
-    public IEnumerator HandleArrowFlash(int Arrow)
-    {
-        if (Arrow < 0 || Arrow >= 9) yield break;
-        Module.Arrows[Arrow].transform.Find("ArrowLight").gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
-        Module.Arrows[Arrow].transform.Find("ArrowLight").gameObject.SetActive(false);
-    }
-
 }

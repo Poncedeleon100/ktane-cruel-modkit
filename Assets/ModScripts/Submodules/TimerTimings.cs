@@ -5,8 +5,6 @@ using UnityEngine;
 using KModkit;
 using Random = UnityEngine.Random;
 
-
-
 public class TimerTimings : Puzzle
 {
 
