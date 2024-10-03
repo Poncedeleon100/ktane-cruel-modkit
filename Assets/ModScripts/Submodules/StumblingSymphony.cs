@@ -140,14 +140,18 @@ public class StumblingSymphony : Puzzle
         if (Module.IsModuleSolved() || Module.IsSolving())
             return;
 
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
+
+            Module.StartSolve();
         }
 
-        Module.StartSolve();
         PickNumber();
         Debug.LogFormat("[The Cruel Modkit #{0}] The melody is {1}.", ModuleID, melodyNames[Info.NumberDisplay]);
         Debug.LogFormat("[The Cruel Modkit #{0}] The rule used is rule {1}. {2}", ModuleID, activeRule + 1, ruleLog[activeRule]);
@@ -219,6 +223,7 @@ public class StumblingSymphony : Puzzle
 
         if (Module.IsModuleSolved())
             return;
+
         if (!Module.IsSolving())
         {
             if (!Module.CheckValidComponents())

@@ -75,6 +75,7 @@ public class AVInput : Puzzle
 
             Module.StartSolve();
         }
+
         if (Piano == lastPress & !BulbScrewedIn.Contains(false))
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Pressed the {1} key twice in a row. Turning both bulbs off.", ModuleID, PianoKeyNames[(PianoKeys)Piano]);

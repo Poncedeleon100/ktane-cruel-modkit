@@ -109,6 +109,7 @@ public class PianoDecryption : Puzzle
 
             Module.StartSolve();
         }
+
         currentNote = 0;
     }
 

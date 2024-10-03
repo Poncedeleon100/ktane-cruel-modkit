@@ -213,15 +213,17 @@ public class WhosWho : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.IsSolving() && !Module.CheckValidComponents())
-        {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 2) == Info.BulbInfo[4] ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
-        }
-
         if (!Module.IsSolving())
+        {
+            if (!Module.CheckValidComponents())
+            {
+                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 2) == Info.BulbInfo[4] ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
+
             Module.StartSolve();
+        }
 
         PressTime.Start();
     }
@@ -294,15 +296,17 @@ public class WhosWho : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.IsSolving() && !Module.CheckValidComponents())
-        {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
-        }
-
         if (!Module.IsSolving())
+        {
+            if (!Module.IsSolving() && !Module.CheckValidComponents())
+            {
+                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
+
             Module.StartSolve();
+        }
 
         if (!submissionMode)
         {

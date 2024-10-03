@@ -78,6 +78,18 @@ public class MeteredButton : Puzzle
         if (Module.IsModuleSolved() || !meterStarted)
             return;
 
+        if (!Module.IsSolving())
+        {
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
+
+            Module.StartSolve();
+        }
+
         pressTime = Module.Bomb.GetTime();
 
     }
@@ -90,6 +102,9 @@ public class MeteredButton : Puzzle
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonRelease, Module.transform);
 
         if (Module.IsModuleSolved() || !meterStarted)
+            return;
+
+        if (!Module.CheckValidComponents())
             return;
 
         float releaseTime = Module.Bomb.GetTime();

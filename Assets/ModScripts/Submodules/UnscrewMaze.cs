@@ -79,6 +79,7 @@ public class UnscrewMaze : Puzzle
 
         if (Module.IsModuleSolved())
             return;
+
         if (!Module.IsSolving())
         {
             if (!Module.CheckValidComponents())

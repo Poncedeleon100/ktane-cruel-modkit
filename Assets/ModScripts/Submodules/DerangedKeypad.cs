@@ -85,14 +85,18 @@ public class DerangedKeypad : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.IsSolving() && !Module.CheckValidComponents())
+        if (!Module.IsSolving())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
+            if (!Module.IsSolving() && !Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
+            Module.StartSolve();
         }
 
-        if (buttonShouldBePressed)
+            if (buttonShouldBePressed)
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Pressed the button after 2 alphabet key presses.", ModuleID);
             Module.StartCoroutine(ChangeButton());
@@ -115,6 +119,7 @@ public class DerangedKeypad : Puzzle
 
         if (Module.IsModuleSolved())
             return;
+
         if (!Module.IsSolving())
         {
             if (!Module.CheckValidComponents())

@@ -145,7 +145,6 @@ public class CruelModkitScript : MonoBehaviour
 
     // These are public variables needed to communicate with the Puzzle class.
     public bool IsModuleSolved() => ModuleSolved;
-    public bool IsModuleSolving() => Solving;
     public bool CheckValidComponents()
     {
         return OnComponents == TargetComponents;

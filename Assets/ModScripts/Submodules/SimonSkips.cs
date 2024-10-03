@@ -115,17 +115,20 @@ public class SimonSkips : Puzzle
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
         Module.UtilityButton.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
 
-        if (Module.IsModuleSolved() || Module.IsModuleSolving())
+        if (Module.IsModuleSolved() || Module.IsSolving())
             return;
 
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
-        }
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
 
-        Module.StartSolve();
+            Module.StartSolve();
+        }
 
         arrowColours = ConvertArrowNumstoLEDNums();
         NewLEDs();
