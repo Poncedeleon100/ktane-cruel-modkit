@@ -24966,6 +24966,9 @@ MonoBehaviour:
   WireMesh:
   - {fileID: 4300000, guid: c721f5cbb2b540b49950da0915400b86, type: 3}
   - {fileID: 4300000, guid: 3cceb1a5311fd7146844170f6cfe307a, type: 3}
+  BulbButtonFaceMesh:
+  - {fileID: 4300000, guid: 9df849f32995bf54a98f8bbb8fcb86bf, type: 3}
+  - {fileID: 4300000, guid: fd4a1c6ec9d72a14db77548fb05ec3ff, type: 3}
   LightsArray:
   - {fileID: 108101105992676770}
   - {fileID: 108143208411414582}
