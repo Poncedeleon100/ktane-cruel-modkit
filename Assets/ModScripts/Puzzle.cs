@@ -38,7 +38,11 @@ public class Puzzle
                 Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was cut when the component selection was [{2}] instead of [{3}].", ModuleID, Wire + 1, Module.GetOnComponents(), Module.GetTargetComponents());
                 Module.CauseStrike();
                 Debug.LogFormat("[The Cruel Modkit #{0}] Resetting wires...", ModuleID);
+
+                Info.GenerateWireInfo();
+                Info.GenerateWireLEDInfo();
                 Module.RegenWires();
+
                 return;
             }
 

@@ -273,12 +273,7 @@ public class MeteredButton : Puzzle
         int newCol = Random.Range(0, 11);
         while (newCol == 6)  newCol = Random.Range(0, 11);
         Info.Button = newCol;
-        Module.Button.transform.GetComponentInChildren<Renderer>().material = Module.ButtonMats[Info.Button];
-        Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
-        if (Info.Button == 0 || Info.Button == 1 || Info.Button == 7)
-            Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ButtonTextWhite;
-        else
-            Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ButtonTextBlack;
+        Module.SetButton();
         Debug.LogFormat("[The Cruel Modkit #{0}] Button is {1}.", ModuleID, Info.GetButtonInfo());
     }
 

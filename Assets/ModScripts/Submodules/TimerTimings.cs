@@ -290,8 +290,8 @@ public class TimerTimings : Puzzle
     {
         while (IsTimerChanging)
         {
-            Info.TimerDisplay = Random.Range(0, 100000);
-            Module.WidgetText[0].text = Info.TimerDisplay.ToString().PadLeft(5, '0');
+            Info.GenerateTimerInfo();
+            Module.SetTimer();
             yield return new WaitForSeconds(1f);
         }
     }

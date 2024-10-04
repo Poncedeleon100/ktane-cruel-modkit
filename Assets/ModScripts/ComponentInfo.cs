@@ -125,8 +125,26 @@ public class ComponentInfo
 
     public ComponentInfo()
     {
-        List<int> Temp = new List<int>();
-        //Generate colors for Wires
+        GenerateWireInfo();
+        GenerateWireLEDInfo();
+        GenerateButtonInfo();
+        GenerateLEDInfo();
+        GenerateSymbolInfo();
+        GenerateAlphabetInfo();
+        GeneratePianoInfo();
+        GenerateArrowInfo();
+        GenerateBulbInfo();
+        GenerateResistorInfo();
+        GenerateIdentityInfo();
+        GenerateTimerInfo();
+        GenerateWordInfo();
+        GenerateNumberInfo();
+        GenerateMorseInfo();
+        GenerateMeterInfo();
+    }
+
+    public void GenerateWireInfo()
+    {
         for (int i = 0; i < 7; i++)
         {
             int TempColor1 = Random.Range(0, 12);
@@ -140,38 +158,55 @@ public class ComponentInfo
             Wires[0][i] = TempColor1;
             Wires[1][i] = TempColor2;
         }
-        //Generate LEDs/Stars for Wire LEDs
-        while (Temp.Count < 7)
+    }
+
+    public void GenerateWireLEDInfo()
+    {
+        List<int> Colors = new List<int>();
+        while (Colors.Count < 7)
         {
             int Star = Random.Range(0, 3);
             int Color = Random.Range(0, 11);
             int Coefficient = (Star * 11);
             Color += Coefficient;
-            Temp.Add(Color);
+            Colors.Add(Color);
         }
-        WireLED = Temp.ToArray();
-        //Generate color and text for Button
+        WireLED = Colors.ToArray();
+    }
+
+    public void GenerateButtonInfo()
+    {
         ButtonText = ButtonList[Random.Range(0, ButtonList.Length)];
         Button = Random.Range(0, 11);
-        //Generate colors for LEDs
-        Temp.Clear();
-        while (Temp.Count < 8)
+    }
+
+    public void GenerateLEDInfo()
+    {
+        List<int> Colors = new List<int>();
+        while (Colors.Count < 8)
         {
             int Color = Random.Range(0, 11);
-            Temp.Add(Color);
+            Colors.Add(Color);
         }
-        LED = Temp.ToArray();
-        //Generate symbols
-        Temp.Clear();
-        while (Temp.Count < 6)
+        LED = Colors.ToArray();
+    }
+
+    public void GenerateSymbolInfo()
+    {
+        List<int> GeneratedSymbols = new List<int>();
+        while (GeneratedSymbols.Count < 6)
         {
             int Symbol = Random.Range(0, 49);
-            if (!Temp.Contains(Symbol))
-                Temp.Add(Symbol);
+            if (!GeneratedSymbols.Contains(Symbol))
+                GeneratedSymbols.Add(Symbol);
         }
-        Symbols = Temp.ToArray();
-        //Generate Alphabet text
-        for (int i = 0; i < 6; i++)
+        Symbols = GeneratedSymbols.ToArray();
+    }
+
+    public void GenerateAlphabetInfo()
+    {
+        List<string> GeneratedAlphabet = new List<string>();
+        while (GeneratedAlphabet.Count < 6)
         {
             string AlphabetKey = String.Empty;
             string[] Letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray().Select(x => x.ToString()).OrderBy(x => Random.Range(0, 1000)).ToArray();
@@ -184,35 +219,49 @@ public class ComponentInfo
                 AlphabetKey += "\n";
             for (int x = 0; x <= NumberAmount; x++)
                 AlphabetKey += Numbers[x];
-            Alphabet[i] = AlphabetKey;
+
+            if(!GeneratedAlphabet.Contains(AlphabetKey))
+                GeneratedAlphabet.Add(AlphabetKey);
         }
-        //Generate Piano octave
+        Alphabet = GeneratedAlphabet.ToArray();
+    }
+
+    public void GeneratePianoInfo()
+    {
         Piano = Random.Range(0, 3);
-        //Generate arrow colors
+    }
+
+    public void GenerateArrowInfo()
+    {
         int[] ArrowColors = new int[] { 0, 1, 2, 3 }.OrderBy(x => Random.Range(0, 1000)).ToArray();
         for (int i = 0; i < 4; i++)
             Arrows[i] = ArrowColors[i];
+
         //Create slider colors based on generated arrow colors
-        string[] TempSliders = new string[4];
+        string[] GeneratedSliders = new string[4];
         for (int i = 0; i < 4; i++)
         {
             if (i == 3)
             {
                 if (Arrows[0] > Arrows[i])
-                    TempSliders[i] = Arrows[i].ToString() + Arrows[0].ToString();
+                    GeneratedSliders[i] = Arrows[i].ToString() + Arrows[0].ToString();
                 else
-                    TempSliders[i] = Arrows[0].ToString() + Arrows[i].ToString();
+                    GeneratedSliders[i] = Arrows[0].ToString() + Arrows[i].ToString();
             }
             else if (Arrows[i] > Arrows[i + 1])
-                TempSliders[i] = Arrows[i + 1].ToString() + Arrows[i].ToString();
+                GeneratedSliders[i] = Arrows[i + 1].ToString() + Arrows[i].ToString();
             else
-                TempSliders[i] = Arrows[i].ToString() + Arrows[i + 1].ToString();
+                GeneratedSliders[i] = Arrows[i].ToString() + Arrows[i + 1].ToString();
         }
         for (int i = 0; i < 4; i++)
-            Arrows[i + 4] = SliderColors[TempSliders[i]];
-        Arrows[8] = Random.Range(8, 10);
-        //Generate Bulb colors and button labels
-        // BulbInfo layout:
+            Arrows[i + 4] = SliderColors[GeneratedSliders[i]];
+
+        Arrows[(int)ArrowDirections.Center] = Random.Range(8, 10);
+    }
+
+    public void GenerateBulbInfo()
+    {
+        // BulbInfo layout (It's weird so that this information can be iterated through if needed):
         // 0 = Is Bulb 1 opaque?
         // 1 = Is Bulb 2 opaque?
         // 2 = Does Bulb 1 start on?
@@ -228,16 +277,13 @@ public class ComponentInfo
             //Whether it starts on or not
             BulbInfo[i + 2] = Random.Range(0, 2) == 0;
         }
-        //Generate Identity information
-        Identity[0] = Random.Range(0, IdentityNames.Length);
-        Identity[1] = Random.Range(0, IdentityItems.Length);
-        Identity[2] = Random.Range(0, IdentityLocations.Length);
-        Identity[3] = Random.Range(0, IdentityRarity.Length);
-        //Generate text and colors for Resistor
-        Temp.Clear();
+    }
+
+    public void GenerateResistorInfo()
+    {
         for (int i = 0; i < ResistorReversed.Length; i++)
             ResistorReversed[i] = Random.Range(0, 2) == 0;
-        // Generation based on actual resistors
+
         for (int i = 0; i < 2; i++)
         {
             if (ResistorReversed[i])
@@ -255,23 +301,48 @@ public class ComponentInfo
                 ResistorColors[i + 6] = Random.Range(2, 12);
             }
         }
+
         string[] ResistorLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray().Select(x => x.ToString()).OrderBy(x => Random.Range(0, 1000)).ToArray();
         for (int i = 0; i < ResistorText.Length; i++)
             ResistorText[i] = ResistorLetters[i];
-        //Generate timer text
+    }
+    public void GenerateIdentityInfo()
+    {
+        Identity[0] = Random.Range(0, IdentityNames.Length);
+        Identity[1] = Random.Range(0, IdentityItems.Length);
+        Identity[2] = Random.Range(0, IdentityLocations.Length);
+        Identity[3] = Random.Range(0, IdentityRarity.Length);
+    }
+
+    public void GenerateTimerInfo()
+    {
         TimerDisplay = Random.Range(0, 100000);
-        //Generate word display text
+    }
+
+    public void GenerateWordInfo()
+    {
         WordDisplay = WordList[Random.Range(0, WordList.Length)];
-        //Generate number display text
+    }
+
+    public void GenerateNumberInfo()
+    {
         NumberDisplay = Random.Range(0, 10);
-        //Generate morse code display (Random string of 3 characters; may be changed by modules)
+    }
+
+    public void GenerateMorseInfo()
+    {
         Morse = String.Empty;
         for (int i = 0; i < 3; i++)
             Morse += MorseList[Random.Range(0, MorseList.Length)];
-        //Generate meter value and color
+    }
+
+    public void GenerateMeterInfo()
+    {
         MeterColor = Random.Range(0, 6);
         MeterValue = Random.value;
+
         //Rounds the value if it's close enough to one of the lines on the meter (0, 1/4, 1/3, 1/2, 2/3, 3/4, 1)
+        // in order to prevent ambiguous meter readings
         if (MeterValue < 0.02d)
             MeterValue = 0;
         else if (0.23f < MeterValue && MeterValue < 0.27f)
@@ -286,35 +357,6 @@ public class ComponentInfo
             MeterValue = 0.75d;
         else if (0.98f < MeterValue)
             MeterValue = 1;
-    }
-
-    public void RegenWires()
-    {
-        List<int> Temp = new List<int>();
-        //Generate colors for Wires
-        for (int i = 0; i < 7; i++)
-        {
-            int TempColor1 = Random.Range(0, 12);
-            int TempColor2 = Random.Range(0, 12);
-            if (TempColor1 > TempColor2)
-            {
-                int x = TempColor2;
-                TempColor2 = TempColor1;
-                TempColor1 = x;
-            }
-            Wires[0][i] = TempColor1;
-            Wires[1][i] = TempColor2;
-        }
-        //Generate LEDs/Stars for Wire LEDs
-        while (Temp.Count < 7)
-        {
-            int Star = Random.Range(0, 3);
-            int Color = Random.Range(0, 11);
-            int Coefficient = (Star * 11);
-            Color += Coefficient;
-            Temp.Add(Color);
-        }
-        WireLED = Temp.ToArray();
     }
 
     public string GetWireInfo()

@@ -103,8 +103,7 @@ public class SimonSkips : Puzzle
             newLEDs[i] = arrowColours[Random.Range(0, 8)];
 
         Info.LED = newLEDs;
-        for (int i = 0; i < 8; i++)
-            Module.LED[i].transform.Find("LEDL").GetComponentInChildren<Renderer>().material = Module.LEDMats[Info.LED[i]];
+        Module.SetLEDs();
     }
 
     public override void OnUtilityPress()

@@ -163,9 +163,7 @@ public class PianoDecryption : Puzzle
             break;
         }
         Info.Morse = encryptedWord;
-        Module.StopCoroutine(Module.MorseCodeAnimation);
-        IEnumerator MorseCodeAnimation = Module.PlayWord(Info.Morse);
-        Module.StartCoroutine(MorseCodeAnimation);
+        Module.SetMorse();
     }
 
     string AtbashCipher(string w)

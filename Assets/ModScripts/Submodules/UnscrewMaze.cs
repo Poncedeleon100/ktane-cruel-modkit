@@ -185,9 +185,8 @@ public class UnscrewMaze : Puzzle
     void UpdateMorse()
     {
         string alpha = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        Module.StopCoroutine(Module.MorseCodeAnimation);
         Info.Morse = alpha[curPos] + Info.Morse.Substring(1, 2);
-        Module.StartCoroutine(Module.MorseCodeAnimation);
+        Module.SetMorse();
     }
 
     // Makes the maze array initialization a little bit cleaner
