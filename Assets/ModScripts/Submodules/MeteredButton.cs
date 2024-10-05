@@ -59,7 +59,8 @@ public class MeteredButton : Puzzle
     {
         Debug.LogFormat("[The Cruel Modkit #{0}] Solving Metered Button. Press the ❖ button to activate the timer.", ModuleID);
         GenButton();
-        SetMeter(0d);
+        Info.MeterValue = 0d;
+        Module.SetMeter();
         Debug.LogFormat("[The Cruel Modkit #{0}] Number display is {1}.", ModuleID, Info.NumberDisplay);
 
         finalActions[0] = FindAction();
@@ -243,7 +244,8 @@ public class MeteredButton : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] Number display is {1}.", ModuleID, Info.NumberDisplay);
 
         Module.StopCoroutine(tickRoutine);
-        SetMeter(0);
+        Info.MeterValue = 0d;
+        Module.SetMeter();
         meterStarted = false;
 
         Module.WidgetText[2].text = Info.NumberDisplay.ToString();
@@ -256,15 +258,6 @@ public class MeteredButton : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] The first action to perform is {1}.", ModuleID, finalActions[0]);
         LogInstruction(finalActions[0]);
         animating = false;
-    }
-
-    void SetMeter(double value)
-    {
-        Info.MeterValue = value;
-        float TempNumber = 0.003882663f * (float)Info.MeterValue; //.00388 is the original Z scale
-        Module.Meter.transform.localScale = new Vector3(0.0005912599f, 0.01419745f, TempNumber);
-        TempNumber = -0.02739999f - ((0.03884f * (1 - (float)Info.MeterValue)) / 2); //-.0273 is the original Z position, .0388 is the original length
-        Module.Meter.transform.localPosition = new Vector3(-0.04243f, 0.01436f, TempNumber);
     }
 
     void GenButton()
@@ -312,7 +305,8 @@ public class MeteredButton : Puzzle
         while (elapsed < duration)
         {
             meterLevel = Easing.OutQuad(elapsed, 0, 1, duration);
-            SetMeter(meterLevel);
+            Info.MeterValue = meterLevel;
+            Module.SetMeter();
             yield return null;
             elapsed += Time.deltaTime;
         }
@@ -328,7 +322,8 @@ public class MeteredButton : Puzzle
         {
             meterTime -= Time.deltaTime;
             meterLevel = meterTime / 90f;
-            SetMeter(meterLevel);
+            Info.MeterValue = meterLevel;
+            Module.SetMeter();
             yield return null;
         }
 
