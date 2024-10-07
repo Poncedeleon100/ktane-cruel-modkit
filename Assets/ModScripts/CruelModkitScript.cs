@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine;
 using KModkit;
 using static ComponentInfo;
-using UnityEditorInternal;
 
 public class CruelModkitScript : MonoBehaviour
 {
