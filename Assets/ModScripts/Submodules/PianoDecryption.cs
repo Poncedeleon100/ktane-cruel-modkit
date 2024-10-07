@@ -4,36 +4,37 @@ using System.Linq;
 using UnityEngine;
 using KModkit;
 using Random = UnityEngine.Random;
+using static ComponentInfo;
 
 public class PianoDecryption : Puzzle
 {
     readonly string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    readonly Dictionary<string, int[]> noteSequences = new Dictionary<string, int[]>
+    readonly Dictionary<string, PianoKeys[]> noteSequences = new Dictionary<string, PianoKeys[]>
     {
-        { "ANSWER", new int[] { 4, 6, 6, 6, 6, 4, 4, 4 } }, 
-        { "BANTER", new int[] { 9, 4, 5, 7, 5, 4, 2, 2, 5, 9 } }, 
-        { "CREOLE", new int[] { 10, 10, 10, 10, 6, 8, 10, 8, 10 } }, 
-        { "DRIVEN", new int[] { 11, 2, 9, 7, 9, 11, 2, 9 } }, 
-        { "ELEVEN", new int[] { 4, 4, 4, 0, 4, 7, 7 } }, 
-        { "FAKERS", new int[] { 3, 3, 2, 2, 3, 3, 2, 3, 3, 2, 2, 3 } }, 
-        { "GARAGE", new int[] { 7, 7, 0, 7, 7, 0, 7, 0 } }, 
-        { "HORROR", new int[] { 1, 2, 4, 5, 1, 2, 4, 5, 10, 9 } }, 
-        { "JULIET", new int[] { 10, 9, 10, 5, 3, 10, 9, 10, 5, 3 } }, 
-        { "KEVLAR", new int[] { 7, 7, 7, 3, 10, 7, 3, 10, 7 } }, 
-        { "NETHER", new int[] { 1, 11, 9, 6, 8, 9, 8, 6 } }, 
-        { "OPIOID", new int[] { 7, 9, 7, 4, 7, 9, 7, 4 } }, 
-        { "PARENT", new int[] { 7, 7, 7, 7, 7, 7, 7, 10, 3, 5, 7 } }, 
-        { "QUESTS", new int[] { 6, 7, 9, 9, 2, 11, 9, 7, 4, 2 } }, 
-        { "UMPIRE", new int[] { 3, 3, 1, 8, 3, 3, 5, 1 } }, 
-        { "VICTOR", new int[] { 11, 9, 7, 3, 2, 9, 11, 9, 7 } }, 
-        { "WIRING", new int[] { 3, 5, 3, 0, 8, 5, 3 } }, 
-        { "XENONS", new int[] { 2, 2, 2, 1, 1, 1, 11, 1, 11, 6 } }, 
-        { "YIELDS", new int[] { 7, 4, 5, 7, 0, 11, 0, 2, 0, 11, 9, 7 } }, 
-        { "ZAMBIA", new int[] { 10, 9, 10, 7 } }
+        { "ANSWER", new PianoKeys[] { PianoKeys.E, PianoKeys.Gb, PianoKeys.Gb, PianoKeys.Gb, PianoKeys.Gb, PianoKeys.E, PianoKeys.E, PianoKeys.E } }, 
+        { "BANTER", new PianoKeys[] { PianoKeys.A, PianoKeys.E, PianoKeys.F, PianoKeys.G, PianoKeys.F, PianoKeys.E, PianoKeys.D, PianoKeys.D, PianoKeys.F, PianoKeys.A } }, 
+        { "CREOLE", new PianoKeys[] { PianoKeys.Bb, PianoKeys.Bb, PianoKeys.Bb, PianoKeys.Bb, PianoKeys.Gb, PianoKeys.Ab, PianoKeys.Bb, PianoKeys.Ab, PianoKeys.Bb } }, 
+        { "DRIVEN", new PianoKeys[] { PianoKeys.B, PianoKeys.D, PianoKeys.A, PianoKeys.G, PianoKeys.A, PianoKeys.B, PianoKeys.D, PianoKeys.A } }, 
+        { "ELEVEN", new PianoKeys[] { PianoKeys.E, PianoKeys.E, PianoKeys.E, PianoKeys.C, PianoKeys.E, PianoKeys.G, PianoKeys.G } }, 
+        { "FAKERS", new PianoKeys[] { PianoKeys.Eb, PianoKeys.Eb, PianoKeys.D, PianoKeys.D, PianoKeys.Eb, PianoKeys.Eb, PianoKeys.D, PianoKeys.Eb, PianoKeys.Eb, PianoKeys.D, PianoKeys.D, PianoKeys.Eb } }, 
+        { "GARAGE", new PianoKeys[] { PianoKeys.G, PianoKeys.G, PianoKeys.C, PianoKeys.G, PianoKeys.G, PianoKeys.C, PianoKeys.G, PianoKeys.C } }, 
+        { "HORROR", new PianoKeys[] { PianoKeys.Db, PianoKeys.D, PianoKeys.E, PianoKeys.F, PianoKeys.Db, PianoKeys.D, PianoKeys.E, PianoKeys.F, PianoKeys.Bb, PianoKeys.A } }, 
+        { "JULIET", new PianoKeys[] { PianoKeys.Bb, PianoKeys.A, PianoKeys.Bb, PianoKeys.F, PianoKeys.Eb, PianoKeys.Bb, PianoKeys.A, PianoKeys.Bb, PianoKeys.F, PianoKeys.Eb } }, 
+        { "KEVLAR", new PianoKeys[] { PianoKeys.G, PianoKeys.G, PianoKeys.G, PianoKeys.Eb, PianoKeys.Bb, PianoKeys.G, PianoKeys.Eb, PianoKeys.Bb, PianoKeys.G } }, 
+        { "NETHER", new PianoKeys[] { PianoKeys.Db, PianoKeys.B, PianoKeys.A, PianoKeys.Gb, PianoKeys.Ab, PianoKeys.A, PianoKeys.Ab, PianoKeys.Gb } }, 
+        { "OPIOID", new PianoKeys[] { PianoKeys.G, PianoKeys.A, PianoKeys.G, PianoKeys.E, PianoKeys.G, PianoKeys.A, PianoKeys.G, PianoKeys.E } }, 
+        { "PARENT", new PianoKeys[] { PianoKeys.G, PianoKeys.G, PianoKeys.G, PianoKeys.G, PianoKeys.G, PianoKeys.G, PianoKeys.G, PianoKeys.Bb, PianoKeys.Eb, PianoKeys.F, PianoKeys.G } }, 
+        { "QUESTS", new PianoKeys[] { PianoKeys.Gb, PianoKeys.G, PianoKeys.A, PianoKeys.A, PianoKeys.D, PianoKeys.B, PianoKeys.A, PianoKeys.G, PianoKeys.E, PianoKeys.D } }, 
+        { "UMPIRE", new PianoKeys[] { PianoKeys.Eb, PianoKeys.Eb, PianoKeys.Db, PianoKeys.Ab, PianoKeys.Eb, PianoKeys.Eb, PianoKeys.F, PianoKeys.Db } }, 
+        { "VICTOR", new PianoKeys[] { PianoKeys.B, PianoKeys.A, PianoKeys.G, PianoKeys.Eb, PianoKeys.D, PianoKeys.A, PianoKeys.B, PianoKeys.A, PianoKeys.G } }, 
+        { "WIRING", new PianoKeys[] { PianoKeys.Eb, PianoKeys.F, PianoKeys.Eb, PianoKeys.C, PianoKeys.Ab, PianoKeys.F, PianoKeys.Eb } }, 
+        { "XENONS", new PianoKeys[] { PianoKeys.D, PianoKeys.D, PianoKeys.D, PianoKeys.Db, PianoKeys.Db, PianoKeys.Db, PianoKeys.B, PianoKeys.Db, PianoKeys.B, PianoKeys.Gb } }, 
+        { "YIELDS", new PianoKeys[] { PianoKeys.G, PianoKeys.E, PianoKeys.F, PianoKeys.G, PianoKeys.C, PianoKeys.B, PianoKeys.C, PianoKeys.D, PianoKeys.C, PianoKeys.B, PianoKeys.A, PianoKeys.G } }, 
+        { "ZAMBIA", new PianoKeys[] { PianoKeys.Bb, PianoKeys.A, PianoKeys.Bb, PianoKeys.G } }
     };
     readonly string[] WordList = { "ANSWER", "BANTER", "CREOLE", "DRIVEN", "ELEVEN", "FAKERS", "GARAGE", "HORROR", "JULIET", "KEVLAR", "NETHER", "OPIOID", "PARENT", "QUESTS", "UMPIRE", "VICTOR", "WIRING", "XENONS", "YIELDS", "ZAMBIA" };
     string encryptedWord, decryptedWord = "";
-    readonly int[] solutionSequence = new int[] { };
+    readonly PianoKeys[] solutionSequence;
     readonly int repeats = 1;
     int currentNote = 0;
 
@@ -44,7 +45,7 @@ public class PianoDecryption : Puzzle
         EncryptWord();
         solutionSequence = noteSequences[decryptedWord];
         if (decryptedWord == "ZAMBIA") repeats = Random.Range(3, 7);
-        Debug.LogFormat("[The Cruel Modkit #{0}] Solution piano sequence: {1}{2}.", ModuleID, solutionSequence.Select(x => Info.PianoKeyNames[x]).Join(", "),
+        Debug.LogFormat("[The Cruel Modkit #{0}] Solution piano sequence: {1}{2}.", ModuleID, solutionSequence.Select(x => PianoKeyNames[(PianoKeys)x]).Join(", "),
             repeats > 1 ? (" (played " + repeats.ToString() + " times)") : "");
     }
 
@@ -63,16 +64,16 @@ public class PianoDecryption : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.PianoKeyNames[Piano], Module.GetOnComponents(), Module.GetTargetComponents());
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, PianoKeyNames[(PianoKeys)Piano], Module.GetOnComponents(), Module.GetTargetComponents());
                 Module.CauseStrike();
                 return;
             }
 
             Module.StartSolve();
         }
-        if (Piano != solutionSequence[repeats > 1 ? currentNote % solutionSequence.Length : currentNote])
+        if (Piano != (int)solutionSequence[repeats > 1 ? currentNote % solutionSequence.Length : currentNote])
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key was pressed instead of {2}. Resetting input.", ModuleID, Info.PianoKeyNames[Piano], Info.PianoKeyNames[solutionSequence[currentNote]]);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key was pressed instead of {2}. Resetting input.", ModuleID, PianoKeyNames[(PianoKeys)Piano], PianoKeyNames[solutionSequence[currentNote]]);
             Module.CauseStrike();
             currentNote = 0;
             return;
@@ -108,6 +109,7 @@ public class PianoDecryption : Puzzle
 
             Module.StartSolve();
         }
+
         currentNote = 0;
     }
 
@@ -161,9 +163,7 @@ public class PianoDecryption : Puzzle
             break;
         }
         Info.Morse = encryptedWord;
-        Module.StopCoroutine(Module.MorseCodeAnimation);
-        IEnumerator MorseCodeAnimation = Module.PlayWord(Info.Morse);
-        Module.StartCoroutine(MorseCodeAnimation);
+        Module.SetMorse();
     }
 
     string AtbashCipher(string w)

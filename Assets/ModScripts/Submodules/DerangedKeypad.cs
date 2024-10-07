@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static ComponentInfo;
 
 public class DerangedKeypad : Puzzle
 {
@@ -65,7 +66,7 @@ public class DerangedKeypad : Puzzle
     private IEnumerator ChangeButton()
     {
         yield return Module.StartCoroutine(Module.HideComponent(CruelModkitScript.ComponentsEnum.Button));
-        Info.ButtonText = ComponentInfo.ButtonList[UnityEngine.Random.Range(0, 14)];
+        Info.ButtonText = ButtonList[UnityEngine.Random.Range(0, 14)];
         Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
         yield return new WaitForSeconds(.5f);
         yield return Module.StartCoroutine(Module.ShowComponent(CruelModkitScript.ComponentsEnum.Button));
@@ -84,14 +85,18 @@ public class DerangedKeypad : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.IsSolving() && !Module.CheckValidComponents())
+        if (!Module.IsSolving())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
+            if (!Module.IsSolving() && !Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
+            Module.StartSolve();
         }
 
-        if (buttonShouldBePressed)
+            if (buttonShouldBePressed)
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Pressed the button after 2 alphabet key presses.", ModuleID);
             Module.StartCoroutine(ChangeButton());
@@ -114,6 +119,7 @@ public class DerangedKeypad : Puzzle
 
         if (Module.IsModuleSolved())
             return;
+
         if (!Module.IsSolving())
         {
             if (!Module.CheckValidComponents())

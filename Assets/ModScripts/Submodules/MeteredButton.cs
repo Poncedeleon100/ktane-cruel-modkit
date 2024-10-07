@@ -4,6 +4,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using static ComponentInfo;
 
 public class MeteredButton : Puzzle
 {
@@ -58,7 +59,8 @@ public class MeteredButton : Puzzle
     {
         Debug.LogFormat("[The Cruel Modkit #{0}] Solving Metered Button. Press the ❖ button to activate the timer.", ModuleID);
         GenButton();
-        SetMeter(0d);
+        Info.MeterValue = 0d;
+        Module.SetMeter();
         Debug.LogFormat("[The Cruel Modkit #{0}] Number display is {1}.", ModuleID, Info.NumberDisplay);
 
         finalActions[0] = FindAction();
@@ -77,6 +79,18 @@ public class MeteredButton : Puzzle
         if (Module.IsModuleSolved() || !meterStarted)
             return;
 
+        if (!Module.IsSolving())
+        {
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
+
+            Module.StartSolve();
+        }
+
         pressTime = Module.Bomb.GetTime();
 
     }
@@ -89,6 +103,9 @@ public class MeteredButton : Puzzle
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonRelease, Module.transform);
 
         if (Module.IsModuleSolved() || !meterStarted)
+            return;
+
+        if (!Module.CheckValidComponents())
             return;
 
         float releaseTime = Module.Bomb.GetTime();
@@ -187,7 +204,7 @@ public class MeteredButton : Puzzle
     string FindAction()
     {
         int[] colorConverter = { 8, 6, 5, 4, 3, 1, 999, 7, 0, 9, 2 };
-        int table1Num = table1[Array.IndexOf(ComponentInfo.ButtonList, Info.ButtonText), colorConverter[Info.Button]];
+        int table1Num = table1[Array.IndexOf(ButtonList, Info.ButtonText), colorConverter[Info.Button]];
         string table2Action = table2[table1Num, Info.NumberDisplay];
 
         return table2Action;
@@ -227,7 +244,8 @@ public class MeteredButton : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] Number display is {1}.", ModuleID, Info.NumberDisplay);
 
         Module.StopCoroutine(tickRoutine);
-        SetMeter(0);
+        Info.MeterValue = 0d;
+        Module.SetMeter();
         meterStarted = false;
 
         Module.WidgetText[2].text = Info.NumberDisplay.ToString();
@@ -242,27 +260,13 @@ public class MeteredButton : Puzzle
         animating = false;
     }
 
-    void SetMeter(double value)
-    {
-        Info.MeterValue = value;
-        float TempNumber = 0.003882663f * (float)Info.MeterValue; //.00388 is the original Z scale
-        Module.Meter.transform.localScale = new Vector3(0.0005912599f, 0.01419745f, TempNumber);
-        TempNumber = -0.02739999f - ((0.03884f * (1 - (float)Info.MeterValue)) / 2); //-.0273 is the original Z position, .0388 is the original length
-        Module.Meter.transform.localPosition = new Vector3(-0.04243f, 0.01436f, TempNumber);
-    }
-
     void GenButton()
     {
-        Info.ButtonText = ComponentInfo.ButtonList[Random.Range(0, 14)];
+        Info.ButtonText = ButtonList[Random.Range(0, 14)];
         int newCol = Random.Range(0, 11);
         while (newCol == 6)  newCol = Random.Range(0, 11);
         Info.Button = newCol;
-        Module.Button.transform.GetComponentInChildren<Renderer>().material = Module.ButtonMats[Info.Button];
-        Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
-        if (Info.Button == 0 || Info.Button == 1 || Info.Button == 7)
-            Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ComponentInfo.ButtonTextWhite;
-        else
-            Module.Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ComponentInfo.ButtonTextBlack;
+        Module.SetButton();
         Debug.LogFormat("[The Cruel Modkit #{0}] Button is {1}.", ModuleID, Info.GetButtonInfo());
     }
 
@@ -301,7 +305,8 @@ public class MeteredButton : Puzzle
         while (elapsed < duration)
         {
             meterLevel = Easing.OutQuad(elapsed, 0, 1, duration);
-            SetMeter(meterLevel);
+            Info.MeterValue = meterLevel;
+            Module.SetMeter();
             yield return null;
             elapsed += Time.deltaTime;
         }
@@ -317,7 +322,8 @@ public class MeteredButton : Puzzle
         {
             meterTime -= Time.deltaTime;
             meterLevel = meterTime / 90f;
-            SetMeter(meterLevel);
+            Info.MeterValue = meterLevel;
+            Module.SetMeter();
             yield return null;
         }
 
