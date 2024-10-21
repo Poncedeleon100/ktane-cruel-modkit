@@ -179,41 +179,66 @@
                     <p>Each wire’s lying state will be the result of two truth values fed through a logical operator:
                     </p>
                     <ul>
-                        <li>Determine the first truth value using the rules below:</li>
-                        <ul>
-                            <li>If the number on the number display is a multiple of 4, the first truth value is True if
-                                the
-                                wire’s star is White, and False otherwise.</li>
-                            <li>Otherwise, if the number on the number display is a multiple of 3, the first truth value
-                                is
-                                True if the wire’s star is Black, and False otherwise.</li>
-                            <li>Otherwise, the first truth value is True if the wire’s star is absent, and False
-                                otherwise.
-                            </li>
-                        </ul>
-                        <li>Determine the second truth value using the rules below:</li>
-                        <ul>
-                            <li>The second truth value is True if the wire’s LED color is one of the colors obtained by
-                                the
-                                first true rule below, and False otherwise:</li>
+                        <li>
+                            Determine the first truth value using the rules below:
                             <ul>
-                                <li>If the host of this game is a person from Cluedo: Red, Orange, Purple, Yellow
+                                <li>
+                                    If the number on the number display is a multiple of 4, the first truth value is
+                                    True if
+                                    the
+                                    wire’s star is White, and False otherwise.
                                 </li>
-                                <li>If the host of this game is a Monsplode™: Green, Lime, Pink
+                                <li>
+                                    Otherwise, if the number on the number display is a multiple of 3, the first truth
+                                    value
+                                    is
+                                    True if the wire’s star is Black, and False otherwise.
                                 </li>
-                                <li>If the host of this game is a person from the KTaNE Discord server: Blue, Cyan,
-                                    White,
-                                    Black</li>
+                                <li>
+                                    Otherwise, the first truth value is True if the wire’s star is absent, and False
+                                    otherwise.
+                                </li>
                             </ul>
-                        </ul>
-                        <li>To determine the logical operator, use the color of the meter in the table below:</li>
-                        <ul>
-                            <li>If the meter’s color is not visible, take the number on the number display modulo 6,
-                                then
-                                plus 1, and take the operator in that position in the table from left to right (AND = 1,
-                                NAND = 6).</li>
-                            <li>Otherwise, use the meter’s color in the table as normal.</li>
-                        </ul>
+                        </li>
+                        <li>
+                            Determine the second truth value using the rules below:
+                            <ul>
+                                <li>
+                                    The second truth value is True if the wire’s LED color is one of the colors obtained
+                                    by
+                                    the
+                                    first true rule below, and False otherwise:
+                                    <ul>
+                                        <li>
+                                            If the host of this game is a person from Cluedo: Red, Orange, Purple,
+                                            Yellow
+                                        </li>
+                                        <li>
+                                            If the host of this game is a Monsplode™: Green, Lime, Pink
+                                        </li>
+                                        <li>
+                                            If the host of this game is a person from the KTaNE Discord server: Blue,
+                                            Cyan,
+                                            White,
+                                            Black
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            To determine the logical operator, use the color of the meter in the table below:
+                            <ul>
+                                <li>
+                                    If the meter’s color is not visible, take the number on the number display modulo 6,
+                                    then
+                                    plus 1, and take the operator in that position in the table from left to right (AND
+                                    = 1,
+                                    NAND = 6).
+                                </li>
+                                <li>Otherwise, use the meter’s color in the table as normal.</li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <table>

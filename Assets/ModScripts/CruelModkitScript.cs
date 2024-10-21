@@ -54,7 +54,7 @@ public class CruelModkitScript : MonoBehaviour
     public GameObject Meter;
 
     public Mesh[] WireMesh;
-    internal readonly List<int> WiresCut = new List<int>();
+    readonly List<int> WiresCut = new List<int>();
 
     //Fixes light sizes on different bomb sizes
     public Light[] LightsArray;
@@ -514,7 +514,7 @@ public class CruelModkitScript : MonoBehaviour
                 Puzzle = new LogicalColorCombinations(this, ModuleID, Info, TargetComponents);
                 break;
             case "Lying Wires":
-                TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.Wires);
+                TargetComponents = (byte)(ComponentsEnum.Wires | ComponentsEnum.Button);
                 Puzzle = new LyingWires(this, ModuleID, Info, TargetComponents);
                 break;
             case "Test Puzzle":

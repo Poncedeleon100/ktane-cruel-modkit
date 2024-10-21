@@ -5,33 +5,56 @@ using System.Diagnostics;
 
 public class LyingWires : Puzzle
 {
-    private readonly Dictionary<int, bool> colorConditions = new Dictionary<int, bool>();
-    private readonly Dictionary<int, string> colorStatements = new Dictionary<int, string>();
-    private readonly int[] trueColors;
-    private readonly bool[] initialStatements = new bool[7];
-    private readonly bool[] liars = new bool[7];
-    private readonly bool[] firstValues = new bool[7];
-    private readonly bool[] secondValues = new bool[7];
-    private readonly bool[] finalCuts = new bool[7];
-    private int numberOfLiars;
-    private int targetLastDigit;
-    private bool tap;
-    private bool incorrectHold = false;
-    private List<int> wiresToBeCut = new List<int>();
-    private readonly string[] cluedoCharacters = new string[] { "Miss Scarlett", "Colonel Mustard", "Reverend Green", "Mrs Peacock", "Professor Plum", "Mrs White", "Dr Orchid" };
-    private readonly string[] monsplodeCharacters = new string[] { "Percy", "Lanaluff", "Nibs", "Clondar", "Melbor", "Magmy", "Pouse" };
-    private readonly string[] ktaneDiscordServerMembers = new string[] { "Yoshi Dojo", "VFlyer", "Sameone", "Cyanix", "Konoko", "Red Penguin", "GhostSalt", "Yabbaguy" };
-    private readonly int[] cluedoColors = new int[] { 8, 5, 7, 10 };
-    private readonly int[] monsplodeColors = new int[] { 3, 4, 6 };
-    private readonly int[] ktaneDiscordColors = new int[] { 1, 2, 9, 0 };
-    private readonly int[] refersToColorName = new int[] { 1, 3, 4, 5, 6 };
-    private readonly int[] refersToColorLabel = new int[] { 8, 11 };
-    private readonly Stopwatch buttonHoldDetection = new Stopwatch();
+    readonly Dictionary<int, bool> colorConditions = new Dictionary<int, bool>();
+    readonly Dictionary<int, string> colorStatements = new Dictionary<int, string>{
+       { 0, "The button’s label begins with a letter N-Z"},
+       { 1, "The button is Blue" },
+       { 2, "The name of the button’s color ends with a Letter A-M" },
+       { 3, "The button is Red, Green, or Blue" },
+       { 4, "The button is White or Black" },
+       { 5, "The button’s color can be found in the right half of the manual's first table" },
+       { 6, "The button is Red, Orange, or Yellow" },
+       { 7, "The button is a button" },
+       { 8, "The button’s label is \"YES\", \"NO\", or \"I DON'T KNOW\"" },
+       { 9, "The button’s label contains fewer than 5 letters" },
+       { 10, "The button’s color name contains the letter \"R\"" },
+       { 11, "The button’s label is \"Press\", \"Tap\", \"Push\", or \"Click\"" },
+    };
+    readonly int[] trueColors;
+    readonly bool[] initialStatements = new bool[7];
+    readonly bool[] liars = new bool[7];
+    readonly bool[] firstValues = new bool[7];
+    readonly bool[] secondValues = new bool[7];
+    readonly bool[] finalCuts = new bool[7];
+    int numberOfLiars;
+    int targetLastDigit;
+    bool tap;
+    bool incorrectHold = false;
+    List<int> wiresToBeCut = new List<int>();
+    readonly List<int> WiresCut = new List<int>();
+    readonly string[] cluedoCharacters = new string[] { "Miss Scarlett", "Colonel Mustard", "Reverend Green", "Mrs Peacock", "Professor Plum", "Mrs White", "Dr Orchid" };
+    readonly string[] monsplodeCharacters = new string[] { "Percy", "Lanaluff", "Nibs", "Clondar", "Melbor", "Magmy", "Pouse" };
+    readonly string[] ktaneDiscordServerMembers = new string[] { "Yoshi Dojo", "VFlyer", "Sameone", "Cyanix", "Konoko", "Red Penguin", "GhostSalt", "Yabbaguy" };
+    readonly int[] cluedoColors = new int[] { 8, 5, 7, 10 };
+    readonly int[] monsplodeColors = new int[] { 3, 4, 6 };
+    readonly int[] ktaneDiscordColors = new int[] { 1, 2, 9, 0 };
+    readonly int[] refersToColorName = new int[] { 1, 3, 4, 5, 6 };
+    readonly int[] refersToColorLabel = new int[] { 8, 11 };
+    readonly Stopwatch buttonHoldDetection = new Stopwatch();
 
     public LyingWires(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
         UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Solving Lying Wires.", ModuleID);
         string buttonColorName = Info.MainColors[Info.Button].ToUpper();
+        initializeColorConditions(buttonColorName);
+        trueColors = colorConditions.Where(x => x.Value).Select(x => x.Key).ToArray();
+        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Wires present: {1}.", ModuleID, Info.GetWireInfo());
+        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Wire LEDs present: {1}.", ModuleID, Info.GetWireLEDInfo());
+        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Button is {1}.", ModuleID, Info.GetButtonInfo());
+        DetermineWires();
+    }
+
+    private void initializeColorConditions(string buttonColorName){
         colorConditions.Add(0, Info.ButtonText[0] >= 78 && Info.ButtonText[0] <= 90);
         colorConditions.Add(1, Info.Button == 1);
         colorConditions.Add(2, buttonColorName[buttonColorName.Length - 1] >= 65 && buttonColorName[buttonColorName.Length - 1] <= 77);
@@ -44,25 +67,6 @@ public class LyingWires : Puzzle
         colorConditions.Add(9, Info.ButtonText.Length < 5);
         colorConditions.Add(10, Info.MainColors[Info.Button].ToUpper().Contains("R"));
         colorConditions.Add(11, Info.ButtonText == "PRESS" || Info.ButtonText == "TAP" || Info.ButtonText == "PUSH" || Info.ButtonText == "CLICK");
-
-        colorStatements.Add(0, "The button’s label begins with a letter N-Z");
-        colorStatements.Add(1, "The button is Blue");
-        colorStatements.Add(2, "The name of the button’s color ends with a Letter A-M");
-        colorStatements.Add(3, "The button is Red, Green, or Blue");
-        colorStatements.Add(4, "The button is White or Black");
-        colorStatements.Add(5, "The button’s color can be found in the right half of the manual's first table");
-        colorStatements.Add(6, "The button is Red, Orange, or Yellow");
-        colorStatements.Add(7, "The button is a button");
-        colorStatements.Add(8, "The button’s label is “YES”, “NO”, or “I DON'T KNOW”");
-        colorStatements.Add(9, "The button’s label contains fewer than 5 letters");
-        colorStatements.Add(10, "The button’s color name contains the letter “R”");
-        colorStatements.Add(11, "The button’s label is “Press”, “Tap”, “Push”, or “Click”");
-
-        trueColors = colorConditions.Where(x => x.Value).Select(x => x.Key).ToArray();
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The button is {1}.", ModuleID, Info.GetButtonInfo());
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The wires are as follows: {1}.", ModuleID, Info.GetWireInfo());
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The wire LEDs are as follows: {1}.", ModuleID, Info.GetWireLEDInfo());
-        DetermineWires();
     }
 
     public override void OnWireCut(int Wire)
@@ -76,11 +80,15 @@ public class LyingWires : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving())
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was cut when the component selection was [{2}] instead of [{3}].", ModuleID, Wire + 1, Module.GetOnComponents(), Module.GetTargetComponents());
-            RegenWires();
-            return;
+            if (!Module.CheckValidComponents())
+            {
+                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was cut when the component selection was [{2}] instead of [{3}].", ModuleID, Wire + 1, Module.GetOnComponents(), Module.GetTargetComponents());
+                RegenWires();
+                return;
+            }
+            Module.StartSolve();
         }
 
         if (finalCuts[Wire])
@@ -89,6 +97,9 @@ public class LyingWires : Puzzle
             RegenWires();
             return;
         }
+
+        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Wire {1} was correctly cut.", ModuleID, Wire + 1);
+        WiresCut.Add(Wire);
 
         Module.StartSolve();
     }
@@ -105,15 +116,19 @@ public class LyingWires : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving())
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
+            if (!Module.CheckValidComponents())
+            {
+                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
+            Module.StartSolve();
         }
 
         int lastDigitOfTimer = ((int)Module.Bomb.GetTime()) % 10;
-        if (wiresToBeCut.OrderBy(x => x).SequenceEqual(Module.WiresCut.OrderBy(x => x)))
+        if (wiresToBeCut.OrderBy(x => x).SequenceEqual(WiresCut.OrderBy(x => x)))
         {
             if (tap && lastDigitOfTimer != (numberOfLiars + Info.NumberDisplay) % 10)
             {
@@ -152,7 +167,7 @@ public class LyingWires : Puzzle
             return;
         }
         int lastDigitOfTimer = ((int)Module.Bomb.GetTime()) % 10;
-        if (wiresToBeCut.OrderBy(x => x).SequenceEqual(Module.WiresCut.OrderBy(x => x)))
+        if (wiresToBeCut.OrderBy(x => x).SequenceEqual(WiresCut.OrderBy(x => x)))
         {
             if (tap && buttonHoldDetection.ElapsedMilliseconds >= 500)
             {
