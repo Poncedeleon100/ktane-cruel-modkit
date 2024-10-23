@@ -513,6 +513,10 @@ public class CruelModkitScript : MonoBehaviour
                 TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Arrows);
                 Puzzle = new LogicalColorCombinations(this, ModuleID, Info, TargetComponents);
                 break;
+            case "Lying Wires":
+                TargetComponents = (byte)(ComponentsEnum.Wires | ComponentsEnum.Button);
+                Puzzle = new LyingWires(this, ModuleID, Info, TargetComponents);
+                break;
             case "Test Puzzle":
             default:
                 TargetComponents = (byte)(ComponentsEnum.Wires | ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Symbols | ComponentsEnum.Alphabet | ComponentsEnum.Piano | ComponentsEnum.Arrows | ComponentsEnum.Bulbs);
