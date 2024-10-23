@@ -40,16 +40,16 @@ public class ComponentInfo
     public static readonly Dictionary<PianoKeys, string> PianoKeyNames = new Dictionary<PianoKeys, string>
     {
         { PianoKeys.C, "C" },
-        { PianoKeys.Db, "C#/Db" },
+        { PianoKeys.Db, "C♯/D♭" },
         { PianoKeys.D, "D" },
-        { PianoKeys.Eb, "D#/Eb" },
+        { PianoKeys.Eb, "D♯/E♭" },
         { PianoKeys.E, "E" },
         { PianoKeys.F, "F" },
-        { PianoKeys.Gb, "F#/Gb" },
+        { PianoKeys.Gb, "F♯/G♭" },
         { PianoKeys.G, "G" },
-        { PianoKeys.Ab, "G#/Ab" },
+        { PianoKeys.Ab, "G♯/A♭" },
         { PianoKeys.A, "A" },
-        { PianoKeys.Bb, "A#/Bb" },
+        { PianoKeys.Bb, "A♯/B♭" },
         { PianoKeys.B, "B" },
     };
     /// <summary>

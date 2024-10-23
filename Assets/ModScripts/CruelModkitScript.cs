@@ -535,6 +535,7 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
+        SelectModule = "Test Puzzle";
         switch (SelectModule)
         {
             case "Timer Timings":
@@ -861,15 +862,8 @@ public class CruelModkitScript : MonoBehaviour
     public void SetMorse()
     {
         // End the coroutine in case it's currently playing to prevent the light from doing weird stuff
-        try
-        {
+        if (MorseCodeAnimation != null)
             StopCoroutine(MorseCodeAnimation);
-        }
-        catch (NullReferenceException)
-        {
-            // NullReferenceException here is pretty chill since MorseCodeAnimation starts as null
-            // Anything else and we're in big trouble
-        }
         MorseLED.transform.Find("MorseBulbLight").GetComponentInChildren<Light>().enabled = false;
         MorseLED.transform.GetComponentInChildren<MeshRenderer>().material = MorseMats[0];
         MorseCodeAnimation = PlayWord(Info.Morse);

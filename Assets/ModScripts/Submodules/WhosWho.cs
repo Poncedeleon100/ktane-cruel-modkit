@@ -298,7 +298,7 @@ public class WhosWho : Puzzle
 
         if (!Module.IsSolving())
         {
-            if (!Module.IsSolving() && !Module.CheckValidComponents())
+            if (!Module.CheckValidComponents())
             {
                 UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
                 Module.CauseStrike();

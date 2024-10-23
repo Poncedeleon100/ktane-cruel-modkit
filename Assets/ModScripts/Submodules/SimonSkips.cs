@@ -117,17 +117,14 @@ public class SimonSkips : Puzzle
         if (Module.IsModuleSolved() || Module.IsSolving())
             return;
 
-        if (!Module.IsSolving())
+        if (!Module.CheckValidComponents())
         {
-            if (!Module.CheckValidComponents())
-            {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
-                return;
-            }
-
-            Module.StartSolve();
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+            Module.CauseStrike();
+            return;
         }
+
+        Module.StartSolve();
 
         arrowColours = ConvertArrowNumstoLEDNums();
         NewLEDs();
