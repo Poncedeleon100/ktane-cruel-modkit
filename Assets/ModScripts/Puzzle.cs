@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using static ComponentInfo;
 
@@ -18,6 +19,7 @@ public class Puzzle
         this.Components = Components;
     }
 
+    public readonly List<int> WiresCut = new List<int>();
     public readonly bool[] BulbScrewedIn = { true, true };
 
     public virtual void OnWireCut(int Wire)

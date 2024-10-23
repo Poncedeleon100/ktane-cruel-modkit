@@ -26,7 +26,6 @@ public class TestPuzzle : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] Widgets: Timer display is {1}. Word display is {2}. Number display is {3}. Morse code LED is {4}. Meter is {5} and at {6}%.", ModuleID, Info.TimerDisplay.ToString().PadLeft(5, '0'), Info.WordDisplay == "" ? "blank" : Info.WordDisplay, Info.NumberDisplay, Info.Morse, (Info.MeterValue == 0) ? "none" : Enum.GetName(typeof(MeterColors), Info.MeterColor), (100 * Math.Round(Info.MeterValue, 2)).ToString());
     }
 
-    readonly List<int> WiresCut = new List<int>();
     readonly bool[] SymbolsOn = { false, false, false, false, false, false };
     readonly bool[] AlphabetOn = { false, false, false, false, false, false };
 

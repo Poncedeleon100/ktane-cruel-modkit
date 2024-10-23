@@ -31,11 +31,9 @@ public class LyingWires : Puzzle
     int targetLastDigit;
     bool tap;
     bool incorrectHold = false;
-    List<int> wiresToBeCut = new List<int>();
-    readonly List<int> WiresCut = new List<int>();
+    readonly List<int> wiresToBeCut = new List<int>();
     readonly string[] cluedoCharacters = new string[] { "Miss Scarlett", "Colonel Mustard", "Reverend Green", "Mrs Peacock", "Professor Plum", "Mrs White", "Dr Orchid" };
     readonly string[] monsplodeCharacters = new string[] { "Percy", "Lanaluff", "Nibs", "Clondar", "Melbor", "Magmy", "Pouse" };
-    readonly string[] ktaneDiscordServerMembers = new string[] { "Yoshi Dojo", "VFlyer", "Sameone", "Cyanix", "Konoko", "Red Penguin", "GhostSalt", "Yabbaguy" };
     readonly int[] cluedoColors = new int[] { 8, 5, 7, 10 };
     readonly int[] monsplodeColors = new int[] { 3, 4, 6 };
     readonly int[] ktaneDiscordColors = new int[] { 1, 2, 9, 0 };
@@ -47,7 +45,7 @@ public class LyingWires : Puzzle
     {
         UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Solving Lying Wires.", ModuleID);
         string buttonColorName = Enum.GetName(typeof(MainColors), Info.Button).ToUpper();
-        initializeColorConditions(buttonColorName);
+        InitializeColorConditions(buttonColorName);
         trueColors = colorConditions.Where(x => x.Value).Select(x => x.Key).ToArray();
         UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Wires present: {1}.", ModuleID, Info.GetWireInfo());
         UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Wire LEDs present: {1}.", ModuleID, Info.GetWireLEDInfo());
@@ -55,7 +53,7 @@ public class LyingWires : Puzzle
         DetermineWires();
     }
 
-    private void initializeColorConditions(string buttonColorName){
+    private void InitializeColorConditions(string buttonColorName){
         colorConditions.Add(0, Info.ButtonText[0] >= 78 && Info.ButtonText[0] <= 90);
         colorConditions.Add(1, Info.Button == 1);
         colorConditions.Add(2, buttonColorName[buttonColorName.Length - 1] >= 65 && buttonColorName[buttonColorName.Length - 1] <= 77);
