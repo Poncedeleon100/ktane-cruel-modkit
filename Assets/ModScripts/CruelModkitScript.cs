@@ -471,8 +471,6 @@ public class CruelModkitScript : MonoBehaviour
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        //REMOVE WHEN DONE [!!!]
-        SelectModule = "Polygonal Mapping";
         switch (SelectModule)
         {
             case "Timer Timings":
