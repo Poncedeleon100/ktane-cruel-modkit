@@ -128,7 +128,7 @@ public class Puzzle
             {
                 Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Alphanumeric key {1} was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Alphabet + 1, Module.GetOnComponents(), Module.GetTargetComponents());
                 Module.CauseStrike();
-                Module.ButtonStrike(false, Alphabet);
+                Module.StartCoroutine(Module.ButtonStrike(false, Alphabet));
                 return;
             }
 
