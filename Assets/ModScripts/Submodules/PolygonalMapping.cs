@@ -88,8 +88,6 @@ public class PolygonalMapping : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] Success on attempt {1}.", ModuleID, Attempts);
         Debug.LogFormat("[The Cruel Modkit #{0}] Alphabet buttons are: [{1}]", ModuleID, Info.GetAlphabetInfo());
         Debug.LogFormat("[The Cruel Modkit #{0}] Symbols are: [{1}]", ModuleID, Info.GetSymbolInfo());
-        Debug.LogFormat("[The Cruel Modkit #{0}] Info of Symbols: 0:{1}, 1:{2}.", ModuleID, Info.Symbols[0], Info.Symbols[1]);                    
-
 
         //setup ignore string
         string WordDisplayFixed = "";
@@ -181,7 +179,7 @@ public class PolygonalMapping : Puzzle
 
                 if(!FinalOrder.Contains("S" + HighestIndex.ToString())){
                     FinalOrder.Add("S" + HighestIndex.ToString());
-                    Debug.LogFormat("[The Cruel Modkit #{0}] You should press Symbol {0}", ModuleID, HighestIndex);
+                    Debug.LogFormat("[The Cruel Modkit #{0}] You should press Symbol {1}", ModuleID, HighestIndex);
                 }
 
 
