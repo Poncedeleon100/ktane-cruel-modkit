@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Diagnostics; // to track how long each button has been held
+using System.Diagnostics;
 using System.Linq;
 using KModkit;
 using Random = UnityEngine.Random;

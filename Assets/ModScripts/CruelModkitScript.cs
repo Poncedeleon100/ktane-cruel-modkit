@@ -213,7 +213,7 @@ public class CruelModkitScript : MonoBehaviour
         for (int i = 0; i < Components.Length; i++)
         {
             ComponentsEnum comp = (ComponentsEnum)Math.Pow(2, i);
-            SetSelectables(comp, ForceComponents ? ((ComponentsEnum)TargetComponents & comp) == comp : false);
+            SetSelectables(comp, ForceComponents && ((ComponentsEnum)TargetComponents & comp) == comp);
             //OnComponents[i] = ForceComponents && TargetComponents[i];
         }
         // Settings

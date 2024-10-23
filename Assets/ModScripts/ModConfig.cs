@@ -6,8 +6,6 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
-#pragma warning disable RCS1128
-
 class ModConfig<T> where T : new()
 {
 	public ModConfig(string filename, Action<Exception> onRead = null)
@@ -64,8 +62,7 @@ class ModConfig<T> where T : new()
 					deserialized = new T();
 
 				SuccessfulRead = true;
-				if (OnRead != null)
-					OnRead.Invoke(null);
+				OnRead?.Invoke(null);
 				return deserialized;
 			}
 		}
@@ -75,8 +72,7 @@ class ModConfig<T> where T : new()
 			Debug.LogException(e);
 
 			SuccessfulRead = false;
-			if (OnRead != null)
-				OnRead.Invoke(e);
+			OnRead?.Invoke(e);
 			return new T();
 		}
 	}

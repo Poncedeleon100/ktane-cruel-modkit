@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Random = UnityEngine.Random;
-using static ComponentInfo;
 using System.Linq;
+using UnityEngine;
+using static ComponentInfo;
+using Random = UnityEngine.Random;
 
 public class TestPuzzle : Puzzle
 {
@@ -155,7 +154,7 @@ public class TestPuzzle : Puzzle
                 Module.Alphabet[i].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = Module.KeyLightMats[(int)KeyColors.Black];
                 AlphabetOn[i] = false;
             }
-            
+
             Debug.LogFormat("[The Cruel Modkit #{0}] Alphanumeric keys present: {1}.", ModuleID, Info.GetAlphabetInfo());
         }
     }
