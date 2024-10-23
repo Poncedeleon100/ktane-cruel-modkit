@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using KModkit;
+using static ComponentInfo;
 
 public class CruelModkitScript : MonoBehaviour
 {
@@ -54,7 +55,7 @@ public class CruelModkitScript : MonoBehaviour
     public GameObject Meter;
 
     public Mesh[] WireMesh;
-    readonly List<int> WiresCut = new List<int>();
+    public Mesh[] BulbButtonFaceMesh;
 
     //Fixes light sizes on different bomb sizes
     public Light[] LightsArray;
@@ -133,7 +134,7 @@ public class CruelModkitScript : MonoBehaviour
         { 'Z', new[] { Symbol.Dash, Symbol.Dash, Symbol.Dot, Symbol.Dot } },
     };
     private const float MorseCodeDotLength = 0.25f;
-    public IEnumerator MorseCodeAnimation;
+    private IEnumerator MorseCodeAnimation = null;
 
     // Logging
     static int ModuleIDCounter = 1;
@@ -144,7 +145,6 @@ public class CruelModkitScript : MonoBehaviour
 
     // These are public variables needed to communicate with the Puzzle class.
     public bool IsModuleSolved() => ModuleSolved;
-    public bool IsModuleSolving() => Solving;
     public bool CheckValidComponents()
     {
         return OnComponents == TargetComponents;
@@ -187,7 +187,7 @@ public class CruelModkitScript : MonoBehaviour
         catch
         {
             Debug.LogErrorFormat("[The Cruel Modkit #{0}] The settings encountered an error and are going back to the default behavior.", ModuleID);
-            SelectModule = "Timer Timings";
+            SelectModule = ""; // Overwrites any value previously entered so that the later switch statement will use "default"
         }
     }
 
@@ -213,7 +213,7 @@ public class CruelModkitScript : MonoBehaviour
         for (int i = 0; i < Components.Length; i++)
         {
             ComponentsEnum comp = (ComponentsEnum)Math.Pow(2, i);
-            SetSelectables(comp, ForceComponents ? ((ComponentsEnum)TargetComponents & comp) == comp : false);
+            SetSelectables(comp, ForceComponents && ((ComponentsEnum)TargetComponents & comp) == comp);
             //OnComponents[i] = ForceComponents && TargetComponents[i];
         }
         // Settings
@@ -399,53 +399,117 @@ public class CruelModkitScript : MonoBehaviour
     {
         Wires[Wire].transform.Find("WireHL").gameObject.SetActive(false);
         Wires[Wire].GetComponent<MeshFilter>().mesh = WireMesh[1];
-        WiresCut.Add(Wire);
     }
 
     public IEnumerator ButtonStrike(bool IsSymbols, int Button)
     {
         if (IsSymbols)
         {
-            Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[6];
+            Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Red];
             yield return new WaitForSeconds(1f);
-            Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[0];
+            Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Black];
         }
         else
         {
-            Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[6];
+            Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Red];
             yield return new WaitForSeconds(1f);
-            Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[0];
+            Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Black];
         }
     }
 
     public void RegenWires()
     {
-        Info.RegenWires();
-        WiresCut.Clear();
         StartCoroutine(RegenWiresAnim());
     }
 
-    public IEnumerator RegenWiresAnim()
+    private IEnumerator RegenWiresAnim()
     {
         yield return HideComponent(ComponentsEnum.Wires);
 
-        for (int i = 0; i < 7; i++)
-        {
-            int Color1 = Info.Wires[0][i];
-            int Color2 = Info.Wires[1][i];
-            if (Color1 != Color2)
-                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1] + "_" + ComponentInfo.WireColors[Color2]).ToArray()[0];
-            else
-                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1]).ToArray()[0];
+        SetWires();
+        SetWireLEDs();
+        ResetWires();
 
+        yield return ShowComponent(ComponentsEnum.Wires);
+    }
+
+    public void RegenButton()
+    {
+        StartCoroutine(RegenButtonAnim());
+    }
+
+    private IEnumerator RegenButtonAnim()
+    {
+        yield return HideComponent(ComponentsEnum.Button);
+
+        SetButton();
+
+        yield return ShowComponent(ComponentsEnum.Button);
+    }
+
+    public void RegenSymbols()
+    {
+        StartCoroutine(RegenSymbolsAnim());
+    }
+
+    private IEnumerator RegenSymbolsAnim()
+    {
+        yield return HideComponent(ComponentsEnum.Symbols);
+
+        SetSymbols();
+
+        yield return ShowComponent(ComponentsEnum.Symbols);
+    }
+
+    public void RegenAlphabet()
+    {
+        StartCoroutine(RegenAlphabetAnim());
+    }
+
+    private IEnumerator RegenAlphabetAnim()
+    {
+        yield return HideComponent(ComponentsEnum.Alphabet);
+
+        SetAlphabet();
+
+        yield return ShowComponent(ComponentsEnum.Alphabet);
+    }
+
+    public void RegenArrows()
+    {
+        StartCoroutine(RegenArrowsAnim());
+    }
+
+    private IEnumerator RegenArrowsAnim()
+    {
+        yield return HideComponent(ComponentsEnum.Arrows);
+
+        SetArrows();
+
+        yield return ShowComponent(ComponentsEnum.Arrows);
+    }
+
+    public void RegenBulbs()
+    {
+        StartCoroutine(RegenBulbsAnim());
+    }
+
+    private IEnumerator RegenBulbsAnim()
+    {
+        yield return HideComponent(ComponentsEnum.Bulbs);
+
+        SetBulbs();
+
+        yield return ShowComponent(ComponentsEnum.Bulbs);
+    }
+
+    private void ResetWires()
+    {
+        for (int i = 0; i < Wires.Length; i++)
+        {
             Wires[i].transform.Find("WireHL").gameObject.SetActive(true);
             Wires[i].GetComponent<MeshFilter>().mesh = WireMesh[0];
         }
-
-        for (int i = 0; i < WireLED.Length; i++)
-            WireLED[i].transform.Find("WireLEDL").GetComponentInChildren<Renderer>().material = WireLEDMats[Info.WireLED[i]];
-
-        yield return ShowComponent(ComponentsEnum.Wires);
     }
 
     IEnumerator PlaySolveAnim()
@@ -649,53 +713,97 @@ public class CruelModkitScript : MonoBehaviour
     void SetUpComponents()
     {
         Info = new ComponentInfo();
-        //Set materials for Wires
-        for(int i = 0; i < Wires.Length; i++)
+        SetWires();
+        SetWireLEDs();
+        SetButton();
+        SetLEDs();
+        SetSymbols();
+        SetAlphabet();
+        SetArrows();
+        SetBulbs();
+        SetResistors();
+        SetIdentity();
+        SetTimer();
+        SetWord();
+        SetNumber();
+        SetMorse();
+        SetMeter();
+    }
+
+    public void SetWires()
+    {
+        for (int i = 0; i < Wires.Length; i++)
         {
             int Color1 = Info.Wires[0][i];
             int Color2 = Info.Wires[1][i];
-            if(Color1 != Color2)
-                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1] + "_" + ComponentInfo.WireColors[Color2]).ToArray()[0];
+            if (Color1 != Color2)
+                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == Enum.GetName(typeof(WireColors), Color1) + "_" + Enum.GetName(typeof(WireColors), Color2)).ToArray()[0];
             else
-                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == ComponentInfo.WireColors[Color1]).ToArray()[0];
+                Wires[i].transform.GetComponentInChildren<Renderer>().material = WireMats.Where(x => x.name == Enum.GetName(typeof(WireColors), Color1)).ToArray()[0];
         }
-        //Set materials for Wire LEDs
-        for(int i = 0; i < WireLED.Length; i++)
+    }
+
+    public void SetWireLEDs()
+    {
+        for (int i = 0; i < WireLED.Length; i++)
             WireLED[i].transform.Find("WireLEDL").GetComponentInChildren<Renderer>().material = WireLEDMats[Info.WireLED[i]];
-        //Set text and material for Button
+    }
+
+    public void SetButton()
+    {
+        int[] DarkColors = { (int)MainColors.Black, (int)MainColors.Blue, (int)MainColors.Purple };
         Button.transform.GetComponentInChildren<Renderer>().material = ButtonMats[Info.Button];
         Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().text = Info.ButtonText;
-        if(Info.Button == 0 || Info.Button == 1 || Info.Button == 7)
-            Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = ComponentInfo.ButtonTextWhite;
-        //Set materials for LEDs
-        for(int i = 0; i < LED.Length; i++)
+        Button.transform.Find("ButtonText").GetComponentInChildren<TextMesh>().color = Array.IndexOf(DarkColors, Info.Button) >= 0 ? new Color(1, 1, 1) : new Color(0, 0, 0);
+    }
+
+    public void SetLEDs()
+    {
+        for (int i = 0; i < LED.Length; i++)
             LED[i].transform.Find("LEDL").GetComponentInChildren<Renderer>().material = LEDMats[Info.LED[i]];
-        //Set materials for Symbols
-        for(int i = 0; i < Symbols.Length; i++)
+    }
+
+    public void SetSymbols()
+    {
+        for (int i = 0; i < Symbols.Length; i++)
             Symbols[i].transform.Find("Symbol").GetComponentInChildren<Renderer>().material = SymbolMats[Info.Symbols[i]];
-        //Set Alphabet text
-        for(int i = 0; i < Alphabet.Length; i++)
+    }
+
+    public void SetAlphabet()
+    {
+        for (int i = 0; i < Alphabet.Length; i++)
             Alphabet[i].transform.Find("AlphabetText").GetComponentInChildren<TextMesh>().text = Info.Alphabet[i];
-        //Set materials and light colors for Arrows
-        for(int i = 0; i < 9; i++)
+    }
+
+    public void SetArrows()
+    {
+        for (int i = 0; i < 9; i++)
         {
             Arrows[i].GetComponentInChildren<Renderer>().material = ArrowMats[Info.Arrows[i]];
-            Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = Info.ArrowLightColors[Info.Arrows[i]];
-            Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().intensity += (Info.Arrows[i] == 8) ? 10 : 0;
+            Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().color = ArrowLightColors[Info.Arrows[i]];
+            Arrows[i].transform.Find("ArrowLight").GetComponentInChildren<Light>().intensity += (Info.Arrows[i] == (int)ArrowColors.Grey) ? 10 : 0; // Grey is too dark, so the light needs to be brighter
         }
-        //Set I/O buttons and bulb colors/opacity for Bulbs
+    }
+
+    public void SetBulbs()
+    {
+        // Swaps I/O symbols if necessary
         if (Info.BulbInfo[4])
         {
-            var p = Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh;
-            Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh;
-            Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = p;
+            Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[0];
+            Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[1];
         }
-        for(int i = 0; i < 2; i++)
+        else
+        {
+            Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[1];
+            Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[0];
+        }
+        for (int i = 0; i < 2; i++)
         {
             //Set filament visibility based on opacity of the bulb
             Bulbs[i].transform.Find("Filament").gameObject.SetActive(!Info.BulbInfo[i]);
             //Set bulb glass color and opacity
-            Color TempBulbColor = Info.BulbColorsArray[Info.BulbColors[i]];
+            Color TempBulbColor = BulbColorValues[Info.BulbColors[i]];
             TempBulbColor[3] = Info.BulbInfo[i] ? 1f : .55f;
             Bulbs[i].transform.Find("Glass").GetComponentInChildren<Renderer>().material.color = TempBulbColor;
             //Set bulb light color
@@ -703,40 +811,62 @@ public class CruelModkitScript : MonoBehaviour
             //Turns the lights on or off
             Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = Info.BulbInfo[i + 2];
         }
-        //Set materials and text for Identity
-        Identity[0].transform.GetComponentInChildren<Renderer>().material = IdentityMats[Info.Identity[0]];
-        Identity[1].transform.GetComponentInChildren<TextMesh>().text = Info.IdentityItems[Info.Identity[1]];
-        Identity[2].transform.GetComponentInChildren<TextMesh>().text = Info.IdentityLocations[Info.Identity[2]];
-        Identity[3].transform.GetComponentInChildren<TextMesh>().text = Info.IdentityRarity[Info.Identity[3]];
-        //Set materials and text for Resistor
+    }
+
+    public void SetResistors()
+    {
         for (int i = 0; i < ResistorStrips.Length; i++)
             ResistorStrips[i].GetComponentInChildren<Renderer>().material = ResistorMats[Info.ResistorColors[i]];
         for (int i = 0; i < ResistorText.Length; i++)
             ResistorText[i].text = Info.ResistorText[i];
         for (int i = 0; i < Info.ResistorReversed.Length; i++)
         {
-            if (Info.ResistorReversed[i])
+            float[] DefaultResistorXValue = { -0.02438f, -0.022356f };
+            float ShiftValue = .001852f;
+            Vector3[] ResistorPosition = { ResistorStrips[i + 2].transform.localPosition, ResistorStrips[i + 4].transform.localPosition };
+
+            for (int j = 0; j < ResistorPosition.Length; j++)
             {
-                ResistorStrips[i + 2].transform.localPosition += new Vector3(.001852f, 0, 0);
-                ResistorStrips[i + 4].transform.localPosition += new Vector3(.001852f, 0, 0);
+                ResistorPosition[j].x = DefaultResistorXValue[j] + (Info.ResistorReversed[i] ? ShiftValue : 0);
             }
+
+            ResistorStrips[i + 2].transform.localPosition = ResistorPosition[0];
+            ResistorStrips[i + 4].transform.localPosition = ResistorPosition[1];
         }
-        //Set timer display text
+    }
+
+    public void SetIdentity()
+    {
+        Identity[0].transform.GetComponentInChildren<Renderer>().material = IdentityMats[Info.Identity[0]];
+        Identity[1].transform.GetComponentInChildren<TextMesh>().text = IdentityItems[Info.Identity[1]];
+        Identity[2].transform.GetComponentInChildren<TextMesh>().text = IdentityLocations[Info.Identity[2]];
+        Identity[3].transform.GetComponentInChildren<TextMesh>().text = IdentityRarity[Info.Identity[3]];
+    }
+
+    public void SetTimer()
+    {
         WidgetText[0].text = Info.TimerDisplay.ToString().PadLeft(5, '0');
-        //Set word display text
+    }
+
+    public void SetWord()
+    {
         WidgetText[1].text = Info.WordDisplay;
-        //Set number display text
+    }
+
+    public void SetNumber()
+    {
         WidgetText[2].text = Info.NumberDisplay.ToString();
-        //Set morse code display
+    }
+
+    public void SetMorse()
+    {
+        // End the coroutine in case it's currently playing to prevent the light from doing weird stuff
+        if (MorseCodeAnimation != null)
+            StopCoroutine(MorseCodeAnimation);
+        MorseLED.transform.Find("MorseBulbLight").GetComponentInChildren<Light>().enabled = false;
+        MorseLED.transform.GetComponentInChildren<MeshRenderer>().material = MorseMats[0];
         MorseCodeAnimation = PlayWord(Info.Morse);
         StartCoroutine(MorseCodeAnimation);
-        //Set meter value and color
-        Meter.GetComponentInChildren<Renderer>().material = MeterMats[Info.MeterColor];
-        //Changes the meter so it matches the value from Info.MeterValue; adjusts scale first then shifts the position down
-        float TempNumber = 0.003882663f * (float)Info.MeterValue; //.00388 is the original Z scale
-        Meter.transform.localScale = new Vector3(0.0005912599f, 0.01419745f, TempNumber);
-        TempNumber = -0.02739999f - ((0.03884f * (1 - (float)Info.MeterValue)) / 2); //-.0273 is the original Z position, .0388 is the original length
-        Meter.transform.localPosition = new Vector3(-0.04243f, 0.01436f, TempNumber);
     }
 
     public IEnumerator PlayWord(string Word)
@@ -759,6 +889,21 @@ public class CruelModkitScript : MonoBehaviour
                 yield return new WaitForSeconds(MorseCodeDotLength * 3);  // 4 dots total
             }
         }
+    }
+
+    public void SetMeter()
+    {
+        Meter.GetComponentInChildren<Renderer>().material = MeterMats[Info.MeterColor];
+
+        Vector3 MeterScale = Meter.transform.localScale;
+        Vector3 MeterPosition = Meter.transform.localPosition;
+
+        MeterScale.z *= (float)Info.MeterValue;
+        Meter.transform.localScale = MeterScale;
+
+        float DefaultMeterLength = 0.03884f;
+        MeterPosition.z -= ((DefaultMeterLength * (1 - (float)Info.MeterValue)) / 2);
+        Meter.transform.localPosition = MeterPosition;
     }
 
     // Solve/Strike Handling
@@ -829,7 +974,7 @@ public class CruelModkitScript : MonoBehaviour
                     { "Text", "Select Module" },
                     { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
                     { "Type", "Dropdown" },
-                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Piano Decryption", "AV Input", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "Deranged Keypad", "Logical Color Combinations", "Test Puzzle" } }
+                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Piano Decryption", "AV Input", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "Deranged Keypad", "Logical Color Combinations", "Lying Wires", "Test Puzzle" } }
                 },
             }
             },

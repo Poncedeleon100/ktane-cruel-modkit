@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using static ComponentInfo;
 
 public class LyingWires : Puzzle
 {
@@ -30,11 +31,9 @@ public class LyingWires : Puzzle
     int targetLastDigit;
     bool tap;
     bool incorrectHold = false;
-    List<int> wiresToBeCut = new List<int>();
-    readonly List<int> WiresCut = new List<int>();
+    readonly List<int> wiresToBeCut = new List<int>();
     readonly string[] cluedoCharacters = new string[] { "Miss Scarlett", "Colonel Mustard", "Reverend Green", "Mrs Peacock", "Professor Plum", "Mrs White", "Dr Orchid" };
     readonly string[] monsplodeCharacters = new string[] { "Percy", "Lanaluff", "Nibs", "Clondar", "Melbor", "Magmy", "Pouse" };
-    readonly string[] ktaneDiscordServerMembers = new string[] { "Yoshi Dojo", "VFlyer", "Sameone", "Cyanix", "Konoko", "Red Penguin", "GhostSalt", "Yabbaguy" };
     readonly int[] cluedoColors = new int[] { 8, 5, 7, 10 };
     readonly int[] monsplodeColors = new int[] { 3, 4, 6 };
     readonly int[] ktaneDiscordColors = new int[] { 1, 2, 9, 0 };
@@ -45,8 +44,8 @@ public class LyingWires : Puzzle
     public LyingWires(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
         UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Solving Lying Wires.", ModuleID);
-        string buttonColorName = Info.MainColors[Info.Button].ToUpper();
-        initializeColorConditions(buttonColorName);
+        string buttonColorName = Enum.GetName(typeof(MainColors), Info.Button).ToUpper();
+        InitializeColorConditions(buttonColorName);
         trueColors = colorConditions.Where(x => x.Value).Select(x => x.Key).ToArray();
         UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Wires present: {1}.", ModuleID, Info.GetWireInfo());
         UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Wire LEDs present: {1}.", ModuleID, Info.GetWireLEDInfo());
@@ -54,7 +53,7 @@ public class LyingWires : Puzzle
         DetermineWires();
     }
 
-    private void initializeColorConditions(string buttonColorName){
+    private void InitializeColorConditions(string buttonColorName){
         colorConditions.Add(0, Info.ButtonText[0] >= 78 && Info.ButtonText[0] <= 90);
         colorConditions.Add(1, Info.Button == 1);
         colorConditions.Add(2, buttonColorName[buttonColorName.Length - 1] >= 65 && buttonColorName[buttonColorName.Length - 1] <= 77);
@@ -65,7 +64,7 @@ public class LyingWires : Puzzle
         colorConditions.Add(7, true);
         colorConditions.Add(8, Info.ButtonText == "YES" || Info.ButtonText == "NO" || Info.ButtonText == "I DON'T KNOW");
         colorConditions.Add(9, Info.ButtonText.Length < 5);
-        colorConditions.Add(10, Info.MainColors[Info.Button].ToUpper().Contains("R"));
+        colorConditions.Add(10, buttonColorName.Contains("R"));
         colorConditions.Add(11, Info.ButtonText == "PRESS" || Info.ButtonText == "TAP" || Info.ButtonText == "PUSH" || Info.ButtonText == "CLICK");
     }
 
@@ -211,7 +210,7 @@ public class LyingWires : Puzzle
         }
         foreach (int color in trueColors)
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] {1}, so any {2} wires may be telling true statements.", ModuleID, colorStatements[color], ComponentInfo.WireColors[color].ToLower());
+            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] {1}, so any {2} wires may be telling true statements.", ModuleID, colorStatements[color], Enum.GetName(typeof(WireColors), color).ToLower());
         }
         List<string> initiallyTrueWireIndices = new List<string>();
         for (int i = 0; i < 7; i++)
@@ -259,7 +258,7 @@ public class LyingWires : Puzzle
             }
         }
 
-        string identity = Info.IdentityNames[Info.Identity[0]];
+        string identity = IdentityNames[Info.Identity[0]];
 
         if (cluedoCharacters.Contains(identity))
         {
@@ -287,7 +286,7 @@ public class LyingWires : Puzzle
         }
 
         string[] operators = new string[] { "AND", "OR", "XOR", "NAND", "NOR", "XNOR" };
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The meter is {1}, so the {2} operation will be applied to the two booleans.", ModuleID, Info.MeterColors[Info.MeterColor].ToLower(), operators[Info.MeterColor]);
+        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The meter is {1}, so the {2} operation will be applied to the two booleans.", ModuleID, Enum.GetName(typeof(MeterColors), Info.MeterColor).ToLower(), operators[Info.MeterColor]);
         switch (Info.MeterColor)
         {
             case 0:

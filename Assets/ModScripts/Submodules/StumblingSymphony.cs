@@ -148,12 +148,13 @@ public class StumblingSymphony : Puzzle
         }
 
         Module.StartSolve();
+
         PickNumber();
         Debug.LogFormat("[The Cruel Modkit #{0}] The melody is {1}.", ModuleID, melodyNames[Info.NumberDisplay]);
         Debug.LogFormat("[The Cruel Modkit #{0}] The rule used is rule {1}. {2}", ModuleID, activeRule + 1, ruleLog[activeRule]);
         CalcInputs();
         Debug.LogFormat("[The Cruel Modkit #{0}] The full sequence of notes to play (including stumbles) is {1}.", ModuleID, string.Join(", ", finalInput.Select(x => noteOrder[x]).ToArray()));
-        Debug.LogFormat("[The Cruel Modkit #{0}] The button is {1}. Your stumbles will be shifted {2} semitones forward", ModuleID, Info.MainColors[Info.Button], semiShift);
+        Debug.LogFormat("[The Cruel Modkit #{0}] The button is {1}. Your stumbles will be shifted {2} semitones forward", ModuleID, Enum.GetName(typeof(ComponentInfo.MainColors), Info.Button), semiShift);
         return;
     }
 
@@ -171,7 +172,7 @@ public class StumblingSymphony : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Info.PianoKeyNames[Piano], Module.GetOnComponents(), Module.GetTargetComponents());
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)Piano], Module.GetOnComponents(), Module.GetTargetComponents());
 
             }
             else
@@ -219,6 +220,7 @@ public class StumblingSymphony : Puzzle
 
         if (Module.IsModuleSolved())
             return;
+
         if (!Module.IsSolving())
         {
             if (!Module.CheckValidComponents())
