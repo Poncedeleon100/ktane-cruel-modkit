@@ -17,7 +17,10 @@ public class ComponentInfo
     public static readonly string[] MorseList = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
     // Dictionaries
-    // For converting adjacent arrow colors into their associated slider colors. Colors within string pairs must be ordered alphabetically: Blue, Green, Red, Yellow
+    /// <summary>
+    /// Converts adjacent arrow colors into their respective slider colors.
+    /// Colors within string pairs must be ordered alphabetically or by numerical value (Blue, Green, Red, Yellow).
+    /// </summary>
     static readonly Dictionary<string, int> SliderColors = new Dictionary<string, int>
     {
         { ((int)ArrowColors.Blue).ToString() +   ((int)ArrowColors.Blue).ToString(),   (int)ArrowColors.Blue },
@@ -31,7 +34,9 @@ public class ComponentInfo
         { ((int)ArrowColors.Blue).ToString() +   ((int)ArrowColors.Yellow).ToString(), (int)ArrowColors.Grey },
         { ((int)ArrowColors.Green).ToString() +  ((int)ArrowColors.Yellow).ToString(), (int)ArrowColors.White },
     };
-    // These dictionaries are intended to convert unfriendly enum names into friendly names for helpful logging
+    /// <summary>
+    /// Converts the unfriendly enum names of each piano key into more friendly names for improved logging.
+    /// </summary>
     public static readonly Dictionary<PianoKeys, string> PianoKeyNames = new Dictionary<PianoKeys, string>
     {
         { PianoKeys.C, "C" },
@@ -47,6 +52,9 @@ public class ComponentInfo
         { PianoKeys.Bb, "A#/Bb" },
         { PianoKeys.B, "B" },
     };
+    /// <summary>
+    /// Converts the unfriendly enum names of each arrow color into more friendly names for improved logging.
+    /// </summary>
     public static readonly Dictionary<ArrowColors, string> ArrowColorNames = new Dictionary<ArrowColors, string>
     {
         { ArrowColors.Blue, "Blue" },
@@ -60,6 +68,9 @@ public class ComponentInfo
         { ArrowColors.Grey, "Grey" },
         { ArrowColors.White, "White" }
     };
+    /// <summary>
+    /// Converts the unfriendly enum names of each arrow direction into more friendly names for improved logging.
+    /// </summary>
     public static readonly Dictionary<ArrowDirections, string> ArrowDirectionNames = new Dictionary<ArrowDirections, string>
     {
         { ArrowDirections.Up, "Up" },
@@ -75,17 +86,31 @@ public class ComponentInfo
 
     // Enums
     public enum WireColors { Black, Blue, Cyan, Green, Grey, Lime, Orange, Pink, Purple, Red, White, Yellow }
-    // Used for Wire LEDs, Button, and LEDs
+    /// <summary>
+    /// These colors are used for Wire LEDs, Button, and LEDs.
+    /// </summary>
     public enum MainColors { Black, Blue, Cyan, Green, Lime, Orange, Pink, Purple, Red, White, Yellow }
     public enum BulbColorNames { Blue, Cyan, Green, Grey, Lime, Orange, Pink, Purple, Red, White, Yellow }
-    // This one deviates from alphabetical order because of how each strip needs a specific range of colors.
-    // Every color is present on every strip except for black, white, gold, and silver.
+    /// <summary>
+    /// These colors are not in alphabetical order to make generating the colors more convenient.
+    /// </summary>
     public enum ResistorColorNames { Black, White, Blue, Brown, Grey, Green, Orange, Purple, Red, Yellow, Gold, Silver }
     public enum MeterColors { Red, Orange, Yellow, Green, Blue, Purple }
     public enum KeyColors { Black, Blue, Green, Orange, Pink, Purple, Red, White, Yellow }
-    // The following enums have unfriendly names, so use them as puzzle constants only and use the associated dictionaries for logging
+    /// <summary>
+    /// The names of this enum are unfriendly, so they should be used internally only.
+    /// Use the associated dictionary for logging.
+    /// </summary>
     public enum PianoKeys { C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B }
+    /// <summary>
+    /// The names of this enum are unfriendly, so they should be used internally only.
+    /// Use the associated dictionary for logging.
+    /// </summary>
     public enum ArrowColors { Blue, Green, Red, Yellow, Cyan, GoldYellow, Magenta, Orange, Grey, White }
+    /// <summary>
+    /// The names of this enum are unfriendly, so they should be used internally only.
+    /// Use the associated dictionary for logging.
+    /// </summary>
     public enum ArrowDirections { Up, Right, Down, Left, UpRight, DownRight, DownLeft, UpLeft, Center }
 
     //Colors
