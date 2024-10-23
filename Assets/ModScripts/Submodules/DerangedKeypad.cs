@@ -126,7 +126,7 @@ public class DerangedKeypad : Puzzle
             {
                 Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Alphanumeric key {1} was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Alphabet + 1, Module.GetOnComponents(), Module.GetTargetComponents());
                 Module.CauseStrike();
-                Module.ButtonStrike(false, Alphabet);
+                Module.StartCoroutine(Module.ButtonStrike(false, Alphabet));
                 return;
             }
             Module.StartSolve();
@@ -135,7 +135,7 @@ public class DerangedKeypad : Puzzle
         if (buttonShouldBePressed)
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Strike! A key was pressed when the button was supposed to be pressed.", ModuleID);
-            Module.ButtonStrike(false, Alphabet);
+            Module.StartCoroutine(Module.ButtonStrike(false, Alphabet));
             Module.CauseStrike();
         }
         else if (Alphabet == shouldBePressed)
@@ -164,7 +164,7 @@ public class DerangedKeypad : Puzzle
         else
         {
             Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The key labeled {1} was pressed when the correct key was {2}.", ModuleID, Info.Alphabet[Alphabet].Replace('\n', ' '), Info.Alphabet[shouldBePressed].Replace('\n', ' '));
-            Module.ButtonStrike(false, Alphabet);
+            Module.StartCoroutine(Module.ButtonStrike(false, Alphabet));
             Module.CauseStrike();
         }
     }
