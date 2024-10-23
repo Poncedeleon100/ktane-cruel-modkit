@@ -1,0 +1,424 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <title>Lying Wires — Keep Talking and Nobody Explodes Module</title>
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/ktane-utils.js"></script>
+    <script src="js/jquery.3.7.0.min.js"></script>
+    <script src="js/Utilities/svg-utils.js"></script>
+    <style>
+        .black {
+            background-color: black;
+            color: white;
+        }
+
+        .red {
+            background-color: red;
+            color: black;
+        }
+
+        .orange {
+            background-color: orange;
+            color: black;
+        }
+
+        .yellow {
+            background-color: yellow;
+            color: black;
+        }
+
+        .green {
+            background-color: green;
+            color: black;
+        }
+
+        .lime {
+            background-color: lime;
+            color: black;
+        }
+
+        .cyan {
+            background-color: cyan;
+            color: black;
+        }
+
+        .blue {
+            background-color: blue;
+            color: white;
+        }
+
+        .purple {
+            background-color: purple;
+            color: white;
+        }
+
+        .pink {
+            background-color: #FF3CC8;
+            color: black;
+        }
+
+        .white {
+            background-color: white;
+            color: black;
+        }
+
+        .grey {
+            background-color: grey;
+            color: black
+        }
+
+        .dark table,
+        table {
+            margin: 1em auto;
+            border: none;
+        }
+
+        .page-footer::before {
+            content: 'Page ';
+        }
+
+        .page-footer::after {
+            content: ' of 4';
+        }
+    </style>
+</head>
+
+<body>
+    <div class="section">
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Lying Wires</h2>
+                <p class="flavour-text">One tells the truth… or two?… or three???</p>
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Wires, Button]</strong>,
+                    you are looking at the wrong section of this manual!</p>
+                <p>Tonight you’ll be playing a game of Lying Wires: every wire will give a True/False statement about
+                    the button, but some wires will lie about their statement depending on their star and LED colors.
+                    You must cut all the wires so that only the wires telling True statements are left, and then hold
+                    and release or tap the button to solve the game and the module. The host of this game can be found
+                    on the identity card. Refer to <b>Appendix: ID3NT1TYC4T3GORY</b> on the last page of this sub-module
+                    to
+                    identify which category your host belongs to.</p>
+                <p>To figure out each wire’s statement, use its color(s) in the table below:</p>
+                <ul>
+                    <li>If the wire has only 1 color, take the statement corresponding to the wire’s color to get the
+                        wire’s statement.</li>
+                    <li>If the wire has 2 colors, take the 2 statements corresponding to the wire’s colors, and combine
+                        them with an “AND” operator to get the wire’s statement (for example, Red/Blue wire’s statement
+                        is “The button’s label contains less than 5 letters AND the button is Blue.”). BUT, if the two
+                        statements refer to the same element of the button (color/color name or label), instead combine
+                        the statements with an “OR” operator. (Orange/Grey wire’s statement is “The button is Red,
+                        Orange, or Yellow OR the button is White or Black).</li>
+                </ul>
+                <table style="font-size:14px">
+                    <thead>
+                        <tr>
+                            <th>Wire Color</th>
+                            <th>Statement</th>
+                            <th>Wire Color</th>
+                            <th>Statement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="red">Red</td>
+                            <td>The button’s label contains fewer than 5 letters.</td>
+                            <td class="blue">Blue</td>
+                            <td>The button is Blue.</td>
+                        </tr>
+                        <tr>
+                            <td class="orange">Orange</td>
+                            <td>The button is Red, Orange, or Yellow.</td>
+                            <td class="purple">Purple</td>
+                            <td>The button’s label is “Yes”, “No”, or “I don’t Know”.</td>
+                        </tr>
+                        <tr>
+                            <td class="yellow">Yellow</td>
+                            <td>The button’s label is “Press”, “Tap”, “Push”, or “Click”.</td>
+                            <td class="pink">Pink</td>
+                            <td>The button is a button.</td>
+                        </tr>
+                        <tr>
+                            <td class="green">Green</td>
+                            <td>The button is Red, Green, or Blue.</td>
+                            <td class="black">Black</td>
+                            <td>The button’s label begins with a letter N-Z.</td>
+                        </tr>
+                        <tr>
+                            <td class="lime">Lime</td>
+                            <td>The button’s color can be found in the right half of this table.</td>
+                            <td class="grey">Grey</td>
+                            <td>The button is White or Black.</td>
+                        </tr>
+                        <tr>
+                            <td class="cyan">Cyan</td>
+                            <td>The name of the button’s color ends with a Letter A-M.</td>
+                            <td class="white">White</td>
+                            <td>The button’s color name contains the letter “R”.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">1</div>
+        </div>
+        <div class="page page-bg-02">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <div style="font-size:15.5px">
+                    <p>Each wire’s lying state will be the result of two truth values fed through a logical operator:
+                    </p>
+                    <ul>
+                        <li>
+                            Determine the first truth value using the rules below:
+                            <ul>
+                                <li>
+                                    If the number on the number display is a multiple of 4, the first truth value is
+                                    True if
+                                    the
+                                    wire’s star is White, and False otherwise.
+                                </li>
+                                <li>
+                                    Otherwise, if the number on the number display is a multiple of 3, the first truth
+                                    value
+                                    is
+                                    True if the wire’s star is Black, and False otherwise.
+                                </li>
+                                <li>
+                                    Otherwise, the first truth value is True if the wire’s star is absent, and False
+                                    otherwise.
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Determine the second truth value using the rules below:
+                            <ul>
+                                <li>
+                                    The second truth value is True if the wire’s LED color is one of the colors obtained
+                                    by
+                                    the
+                                    first true rule below, and False otherwise:
+                                    <ul>
+                                        <li>
+                                            If the host of this game is a person from Cluedo: Red, Orange, Purple,
+                                            Yellow
+                                        </li>
+                                        <li>
+                                            If the host of this game is a Monsplode™: Green, Lime, Pink
+                                        </li>
+                                        <li>
+                                            If the host of this game is a person from the KTaNE Discord server: Blue,
+                                            Cyan,
+                                            White,
+                                            Black
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            To determine the logical operator, use the color of the meter in the table below:
+                            <ul>
+                                <li>
+                                    If the meter’s color is not visible, take the number on the number display modulo 6,
+                                    then
+                                    plus 1, and take the operator in that position in the table from left to right (AND
+                                    = 1,
+                                    NAND = 6).
+                                </li>
+                                <li>Otherwise, use the meter’s color in the table as normal.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <td rowspan=2 colspan=2 style="border-left:0px;border-top:0px"></td>
+                            <th colspan=6>Meter’s Color</th>
+                        </tr>
+                        <tr>
+                            <th class="red">Red</th>
+                            <th class="orange">Orange</th>
+                            <th class="yellow">Yellow</th>
+                            <th class="green">Green</th>
+                            <th class="blue">Blue</th>
+                            <th class="purple">Purple</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                        <tr>
+                            <td>Input 1</td>
+                            <td>Input 2</td>
+                            <td>AND</td>
+                            <td>OR</td>
+                            <td>XOR</td>
+                            <td>NAND</td>
+                            <td>NOR</td>
+                            <td>XNOR</td>
+                        </tr>
+                        <tr>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>True</td>
+                        </tr>
+                        <tr>
+                            <td>False</td>
+                            <td>True</td>
+                            <td>False</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>False</td>
+                            <td>False</td>
+                        </tr>
+                        <tr>
+                            <td>True</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>False</td>
+                            <td>False</td>
+                        </tr>
+                        <tr>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>True</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">2</div>
+        </div>
+        <div class="page page-bg-03">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <p>Put both of the truth values through the logical operator to get a True/False result. If the result
+                    is True - the wire’s telling the truth, but if the result is False - the wire’s lying.</p>
+                <p>Evaluate each wire’s color statement, and if the wire is lying - invert its result. Cut every wire
+                    that returned False after the evaluation.</p>
+                <p>Then, count the number of wires that lied, and call that number <u>L</u>:</p>
+                <ul>
+                    <li>If <u>L</u> is even, add the number on the number display to <u>L</u> and take the sum modulo
+                        10. Tap the button when the last digit of the bomb timer is equal to the result.</li>
+                    <li>If <u>L</u> is odd, hold the button when the last digit of the bomb timer is equal to <u>L</u>
+                        and release it when the last digit is equal to the number on the number
+                        display.</li>
+                </ul>
+                <p>Cutting a wire that shouldn’t have been cut or incorrectly tapping or holding and releasing the
+                    button will issue a strike and generate a new set of wires.</p>
+            </div>
+            <div class="page-footer relative-footer">3</div>
+        </div>
+        <div class="page page-bg-04">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Appendix ID3NT1TYC4T3GORY</span>
+            </div>
+            <div class="page-content">
+                <h2>Appendix ID3NT1TYC4T3GORY</h2>
+                <table style="text-align:center">
+                    <tbody>
+                        <tr>
+                            <td rowspan=7>People from Cluedo</td>
+                            <td>Miss Scarlett</td>
+                        </tr>
+                        <tr>
+                            <td>Colonel Mustard</td>
+                        </tr>
+                        <tr>
+                            <td>Reverend Green</td>
+                        </tr>
+                        <tr>
+                            <td>Mrs Peacock</td>
+                        </tr>
+                        <tr>
+                            <td>Professor Plum</td>
+                        </tr>
+                        <tr>
+                            <td>Mrs White</td>
+                        </tr>
+                        <tr>
+                            <td>Dr Orchid</td>
+                        </tr>
+                        <tr>
+                            <td rowspan=7>Monsplode™</td>
+                            <td>Percy</td>
+                        </tr>
+                        <tr>
+                            <td>Lanaluff</td>
+                        </tr>
+                        <tr>
+                            <td>Nibs</td>
+                        </tr>
+                        <tr>
+                            <td>Clondar</td>
+                        </tr>
+                        <tr>
+                            <td>Melbor</td>
+                        </tr>
+                        <tr>
+                            <td>Magmy</td>
+                        </tr>
+                        <tr>
+                            <td>Pouse</td>
+                        </tr>
+                        <tr>
+                            <td rowspan=8>People from the KTaNE Discord server</td>
+                            <td>Yoshi Dojo</td>
+                        </tr>
+                        <tr>
+                            <td>VFlyer</td>
+                        </tr>
+                        <tr>
+                            <td>Sameone</td>
+                        </tr>
+                        <tr>
+                            <td>Cyanix</td>
+                        </tr>
+                        <tr>
+                            <td>Konoko</td>
+                        </tr>
+                        <tr>
+                            <td>Red Penguin</td>
+                        </tr>
+                        <tr>
+                            <td>GhostSalt</td>
+                        </tr>
+                        <tr>
+                            <td>Yabbaguy</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">4</div>
+        </div>
+    </div>
+</body>
+
+</html>
