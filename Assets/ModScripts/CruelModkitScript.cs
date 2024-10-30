@@ -772,7 +772,14 @@ public class CruelModkitScript : MonoBehaviour
     public void SetAlphabet()
     {
         for (int i = 0; i < Alphabet.Length; i++)
-            Alphabet[i].transform.Find("AlphabetText").GetComponentInChildren<TextMesh>().text = Info.Alphabet[i];
+        {
+            string FormattedAlphabetText = Info.Alphabet[i];
+            if (Info.Alphabet[i].Length == 4)
+            {
+                FormattedAlphabetText = Info.Alphabet[i].Insert(2, "\n");
+            }
+            Alphabet[i].transform.Find("AlphabetText").GetComponentInChildren<TextMesh>().text = FormattedAlphabetText;
+        }
     }
 
     public void SetArrows()
