@@ -135,6 +135,15 @@ public class ComponentInfo
     public string[] Alphabet = new string[6];
     public int Piano;
     public int[] Arrows = new int[9];
+    /// <summary>
+    /// <para>Bools that determine information about both bulbs. These are the exact same as the info from The Bulb module, just with another bulb added.</para>
+    /// <para>Each index refers to the following info (It's weird so that this information can be iterated through if needed):</para>
+    /// <para>0 = Is Bulb 1 opaque?</para>
+    /// <para>1 = Is Bulb 2 opaque?</para>
+    /// <para>2 = Does Bulb 1 start on?</para>
+    /// <para>3 = Does Bulb 2 start on?</para>
+    /// <para>4 = Is the O button on the left?</para>
+    /// </summary>
     public bool[] BulbInfo = new bool[5];
     public int[] BulbColors = new int[2];
     public int[] Identity = new int[4];
@@ -286,12 +295,6 @@ public class ComponentInfo
 
     public void GenerateBulbInfo()
     {
-        // BulbInfo layout (It's weird so that this information can be iterated through if needed):
-        // 0 = Is Bulb 1 opaque?
-        // 1 = Is Bulb 2 opaque?
-        // 2 = Does Bulb 1 start on?
-        // 3 = Does Bulb 2 start on?
-        // 4 = Is the O button on the left?
         BulbInfo[4] = Random.Range(0, 2) == 0;
         for (int i = 0; i < 2; i++)
         {
