@@ -381,7 +381,7 @@ public class ComponentInfo
             MeterValue = 0.5d;
         else if (0.65f < MeterValue && MeterValue < 0.68f)
             MeterValue = 0.667d;
-        else if (0.765f < MeterValue && MeterValue < 0.735f)
+        else if (0.735f < MeterValue && MeterValue < 0.765f)
             MeterValue = 0.75d;
         else if (0.98f < MeterValue)
             MeterValue = 1;
