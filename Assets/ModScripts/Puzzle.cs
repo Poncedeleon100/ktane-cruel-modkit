@@ -301,6 +301,9 @@ public class Puzzle
         }
     }
 
+    /// <summary>
+    /// Briefly flashes the lights of every arrow at the same time.
+    /// </summary>
     public IEnumerator HandleArrowFlashAll()
     {
         yield return null;
@@ -315,6 +318,9 @@ public class Puzzle
         }
     }
 
+    /// <summary>
+    /// Briefly flashes the light of a single arrow.
+    /// </summary>
     public IEnumerator HandleArrowFlash(int Arrow)
     {
         if (Arrow < 0 || Arrow >= 9) yield break;
