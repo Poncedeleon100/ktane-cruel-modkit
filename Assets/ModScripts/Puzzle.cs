@@ -301,7 +301,7 @@ public class Puzzle
         }
     }
 
-    public IEnumerator HandleArrowDelayFlash()
+    public IEnumerator HandleArrowFlashAll()
     {
         yield return null;
         for (int i = 0; i < Module.Arrows.Length; i++)
@@ -315,7 +315,7 @@ public class Puzzle
         }
     }
 
-    public IEnumerator HandleArrowDelayFlashSingle(int Arrow)
+    public IEnumerator HandleArrowFlash(int Arrow)
     {
         if (Arrow < 0 || Arrow >= 9) yield break;
         yield return null;

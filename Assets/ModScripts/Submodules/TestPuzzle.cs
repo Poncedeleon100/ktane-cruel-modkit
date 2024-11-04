@@ -245,13 +245,4 @@ public class TestPuzzle : Puzzle
         Module.Solve();
         return;
     }
-
-    public IEnumerator HandleArrowFlash(int Arrow)
-    {
-        if (Arrow < 0 || Arrow >= 9) yield break;
-        yield return null;
-        Module.Arrows[Arrow].transform.Find("ArrowLight").gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
-        Module.Arrows[Arrow].transform.Find("ArrowLight").gameObject.SetActive(false);
-    }
 }
