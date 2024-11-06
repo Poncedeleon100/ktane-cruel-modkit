@@ -4,8 +4,6 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-//i really fucking hope im doing this right
-
 public class PolygonalMapping : Puzzle
 {
 
@@ -17,8 +15,6 @@ public class PolygonalMapping : Puzzle
     int RooAMashCount = 0;
     bool[] IsDepressed = new bool[12];
 
-    //cols/rows swapped here, but nowhere else :P | updated as of 2024/08/28
-    //"Good lord, what is happening in there?" -Chalmers
     readonly int[,] BigTable = new int[26, 10] {
         {38, 18, 19, 17, 30, 8,  17, 26, 32, 26},
         {43, 3,  10, 19, 17, 47, 20, 26, 29, 37},
@@ -47,8 +43,6 @@ public class PolygonalMapping : Puzzle
         {7,  8,  13, 44, 21, 12, 45, 39, 6,  7 },
         {28, 4,  27, 6,  4,  44, 11, 8,  16, 44}
     };
-    //ty chatgpt for doing all the tedious work of changing BigTable to fit different formats o7
-    //fuck chatgpt for giving me a faulty table wtffffffffffffffffffffffff
 
     public PolygonalMapping(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
     {
@@ -63,7 +57,7 @@ public class PolygonalMapping : Puzzle
             if(CoordinatesFindDupe() != -1){
                 RegenAlphabetLabel(CoordinatesFindDupe());
             } else {
-                if(Attempts %20 == 0){ //make sure the first 3 arent shite to work with
+                if(Attempts %20 == 0){ //regens first three incase they dont work well
                     RegenAlphabetLabel(0);
                     RegenAlphabetLabel(1);
                     RegenAlphabetLabel(2);
@@ -89,10 +83,7 @@ public class PolygonalMapping : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] Alphabet buttons are: [{1}]", ModuleID, Info.GetAlphabetInfo());
         Debug.LogFormat("[The Cruel Modkit #{0}] Symbols are: [{1}]", ModuleID, Info.GetSymbolInfo());
 
-        //setup ignore string
         string WordDisplayFixed = "";
-
-        //c++ brainrot
         for(int i = 0; i < Info.WordDisplay.Length; i++){
             if(Base36.IndexOf(Info.WordDisplay[i]) != -1){
                 WordDisplayFixed += Info.WordDisplay[i];
@@ -106,61 +97,36 @@ public class PolygonalMapping : Puzzle
 
         Vector2 TestCoordinate = new Vector2();
 
-
-        //no more brainf :(
         int[] SymbolCounter = new int[6];
 
         for(int z = 0; z < 4; z++){
 
-            //clear symbol counter
             for(int i = 0; i < 6; i++){
                 SymbolCounter[i] = 0;
             }
 
             bool isCurrentlyTied = false;
 
-            //counting loop
+            //counting symbols
             for(int x = 0; x < 26; x++){
                 for(int y = 0; y < 10; y++){
-                    
                     TestCoordinate = new Vector2(x,y);
-
-                    //never-nesting type programming
-                    if( ! Info.Symbols.Contains( BigTable[(int)TestCoordinate.x, (int)TestCoordinate.y]) ){
-                        continue;
-                    }
-
-                    if( ! IsInPolygon(TestCoordinate)){
-                        continue;
-                    }
-
+                    if( ! Info.Symbols.Contains( BigTable[(int)TestCoordinate.x, (int)TestCoordinate.y])) continue;
+                    if( ! IsInPolygon(TestCoordinate)) continue;
                     int i = Array.IndexOf(Info.Symbols, BigTable[(int)TestCoordinate.x, (int)TestCoordinate.y] ); 
-
                     SymbolCounter[i]++;
                     Debug.LogFormat("[The Cruel Modkit #{0}] Found symbol {1} ({4}) at {2}{3}).", ModuleID, i, Base36[(int)TestCoordinate.x+10], (int)TestCoordinate.y, Info.Symbols[i]);                    
-                    
                 }
             }
 
-
-
-            //start of symbol loop
             while(!isCurrentlyTied){
 
                 int HighestCount = -1;
                 int HighestIndex = -1;
 
-                //highest symbol check loop
                 for(int i = 0; i < 6; i++){
-
-                    if(FinalOrder.Contains("S"+i)){
-                        continue;
-                    }
-
-                    if(SymbolCounter[i] == HighestCount){
-                        isCurrentlyTied = true;
-                    }
-
+                    if(FinalOrder.Contains("S"+i)) continue;
+                    if(SymbolCounter[i] == HighestCount) isCurrentlyTied = true;
                     if(SymbolCounter[i] > HighestCount){
                         HighestCount = SymbolCounter[i];
                         HighestIndex = i;
@@ -176,20 +142,15 @@ public class PolygonalMapping : Puzzle
                 Debug.LogFormat("[The Cruel Modkit #{0}] Current highest is index {1} at {2} entries", ModuleID, HighestIndex, HighestCount);
 
                 //symbol press
-
                 if(!FinalOrder.Contains("S" + HighestIndex.ToString())){
                     FinalOrder.Add("S" + HighestIndex.ToString());
                     Debug.LogFormat("[The Cruel Modkit #{0}] You should press Symbol {1}", ModuleID, HighestIndex);
                 }
 
-
                 SymbolCounter[HighestIndex] = -1;
-
-                //end of symbol loop
             }
 
             //alphabet press
-            
             int j = (Base36.IndexOf(IgnoreString[0]) % 6);
             IgnoreString = IgnoreString.Substring(1, IgnoreString.Length-1);
             while(FinalOrder.Contains("A" + j.ToString())){            
@@ -205,7 +166,6 @@ public class PolygonalMapping : Puzzle
             //alter coords array to ignore (another) alphabet button
             Coordinates[j] = new Vector2(777,777);
 
-            //loop
         }
 
         //2 alpha buns left
@@ -213,28 +173,22 @@ public class PolygonalMapping : Puzzle
 
         Vector2 FinalCoord1 = new Vector2(-1,-1);
         Vector2 FinalCoord2 = new Vector2(-1,-1);
-        //quickly pop the last 2 coords into those 2 vars above
         for(int i = 0; i < 6; i++){
             if( ! (FinalOrder.Contains("A" + i.ToString())) ){
-
                 if(FinalCoord1.x == -1){
                     FinalCoord1 = Coordinates[i];
                 } else {
                     FinalCoord2 = Coordinates[i];
                 }
-
             }
         }
 
         //check if symbols lie on a coordinate
         for(int i = 0; i < 6; i++){
-            //check if symbol is unpressed
             if( ! (FinalOrder.Contains("S" + i.ToString())) ){
 
                 for(int j = 0; j < 6; j++){
-                    //check if alpha is unpressed
                     if( ! (FinalOrder.Contains("A" + j.ToString())) ){
-                        //ik i dont use FinalCoord1/2 here, but i coded this part first and im too lazy to optimize :)
                         int ValueFromCoord = BigTable[(int)Coordinates[j].x, (int)Coordinates[j].y];
 
                         if(ValueFromCoord == Info.Symbols[i]){
@@ -245,33 +199,23 @@ public class PolygonalMapping : Puzzle
                     }
                 }
             }
-        } //i love nesting :)
+        }
 
-        //check if symbols lie on the line
-
-        //clear symbol counter
         for(int i = 0; i < 6; i++){
             SymbolCounter[i] = 0;
         }
 
+        //check if symbols lie on the line
         for(int x = 0; x < 26; x++){
             for(int y = 0; y < 10; y++){
-                //I LOVE REUSING VARIABLES!!!
                 TestCoordinate = new Vector2(x,y);
 
-                if(! CoordinateLiesOnLine(FinalCoord1, FinalCoord2, TestCoordinate)){
-                    continue;
-                }
-
-                if( ! Info.Symbols.Contains( BigTable[(int)TestCoordinate.x, (int)TestCoordinate.y]) ){
-                    continue;
-                }
+                if(! CoordinateLiesOnLine(FinalCoord1, FinalCoord2, TestCoordinate)) continue;
+                if( ! Info.Symbols.Contains( BigTable[(int)TestCoordinate.x, (int)TestCoordinate.y]) ) continue;
 
                 int i = Array.IndexOf(Info.Symbols, BigTable[(int)TestCoordinate.x, (int)TestCoordinate.y] );
 
                 SymbolCounter[i] = 1; 
-
-
             }
         }
 
@@ -355,7 +299,6 @@ public class PolygonalMapping : Puzzle
             return;
         }
 
-
         if(FinalOrder[0] == "S" + y.ToString()){
             //good press
             Debug.LogFormat("[The Cruel Modkit #{0}] You pressed Symbol {1}, good.", ModuleID, y);
@@ -422,9 +365,9 @@ public class PolygonalMapping : Puzzle
 
     string ReturnPolygonVertexes(Vector2[] Vertexes){
         string VertexList = "";
-        //find first label in reverse chinese order bc of how atan2 works :P (???)
+        //find first label in reverse chinese order bc of how atan2 works
         int FirstIndex = 0;
-        int FirstPosition = 261; //beyond last
+        int FirstPosition = 261;
         for(int i = 0; i < Vertexes.Length; i++){
             if(Vertexes[i].x*10 + (10- Vertexes[i].y) < FirstPosition){
                 FirstPosition = (int)(Vertexes[i].x*10 + (10- Vertexes[i].y));
@@ -434,23 +377,15 @@ public class PolygonalMapping : Puzzle
 
         int NextIndex = 999;
         int CurrentIndex = FirstIndex;
-        double MaxAtan2 = -4; //impossibly low
-        double Atan2StepCap = 4; //impossibly high
+        double MaxAtan2 = -4;
+        double Atan2StepCap = 4;
 
-        while(NextIndex != FirstIndex && VertexList.Length != 8){ //failsafe in debugging
+        while(NextIndex != FirstIndex && VertexList.Length != 8){
             for(int i = 0; i < Vertexes.Length; i++){
-                if(i == CurrentIndex)
-                    continue;
-
-                //instead of making the array a list, im gonna use dummy values
-                //because im too lazy to be bothered
-                if((int)Vertexes[i].x == 777)
-                    continue;
-
+                if(i == CurrentIndex) continue;
+                if((int)Vertexes[i].x == 777) continue;
                 double CurrentAtan2 = ReturnAtan2(Vertexes[CurrentIndex], Vertexes[i]);
-                
-                if(CurrentAtan2 == MaxAtan2)
-                    return "6"; //what a fucking bodge
+                if(CurrentAtan2 == MaxAtan2) return "6";
 
                 if(CurrentAtan2 > MaxAtan2 && CurrentAtan2 < Atan2StepCap){
                     NextIndex = i;
@@ -467,13 +402,9 @@ public class PolygonalMapping : Puzzle
     }
 
     bool IsInPolygon(Vector2 SymbCoord){
-
         Vector2[] CoordinatesAndTest = new Vector2[7];
-
         Array.Copy(Coordinates, CoordinatesAndTest, 6);
-
         CoordinatesAndTest[6] = new Vector2(SymbCoord.x, SymbCoord.y);
-
         if(ReturnPolygonVertexes(CoordinatesAndTest).IndexOf("6") == -1)
             return true;
         else
@@ -508,15 +439,10 @@ public class PolygonalMapping : Puzzle
     }
     
     bool CoordinateLiesOnLine (Vector2 AlphaCoord1, Vector2 AlphaCoord2, Vector2 TestCoord){
-
         if(TestCoord == AlphaCoord1 || TestCoord == AlphaCoord2) return false;
-
-        //nah i'd cache
         if(ReturnAtan2(AlphaCoord1, AlphaCoord2) == ReturnAtan2(AlphaCoord1, TestCoord) && ReturnAtan2(AlphaCoord1, AlphaCoord2) == ReturnAtan2(TestCoord, AlphaCoord2))
             return true;
 
         return false;
-
     }
-
 }
