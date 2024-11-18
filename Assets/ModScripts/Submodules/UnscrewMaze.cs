@@ -148,7 +148,7 @@ public class UnscrewMaze : Puzzle
             Module.StartSolve();
         }
 
-        Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], Info.BulbInfo[Bulb + 2]);
+        Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], Info.BulbOn[Bulb]);
 
         BulbScrewedIn[Bulb] = !BulbScrewedIn[Bulb];
         bulbsSolved[Bulb] = !bulbsSolved[Bulb];

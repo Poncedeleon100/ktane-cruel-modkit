@@ -150,6 +150,10 @@ public class CruelModkitScript : MonoBehaviour
         return OnComponents == TargetComponents;
     }
     public bool IsAnimating() => Animating;
+    public bool IsSolving()
+    {
+        return Solving;
+    }
 
     private bool HasStruck = false; // TP Handling, send a strike handling if the module struck. To prevent excessive inputs.
 
@@ -788,7 +792,7 @@ public class CruelModkitScript : MonoBehaviour
     public void SetBulbs()
     {
         // Swaps I/O symbols if necessary
-        if (Info.BulbInfo[4])
+        if (Info.BulbOLeft)
         {
             Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[0];
             Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[1];
@@ -801,15 +805,15 @@ public class CruelModkitScript : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             //Set filament visibility based on opacity of the bulb
-            Bulbs[i].transform.Find("Filament").gameObject.SetActive(!Info.BulbInfo[i]);
+            Bulbs[i].transform.Find("Filament").gameObject.SetActive(!Info.BulbOpaque[i]);
             //Set bulb glass color and opacity
             Color TempBulbColor = BulbColorValues[Info.BulbColors[i]];
-            TempBulbColor[3] = Info.BulbInfo[i] ? 1f : .55f;
+            TempBulbColor[3] = Info.BulbOpaque[i] ? 1f : .55f;
             Bulbs[i].transform.Find("Glass").GetComponentInChildren<Renderer>().material.color = TempBulbColor;
             //Set bulb light color
             Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().color = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().color = TempBulbColor;
             //Turns the lights on or off
-            Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = Info.BulbInfo[i + 2];
+            Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = Info.BulbOn[i];
         }
     }
 
@@ -916,11 +920,6 @@ public class CruelModkitScript : MonoBehaviour
     public void StartSolve()
     {
         Solving = true;
-    }
-
-    public bool IsSolving()
-    {
-        return Solving;
     }
 
     public void Solve() // Disarms The Cruel Modkit

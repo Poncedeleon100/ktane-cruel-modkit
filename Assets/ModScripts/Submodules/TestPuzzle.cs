@@ -18,7 +18,7 @@ public class TestPuzzle : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] Symbols present: {1}.", ModuleID, Info.GetSymbolInfo());
         Debug.LogFormat("[The Cruel Modkit #{0}] Alphanumeric keys present: {1}.", ModuleID, Info.GetAlphabetInfo());
         Debug.LogFormat("[The Cruel Modkit #{0}] Arrows present: {1}.", ModuleID, Info.GetArrowsInfo());
-        Debug.LogFormat("[The Cruel Modkit #{0}] Bulb 1 is {1}, {2}, and {3}. Bulb 2 is {4}, {5}, and {6}. The O button is on the {7}.", ModuleID, Enum.GetName(typeof(BulbColorNames), Info.BulbColors[0]), Info.BulbInfo[0] ? "opaque" : "see-through", Info.BulbInfo[2] ? "on" : "off", Enum.GetName(typeof(BulbColorNames), Info.BulbColors[1]), Info.BulbInfo[1] ? "opaque" : "see-through", Info.BulbInfo[3] ? "on" : "off", Info.BulbInfo[4] ? "left" : "right");
+        Debug.LogFormat("[The Cruel Modkit #{0}] Bulb 1 is {1}, {2}, and {3}. Bulb 2 is {4}, {5}, and {6}. The O button is on the {7}.", ModuleID, Enum.GetName(typeof(BulbColorNames), Info.BulbColors[0]), Info.BulbOpaque[0] ? "opaque" : "see-through", Info.BulbOn[0] ? "on" : "off", Enum.GetName(typeof(BulbColorNames), Info.BulbColors[1]), Info.BulbOpaque[1] ? "opaque" : "see-through", Info.BulbOn[1] ? "on" : "off", Info.BulbOLeft ? "left" : "right");
         Debug.LogFormat("[The Cruel Modkit #{0}] Identity is {1}, with item {2}, at the location {3}, and a rarity of {4}.", ModuleID, IdentityNames[Info.Identity[0]], IdentityItems[Info.Identity[1]], IdentityLocations[Info.Identity[2]], IdentityRarity[Info.Identity[3]]);
         Debug.LogFormat("[The Cruel Modkit #{0}] Resistor 1 colors are (Reading from {1}): {2}. Left letter is {3}, right letter is {4}.", ModuleID, Info.ResistorReversed[0] ? "right to left" : "left to right", Info.GetResistorInfo(0), Info.ResistorText[0], Info.ResistorText[1]);
         Debug.LogFormat("[The Cruel Modkit #{0}] Resistor 2 colors are (Reading from {1}): {2}. Left letter is {3}, right letter is {4}.", ModuleID, Info.ResistorReversed[1] ? "right to left" : "left to right", Info.GetResistorInfo(1), Info.ResistorText[2], Info.ResistorText[3]);
@@ -207,7 +207,7 @@ public class TestPuzzle : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] Bulb button pressed. Regenerating bulbs...", ModuleID);
         Info.GenerateBulbInfo();
         Module.RegenBulbs();
-        Debug.LogFormat("[The Cruel Modkit #{0}] Bulb 1 is {1}, {2}, and {3}. Bulb 2 is {4}, {5}, and {6}. The O button is on the {7}.", ModuleID, Enum.GetName(typeof(BulbColorNames), Info.BulbColors[0]), Info.BulbInfo[0] ? "opaque" : "see-through", Info.BulbInfo[2] ? "on" : "off", Enum.GetName(typeof(BulbColorNames), Info.BulbColors[1]), Info.BulbInfo[1] ? "opaque" : "see-through", Info.BulbInfo[3] ? "on" : "off", Info.BulbInfo[4] ? "left" : "right");
+        Debug.LogFormat("[The Cruel Modkit #{0}] Bulb 1 is {1}, {2}, and {3}. Bulb 2 is {4}, {5}, and {6}. The O button is on the {7}.", ModuleID, Enum.GetName(typeof(BulbColorNames), Info.BulbColors[0]), Info.BulbOpaque[0] ? "opaque" : "see-through", Info.BulbOn[0] ? "on" : "off", Enum.GetName(typeof(BulbColorNames), Info.BulbColors[1]), Info.BulbOpaque[1] ? "opaque" : "see-through", Info.BulbOn[1] ? "on" : "off", Info.BulbOLeft ? "left" : "right");
     }
 
     public override void OnBulbInteract(int Bulb)
