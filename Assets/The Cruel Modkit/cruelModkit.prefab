@@ -24936,6 +24936,7 @@ MonoBehaviour:
   Bulbs:
   - {fileID: 1213836935574846}
   - {fileID: 1917659025156264}
+  BulbButtons:
   - {fileID: 1317248953658458}
   - {fileID: 1978048328507420}
   Identity:

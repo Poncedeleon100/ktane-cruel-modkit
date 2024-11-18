@@ -20,7 +20,7 @@ public class CruelModkitScript : MonoBehaviour
     public KMSelectable UtilityButton;
     public TextMesh DisplayText;
 
-    //Materials
+    //Materials and Audio
     public Material[] WireMats;
     public Material[] WireLEDMats;
     public Material[] ButtonMats;
@@ -47,6 +47,7 @@ public class CruelModkitScript : MonoBehaviour
     public GameObject[] Arrows;
     public Transform ArrowsBase;
     public GameObject[] Bulbs;
+    public GameObject[] BulbButtons;
     public GameObject[] Identity;
     public GameObject[] ResistorStrips;
     public TextMesh[] ResistorText;
@@ -54,6 +55,7 @@ public class CruelModkitScript : MonoBehaviour
     public GameObject MorseLED;
     public GameObject Meter;
 
+    //Meshes
     public Mesh[] WireMesh;
     public Mesh[] BulbButtonFaceMesh;
 
@@ -395,6 +397,8 @@ public class CruelModkitScript : MonoBehaviour
             case ComponentsEnum.Bulbs:
                     foreach (GameObject Bulbs in Bulbs)
                         Bulbs.SetActive(Enable);
+                    foreach (GameObject Button in BulbButtons)
+                        Button.SetActive(Enable);
                     break;
         }
     }
@@ -670,18 +674,18 @@ public class CruelModkitScript : MonoBehaviour
             };
         }
 
-        for (int i = 2; i < 4; i++)
+        for (int i = 0; i < 2; i++)
         {
             int y = i;
-            Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
+            BulbButtons[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(Puzzle.AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 1));
+                StartCoroutine(Puzzle.AnimateButtonPress(BulbButtons[y].transform, Vector3.down * 0.001f, 1));
                 Puzzle.OnBulbButtonPress(y);
                 return false;
             };
-            Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteractEnded += delegate
+            BulbButtons[i].GetComponentInChildren<KMSelectable>().OnInteractEnded += delegate
             {
-                StartCoroutine(Puzzle.AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 2));
+                StartCoroutine(Puzzle.AnimateButtonPress(BulbButtons[y].transform, Vector3.down * 0.001f, 2));
                 Puzzle.OnBulbButtonRelease(y);
             };
         }
@@ -794,13 +798,13 @@ public class CruelModkitScript : MonoBehaviour
         // Swaps I/O symbols if necessary
         if (Info.BulbOLeft)
         {
-            Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[0];
-            Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[1];
+            BulbButtons[0].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[0];
+            BulbButtons[1].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[1];
         }
         else
         {
-            Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[1];
-            Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[0];
+            BulbButtons[0].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[1];
+            BulbButtons[1].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[0];
         }
         for (int i = 0; i < 2; i++)
         {

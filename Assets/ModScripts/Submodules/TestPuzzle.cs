@@ -199,7 +199,7 @@ public class TestPuzzle : Puzzle
             return;
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Bulbs[Button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.BulbButtons[Button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
 
         if (Module.IsModuleSolved())
             return;
