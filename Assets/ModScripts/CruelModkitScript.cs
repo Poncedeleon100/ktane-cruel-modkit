@@ -1,9 +1,9 @@
-﻿using System;
+﻿using KModkit;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using KModkit;
 using static ComponentInfo;
 
 public class CruelModkitScript : MonoBehaviour
@@ -829,17 +829,18 @@ public class CruelModkitScript : MonoBehaviour
             ResistorText[i].text = Info.ResistorText[i];
         for (int i = 0; i < Info.ResistorReversed.Length; i++)
         {
+            int y = i * 4;
             float[] DefaultResistorXValue = { -0.02438f, -0.022356f };
             float ShiftValue = .001852f;
-            Vector3[] ResistorPosition = { ResistorStrips[i + 2].transform.localPosition, ResistorStrips[i + 4].transform.localPosition };
+            Vector3[] ResistorPosition = { ResistorStrips[y + 1].transform.localPosition, ResistorStrips[y + 2].transform.localPosition };
 
             for (int j = 0; j < ResistorPosition.Length; j++)
             {
                 ResistorPosition[j].x = DefaultResistorXValue[j] + (Info.ResistorReversed[i] ? ShiftValue : 0);
             }
 
-            ResistorStrips[i + 2].transform.localPosition = ResistorPosition[0];
-            ResistorStrips[i + 4].transform.localPosition = ResistorPosition[1];
+            ResistorStrips[y + 1].transform.localPosition = ResistorPosition[0];
+            ResistorStrips[y + 2].transform.localPosition = ResistorPosition[1];
         }
     }
 

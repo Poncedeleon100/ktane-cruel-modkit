@@ -307,19 +307,20 @@ public class ComponentInfo
 
         for (int i = 0; i < 2; i++)
         {
+            int j = i * 4;
             if (ResistorReversed[i])
             {
-                ResistorColors[i] = Random.Range(2, 12);
-                ResistorColors[i + 2] = Random.Range(0, 12);
-                ResistorColors[i + 4] = Random.Range(0, 10);
-                ResistorColors[i + 6] = Random.Range(1, 10);
+                ResistorColors[j] = Random.Range(2, 12);
+                ResistorColors[j + 1] = Random.Range(0, 12);
+                ResistorColors[j + 2] = Random.Range(0, 10);
+                ResistorColors[j + 3] = Random.Range(1, 10);
             }
             else
             {
-                ResistorColors[i] = Random.Range(1, 10);
-                ResistorColors[i + 2] = Random.Range(0, 10);
-                ResistorColors[i + 4] = Random.Range(0, 12);
-                ResistorColors[i + 6] = Random.Range(2, 12);
+                ResistorColors[j + 3] = Random.Range(2, 12);
+                ResistorColors[j + 2] = Random.Range(0, 12);
+                ResistorColors[j + 1] = Random.Range(0, 10);
+                ResistorColors[j] = Random.Range(1, 10);
             }
         }
 
@@ -487,19 +488,20 @@ public class ComponentInfo
     {
         List<string> Names = new List<string>();
 
+        int j = ResistorNumber * 4;
         if (ResistorReversed[ResistorNumber])
         {
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 6]));
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 4]));
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 2]));
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 0]));
+            for (int i = 3; i >= 0; i--)
+            {
+                Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[j + i]));
+            }
         }
         else
         {
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 0]));
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 2]));
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 4]));
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 6]));
+            for (int i = 0; i < 4; i++)
+            {
+                Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[j + i]));
+            }
         }
 
         return Names.Join(", ");
