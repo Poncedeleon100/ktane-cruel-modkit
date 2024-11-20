@@ -140,7 +140,7 @@ public class DerangedKeypad : Puzzle
         }
         else if (Alphabet == shouldBePressed)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Correctly pressed the key labeled {1}.", ModuleID, Info.Alphabet[Alphabet].Replace('\n', ' '));
+            Debug.LogFormat("[The Cruel Modkit #{0}] Correctly pressed the key labeled {1}.", ModuleID, Info.Alphabet[Alphabet]);
             Module.Alphabet[Alphabet].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = Module.KeyLightMats[2];
             pressedKeys.Add(shouldBePressed);
             if (pressedKeys.Count == 6)
@@ -163,7 +163,7 @@ public class DerangedKeypad : Puzzle
         }
         else
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The key labeled {1} was pressed when the correct key was {2}.", ModuleID, Info.Alphabet[Alphabet].Replace('\n', ' '), Info.Alphabet[shouldBePressed].Replace('\n', ' '));
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The key labeled {1} was pressed when the correct key was {2}.", ModuleID, Info.Alphabet[Alphabet], Info.Alphabet[shouldBePressed]);
             Module.StartCoroutine(Module.ButtonStrike(false, Alphabet));
             Module.CauseStrike();
         }
