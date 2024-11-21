@@ -1,11 +1,8 @@
-﻿using System;
+﻿using KModkit;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using KModkit;
-using Random = UnityEngine.Random;
-
-
 
 public class TimerTimings : Puzzle
 {
@@ -67,14 +64,17 @@ public class TimerTimings : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        if (!Module.CheckValidComponents())
+        if (!Module.IsSolving())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
-            return;
-        }
+            if (!Module.CheckValidComponents())
+            {
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.CauseStrike();
+                return;
+            }
 
-        Module.StartSolve();
+            Module.StartSolve();
+        }
 
         if (!IsTimerChanging)
         {
@@ -289,8 +289,8 @@ public class TimerTimings : Puzzle
     {
         while (IsTimerChanging)
         {
-            Info.TimerDisplay = Random.Range(0, 100000);
-            Module.WidgetText[0].text = Info.TimerDisplay.ToString().PadLeft(5, '0');
+            Info.GenerateTimerInfo();
+            Module.SetTimer();
             yield return new WaitForSeconds(1f);
         }
     }
