@@ -98,13 +98,13 @@
         }
         .table th {
             width: 45px;
-            height: 45px;
+            height: 25px;
             padding: 0cm;
             font-size: 25px;
         }
         .table img {
-            height: 45px;
-            width: 45px;
+            height: 35px;
+            width: 35px;
         }
         .dark th img {
             filter: invert();
@@ -113,7 +113,50 @@
             content: 'Page ';
         }
         .page-footer::after {
-            content: ' of 4';
+            content: ' of 3';
+        }
+
+        .landscape .page-footer {
+            margin:0
+        }
+
+        @media screen and (min-width: 900px) {
+            .landscape {
+                transform: rotate(90deg);
+                margin-top:-100px;
+                margin-bottom:-100px;
+            }
+        }
+
+        @media print, screen and (min-width: 900px) {
+            .landscape {
+                position: relative;
+            }
+            .landscape .page-content {
+                position: absolute;
+                left: 50%;
+                top: 49%;
+                transform: translate(-40%, -45%) rotate(-90deg);
+                width: 24cm;
+                height: 18cm;
+                min-height: initial;
+                margin: 0;
+                padding: 0;
+            }
+            .landscape .relative-footer {
+                position: absolute;
+                left: 50%;
+                bottom: 0;
+                transform: translate(-50%, 0);
+            }
+
+            .landscape .page-header{
+                width: 100%;
+                position: absolute;
+                left: 50%;
+                top: 0;
+                transform: translate(-50%, 0);
+            }
         }
     </style>
 </head>
@@ -166,23 +209,22 @@
             </div>
             <div class="page-footer relative-footer">2</div>
         </div>
-        <div class="page page-bg-03">
+        <div class="page page-bg-03 landscape">
             <div class="page-header">
                 <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
                 <span class="page-header-section-title">The Cruel Modkit</span>
             </div>
             <div class = "page-content">
-                <p><b><u>Note:</u></b> The table has been split up into two halves.</p>
                 <script>
                     var scriptTable = '';
-                    var alphabet = ' ABCDEFGHIJKLM';
+                    var alphabet = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ ';
                     for(var rows = 0; rows < 11; rows++){
                         scriptTable += '<tr>';
-                        for(var cols = 0; cols < 14; cols++){
+                        for(var cols = 0; cols < 28; cols++){
                             if(rows == 0){
                                 scriptTable += '<th>' + alphabet[cols] + '</th>';
                             } else {
-                                if(cols == 0){
+                                if(cols == 0 || cols == 27){
                                     scriptTable += '<th>' + (rows-1) + '</th>';
                                 } else {
                                     scriptTable += '<th><img src="' + imgIndexes[BigTable[cols-1][rows-1]] +'"></th>'; 
@@ -195,37 +237,6 @@
                 </script>
             </div>
             <div class="page-footer relative-footer">3</div>
-        </div>
-        <div class="page page-bg-04">
-            <div class="page-header">
-                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
-                <span class="page-header-section-title">The Cruel Modkit</span>
-            </div>
-            <div class = "page-content">
-                <p><b><u>Note:</u></b> This is the other half.</p>
-                <script>
-                    var scriptTable = '';
-                    var alphabet = 'NOPQRSTUVWXYZ ';
-                    for(var rows = 0; rows < 11; rows++){
-                        scriptTable += '<tr>';
-                        for(var cols = 0; cols < 14; cols++){
-                            if(rows == 0){
-                                scriptTable += '<th>' + alphabet[cols] + '</th>';
-                            } else {
-                                if(cols == 13){
-                                    scriptTable += '<th>' + (rows-1) + '</th>';
-                                } else {
-                                    scriptTable += '<th><img src="' + imgIndexes[BigTable[cols+13][rows-1]] +'"></th>'; 
-                                }
-                            }
-                        }
-                        scriptTable += '</tr>';
-                    }
-                    document.write('<table class="table">' + scriptTable + '</table>')
-                </script>
-                <p>An image of the two halves stitched (poorly) together can be found <a href="https://drive.google.com/file/d/1PG2i43sH_ihojqvb_Gj9h36WZnOVCpsd/view">here</a>.</p>
-            </div>
-            <div class="page-footer relative-footer">4</div>
         </div>
     </div>
 </body>
