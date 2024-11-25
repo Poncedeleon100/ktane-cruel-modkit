@@ -1,9 +1,9 @@
-﻿using System;
+﻿using KModkit;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using KModkit;
 using static ComponentInfo;
 
 public class CruelModkitScript : MonoBehaviour
@@ -20,7 +20,7 @@ public class CruelModkitScript : MonoBehaviour
     public KMSelectable UtilityButton;
     public TextMesh DisplayText;
 
-    //Materials
+    //Materials and Audio
     public Material[] WireMats;
     public Material[] WireLEDMats;
     public Material[] ButtonMats;
@@ -47,6 +47,7 @@ public class CruelModkitScript : MonoBehaviour
     public GameObject[] Arrows;
     public Transform ArrowsBase;
     public GameObject[] Bulbs;
+    public GameObject[] BulbButtons;
     public GameObject[] Identity;
     public GameObject[] ResistorStrips;
     public TextMesh[] ResistorText;
@@ -54,6 +55,7 @@ public class CruelModkitScript : MonoBehaviour
     public GameObject MorseLED;
     public GameObject Meter;
 
+    //Meshes
     public Mesh[] WireMesh;
     public Mesh[] BulbButtonFaceMesh;
 
@@ -150,6 +152,10 @@ public class CruelModkitScript : MonoBehaviour
         return OnComponents == TargetComponents;
     }
     public bool IsAnimating() => Animating;
+    public bool IsSolving()
+    {
+        return Solving;
+    }
 
     private bool HasStruck = false; // TP Handling, send a strike handling if the module struck. To prevent excessive inputs.
 
@@ -391,6 +397,8 @@ public class CruelModkitScript : MonoBehaviour
             case ComponentsEnum.Bulbs:
                     foreach (GameObject Bulbs in Bulbs)
                         Bulbs.SetActive(Enable);
+                    foreach (GameObject Button in BulbButtons)
+                        Button.SetActive(Enable);
                     break;
         }
     }
@@ -666,18 +674,18 @@ public class CruelModkitScript : MonoBehaviour
             };
         }
 
-        for (int i = 2; i < 4; i++)
+        for (int i = 0; i < 2; i++)
         {
             int y = i;
-            Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
+            BulbButtons[i].GetComponentInChildren<KMSelectable>().OnInteract += delegate
             {
-                StartCoroutine(Puzzle.AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 1));
+                StartCoroutine(Puzzle.AnimateButtonPress(BulbButtons[y].transform, Vector3.down * 0.001f, 1));
                 Puzzle.OnBulbButtonPress(y);
                 return false;
             };
-            Bulbs[i].GetComponentInChildren<KMSelectable>().OnInteractEnded += delegate
+            BulbButtons[i].GetComponentInChildren<KMSelectable>().OnInteractEnded += delegate
             {
-                StartCoroutine(Puzzle.AnimateButtonPress(Bulbs[y].transform, Vector3.down * 0.001f, 2));
+                StartCoroutine(Puzzle.AnimateButtonPress(BulbButtons[y].transform, Vector3.down * 0.001f, 2));
                 Puzzle.OnBulbButtonRelease(y);
             };
         }
@@ -795,28 +803,28 @@ public class CruelModkitScript : MonoBehaviour
     public void SetBulbs()
     {
         // Swaps I/O symbols if necessary
-        if (Info.BulbInfo[4])
+        if (Info.BulbOLeft)
         {
-            Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[0];
-            Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[1];
+            BulbButtons[0].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[0];
+            BulbButtons[1].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[1];
         }
         else
         {
-            Bulbs[2].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[1];
-            Bulbs[3].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[0];
+            BulbButtons[0].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[1];
+            BulbButtons[1].transform.Find("BulbFace").GetComponentInChildren<MeshFilter>().mesh = BulbButtonFaceMesh[0];
         }
         for (int i = 0; i < 2; i++)
         {
             //Set filament visibility based on opacity of the bulb
-            Bulbs[i].transform.Find("Filament").gameObject.SetActive(!Info.BulbInfo[i]);
+            Bulbs[i].transform.Find("Filament").gameObject.SetActive(!Info.BulbOpaque[i]);
             //Set bulb glass color and opacity
             Color TempBulbColor = BulbColorValues[Info.BulbColors[i]];
-            TempBulbColor[3] = Info.BulbInfo[i] ? 1f : .55f;
+            TempBulbColor[3] = Info.BulbOpaque[i] ? 1f : .55f;
             Bulbs[i].transform.Find("Glass").GetComponentInChildren<Renderer>().material.color = TempBulbColor;
             //Set bulb light color
             Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().color = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().color = TempBulbColor;
             //Turns the lights on or off
-            Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = Info.BulbInfo[i + 2];
+            Bulbs[i].transform.Find("BulbLight").GetComponentInChildren<Light>().enabled = Bulbs[i].transform.Find("BulbLight2").GetComponentInChildren<Light>().enabled = Info.BulbOn[i];
         }
     }
 
@@ -828,17 +836,18 @@ public class CruelModkitScript : MonoBehaviour
             ResistorText[i].text = Info.ResistorText[i];
         for (int i = 0; i < Info.ResistorReversed.Length; i++)
         {
+            int y = i * 4;
             float[] DefaultResistorXValue = { -0.02438f, -0.022356f };
             float ShiftValue = .001852f;
-            Vector3[] ResistorPosition = { ResistorStrips[i + 2].transform.localPosition, ResistorStrips[i + 4].transform.localPosition };
+            Vector3[] ResistorPosition = { ResistorStrips[y + 1].transform.localPosition, ResistorStrips[y + 2].transform.localPosition };
 
             for (int j = 0; j < ResistorPosition.Length; j++)
             {
                 ResistorPosition[j].x = DefaultResistorXValue[j] + (Info.ResistorReversed[i] ? ShiftValue : 0);
             }
 
-            ResistorStrips[i + 2].transform.localPosition = ResistorPosition[0];
-            ResistorStrips[i + 4].transform.localPosition = ResistorPosition[1];
+            ResistorStrips[y + 1].transform.localPosition = ResistorPosition[0];
+            ResistorStrips[y + 2].transform.localPosition = ResistorPosition[1];
         }
     }
 
@@ -923,11 +932,6 @@ public class CruelModkitScript : MonoBehaviour
     public void StartSolve()
     {
         Solving = true;
-    }
-
-    public bool IsSolving()
-    {
-        return Solving;
     }
 
     public void Solve() // Disarms The Cruel Modkit

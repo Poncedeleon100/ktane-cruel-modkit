@@ -135,7 +135,9 @@ public class ComponentInfo
     public string[] Alphabet = new string[6];
     public int Piano;
     public int[] Arrows = new int[9];
-    public bool[] BulbInfo = new bool[5];
+    public bool[] BulbOpaque = new bool[2];
+    public bool[] BulbOn = new bool[2];
+    public bool BulbOLeft;
     public int[] BulbColors = new int[2];
     public int[] Identity = new int[4];
     public bool[] ResistorReversed = new bool[2];
@@ -284,21 +286,15 @@ public class ComponentInfo
 
     public void GenerateBulbInfo()
     {
-        // BulbInfo layout (It's weird so that this information can be iterated through if needed):
-        // 0 = Is Bulb 1 opaque?
-        // 1 = Is Bulb 2 opaque?
-        // 2 = Does Bulb 1 start on?
-        // 3 = Does Bulb 2 start on?
-        // 4 = Is the O button on the left?
-        BulbInfo[4] = Random.Range(0, 2) == 0;
+        BulbOLeft = Random.Range(0, 2) == 0;
         for (int i = 0; i < 2; i++)
         {
             //Color of the bulb
             BulbColors[i] = Random.Range(0, BulbColorValues.Length);
             //Opacity of the bulb
-            BulbInfo[i] = Random.Range(0, 2) == 0;
+            BulbOpaque[i] = Random.Range(0, 2) == 0;
             //Whether it starts on or not
-            BulbInfo[i + 2] = Random.Range(0, 2) == 0;
+            BulbOn[i] = Random.Range(0, 2) == 0;
         }
     }
 
@@ -309,19 +305,20 @@ public class ComponentInfo
 
         for (int i = 0; i < 2; i++)
         {
+            int j = i * 4;
             if (ResistorReversed[i])
             {
-                ResistorColors[i] = Random.Range(2, 12);
-                ResistorColors[i + 2] = Random.Range(0, 12);
-                ResistorColors[i + 4] = Random.Range(0, 10);
-                ResistorColors[i + 6] = Random.Range(1, 10);
+                ResistorColors[j] = Random.Range(2, 12);
+                ResistorColors[j + 1] = Random.Range(0, 12);
+                ResistorColors[j + 2] = Random.Range(0, 10);
+                ResistorColors[j + 3] = Random.Range(1, 10);
             }
             else
             {
-                ResistorColors[i] = Random.Range(1, 10);
-                ResistorColors[i + 2] = Random.Range(0, 10);
-                ResistorColors[i + 4] = Random.Range(0, 12);
-                ResistorColors[i + 6] = Random.Range(2, 12);
+                ResistorColors[j + 3] = Random.Range(2, 12);
+                ResistorColors[j + 2] = Random.Range(0, 12);
+                ResistorColors[j + 1] = Random.Range(0, 10);
+                ResistorColors[j] = Random.Range(1, 10);
             }
         }
 
@@ -376,7 +373,7 @@ public class ComponentInfo
             MeterValue = 0.5d;
         else if (0.65f < MeterValue && MeterValue < 0.68f)
             MeterValue = 0.667d;
-        else if (0.765f < MeterValue && MeterValue < 0.735f)
+        else if (0.735f < MeterValue && MeterValue < 0.765f)
             MeterValue = 0.75d;
         else if (0.98f < MeterValue)
             MeterValue = 1;
@@ -489,19 +486,20 @@ public class ComponentInfo
     {
         List<string> Names = new List<string>();
 
+        int j = ResistorNumber * 4;
         if (ResistorReversed[ResistorNumber])
         {
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 6]));
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 4]));
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 2]));
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 0]));
+            for (int i = 3; i >= 0; i--)
+            {
+                Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[j + i]));
+            }
         }
         else
         {
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 0]));
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 2]));
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 4]));
-            Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[ResistorNumber + 6]));
+            for (int i = 0; i < 4; i++)
+            {
+                Names.Add(Enum.GetName(typeof(ResistorColorNames), ResistorColors[j + i]));
+            }
         }
 
         return Names.Join(", ");

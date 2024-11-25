@@ -190,7 +190,7 @@ public class Puzzle
             return;
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Bulbs[Button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.BulbButtons[Button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
 
         if (Module.IsModuleSolved())
             return;
@@ -199,7 +199,7 @@ public class Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 2) == Info.BulbInfo[4] ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 2) == Info.BulbOLeft ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
                 Module.CauseStrike();
                 return;
             }
@@ -221,7 +221,7 @@ public class Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], Info.BulbInfo[Bulb + 2]);
+        Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], Info.BulbOn[Bulb]);
 
         BulbScrewedIn[Bulb] = !BulbScrewedIn[Bulb];
 
@@ -301,7 +301,10 @@ public class Puzzle
         }
     }
 
-    public IEnumerator HandleArrowDelayFlash()
+    /// <summary>
+    /// Briefly flashes the lights of every arrow at the same time.
+    /// </summary>
+    public IEnumerator HandleArrowFlashAll()
     {
         yield return null;
         for (int i = 0; i < Module.Arrows.Length; i++)
@@ -315,7 +318,10 @@ public class Puzzle
         }
     }
 
-    public IEnumerator HandleArrowDelayFlashSingle(int Arrow)
+    /// <summary>
+    /// Briefly flashes the light of a single arrow.
+    /// </summary>
+    public IEnumerator HandleArrowFlash(int Arrow)
     {
         if (Arrow < 0 || Arrow >= 9) yield break;
         yield return null;
