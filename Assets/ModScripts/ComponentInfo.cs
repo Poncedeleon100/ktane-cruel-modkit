@@ -240,8 +240,6 @@ public class ComponentInfo
             int NumberAmount = Random.Range(0, 2);
             for (int x = 0; x <= LetterAmount; x++)
                 AlphabetKey += Letters[x];
-            if (LetterAmount == 1 && NumberAmount == 1)
-                AlphabetKey += "\n";
             for (int x = 0; x <= NumberAmount; x++)
                 AlphabetKey += Numbers[x];
 
@@ -472,7 +470,7 @@ public class ComponentInfo
         List<string> Names = new List<string>();
 
         for (int i = 0; i < Alphabet.Length; i++)
-            Names.Add(Alphabet[i].Replace(Environment.NewLine, string.Empty));
+            Names.Add(Alphabet[i]);
 
         return Names.Join(", ");
     }
