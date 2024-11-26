@@ -8,7 +8,6 @@ public class Puzzle
     protected CruelModkitScript Module;
     protected int ModuleID;
     protected ComponentInfo Info;
-    protected bool Vanilla;
     public byte Components;
 
     public Puzzle(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components)
