@@ -11,7 +11,7 @@
     <script src="js/jquery.3.7.0.min.js"></script>
     <script src="js/Utilities/svg-utils.js"></script>
     <script>
-        const BigTable = [
+        const PolygonalMappingTable = [
             [38, 18, 19, 17, 30, 8,  17, 26, 32, 26],
             [43, 3,  10, 19, 17, 47, 20, 26, 29, 37],
             [28, 3,  5,  26, 7,  28, 40, 14, 36, 16],
@@ -39,7 +39,7 @@
             [7,  8,  13, 44, 21, 12, 45, 39, 6,  7 ],
             [28, 4,  27, 6,  4,  44, 11, 8,  16, 44]
         ];
-        const imgIndexes = [
+        const PolygonalMappingImgIndexes = [
             "img/Keypad/1-copyright.png",
             "img/Keypad/2-filledstar.png",
             "img/Keypad/3-hollowstar.png",
@@ -71,7 +71,7 @@
             "img/Keypad/29-weirdnose.png",
             "img/Keypad/30-upsidedowny.png",
             "img/Keypad/31-bt.png",
-            "img/The Cruel Modkit/ayin.png", //index 31
+            "img/The Cruel Modkit/ayin.png",
             "img/The Cruel Modkit/brackets.png",
             "img/The Cruel Modkit/ethiopic.png",
             "img/The Cruel Modkit/katakana.png",
@@ -80,11 +80,11 @@
             "img/The Cruel Modkit/rparagraph.png",
             "img/The Cruel Modkit/rune.png",
             "img/Keypad Sequence/Symbol02.png",
-            "img/Keypad Sequence/Symbol14.png", //40
+            "img/Keypad Sequence/Symbol14.png",
             "img/Keypad Sequence/Symbol30.png",
             "img/Keypad Sequence/Symbol41.png",
             "img/Keypad Sequence/Symbol53.png",
-            "img/The Cruel Modkit/tamil.png",    //44
+            "img/The Cruel Modkit/tamil.png",
             "img/The Cruel Modkit/theta.png",
             "img/The Cruel Modkit/triquetra.png",
             "img/The Cruel Modkit/yi.png",
@@ -92,21 +92,21 @@
         ];
     </script>
     <style>
-        .dark table, table {
+        .polygonal-mapping-table {
             margin: 1em auto;
             border: none;
         }
-        .table th {
+        .polygonal-mapping-table th {
             width: 45px;
             height: 25px;
             padding: 0cm;
             font-size: 25px;
         }
-        .table img {
+        .polygonal-mapping-table img {
             height: 35px;
             width: 35px;
         }
-        .dark th img {
+        .dark .polygonal-mapping-img {
             filter: invert();
         }
         .page-footer::before {
@@ -227,13 +227,13 @@
                                 if(cols == 0 || cols == 27){
                                     scriptTable += '<th>' + (rows-1) + '</th>';
                                 } else {
-                                    scriptTable += '<th><img src="' + imgIndexes[BigTable[cols-1][rows-1]] +'"></th>'; 
+                                    scriptTable += '<th><img class="polygonal-mapping-img" src="' + PolygonalMappingImgIndexes[PolygonalMappingTable[cols-1][rows-1]] +'"></th>'; 
                                 }
                             }
                         }
                         scriptTable += '</tr>';
                     }
-                    document.write('<table class="table">' + scriptTable + '</table>')
+                    document.write('<table class="polygonal-mapping-table">' + scriptTable + '</table>')
                 </script>
             </div>
             <div class="page-footer relative-footer">3</div>
