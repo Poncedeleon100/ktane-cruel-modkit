@@ -2,7 +2,7 @@
   "Compatibility": "Compatible",
   "Contributors": {
     "Developer": [
-    "Moon",
+      "Moon",
       "Konoko",
       "GoodHood",
       "_Play_",
@@ -34,7 +34,7 @@
   "SortKey": "CRUELMODKIT",
   "SourceUrl": "https://github.com/Poncedeleon100/ktane-cruel-modkit",
   "Souvenir": {
-    "Explanation": "Souvenir could ask for the name of the module that was solved.",
+    "Explanation": "Souvenir could ask for specific information regarding active components.",
     "Status": "Considered"
   },
   "SteamID": null,
