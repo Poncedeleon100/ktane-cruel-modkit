@@ -74,12 +74,7 @@ public class CruelModkitScript : MonoBehaviour
         Piano = 4,
         Arrows = 2,
         Bulbs = 1,
-        None = 0,
-    }
-
-    public int CountComponents(ComponentsEnum comps)
-    {
-        return new BitArray(new[] {(byte)comps}).OfType<bool>().Count(x => x);
+        None = 0
     }
 
     byte OnComponents = (byte)ComponentsEnum.None;
