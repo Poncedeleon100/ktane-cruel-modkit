@@ -81,8 +81,6 @@ public class Puzzle
             return;
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonRelease, Module.transform);
-
-        return;
     }
 
     public virtual void OnSymbolPress(int Symbol)

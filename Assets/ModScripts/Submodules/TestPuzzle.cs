@@ -225,8 +225,6 @@ public class TestPuzzle : Puzzle
 
         if (Module.IsModuleSolved())
             return;
-
-        return;
     }
 
     public override void OnUtilityPress()
