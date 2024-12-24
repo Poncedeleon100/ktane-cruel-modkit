@@ -191,7 +191,7 @@ public class WhosWho : Puzzle
             return;
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Bulbs[Button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.BulbButtons[Button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
 
         if (Module.IsModuleSolved())
             return;
@@ -200,7 +200,7 @@ public class WhosWho : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 2) == Info.BulbInfo[4] ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
+                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 2) == Info.BulbOLeft ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
                 Module.CauseStrike();
                 return;
             }

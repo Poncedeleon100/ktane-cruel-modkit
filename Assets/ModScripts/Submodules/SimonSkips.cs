@@ -150,7 +150,7 @@ public class SimonSkips : Puzzle
         if (Module.IsModuleSolved())
             return;
 
-        Module.StartCoroutine(HandleArrowDelayFlashSingle(Arrow));
+        Module.StartCoroutine(HandleArrowFlash(Arrow));
 
         if (!Module.IsSolving())
         {
