@@ -70,6 +70,8 @@ public class PolygonalMapping : Puzzle
             attempts++;
         }
 
+        Module.SetAlphabet();
+
         //polygon couldnt generate
         if (attempts == attemptCap)
         {
@@ -497,11 +499,11 @@ public class PolygonalMapping : Puzzle
         string[] numbers = "1234567890".ToCharArray().Select(x => x.ToString()).OrderBy(x => Random.Range(0, 1000)).ToArray();
         int letterAmount = Random.Range(0, 2);
         int numberAmount = Random.Range(0, 2);
-        for (int x = 0; x <= letterAmount; x++) alphabetKey += letters[x];
-        if (letterAmount == 1 && numberAmount == 1) alphabetKey += Environment.NewLine;
-        for (int x = 0; x <= numberAmount; x++) alphabetKey += numbers[x];
+        for (int x = 0; x <= letterAmount; x++)
+            alphabetKey += letters[x];
+        for (int x = 0; x <= numberAmount; x++)
+            alphabetKey += numbers[x];
         Info.Alphabet[i] = alphabetKey;
-        Module.Alphabet[i].transform.Find("AlphabetText").GetComponentInChildren<TextMesh>().text = alphabetKey;
         Coordinates[i] = new Vector2(Base36.IndexOf(alphabetKey[0]) - 10, Base36.IndexOf(alphabetKey[alphabetKey.Length - 1]));
     }
 
