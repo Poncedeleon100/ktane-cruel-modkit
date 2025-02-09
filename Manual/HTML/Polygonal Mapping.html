@@ -109,13 +109,8 @@
         .dark .polygonal-mapping-img {
             filter: invert();
         }
-        .page-footer::before {
-            content: 'Page ';
-        }
-        .page-footer::after {
-            content: ' of 3';
-        }
 
+        /*For Polygonal Mapping landscape page*/
         .landscape .page-footer {
             margin:0
         }
@@ -158,6 +153,14 @@
                 transform: translate(-50%, 0);
             }
         }
+
+        .page-footer::before {
+            content: 'Page ';
+        }
+
+        .page-footer::after {
+            content: ' of 3';
+        }
     </style>
 </head>
 <body>
@@ -173,7 +176,7 @@
                 <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Symbols, Alphabet]</strong>, you are looking at the wrong section of this manual!</p>
                 <p>Create a string of alphanumeric characters consisting of the following in order:</p>
                 <ol>
-                    <li>The 3 characters transmitted through the morse led</li>
+                    <li>The 3 characters transmitted through the Morse LED</li>
                     <li>The 5 digits on the timer display</li>
                     <li>The 4 letters by the resistors in reading order</li>
                     <li>The number on the number display</li>
