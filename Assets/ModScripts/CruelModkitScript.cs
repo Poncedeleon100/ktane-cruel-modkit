@@ -561,6 +561,10 @@ public class CruelModkitScript : MonoBehaviour
                 TargetComponents = (byte)(ComponentsEnum.Piano | ComponentsEnum.Bulbs);
                 Puzzle = new AVInput(this, ModuleID, Info, TargetComponents);
                 break;
+            case "Polygonal Mapping":
+                TargetComponents = (byte)(ComponentsEnum.Symbols | ComponentsEnum.Alphabet);
+                Puzzle = new PolygonalMapping(this, ModuleID, Info, TargetComponents);
+                break;
             case "Who's Who":
                 TargetComponents = (byte)(ComponentsEnum.LED | ComponentsEnum.Bulbs);
                 Puzzle = new WhosWho(this, ModuleID, Info, TargetComponents);
@@ -985,7 +989,7 @@ public class CruelModkitScript : MonoBehaviour
                     { "Text", "Select Module" },
                     { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
                     { "Type", "Dropdown" },
-                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Piano Decryption", "AV Input", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "Deranged Keypad", "Logical Color Combinations", "Lying Wires", "Test Puzzle" } }
+                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Piano Decryption", "AV Input", "Polygonal Mapping", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "Deranged Keypad", "Logical Color Combinations", "Lying Wires", "Test Puzzle" } }
                 },
             }
             },
