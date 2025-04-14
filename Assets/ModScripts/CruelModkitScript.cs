@@ -8,7 +8,6 @@ using static ComponentInfo;
 
 public class CruelModkitScript : MonoBehaviour
 {
-
     public KMAudio Audio;
     public KMBombInfo Bomb;
     public KMBombModule Module;
@@ -406,17 +405,20 @@ public class CruelModkitScript : MonoBehaviour
 
     public IEnumerator ButtonStrike(bool IsSymbols, int Button)
     {
+        Material OldKeyLight;
         if (IsSymbols)
         {
+            OldKeyLight = Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material;
             Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Red];
             yield return new WaitForSeconds(1f);
-            Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Black];
+            Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = OldKeyLight;
         }
         else
         {
+            OldKeyLight = Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material;
             Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Red];
             yield return new WaitForSeconds(1f);
-            Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Black];
+            Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = OldKeyLight;
         }
     }
 
@@ -873,13 +875,18 @@ public class CruelModkitScript : MonoBehaviour
         WidgetText[2].text = Info.NumberDisplay.ToString();
     }
 
-    public void SetMorse()
+    public void StopMorse()
     {
-        // End the coroutine in case it's currently playing to prevent the light from doing weird stuff
         if (MorseCodeAnimation != null)
             StopCoroutine(MorseCodeAnimation);
         MorseLED.transform.Find("MorseBulbLight").GetComponentInChildren<Light>().enabled = false;
         MorseLED.transform.GetComponentInChildren<MeshRenderer>().material = MorseMats[0];
+    }
+
+    public void SetMorse()
+    {
+        // End the coroutine in case it's currently playing to prevent the light from doing weird stuff
+        StopMorse();
         MorseCodeAnimation = PlayWord(Info.Morse);
         StartCoroutine(MorseCodeAnimation);
     }
@@ -937,6 +944,7 @@ public class CruelModkitScript : MonoBehaviour
     {
         Module.HandlePass();
         ModuleSolved = true;
+        StopMorse();
         StartCoroutine(PlaySolveAnim());
     }
 
