@@ -590,11 +590,6 @@ public class CruelModkitScript : MonoBehaviour
                 TargetComponents = (byte)(ComponentsEnum.Wires | ComponentsEnum.Button);
                 Puzzle = new LyingWires(this, ModuleID, Info, TargetComponents);
                 break;
-            case "Test Puzzle":
-            default:
-                TargetComponents = (byte)(ComponentsEnum.Wires | ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Symbols | ComponentsEnum.Alphabet | ComponentsEnum.Piano | ComponentsEnum.Arrows | ComponentsEnum.Bulbs);
-                Puzzle = new TestPuzzle(this, ModuleID, Info, TargetComponents);
-                break;
         }
 
         for (int i = 0; i < Wires.Length; i++)
