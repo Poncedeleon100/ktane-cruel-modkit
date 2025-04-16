@@ -243,9 +243,13 @@
             text-align: center;
         }
 
-            .logical-color-combinations-operator-table td {
-                font-size: 80%;
-            }
+        .logical-color-combinations-operator-table td {
+            font-size: 80%;
+        }
+
+        .edgework-encoding-table td {
+            vertical-align: top;
+        }
 
         .black {
             background-color: black;
@@ -317,7 +321,7 @@
         }
 
         .page-footer::after {
-            content: ' of 30';
+            content: ' of 32';
         }
     </style>
 </head>
@@ -362,9 +366,20 @@
             </div>
             <div class="page-content">
                 <h2>On the Subject of Timer Timings</h2>
-                <p class="comment">“Okay, give a read on the module.” “There’s nothing.” “Okay… 6/3.” “No, there’s actually nothing.” “1/8.” “No… THERE IS NOTHING ON THE MODULE!” “9/2.”</p>
-                <p><strong>Note: </strong>If your module contains <strong>any</strong> components, you are looking at the wrong section of this manual!</p>
-                <p>Press the “❖” button to activate the module. The timer on the module will begin displaying random digits from ØØØØØ-99999, changing every second. The number display will also give a number. Refer to the table below to find out what number to submit. The left-most digit represents A, and the right-most digit represents B.</p>
+                <p class="flavour-text">
+                    “Okay, give a read on the module.” “There’s nothing.” “Okay… 6/3.” “No, there’s actually nothing.”
+                    “1/8.” “No… THERE IS NOTHING ON THE MODULE!” “9/2.”
+                </p>
+                <p>
+                    <strong>Note: </strong>If your module contains <strong>any</strong> components, you are looking
+                    at the wrong section of this manual!
+                </p>
+                <p>
+                    Press the “❖” button to activate the module. The timer on the module will begin displaying random
+                    digits from ØØØØØ-99999, changing every second. The number display will also give a number. Refer
+                    to the table below to find out what number to submit. The left-most digit represents A, and the
+                    right-most digit represents B.
+                </p>
                 <table>
                     <tr><td>Number Display</td><td>Rule</td></tr>
                     <tr><td>Ø</td><td>A + B = a prime number*</td></tr>
@@ -378,9 +393,15 @@
                     <tr><td>8</td><td>A + B ≥ sum of S# digits modulo 18</td></tr>
                     <tr><td>9</td><td>A and B = the amount of lit or unlit indicators.</td></tr>
                 </table>
-                <p>When the rule applies to the digits, press the “❖” button again to solve the module. Pressing the “❖” button when the numbers displayed are invalid will result in a strike.</p>
+                <p>
+                    When the rule applies to the digits, press the “❖” button again to solve the module. Pressing the
+                    “❖” button when the numbers displayed are invalid will result in a strike.
+                </p>
                 <p style="font-style: italic">*Ø in this module is considered a composite number.</p>
-                <p style="font-style: italic">**If the module count is over 1ØØ, press the “❖” button when A and B share parity with the last digit of the serial number.</p>
+                <p style="font-style: italic">
+                    **If the module count is over 1ØØ, press the “❖” button when A and B share parity with the last
+                    digit of the serial number.
+                </p>
             </div>
             <div class="page-footer relative-footer">2</div>
         </div>
@@ -440,7 +461,7 @@
                 </ul>
                 <p>
                     If done correctly, the resulting string will be a word in the table on the next page. The word will correspond to a piano sequence. To solve the module, input this piano sequence into the module.
-                    Inputting the wrong key will cause a strike, resetting the module’s presses. Pressing the ❖ symbol will also reset the piano presses.
+                    Inputting the wrong key will cause a strike, resetting the module’s presses. Pressing the “❖” symbol will also reset the piano presses.
                 </p>
             </div>
             <div class="page-footer relative-footer">4</div>
@@ -490,29 +511,29 @@
                 <p>ROT13 Cipher: shift every letter of the encrypted word forwards/backwards (the direction does not matter) 13 times (looping around the alphabet if needed).</p>
                 <p>Atbash Cipher: for each of the encrypted word’s letters:</p>
                 <ul>
-                    <li>Convert the letter into its alphabetic position (A0Z25) to get a number.</li>
+                    <li>Convert the letter into its alphabetic position (AØZ25) to get a number.</li>
                     <li>Subtract that number from 25.</li>
-                    <li>Convert the result to a letter A0Z25 to get the decrypted letter.</li>
+                    <li>Convert the result to a letter AØZ25 to get the decrypted letter.</li>
                 </ul>
                 <p><strong>Affine ×X Cipher</strong>: for each of the encrypted word’s letters:</p>
                 <ul>
-                    <li>Convert the letter into its alphabetic position (A0Z25) to get a number.</li>
+                    <li>Convert the letter into its alphabetic position (AØZ25) to get a number.</li>
                     <li>Keep adding 26 to the number until it becomes divisible by X.</li>
                     <li>Divide the number by X.</li>
-                    <li>Convert the result to a letter A0Z25 to get the decrypted letter.</li>
+                    <li>Convert the result to a letter AØZ25 to get the decrypted letter.</li>
                 </ul>
                 <h4 class="piano-decryption-cipher-example">Example</h4>
                 <p class="piano-decryption-cipher-example">
                     Encrypted word: SNUYCP<br>
                     X = 7<br>
-                    S = 18 + 26 = 44 + 26 = 70 / 7 = 10 -> K<br>
+                    S = 18 + 26 = 44 + 26 = 7Ø / 7 = 1Ø -> K<br>
                     N = 13 + 26 = 39 + 26 = 65 + 26 = 91 / 7 = 13 -> N<br>
-                    U = 20 + 26 = 46 + 26 = 72 + 26 = 98 / 7 = 14 -> O<br>
-                    Y = 24 + 26 = 50 + 26 = 76 + 26 = 102 + 26 = 128 + 26 = 154 / 7 = 22 -> W<br>
+                    U = 2Ø + 26 = 46 + 26 = 72 + 26 = 98 / 7 = 14 -> O<br>
+                    Y = 24 + 26 = 5Ø + 26 = 76 + 26 = 1Ø2 + 26 = 128 + 26 = 154 / 7 = 22 -> W<br>
                     C = 2 + 26 = 28 / 7 = 4 -> E<br>
                     P = 15 + 26 = 41 + 26 = 67 + 26 = 93 + 26 = 119 / 7 = 17 -> R<br>
                     Decrypted word: KNOWER<br>
-                    Note: In some cases, some letters can have ambiguous decryptions.<br>Example: X = 10, the letter is Q, which can be decrypted to either A or N.
+                    Note: In some cases, some letters can have ambiguous decryptions.<br>Example: X = 1Ø, the letter is Q, which can be decrypted to either A or N.
                 </p>
             </div>
             <div class="page-footer relative-footer">6</div>
@@ -583,7 +604,7 @@
             </div>
             <div class="page-content">
                 <h2>On the Subject of Polygonal Mapping</h2>
-                <p class="flavour-text">Boy, am I glad that I can just use my eyes to map polygons and not some complicated maths.</p>
+                <p class="comment">Boy, am I glad that I can just use my eyes to map polygons and not some complicated maths.</p>
                 <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Symbols, Alphabet]</strong>, you are looking at the wrong section of this manual!</p>
                 <p>Create a string of alphanumeric characters consisting of the following in order:</p>
                 <ol>
@@ -592,9 +613,9 @@
                     <li>The 4 letters by the resistors in reading order</li>
                     <li>The number on the number display</li>
                     <li>The word(s) on the word display, ignoring punctuation and spaces**</li>
-                    <li>The string “543210”</li>
+                    <li>The string “54321Ø”</li>
                 </ol>
-                <p>Note down the labels of all 6 alphabet buttons. If a label has two letters, use the first letter. If a label has two numbers, use the last number. This should leave you with 6 letter-number pairs ranging from A0 to Z9. Find these as coordinates in the table later in the manual.</p>
+                <p>Note down the labels of all 6 alphabet buttons. If a label has two letters, use the first letter. If a label has two numbers, use the last number. This should leave you with 6 letter-number pairs ranging from AØ to Z9. Find these as coordinates in the table later in the manual.</p>
                 <p>Create a hexagon with vertices on the centre of each coordinate. Count the number of occurrences of each unpressed symbol in the hexagon. A symbol is counted in if the centre of the symbol is within the hexagon, not on a vertex or edge. After counting the number of occurrences of each present symbol, follow these steps:</p>
                 <ol>
                     <li>If the highest-occuring symbol is <em>untied</em> and unpressed, press it.</li>
@@ -619,7 +640,7 @@
                     <li>Press all unpressed buttons <em>left to right</em>. This will solve the module.</li>
                 </ol>
                 <p>If at any point in the solving process the defuser presses a wrong button, the module will strike. This will NOT cause the sub-module to reset. Simply ignore the mistake and pretend that the defuser never pressed that button. All buttons that are pressed will only be considered pressed by the module if they are depressed into the module and their LED is green.</p>
-                <p><i>**If the word display says “ERROR”, you’ve encountered a unicorn. Mash the ❖ button until the module solves and do not press anything else. This only happens when the module fails to generate a favourable polygon in about 300 tries. Let Possessed know if this happens.</i></p>
+                <p><i>**If the word display says “ERROR”, you’ve encountered a unicorn. Mash the “❖” button until the module solves and do not press anything else. This only happens when the module fails to generate a favourable polygon in about 3ØØ tries. Let Possessed know if this happens.</i></p>
             </div>
             <div class="page-footer relative-footer">10</div>
         </div>
@@ -1973,7 +1994,7 @@
                 <ul>
                     <li>
                         If <u>L</u> is even, add the number on the number display to <u>L</u> and take the sum modulo
-                        10. Tap the button when the last digit of the bomb timer is equal to the result.
+                        1Ø. Tap the button when the last digit of the bomb timer is equal to the result.
                     </li>
                     <li>
                         If <u>L</u> is odd, hold the button when the last digit of the bomb timer is equal to <u>L</u>
@@ -2073,18 +2094,226 @@
             <div class="page-footer relative-footer">29</div>
         </div>
 
-        <div class="page page-bg-05">
+        <div class="page page-bg-01">
             <div class="page-header">
                 <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
                 <span class="page-header-section-title">The Cruel Modkit</span>
             </div>
             <div class="page-content">
-                <h2>On the Subject of The Test Puzzle</h2>
-                <p class="comment">I guess they do make it easy!</p>
-                <p><strong>Note: </strong>Your module’s components can contain anything!</p>
-                <p>To disarm the module, press the “❖” button. Otherwise, this module cannot strike.</p>
+                <h2>On the Subject of Edgework Encoding</h2>
+                <p class="comment">
+                    You would think that the ports on the side of the bomb are used for something
+                    other than just for answering questions. You would be wrong.
+                </p>
+                <p>
+                    <strong>Note: </strong>If your module’s component combination is present in one of the previous
+                    manuals, you are looking at the wrong section of this manual!
+                </p>
+                <p>
+                    First, determine the starting location for each of the lists on the next page. The two rightmost
+                    digits on the timer display modulo 2Ø (where Ø is equal to 2Ø) refer to the starting location for
+                    “Edgework Questions.” The number display modulo 8 (where Ø is equal to 8) refers to the starting
+                    location for “Components.”
+                </p>
+                <p>
+                    Next, determine the direction to move in each list. If the first digit of the timer display is
+                    even, move down in “Edgework Questions,” otherwise, move up. If the number of activated components
+                    is even, move down in “Components,” otherwise, move up. While moving through both lists, wraparound
+                    to the opposite end of the list if you reach either end.
+                </p>
+                <p>
+                    Starting with the positions from the first step, enter the correct answer on the specified component
+                    and then move in the right directions for both lists. If the component is not activated, skip that
+                    component and its associated question in the list. See the table titled “Instructions” for
+                    instructions on how to submit answers on each component.
+                </p>
+                <p>
+                    When all answers are submitted, the module will solve. Incorrect answers or interacting with the
+                    wrong component will cause a strike.
+                </p>
+                <p>
+                    If the answer to an associated components question is “yes,” submit the number 1. Otherwise, submit
+                    the number Ø.
+                </p>
             </div>
             <div class="page-footer relative-footer">30</div>
+        </div>
+
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table>
+                    <tr>
+                        <th colspan="2">Edgework Questions</th>
+                        <th colspan="2">Components</th>
+                    </tr>
+                    <tr>
+                        <th>1.</th>
+                        <td>Does the serial number contain letters from any of the present indicators?</td>
+                        <th>1.</th>
+                        <td>Wires</td>
+                    </tr>
+                    <tr>
+                        <th>2.</th>
+                        <td>Is there a vowel in the serial number?</td>
+                        <th>2.</th>
+                        <td>Arrows</td>
+                    </tr>
+                    <tr>
+                        <th>3.</th>
+                        <td>How many D batteries are present?</td>
+                        <th>3.</th>
+                        <td>Button</td>
+                    </tr>
+                    <tr>
+                        <th>4.</th>
+                        <td>Does the serial number contain any digits present in the total number of ports?</td>
+                        <th>4.</th>
+                        <td>Piano</td>
+                    </tr>
+                    <tr>
+                        <th>5.</th>
+                        <td>Is there a CLR, FRQ, SIG, or NSA indicator present?</td>
+                        <th>5.</th>
+                        <td>LEDs</td>
+                    </tr>
+                    <tr>
+                        <th>6.</th>
+                        <td>What is the alphanumeric position (A1Z26) of the second letter in the serial number?</td>
+                        <th>6.</th>
+                        <td>Symbols</td>
+                    </tr>
+                    <tr>
+                        <th>7.</th>
+                        <td>Does the serial number contain any digits present in the number of D batteries?</td>
+                        <th>7.</th>
+                        <td>Bulbs</td>
+                    </tr>
+                    <tr>
+                        <th>8.</th>
+                        <td>How many PS/2 and Serial ports are present?</td>
+                        <th>8.</th>
+                        <td>Alphabet</td>
+                    </tr>
+                    <tr>
+                        <th>9.</th>
+                        <td>How many unlit indicators are present?</td>
+                    </tr>
+                    <tr>
+                        <th>1Ø.</th>
+                        <td>Does the serial number contain any digits present in the calculated puzzle ID?</td>
+                    </tr>
+                    <tr>
+                        <th>11.</th>
+                        <td>How many AA batteries are present?</td>
+                    </tr>
+                    <tr>
+                        <th>12.</th>
+                        <td>How many Parallel and RJ-45 ports are present?</td>
+                    </tr>
+                    <tr>
+                        <th>13.</th>
+                        <td>Does the serial number contain any digits present in the total number of indicators?</td>
+                    </tr>
+                    <tr>
+                        <th>14.</th>
+                        <td>Does the serial number contain any digits present in the total number of modules?</td>
+                    </tr>
+                    <tr>
+                        <th>15.</th>
+                        <td>How many battery holders are present?</td>
+                    </tr>
+                    <tr>
+                        <th>16.</th>
+                        <td>Is there an empty port plate present?</td>
+                    </tr>
+                    <tr>
+                        <th>17.</th>
+                        <td>How many lit indicators are present?</td>
+                    </tr>
+                    <tr>
+                        <th>18.</th>
+                        <td>What is the sum of the digits present in the serial number?</td>
+                    </tr>
+                    <tr>
+                        <th>19.</th>
+                        <td>Does the serial number contain any digits present in the number of AA batteries?</td>
+                    </tr>
+                    <tr>
+                        <th>2Ø.</th>
+                        <td>How many Stereo RCA and DVI-D ports are present?</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">31</div>
+        </div>
+
+        <div class="page page-bg-06">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table class="edgework-encoding-table">
+                    <tr>
+                        <th>Wires</th>
+                        <th>Arrows</th>
+                        <th>Button</th>
+                        <th>Piano</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            With the wires numbered Ø-6 from left to right, the correct wire is the answer modulo 7.
+                            Then, cut that wire when the last digit of the timer is equal to the answer modulo 1Ø.
+                        </td>
+                        <td>
+                            Press the arrow button associated with the answer modulo 1Ø. The first button press for any
+                            button will change the number display to that button’s associated number. The second button
+                            press for any button will submit that number as the answer.<br /> An incorrect submission
+                            will reset the values.
+                        </td>
+                        <td>
+                            Press the button a number of times equal to the answer, then press the “❖” button.
+                        </td>
+                        <td>
+                            With the keys numbered Ø-11 from left to right, the correct key is the answer modulo 12.
+                            Then, press that key when the last digit of the timer is equal to the answer modulo 1Ø.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>LEDs</th>
+                        <th>Symbols</th>
+                        <th>Bulbs</th>
+                        <th>Alphabet</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Press the “❖” button. All LEDs will turn black. Pressing the “❖” button again will
+                            toggle one of the LEDs between black and white. The LED that is toggled depends on the
+                            last digit of the bomb timer. Digits 1-8 will toggle that specific LED, while Ø and 9
+                            will submit the current set of LEDs. Submit the answer in 8-bit binary.
+                        </td>
+                        <td>
+                            With the symbols numbered Ø-5 from left to right, the correct symbol is the answer modulo
+                            6. Then, press that symbol when the last digit of the timer is equal to the answer modulo
+                            1Ø.
+                        </td>
+                        <td>
+                            Submit the number in binary using the I/O symbols. The first digit submitted should be 1,
+                            unless the number is Ø.
+                        </td>
+                        <td>
+                            With the alphabet keys numbered Ø-5 from left to right, the correct key is the answer
+                            modulo 6. Then, press that key when the last digit of the timer is equal to the answer
+                            modulo 1Ø.
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">32</div>
         </div>
     </div>
 </body>

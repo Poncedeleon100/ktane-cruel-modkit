@@ -590,6 +590,10 @@ public class CruelModkitScript : MonoBehaviour
                 TargetComponents = (byte)(ComponentsEnum.Wires | ComponentsEnum.Button);
                 Puzzle = new LyingWires(this, ModuleID, Info, TargetComponents);
                 break;
+            case "Edgework Encoding":
+            default:
+                Puzzle = new EdgeworkEncoding(this, ModuleID, Info, TargetComponents);
+                break;
         }
 
         for (int i = 0; i < Wires.Length; i++)
@@ -987,7 +991,7 @@ public class CruelModkitScript : MonoBehaviour
                     { "Text", "Select Module" },
                     { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
                     { "Type", "Dropdown" },
-                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Piano Decryption", "AV Input", "Polygonal Mapping", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "Deranged Keypad", "Logical Color Combinations", "Lying Wires", "Test Puzzle" } }
+                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Piano Decryption", "AV Input", "Polygonal Mapping", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "Deranged Keypad", "Logical Color Combinations", "Lying Wires", "Edgework Encoding" } }
                 },
             }
             },

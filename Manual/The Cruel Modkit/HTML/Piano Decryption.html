@@ -49,8 +49,9 @@
                     <li>If the current text string has a letter in the serial number, apply the ROT13 Cipher.</li>
                     <li>Apply Atbash Cipher.</li>
                 </ul>
-                <p>If done correctly, the resulting string will be a word in the table on the next page. The word will correspond to a piano sequence. To solve the module, input this piano sequence into the module.
-                    Inputting the wrong key will cause a strike, resetting the module’s presses. Pressing the ❖ symbol will also reset the piano presses.
+                <p>
+                    If done correctly, the resulting string will be a word in the table on the next page. The word will correspond to a piano sequence. To solve the module, input this piano sequence into the module.
+                    Inputting the wrong key will cause a strike, resetting the module’s presses. Pressing the “❖” symbol will also reset the piano presses.
                 </p>
             </div>
             <div class="page-footer relative-footer">1</div>
@@ -100,29 +101,29 @@
                 <p>ROT13 Cipher: shift every letter of the encrypted word forwards/backwards (the direction does not matter) 13 times (looping around the alphabet if needed).</p>
                 <p>Atbash Cipher: for each of the encrypted word’s letters:</p>
                 <ul>
-                    <li>Convert the letter into its alphabetic position (A0Z25) to get a number.</li>
+                    <li>Convert the letter into its alphabetic position (AØZ25) to get a number.</li>
                     <li>Subtract that number from 25.</li>
-                    <li>Convert the result to a letter A0Z25 to get the decrypted letter.</li>
+                    <li>Convert the result to a letter AØZ25 to get the decrypted letter.</li>
                 </ul>
                 <p><strong>Affine ×X Cipher</strong>: for each of the encrypted word’s letters:</p>
                 <ul>
-                    <li>Convert the letter into its alphabetic position (A0Z25) to get a number.</li>
+                    <li>Convert the letter into its alphabetic position (AØZ25) to get a number.</li>
                     <li>Keep adding 26 to the number until it becomes divisible by X.</li>
                     <li>Divide the number by X.</li>
-                    <li>Convert the result to a letter A0Z25 to get the decrypted letter.</li>
+                    <li>Convert the result to a letter AØZ25 to get the decrypted letter.</li>
                 </ul>
                 <h4 class="piano-decryption-cipher-example">Example</h4>
                 <p class="piano-decryption-cipher-example">
                     Encrypted word: SNUYCP<br>
                     X = 7<br>
-                    S = 18 + 26 = 44 + 26 = 70 / 7 = 10 -> K<br>
+                    S = 18 + 26 = 44 + 26 = 7Ø / 7 = 1Ø -> K<br>
                     N = 13 + 26 = 39 + 26 = 65 + 26 = 91 / 7 = 13 -> N<br>
-                    U = 20 + 26 = 46 + 26 = 72 + 26 = 98 / 7 = 14 -> O<br>
-                    Y = 24 + 26 = 50 + 26 = 76 + 26 = 102 + 26 = 128 + 26 = 154 / 7 = 22 -> W<br>
+                    U = 2Ø + 26 = 46 + 26 = 72 + 26 = 98 / 7 = 14 -> O<br>
+                    Y = 24 + 26 = 5Ø + 26 = 76 + 26 = 1Ø2 + 26 = 128 + 26 = 154 / 7 = 22 -> W<br>
                     C = 2 + 26 = 28 / 7 = 4 -> E<br>
                     P = 15 + 26 = 41 + 26 = 67 + 26 = 93 + 26 = 119 / 7 = 17 -> R<br>
                     Decrypted word: KNOWER<br>
-                    Note: In some cases, some letters can have ambiguous decryptions.<br>Example: X = 10, the letter is Q, which can be decrypted to either A or N.
+                    Note: In some cases, some letters can have ambiguous decryptions.<br>Example: X = 1Ø, the letter is Q, which can be decrypted to either A or N.
                 </p>
             </div>
             <div class="page-footer relative-footer">3</div>

@@ -1,0 +1,257 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <title>Edgework Encoding — Keep Talking and Nobody Explodes Module</title>
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/ktane-utils.js"></script>
+    <script src="js/jquery.3.7.0.min.js"></script>
+    <script src="js/Utilities/svg-utils.js"></script>
+    <style>
+        .edgework-encoding-table td {
+            vertical-align: top;
+        }
+
+        .dark table, table {
+            margin: 1em auto;
+            border: none;
+        }
+
+        .page-footer::before {
+            content: 'Page ';
+        }
+
+        .page-footer::after {
+            content: ' of 3';
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Edgework Encoding</h2>
+                <p class="flavour-text">
+                    You would think that the ports on the side of the bomb are used for something
+                    other than just for answering questions. You would be wrong.
+                </p>
+                <p>
+                    <strong>Note: </strong>If your module’s component combination is present in one of the previous
+                    manuals, you are looking at the wrong section of this manual!
+                </p>
+                <p>
+                    First, determine the starting location for each of the lists on the next page. The two rightmost
+                    digits on the timer display modulo 2Ø (where Ø is equal to 2Ø) refer to the starting location for
+                    “Edgework Questions.” The number display modulo 8 (where Ø is equal to 8) refers to the starting
+                    location for “Components.”
+                </p>
+                <p>
+                    Next, determine the direction to move in each list. If the first digit of the timer display is
+                    even, move down in “Edgework Questions,” otherwise, move up. If the number of activated components
+                    is even, move down in “Components,” otherwise, move up. While moving through both lists, wraparound
+                    to the opposite end of the list if you reach either end.
+                </p>
+                <p>
+                    Starting with the positions from the first step, enter the correct answer on the specified component
+                    and then move in the right directions for both lists. If the component is not activated, skip that
+                    component and its associated question in the list. See the table titled “Instructions” for
+                    instructions on how to submit answers on each component.
+                </p>
+                <p>
+                    When all answers are submitted, the module will solve. Incorrect answers or interacting with the
+                    wrong component will cause a strike.
+                </p>
+                <p>
+                    If the answer to an associated components question is “yes,” submit the number 1. Otherwise, submit
+                    the number Ø.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">1</div>
+        </div>
+
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table>
+                    <tr>
+                        <th colspan="2">Edgework Questions</th>
+                        <th colspan="2">Components</th>
+                    </tr>
+                    <tr>
+                        <th>1.</th>
+                        <td>Does the serial number contain letters from any of the present indicators?</td>
+                        <th>1.</th>
+                        <td>Wires</td>
+                    </tr>
+                    <tr>
+                        <th>2.</th>
+                        <td>Is there a vowel in the serial number?</td>
+                        <th>2.</th>
+                        <td>Arrows</td>
+                    </tr>
+                    <tr>
+                        <th>3.</th>
+                        <td>How many D batteries are present?</td>
+                        <th>3.</th>
+                        <td>Button</td>
+                    </tr>
+                    <tr>
+                        <th>4.</th>
+                        <td>Does the serial number contain any digits present in the total number of ports?</td>
+                        <th>4.</th>
+                        <td>Piano</td>
+                    </tr>
+                    <tr>
+                        <th>5.</th>
+                        <td>Is there a CLR, FRQ, SIG, or NSA indicator present?</td>
+                        <th>5.</th>
+                        <td>LEDs</td>
+                    </tr>
+                    <tr>
+                        <th>6.</th>
+                        <td>What is the alphanumeric position (A1Z26) of the second letter in the serial number?</td>
+                        <th>6.</th>
+                        <td>Symbols</td>
+                    </tr>
+                    <tr>
+                        <th>7.</th>
+                        <td>Does the serial number contain any digits present in the number of D batteries?</td>
+                        <th>7.</th>
+                        <td>Bulbs</td>
+                    </tr>
+                    <tr>
+                        <th>8.</th>
+                        <td>How many PS/2 and Serial ports are present?</td>
+                        <th>8.</th>
+                        <td>Alphabet</td>
+                    </tr>
+                    <tr>
+                        <th>9.</th>
+                        <td>How many unlit indicators are present?</td>
+                    </tr>
+                    <tr>
+                        <th>1Ø.</th>
+                        <td>Does the serial number contain any digits present in the calculated puzzle ID?</td>
+                    </tr>
+                    <tr>
+                        <th>11.</th>
+                        <td>How many AA batteries are present?</td>
+                    </tr>
+                    <tr>
+                        <th>12.</th>
+                        <td>How many Parallel and RJ-45 ports are present?</td>
+                    </tr>
+                    <tr>
+                        <th>13.</th>
+                        <td>Does the serial number contain any digits present in the total number of indicators?</td>
+                    </tr>
+                    <tr>
+                        <th>14.</th>
+                        <td>Does the serial number contain any digits present in the total number of modules?</td>
+                    </tr>
+                    <tr>
+                        <th>15.</th>
+                        <td>How many battery holders are present?</td>
+                    </tr>
+                    <tr>
+                        <th>16.</th>
+                        <td>Is there an empty port plate present?</td>
+                    </tr>
+                    <tr>
+                        <th>17.</th>
+                        <td>How many lit indicators are present?</td>
+                    </tr>
+                    <tr>
+                        <th>18.</th>
+                        <td>What is the sum of the digits present in the serial number?</td>
+                    </tr>
+                    <tr>
+                        <th>19.</th>
+                        <td>Does the serial number contain any digits present in the number of AA batteries?</td>
+                    </tr>
+                    <tr>
+                        <th>2Ø.</th>
+                        <td>How many Stereo RCA and DVI-D ports are present?</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">2</div>
+        </div>
+
+        <div class="page page-bg-06">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table class="edgework-encoding-table">
+                    <tr>
+                        <th>Wires</th>
+                        <th>Arrows</th>
+                        <th>Button</th>
+                        <th>Piano</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            With the wires numbered Ø-6 from left to right, the correct wire is the answer modulo 7.
+                            Then, cut that wire when the last digit of the timer is equal to the answer modulo 1Ø.
+                        </td>
+                        <td>
+                            Press the arrow button associated with the answer modulo 1Ø. The first button press for any
+                            button will change the number display to that button’s associated number. The second button
+                            press for any button will submit that number as the answer.<br /> An incorrect submission
+                            will reset the values.
+                        </td>
+                        <td>
+                            Press the button a number of times equal to the answer, then press the “❖” button.
+                        </td>
+                        <td>
+                            With the keys numbered Ø-11 from left to right, the correct key is the answer modulo 12.
+                            Then, press that key when the last digit of the timer is equal to the answer modulo 1Ø.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>LEDs</th>
+                        <th>Symbols</th>
+                        <th>Bulbs</th>
+                        <th>Alphabet</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Press the “❖” button. All LEDs will turn black. Pressing the “❖” button again will
+                            toggle one of the LEDs between black and white. The LED that is toggled depends on the
+                            last digit of the bomb timer. Digits 1-8 will toggle that specific LED, while Ø and 9
+                            will submit the current set of LEDs. Submit the answer in 8-bit binary.
+                        </td>
+                        <td>
+                            With the symbols numbered Ø-5 from left to right, the correct symbol is the answer modulo
+                            6. Then, press that symbol when the last digit of the timer is equal to the answer modulo
+                            1Ø.
+                        </td>
+                        <td>
+                            Submit the number in binary using the I/O symbols. The first digit submitted should be 1,
+                            unless the number is Ø.
+                        </td>
+                        <td>
+                            With the alphabet keys numbered Ø-5 from left to right, the correct key is the answer
+                            modulo 6. Then, press that key when the last digit of the timer is equal to the answer
+                            modulo 1Ø.
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">3</div>
+        </div>
+    </div>
+</body>
+</html>
