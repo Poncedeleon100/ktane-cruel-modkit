@@ -43,10 +43,10 @@
                 <p>Interpret the LED as Morse Code and decode it to get a text string. Go through the below conditions to decrypt the word.</p>
                 <p>(Note: these steps show how to <u>decrypt</u> the word, not encrypt. You can find instructions on how to decrypt each cipher on the last two pages of this sub-module’s manual)</p>
                 <ul>
-                    <li>Caesar Shift the letters forward by the amount of indicators on the bomb. If there are no indicators, shift the letters backward instead and use the last digit of the serial number.</li>
+                    <li>Caesar Shift the letters forward by the amount of indicators on the bomb. If there are no indicators, shift the letters backward instead and use the last SN digit.</li>
                     <li>If the port count is equal to or less than the port plate amount, apply the Rail Fence Cipher with a key of 3.</li>
-                    <li>Apply Affine ×X Cipher, with X being (the indicator count * first digit of serial number) + 1.</li>
-                    <li>If the current text string has a letter in the serial number, apply the ROT13 Cipher.</li>
+                    <li>Apply Affine ×X Cipher, with X being (the indicator count * first SN digit) + 1.</li>
+                    <li>If the current text string has a letter in the SN, apply the ROT13 Cipher.</li>
                     <li>Apply Atbash Cipher.</li>
                 </ul>
                 <p>
