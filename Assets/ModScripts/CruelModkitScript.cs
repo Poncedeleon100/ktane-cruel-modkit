@@ -1047,10 +1047,10 @@ public class CruelModkitScript : MonoBehaviour
     // Mod settings
     public class CruelModkitSettings
     {
-        public bool EnforceComponents = true;
+        public bool EnforceComponents = false;
         public bool EnforceByModID = false;
-        public bool EnforceWires = true;
-        public bool EnforceButton = true;
+        public bool EnforceWires = false;
+        public bool EnforceButton = false;
         public bool EnforceLEDs = false;
         public bool EnforceSymbols = false;
         public bool EnforceAlphabet = false;
