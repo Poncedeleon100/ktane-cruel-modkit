@@ -184,7 +184,7 @@ public class CruelModkitScript : MonoBehaviour
 
             ForceComponents = ModConfig.EnforceComponents;
             ForceByModuleID = ModConfig.EnforceByModID;
-            ComponentsForced = BoolToByte(new bool[]
+            ComponentsForced = BoolArrayToByte(new bool[]
             {
                 ModConfig.EnforceBulbs, ModConfig.EnforceArrows, ModConfig.EnforcePiano, ModConfig.EnforceAlphabet,
                 ModConfig.EnforceSymbols, ModConfig.EnforceLEDs, ModConfig.EnforceButton, ModConfig.EnforceWires
@@ -195,7 +195,7 @@ public class CruelModkitScript : MonoBehaviour
             Debug.LogErrorFormat("[The Cruel Modkit #{0}] The settings encountered an error and are returning to default behavior.", ModuleID);
             ForceComponents = false;
             ForceByModuleID = false;
-            ComponentsForced = BoolToByte(new bool[]
+            ComponentsForced = BoolArrayToByte(new bool[]
             {
                 false, false, false, false,
                 false, false, false, false
@@ -235,7 +235,7 @@ public class CruelModkitScript : MonoBehaviour
         }
     }
 
-    byte BoolToByte(bool[] Bools)
+    byte BoolArrayToByte(bool[] Bools)
     {
         byte Byte = (byte)ComponentsEnum.None;
 

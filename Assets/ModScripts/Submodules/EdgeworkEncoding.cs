@@ -424,7 +424,7 @@ public class EdgeworkEncoding : Puzzle
         Debug.LogFormat("[The Cruel Modkit #{0}] The starting position for the \"Edgework Questions\" list is {1}: \"{2}\"", ModuleID, EdgeworkQuestionPosition + 1, EdgeworkQuestions[EdgeworkQuestionPosition]);
 
         // First digit of timer display is even
-        EdgeworkQuestionPositiveIncrement = ((Convert.ToInt32(Info.TimerDisplay.ToString().Substring(0))) % 2) == 0;
+        EdgeworkQuestionPositiveIncrement = ((Convert.ToInt32(Info.TimerDisplay.ToString().PadLeft(5, '0').Substring(0, 1))) % 2) == 0;
         Debug.LogFormat("[The Cruel Modkit #{0}] The first digit on the timer display is {1}, so move {2} in the \"Edgework Questions\" list.", ModuleID, EdgeworkQuestionPositiveIncrement ? "even" : "odd", EdgeworkQuestionPositiveIncrement ? "down" : "up");
 
 
