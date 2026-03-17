@@ -9,7 +9,7 @@ using static ComponentInfo;
 public class MeteredButton : Puzzle
 {
 
-    Coroutine tickRoutine = null;
+    IEnumerator tickRoutine = null;
 
     float pressTime;
     int stage = 0;
@@ -123,7 +123,7 @@ public class MeteredButton : Puzzle
             {
                 Module.CauseStrike();
                 Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Button was tapped incorrectly at last digit {1} or button was held.", ModuleID, lastDigit);
-                Module.StartCoroutine(Strike());
+                Strike();
             }
         }
         else if (actionChar == "H") 
@@ -139,7 +139,7 @@ public class MeteredButton : Puzzle
             {
                 Module.CauseStrike();
                 Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Button was held incorrectly (held on {1}, released on {2}).", ModuleID, holdDigit, releaseDigit);
-                Module.StartCoroutine(Strike());
+                Strike();
             }
         }
         else if (actionChar == "M")
@@ -161,7 +161,7 @@ public class MeteredButton : Puzzle
             {
                 Module.CauseStrike();
                 Debug.LogFormat("[The Cruel Modkit #{0}] Strike! ❖ button was pressed an incorrect number of times ({1} time(s)).", ModuleID, utilPresses);
-                Module.StartCoroutine(Strike());
+                Strike();
             }
         }
         utilPresses = 0;
@@ -234,28 +234,24 @@ public class MeteredButton : Puzzle
         animating = false;
     }
 
-    IEnumerator Strike()
+    void Strike()
     {
         stage = 0;
-        animating = true;
         Info.NumberDisplay = Random.Range(0, 10);
         Debug.LogFormat("[The Cruel Modkit #{0}] Number display is {1}.", ModuleID, Info.NumberDisplay);
 
         Module.StopCoroutine(tickRoutine);
-        Info.MeterValue = 0d;
         Module.SetMeter();
         meterStarted = false;
 
         Module.WidgetText[2].text = Info.NumberDisplay.ToString();
-        yield return Module.StartCoroutine(Module.HideComponent(CruelModkitScript.ComponentsEnum.Button));
         GenButton();
-        Module.StartCoroutine(Module.ShowComponent(CruelModkitScript.ComponentsEnum.Button));
+        Module.RegenButton();
 
         finalActions = new string[3];
         finalActions[0] = FindAction();
         Debug.LogFormat("[The Cruel Modkit #{0}] The first action to perform is {1}.", ModuleID, finalActions[0]);
         LogInstruction(finalActions[0]);
-        animating = false;
     }
 
     void GenButton()
@@ -264,7 +260,6 @@ public class MeteredButton : Puzzle
         int newCol = Random.Range(0, 11);
         while (newCol == 6)  newCol = Random.Range(0, 11);
         Info.Button = newCol;
-        Module.SetButton();
         Debug.LogFormat("[The Cruel Modkit #{0}] Button is {1}.", ModuleID, Info.GetButtonInfo());
     }
 
@@ -309,27 +304,27 @@ public class MeteredButton : Puzzle
             elapsed += Time.deltaTime;
         }
         animating = false;
-        tickRoutine = Module.StartCoroutine(MeterTick());
+        tickRoutine = MeterTick();
+        Module.StartCoroutine(tickRoutine);
     }
 
     IEnumerator MeterTick()
     {
-        double meterLevel;
+        double meterLevel = 1;
         double meterTime = 90f;
         while (meterTime > 0f)
         {
-            meterTime -= Time.deltaTime;
             meterLevel = meterTime / 90f;
             Info.MeterValue = meterLevel;
             Module.SetMeter();
             yield return null;
+            meterTime -= Time.deltaTime;
         }
 
         meterStarted = false;
         Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The meter has ran out.", ModuleID);
         Module.CauseStrike();
-        Module.StartCoroutine(Strike());
-
+        Strike();
     }
 
     IEnumerator MashCount()
@@ -353,7 +348,7 @@ public class MeteredButton : Puzzle
         {
             Module.CauseStrike();
             Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Button was mashed an incorrect number of times ({1} time(s)).", ModuleID, pressedNum);
-            Module.StartCoroutine(Strike());
+            Strike();
         }
         pressedNum = 0;
     }

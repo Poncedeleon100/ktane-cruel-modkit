@@ -151,7 +151,7 @@ public class CruelModkitScript : MonoBehaviour
         return Solving;
     }
 
-    private bool HasStruck = false; // TP Handling, send a strike handling if the module struck. To prevent excessive inputs.
+    //private bool HasStruck = false; // TP Handling, send a strike handling if the module struck. To prevent excessive inputs.
 
     // Mod settings
     private bool ForceComponents, ForceByModuleID = false;
@@ -974,7 +974,7 @@ public class CruelModkitScript : MonoBehaviour
     public void CauseStrike()
     {
         Module.HandleStrike();
-        HasStruck = true;
+        //HasStruck = true;
     }
 
     public void StartSolve()
