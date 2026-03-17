@@ -387,7 +387,7 @@ public class EdgeworkEncoding : Puzzle
             {
                 for (int i = 0; i < Info.LED.Length; i++)
                 {
-                    Info.LED[i] = Convert.ToInt32(MainColors.Black);
+                    Info.LED[i] = (int)MainColors.Black;
                 }
                 Module.SetLEDs();
                 ledsStartSolve = true;
@@ -722,13 +722,13 @@ public class EdgeworkEncoding : Puzzle
         else
         {
             currentTimeLastDigit--;
-            if (Info.LED[currentTimeLastDigit] == Convert.ToInt32(MainColors.Black))
+            if (Info.LED[currentTimeLastDigit] == (int)MainColors.Black)
             {
-                Info.LED[currentTimeLastDigit] = Convert.ToInt32(MainColors.White);
+                Info.LED[currentTimeLastDigit] = (int)MainColors.White;
             }
             else
             {
-                Info.LED[currentTimeLastDigit] = Convert.ToInt32(MainColors.Black);
+                Info.LED[currentTimeLastDigit] = (int)MainColors.Black;
             }
             Module.SetLEDs();
         }
@@ -740,11 +740,11 @@ public class EdgeworkEncoding : Puzzle
 
         foreach (var LED in Info.LED)
         {
-            if (LED == Convert.ToInt32(MainColors.Black))
+            if (LED == (int)MainColors.Black)
             {
                 answer += "0";
             }
-            if (LED == Convert.ToInt32(MainColors.White))
+            if (LED == (int)MainColors.White)
             {
                 answer += "1";
             }
