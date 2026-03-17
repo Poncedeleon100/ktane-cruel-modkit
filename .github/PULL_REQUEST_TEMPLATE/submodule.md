@@ -13,6 +13,7 @@ Put an x in between the brackets for each component used. Delete this line once 
 - [ ] Arrows
 - [ ] Bulbs
 
+## Widgets
 - [ ] Meter
 - [ ] Timer
 - [ ] Number Display
@@ -20,7 +21,3 @@ Put an x in between the brackets for each component used. Delete this line once 
 - [ ] Morse LED
 - [ ] Resistors
 - [ ] Identity
-
-## Manual Link
-
-The Google Drive manual is [here](https://example.com).
