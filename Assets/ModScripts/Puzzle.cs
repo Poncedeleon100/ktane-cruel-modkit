@@ -8,7 +8,6 @@ public class Puzzle
     protected CruelModkitScript Module;
     protected int ModuleID;
     protected ComponentInfo Info;
-    protected bool Vanilla;
     public byte Components;
 
     public Puzzle(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components)
@@ -82,8 +81,6 @@ public class Puzzle
             return;
 
         Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonRelease, Module.transform);
-
-        return;
     }
 
     public virtual void OnSymbolPress(int Symbol)
@@ -199,7 +196,7 @@ public class Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 2) == Info.BulbOLeft ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
+                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 0) == Info.BulbOLeft ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
                 Module.CauseStrike();
                 return;
             }

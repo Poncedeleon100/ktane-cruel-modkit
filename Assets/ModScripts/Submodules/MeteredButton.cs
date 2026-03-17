@@ -59,8 +59,6 @@ public class MeteredButton : Puzzle
     {
         Debug.LogFormat("[The Cruel Modkit #{0}] Solving Metered Button. Press the ❖ button to activate the timer.", ModuleID);
         GenButton();
-        Info.MeterValue = 0d;
-        Module.SetMeter();
         Debug.LogFormat("[The Cruel Modkit #{0}] Number display is {1}.", ModuleID, Info.NumberDisplay);
 
         finalActions[0] = FindAction();
@@ -301,10 +299,10 @@ public class MeteredButton : Puzzle
         double meterLevel;
 
         float elapsed = 0f;
-        float duration = 1f;
+        float duration = 1f - (float)Info.MeterValue;
         while (elapsed < duration)
         {
-            meterLevel = Easing.OutQuad(elapsed, 0, 1, duration);
+            meterLevel = Easing.OutQuad(elapsed, (float)Info.MeterValue, 1, duration);
             Info.MeterValue = meterLevel;
             Module.SetMeter();
             yield return null;

@@ -1,0 +1,299 @@
+﻿﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <title>The Cruel Modkit — Keep Talking and Nobody Explodes Module</title>
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/ktane-utils.js"></script>
+    <script src="js/jquery.3.7.0.min.js"></script>
+    <script src="js/Utilities/svg-utils.js"></script>
+    <style>
+        .dark table, table {
+            margin: 1em auto;
+            border: none;
+        }
+
+        .page-footer::before {
+            content: 'Page ';
+        }
+
+        .page-footer::after {
+            content: ' of 3';
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <img src="img/Component/The Cruel Modkit.svg" class="diagram">
+                <h2>On the Subject of The Cruel Modkit</h2>
+                <p class="flavour-text">It is literally do or die, and dying seems likely.</p>
+                <p class="appendix-reference" id="appendix-reference">
+                    See Appendix A for indicator identification reference.
+                    <br>See Appendix B for battery identification reference.
+                    <br>See Appendix C for port identification reference.
+                </p>
+                <ul>
+                    <li>
+                        The module consists of a display with module components, a “❖” button, a “◆” button,
+                        multiple smaller buttons and several containers for a wire panel, a button panel, a set of LEDs,
+                        a symbol keypad, an alphanumeric keypad, a piano, a set of arrow buttons, and a panel for two
+                        bulbs.
+                    </li>
+                    <li>
+                        There are also widgets embedded in the module. These include a meter, two resistors, an
+                        identity card, a timer, a word display, a number display, and an LED that transmits a
+                        message in Morse code*.
+                    </li>
+                    <li>
+                        In order to disarm the module, choose the right components for it and then solve it using
+                        the corresponding instructions in the pages below.
+                    </li>
+                    <li>
+                        Interacting with module components when the current component selection is not the correct
+                        one will cause a strike.
+                    </li>
+                    <li>
+                        Use the arrow buttons near the top display to cycle between the possible module components
+                        and press the “◆” button to toggle the corresponding component.
+                    </li>
+                </ul>
+                <p style="font-style: italic">
+                    To avoid confusion, zeros in this manual are represented by the character Ø.
+                </p>
+                <p>Refer to the steps below to determine what components to include.†</p>
+                <ol>
+                    <li>Split the serial number into three pairs of characters from left to right.</li>
+                    <li>
+                        Take the individual pairs and multiply their characters together
+                        using their Base36 values (see next page).
+                    </li>
+                    <li>Take the sum of the three products, modulo 256. This is your puzzle ID.</li>
+                    <li>
+                        Convert the sum to an eight-digit binary number (see next page), prepending zeros
+                        if necessary.
+                    </li>
+                    <li>
+                        Starting with the Wires component and moving counter-clockwise around the module, activate each
+                        component that has a 1.
+                    </li>
+                </ol>
+                <p>
+                    †A config exists to enforce specific components on The Cruel Modkit. If the components reveal themselves
+                    in any combination, treat it as if these are required to solve the module. The top display will say
+                    “DISABLED” in all caps to notify components being enforced.
+                </p>
+                <p style="font-style: italic">
+                    *Go <a href="https://ktane.timwi.de/HTML/Morse Code.html">here</a> for a Morse Code reference.
+                </p>
+                <p style="font-style: italic">
+                    **For each module given from the required components, the serial number in the next set of pages
+                    will be denoted as “SN”.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">1</div>
+        </div>
+
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>Base36 Reference</h2>
+                <table width="100%">
+                    <tr>
+                        <th>Ø</th>
+                        <td>ØØ</td>
+                        <th>6</th>
+                        <td>Ø6</td>
+                        <th>C</th>
+                        <td>12</td>
+                        <th>I</th>
+                        <td>18</td>
+                        <th>O</th>
+                        <td>24</td>
+                        <th>U</th>
+                        <td>3Ø</td>
+                    </tr>
+                    <tr>
+                        <th>1</th>
+                        <td>Ø1</td>
+                        <th>7</th>
+                        <td>Ø7</td>
+                        <th>D</th>
+                        <td>13</td>
+                        <th>J</th>
+                        <td>19</td>
+                        <th>P</th>
+                        <td>25</td>
+                        <th>V</th>
+                        <td>31</td>
+                    </tr>
+                    <tr>
+                        <th>2</th>
+                        <td>Ø2</td>
+                        <th>8</th>
+                        <td>Ø8</td>
+                        <th>E</th>
+                        <td>14</td>
+                        <th>K</th>
+                        <td>2Ø</td>
+                        <th>Q</th>
+                        <td>26</td>
+                        <th>W</th>
+                        <td>32</td>
+                    </tr>
+                    <tr>
+                        <th>3</th>
+                        <td>Ø3</td>
+                        <th>9</th>
+                        <td>Ø9</td>
+                        <th>F</th>
+                        <td>15</td>
+                        <th>L</th>
+                        <td>21</td>
+                        <th>R</th>
+                        <td>27</td>
+                        <th>X</th>
+                        <td>33</td>
+                    </tr>
+                    <tr>
+                        <th>4</th>
+                        <td>Ø4</td>
+                        <th>A</th>
+                        <td>1Ø</td>
+                        <th>G</th>
+                        <td>16</td>
+                        <th>M</th>
+                        <td>22</td>
+                        <th>S</th>
+                        <td>28</td>
+                        <th>Y</th>
+                        <td>34</td>
+                    </tr>
+                    <tr>
+                        <th>5</th>
+                        <td>Ø5</td>
+                        <th>B</th>
+                        <td>11</td>
+                        <th>H</th>
+                        <td>17</td>
+                        <th>N</th>
+                        <td>23</td>
+                        <th>T</th>
+                        <td>29</td>
+                        <th>Z</th>
+                        <td>35</td>
+                    </tr>
+                </table><br />
+                <h2>Alphanumeric Reference</h2>
+                <p>
+                    For AØZ25, subtract 1Ø from the Base36 value of the specified letter.<br />
+                    For A1Z26, subtract 9 from the Base36 value of the specified letter.
+                </p><br />
+                <h2>Binary Conversion Reference</h2>
+                <p>
+                    Divide the number you want to convert by 2, and take note of the remainder for each
+                    step, which will be Ø or 1. Continue to divide until you reach Ø/2, as this will add unnecessary
+                    zeros in front of the number. The binary number is the remainders in reverse order, with the first
+                    remainder acting as the last digit.
+                </p>
+                <h3>Example</h3>
+                <table>
+                    <tr>
+                        <th>Division</th>
+                        <th>Remainder</th>
+                    </tr>
+                    <tr>
+                        <td>23 / 2 = 11</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>11 / 2 = 5</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>5 / 2 = 2</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>2 / 2 = 1</td>
+                        <td>Ø</td>
+                    </tr>
+                    <tr>
+                        <td>1 / 2 = Ø</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Ø / 2</td>
+                        <td>Done</td>
+                    </tr>
+                    <tr>
+                        <th>Final Result</th>
+                        <td>1Ø111</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">2</div>
+        </div>
+
+        <div class="page page-bg-03">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table>
+                    <tr>
+                        <th>ØØØØØØØØ</th>
+                        <td><a href="Timer Timings.html">Timer Timings</a></td>
+                        <th>ØØØØØØ11</th>
+                        <td><a href="Unscrew Maze.html">Unscrew Maze</a></td>
+                        <th>ØØØØØ1ØØ</th>
+                        <td><a href="Piano Decryption.html">Piano Decryption</a></td>
+
+                    </tr>
+                    <tr>
+                        <th>ØØØØØ1Ø1</th>
+                        <td><a href="AV Input.html">AV Input</a></td>
+                        <th>ØØØ11ØØØ</th>
+                        <td><a href="Polygonal Mapping.html">Polygonal Mapping</a></td>
+                        <th>ØØ1ØØØ1Ø</th>
+                        <td><a href="Who's Who.html">Who’s Who</a></td>
+                    </tr>
+                    <tr>
+                        <th>ØØ1ØØØ1Ø</th>
+                        <td><a href="Simon Skips.html">Simon Skips</a></td>
+                        <th>Ø1ØØØØØØ</th>
+                        <td><a href="Metered Button.html">Metered Button</a></td>
+                        <th>Ø1ØØØ1ØØ</th>
+                        <td><a href="Stumbling Symphony.html">Stumbling Symphony</a></td>
+                    </tr>
+                    <tr>
+                        <th>Ø1ØØ1ØØØ</th>
+                        <td><a href="Deranged Keypad.html">Deranged Keypad</a></td>
+                        <th>Ø11ØØØ1Ø</th>
+                        <td><a href="Logical Color Combinations.html">Logical Color Combinations</a></td>
+                        <th>11ØØØØØØ</th>
+                        <td><a href="Lying Wires.html">Lying Wires</a></td>
+                    </tr>
+                    <tr>
+                        <th>Any</th>
+                        <td><a href="Edgework Encoding.html">Edgework Encoding</a></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">2</div>
+        </div>
+    </div>
+</body>
+</html>

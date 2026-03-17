@@ -200,7 +200,7 @@ public class WhosWho : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 2) == Info.BulbOLeft ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
+                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 0) == Info.BulbOLeft ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
                 Module.CauseStrike();
                 return;
             }
@@ -244,7 +244,7 @@ public class WhosWho : Puzzle
         {
             if (!submissionMode)
             {
-                if (Button == 3)
+                if (Button == 1)
                     listB_Index++;
                 else
                 {
@@ -257,7 +257,7 @@ public class WhosWho : Puzzle
             }
             else
             {
-                if (Button == 3)
+                if (Button == 1)
                     Info.NumberDisplay++;
                 else
                     Info.NumberDisplay += 9; // add 10 and subtract 1 so that the number is never negative

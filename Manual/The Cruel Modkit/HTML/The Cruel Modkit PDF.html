@@ -1,0 +1,2507 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <title>The Cruel Modkit — Keep Talking and Nobody Explodes Module</title>
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/ktane-utils.js"></script>
+    <script src="js/jquery.3.7.0.min.js"></script>
+    <script src="js/Utilities/svg-utils.js"></script>
+    <script>
+        $(function () {
+            let svg = $("svg.unscrew-maze");
+
+            for (let r = 0; r < 6; r++) {
+                for (let c = 0; c < 6; c++) {
+                    let cell = MakeSvgElem("rect", {
+                        class: "highlightable", x: (c * 100), y: (r * 100),
+                        width: 100, height: 100, fill: "transparent"
+                    });
+                    svg.append(cell);
+                }
+            }
+            svg.append(MakeSvgElem("rect", { class: "border", x: 5, y: 5, height: 600, width: 600 }));
+        });
+        const PolygonalMappingTable = [
+            [38, 18, 19, 17, 30, 8, 17, 26, 32, 26],
+            [43, 3, 10, 19, 17, 47, 20, 26, 29, 37],
+            [28, 3, 5, 26, 7, 28, 40, 14, 36, 16],
+            [32, 26, 37, 0, 1, 39, 34, 5, 42, 43],
+            [28, 36, 40, 19, 32, 35, 0, 12, 48, 43],
+            [9, 27, 5, 30, 14, 9, 29, 36, 48, 24],
+            [47, 22, 31, 2, 20, 12, 18, 23, 38, 10],
+            [6, 38, 48, 9, 27, 29, 9, 13, 46, 35],
+            [0, 22, 14, 48, 37, 10, 38, 3, 48, 23],
+            [39, 14, 46, 24, 47, 45, 30, 2, 29, 13],
+            [45, 40, 17, 35, 46, 42, 35, 28, 31, 13],
+            [33, 40, 11, 25, 21, 45, 45, 22, 16, 10],
+            [20, 14, 30, 1, 41, 12, 5, 47, 4, 39],
+            [33, 44, 32, 23, 11, 3, 0, 0, 27, 7],
+            [6, 20, 6, 34, 19, 30, 25, 31, 43, 35],
+            [1, 21, 2, 10, 19, 8, 11, 23, 34, 8],
+            [44, 41, 9, 42, 15, 4, 42, 3, 16, 13],
+            [11, 36, 14, 36, 1, 40, 1, 43, 37, 22],
+            [7, 24, 25, 2, 38, 39, 22, 7, 24, 24],
+            [8, 33, 47, 2, 33, 25, 21, 41, 12, 17],
+            [15, 15, 6, 42, 23, 31, 4, 12, 46, 18],
+            [41, 2, 46, 32, 5, 34, 41, 21, 18, 15],
+            [16, 25, 0, 13, 1, 37, 31, 27, 29, 33],
+            [11, 34, 20, 15, 9, 18, 10, 4, 3, 5],
+            [7, 8, 13, 44, 21, 12, 45, 39, 6, 7],
+            [28, 4, 27, 6, 4, 44, 11, 8, 16, 44]
+        ];
+        const PolygonalMappingImgIndexes = [
+            "img/Keypad/1-copyright.png",
+            "img/Keypad/2-filledstar.png",
+            "img/Keypad/3-hollowstar.png",
+            "img/Keypad/4-smileyface.png",
+            "img/Keypad/5-doublek.png",
+            "img/Keypad/6-omega.png",
+            "img/Keypad/7-squidknife.png",
+            "img/Keypad/8-pumpkin.png",
+            "img/Keypad/9-hookn.png",
+            "img/Keypad/10-teepee.png",
+            "img/Keypad/11-six.png",
+            "img/Keypad/12-squigglyn.png",
+            "img/Keypad/13-at.png",
+            "img/Keypad/14-ae.png",
+            "img/Keypad/15-meltedthree.png",
+            "img/Keypad/16-euro.png",
+            "img/Keypad/17-circle.png",
+            "img/Keypad/18-nwithhat.png",
+            "img/Keypad/19-dragon.png",
+            "img/Keypad/20-questionmark.png",
+            "img/Keypad/21-paragraph.png",
+            "img/Keypad/22-rightc.png",
+            "img/Keypad/23-leftc.png",
+            "img/Keypad/24-pitchfork.png",
+            "img/Keypad/25-tripod.png",
+            "img/Keypad/26-cursive.png",
+            "img/Keypad/27-tracks.png",
+            "img/Keypad/28-balloon.png",
+            "img/Keypad/29-weirdnose.png",
+            "img/Keypad/30-upsidedowny.png",
+            "img/Keypad/31-bt.png",
+            "img/The Cruel Modkit/ayin.png",
+            "img/The Cruel Modkit/brackets.png",
+            "img/The Cruel Modkit/ethiopic.png",
+            "img/The Cruel Modkit/katakana.png",
+            "img/The Cruel Modkit/pi.png",
+            "img/The Cruel Modkit/reversee.png",
+            "img/The Cruel Modkit/rparagraph.png",
+            "img/The Cruel Modkit/rune.png",
+            "img/Keypad Sequence/Symbol02.png",
+            "img/Keypad Sequence/Symbol14.png",
+            "img/Keypad Sequence/Symbol30.png",
+            "img/Keypad Sequence/Symbol41.png",
+            "img/Keypad Sequence/Symbol53.png",
+            "img/The Cruel Modkit/tamil.png",
+            "img/The Cruel Modkit/theta.png",
+            "img/The Cruel Modkit/triquetra.png",
+            "img/The Cruel Modkit/yi.png",
+            "img/The Cruel Modkit/yo.png"
+        ];
+    </script>
+    <style>
+        svg.unscrew-maze {
+            width: 58%;
+        }
+
+        svg.unscrew-maze .border {
+            fill: none;
+            stroke-width: 5px;
+            stroke: #000;
+        }
+
+        svg .unscrew-maze-walls {
+            stroke: #000;
+            stroke-width: 5px;
+            fill: none;
+        }
+
+        .dark svg .border, .dark svg .unscrew-maze-walls {
+            stroke: #DDD;
+        }
+
+        .piano-decryption-cipher-example {
+            text-align: center;
+        }
+
+        .polygonal-mapping-table {
+            margin: 1em auto;
+            border: none;
+        }
+
+            .polygonal-mapping-table th {
+                width: 45px;
+                height: 25px;
+                padding: 0cm;
+                font-size: 25px;
+            }
+
+            .polygonal-mapping-table img {
+                height: 35px;
+                width: 35px;
+            }
+
+        .dark .polygonal-mapping-img {
+            filter: invert();
+        }
+
+        /*For Polygonal Mapping landscape page*/
+        .landscape .page-footer {
+            margin: 0
+        }
+
+        @media screen and (min-width: 900px) {
+            .landscape {
+                transform: rotate(90deg);
+                margin-top: -100px;
+                margin-bottom: -100px;
+            }
+        }
+
+        @media print, screen and (min-width: 900px) {
+            .landscape {
+                position: relative;
+            }
+
+                .landscape .page-content {
+                    position: absolute;
+                    left: 50%;
+                    top: 49%;
+                    transform: translate(-40%, -45%) rotate(-90deg);
+                    width: 24cm;
+                    height: 18cm;
+                    min-height: initial;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .landscape .relative-footer {
+                    position: absolute;
+                    left: 50%;
+                    bottom: 0;
+                    transform: translate(-50%, 0);
+                }
+
+                .landscape .page-header {
+                    width: 90%;
+                    position: absolute;
+                    left: 45%;
+                    top: .5em;
+                    transform: translate(-50%, 0);
+                }
+        }
+
+        .metered-button-table th {
+            padding: 5px;
+            text-align: center;
+        }
+
+        .metered-button-table td {
+            padding: 5px;
+            text-align: center;
+        }
+
+        .metered-button-table {
+            width: 100%;
+        }
+
+        .metered-button-table1 tr:nth-child(2) {
+            color: black;
+        }
+
+        .stumbling-symphony-table {
+            text-align: center;
+        }
+
+            .stumbling-symphony-table th:nth-child(1) {
+                width: 10%;
+            }
+
+            .stumbling-symphony-table th:nth-child(2) {
+                width: 45%;
+            }
+
+            .stumbling-symphony-table th:nth-child(3) {
+                width: 45%;
+            }
+
+        .stumbling-symphony-color-table {
+            font-size: 15px;
+        }
+
+        .logical-color-combinations-led-table {
+            text-align: center;
+        }
+
+        .logical-color-combinations-operator-table {
+            text-align: center;
+        }
+
+        .logical-color-combinations-operator-table td {
+            font-size: 80%;
+        }
+
+        .edgework-encoding-table td {
+            vertical-align: top;
+        }
+
+        .black {
+            background-color: black;
+            color: white;
+        }
+
+        .red {
+            background-color: red;
+            color: black;
+        }
+
+        .orange {
+            background-color: orange;
+            color: black;
+        }
+
+        .yellow {
+            background-color: yellow;
+            color: black;
+        }
+
+        .green {
+            background-color: green;
+            color: black;
+        }
+
+        .lime {
+            background-color: lime;
+            color: black;
+        }
+
+        .cyan {
+            background-color: cyan;
+            color: black;
+        }
+
+        .blue {
+            background-color: blue;
+            color: white;
+        }
+
+        .purple {
+            background-color: purple;
+            color: white;
+        }
+
+        .pink {
+            background-color: #FF3CC8;
+            color: black;
+        }
+
+        .white {
+            background-color: white;
+            color: black;
+        }
+
+        .grey {
+            background-color: grey;
+            color: black
+        }
+
+        .dark table, table {
+            margin: 1em auto;
+            border: none;
+        }
+
+        .page-footer::before {
+            content: 'Page ';
+        }
+
+        .page-footer::after {
+            content: ' of 33';
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <img src="img/Component/The%20Cruel%20Modkit.svg" class="diagram">
+                <h2>On the Subject of The Cruel Modkit</h2>
+                <p class="flavour-text">It is literally do or die, and dying seems likely.</p>
+                <p class="appendix-reference" id="appendix-reference">
+                    See Appendix A for indicator identification reference.
+                    <br>See Appendix B for battery identification reference.
+                    <br>See Appendix C for port identification reference.
+                </p>
+                <ul>
+                    <li>
+                        The module consists of a display with module components, a “❖” button, a “◆” button,
+                        multiple smaller buttons and several containers for a wire panel, a button panel, a set of LEDs,
+                        a symbol keypad, an alphanumeric keypad, a piano, a set of arrow buttons, and a panel for two
+                        bulbs.
+                    </li>
+                    <li>
+                        There are also widgets embedded in the module. These include a meter, two resistors, an
+                        identity card, a timer, a word display, a number display, and an LED that transmits a
+                        message in Morse code*.
+                    </li>
+                    <li>
+                        In order to disarm the module, choose the right components for it and then solve it using
+                        the corresponding instructions in the pages below.
+                    </li>
+                    <li>
+                        Interacting with module components when the current component selection is not the correct
+                        one will cause a strike.
+                    </li>
+                    <li>
+                        Use the arrow buttons near the top display to cycle between the possible module components
+                        and press the “◆” button to toggle the corresponding component.
+                    </li>
+                </ul>
+                <p style="font-style: italic">
+                    To avoid confusion, zeros in this manual are represented by the character Ø.
+                </p>
+                <p>Refer to the steps below to determine what components to include.†</p>
+                <ol>
+                    <li>Split the serial number into three pairs of characters from left to right.</li>
+                    <li>
+                        Take the individual pairs and multiply their characters together
+                        using their Base36 values (see next page).
+                    </li>
+                    <li>Take the sum of the three products, modulo 256. This is your puzzle ID.</li>
+                    <li>
+                        Convert the sum to an eight-digit binary number (see next page), prepending zeros
+                        if necessary.
+                    </li>
+                    <li>
+                        Starting with the Wires component and moving counter-clockwise around the module, activate each
+                        component that has a 1.
+                    </li>
+                </ol>
+                <p>
+                    †A config exists to enforce specific components on The Cruel Modkit. If the components reveal themselves
+                    in any combination, treat it as if these are required to solve the module. The top display will say
+                    “DISABLED” in all caps to notify components being enforced.
+                </p>
+                <p style="font-style: italic">
+                    *Go <a href="https://ktane.timwi.de/HTML/Morse Code.html">here</a> for a Morse Code reference.
+                </p>
+                <p style="font-style: italic">
+                    **For each module given from the required components, the serial number in the next set of pages
+                    will be denoted as “SN”.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">1</div>
+        </div>
+
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>Base36 Reference</h2>
+                <table width="100%">
+                    <tr>
+                        <th>Ø</th>
+                        <td>ØØ</td>
+                        <th>6</th>
+                        <td>Ø6</td>
+                        <th>C</th>
+                        <td>12</td>
+                        <th>I</th>
+                        <td>18</td>
+                        <th>O</th>
+                        <td>24</td>
+                        <th>U</th>
+                        <td>3Ø</td>
+                    </tr>
+                    <tr>
+                        <th>1</th>
+                        <td>Ø1</td>
+                        <th>7</th>
+                        <td>Ø7</td>
+                        <th>D</th>
+                        <td>13</td>
+                        <th>J</th>
+                        <td>19</td>
+                        <th>P</th>
+                        <td>25</td>
+                        <th>V</th>
+                        <td>31</td>
+                    </tr>
+                    <tr>
+                        <th>2</th>
+                        <td>Ø2</td>
+                        <th>8</th>
+                        <td>Ø8</td>
+                        <th>E</th>
+                        <td>14</td>
+                        <th>K</th>
+                        <td>2Ø</td>
+                        <th>Q</th>
+                        <td>26</td>
+                        <th>W</th>
+                        <td>32</td>
+                    </tr>
+                    <tr>
+                        <th>3</th>
+                        <td>Ø3</td>
+                        <th>9</th>
+                        <td>Ø9</td>
+                        <th>F</th>
+                        <td>15</td>
+                        <th>L</th>
+                        <td>21</td>
+                        <th>R</th>
+                        <td>27</td>
+                        <th>X</th>
+                        <td>33</td>
+                    </tr>
+                    <tr>
+                        <th>4</th>
+                        <td>Ø4</td>
+                        <th>A</th>
+                        <td>1Ø</td>
+                        <th>G</th>
+                        <td>16</td>
+                        <th>M</th>
+                        <td>22</td>
+                        <th>S</th>
+                        <td>28</td>
+                        <th>Y</th>
+                        <td>34</td>
+                    </tr>
+                    <tr>
+                        <th>5</th>
+                        <td>Ø5</td>
+                        <th>B</th>
+                        <td>11</td>
+                        <th>H</th>
+                        <td>17</td>
+                        <th>N</th>
+                        <td>23</td>
+                        <th>T</th>
+                        <td>29</td>
+                        <th>Z</th>
+                        <td>35</td>
+                    </tr>
+                </table><br />
+                <h2>Alphanumeric Reference</h2>
+                <p>
+                    For AØZ25, subtract 1Ø from the Base36 value of the specified letter.<br />
+                    For A1Z26, subtract 9 from the Base36 value of the specified letter.
+                </p><br />
+                <h2>Binary Conversion Reference</h2>
+                <p>
+                    Divide the number you want to convert by 2, and take note of the remainder for each
+                    step, which will be Ø or 1. Continue to divide until you reach Ø/2, as this will add unnecessary
+                    zeros in front of the number. The binary number is the remainders in reverse order, with the first
+                    remainder acting as the last digit.
+                </p>
+                <h3>Example</h3>
+                <table>
+                    <tr>
+                        <th>Division</th>
+                        <th>Remainder</th>
+                    </tr>
+                    <tr>
+                        <td>23 / 2 = 11</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>11 / 2 = 5</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>5 / 2 = 2</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>2 / 2 = 1</td>
+                        <td>Ø</td>
+                    </tr>
+                    <tr>
+                        <td>1 / 2 = Ø</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Ø / 2</td>
+                        <td>Done</td>
+                    </tr>
+                    <tr>
+                        <th>Final Result</th>
+                        <td>1Ø111</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">2</div>
+        </div>
+
+        <div class="page page-bg-03">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Timer Timings</h2>
+                <p class="comment">
+                    “Okay, give a read on the module.” “There’s nothing.” “Okay… 6/3.” “No, there’s actually nothing.”
+                    “1/8.” “No… THERE IS NOTHING ON THE MODULE!” “9/2.”
+                </p>
+                <p>
+                    <strong>Note: </strong>If your module contains <strong>any</strong> components, you are looking
+                    at the wrong section of this manual!
+                </p>
+                <p>
+                    Press the “❖” button to activate the module. The timer on the module will begin displaying random
+                    digits from ØØØØØ-99999, changing every second. The number display will also give a number. Refer
+                    to the table below to find out what number to submit. The left-most digit represents A, and the
+                    right-most digit represents B.
+                </p>
+                <table>
+                    <tr><td>Number Display</td><td>Rule</td></tr>
+                    <tr><td>Ø</td><td>A + B = a prime number*</td></tr>
+                    <tr><td>1</td><td>A > amount of lit indicators, B ≤ amount of unlit indicators</td></tr>
+                    <tr><td>2</td><td>A / B = a whole number</td></tr>
+                    <tr><td>3</td><td>A and B concatenated = a multiple of the module count, excluding needies**</td></tr>
+                    <tr><td>4</td><td>The digital root of A + B is odd</td></tr>
+                    <tr><td>5</td><td>A or B matches a digit on the bomb timer</td></tr>
+                    <tr><td>6</td><td>B - Last digit of S# ≤ A</td></tr>
+                    <tr><td>7</td><td>B - A > the number of distinct ports modulo 1Ø</td></tr>
+                    <tr><td>8</td><td>A + B ≥ sum of S# digits modulo 18</td></tr>
+                    <tr><td>9</td><td>A and B = the amount of lit or unlit indicators.</td></tr>
+                </table>
+                <p>
+                    When the rule applies to the digits, press the “❖” button again to solve the module. Pressing the
+                    “❖” button when the numbers displayed are invalid will result in a strike.
+                </p>
+                <p style="font-style: italic">*Ø in this module is considered a composite number.</p>
+                <p style="font-style: italic">
+                    **If the module count is over 1ØØ, press the “❖” button when A and B share parity with the last SN
+                    digit.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">3</div>
+        </div>
+
+        <div class="page page-bg-06">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Unscrew Maze</h2>
+                <p class="comment">No, I’m not adding a reset button. If you get lost, you’re screwed (pun intended).</p>
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Arrows, Bulbs]</strong>, you are looking at the wrong section of this manual!</p>
+                <p>On the module are two bulbs, four arrows, and a morse LED.</p>
+                <p>
+                    Your current position in the maze is equal to the first character given in the Morse LED.
+                    Convert the character from Base36 to decimal, and use the cell that shows up in reading order (top left cell is Ø). The same applies to the Bulb positions, using the second character for the left bulb and the third for the right.
+                </p>
+                <p>
+                    To unscrew a bulb, go to its coordinates. To solve the module, unscrew both bulbs. Unscrewing a bulb when you’re not at its coordinates or hitting a wall will cause a strike,
+                    resetting your position in the maze to the starting position, but it won’t reset the module.
+                </p>
+                <p>To move through the maze:</p>
+                <ul>
+                    <li>If the center button is white, move using the arrow’s direction.</li>
+                    <li>
+                        If the center button is grey, move using the arrow’s color.
+                        <br>(Red = Up, Yellow = Right, Green = Down, and Blue = Left)
+                    </li>
+                </ul>
+                <svg xmlns="http://www.w3.org/2000/svg" class="centered-img unscrew-maze" viewBox="0 0 700 700">
+                    <path class="unscrew-maze-walls" d="M5 105 h200 v200 h-100 m0 -100 h100"></path>
+                    <path class="unscrew-maze-walls" d="M305 5 v200 h100 v-100 h100 v100 m100 100 h-300 m200 0 v200 h-100 m-100 0 h-100"></path>
+                    <path class="unscrew-maze-walls" d="M5 405 h100 v100 m100 100 v-200 h200"></path>
+                </svg>
+            </div>
+            <div class="page-footer relative-footer">4</div>
+        </div>
+
+        <div class="page page-bg-05">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Piano Decryption</h2>
+                <p class="comment">.-- .... -.-- / .- .-. . / -.-- --- ..- / - .-. .- -. ... .-.. .- - .. -. --. / - .... .. ... / -.. ..- .-. .. -. --. / .- / -... --- -- -... ..--.. / ... --- .-.. ...- . / - .... . / -- --- -.. ..- .-.. . / -.-- --- ..- / ... .. .-.. .-.. -.-- .... . .- -.. -.-.--</p>
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Piano]</strong>, you are looking at the wrong section of this manual!</p>
+                <p>Interpret the LED as Morse Code and decode it to get a text string. Go through the below conditions to decrypt the word.</p>
+                <p>(Note: these steps show how to <u>decrypt</u> the word, not encrypt. You can find instructions on how to decrypt each cipher on the last two pages of this sub-module’s manual)</p>
+                <ul>
+                    <li>Caesar Shift the letters forward by the amount of indicators on the bomb. If there are no indicators, shift the letters backward instead and use the last SN digit.</li>
+                    <li>If the port count is equal to or less than the port plate amount, apply the Rail Fence Cipher with a key of 3.</li>
+                    <li>Apply Affine ×X Cipher, with X being (the indicator count * first SN digit) + 1.</li>
+                    <li>If the current text string has a letter in the SN, apply the ROT13 Cipher.</li>
+                    <li>Apply Atbash Cipher.</li>
+                </ul>
+                <p>
+                    If done correctly, the resulting string will be a word in the table on the next page. The word will correspond to a piano sequence. To solve the module, input this piano sequence into the module.
+                    Inputting the wrong key will cause a strike, resetting the module’s presses. Pressing the “❖” symbol will also reset the piano presses.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">5</div>
+        </div>
+
+        <div class="page page-bg-02">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table>
+                    <tr><th>Decrypted word</th><th>Piano sequence</th></tr>
+                    <tr><td>ANSWER</td><td>E F♯ F♯ F♯ F♯ E E E</td></tr>
+                    <tr><td>BANTER</td><td>A E F G F E D D F A</td></tr>
+                    <tr><td>CREOLE</td><td>B♭ B♭ B♭ B♭ G♭ A♭ B♭ A♭ B♭</td></tr>
+                    <tr><td>DRIVEN</td><td>B D A G A B D A</td></tr>
+                    <tr><td>ELEVEN</td><td>E E E C E G G</td></tr>
+                    <tr><td>FAKERS</td><td>E♭ E♭ D D E♭ E♭ D E♭ E♭ D D E♭</td></tr>
+                    <tr><td>GARAGE</td><td>G G C G G C G C</td></tr>
+                    <tr><td>HORROR</td><td>C♯ D E F C♯ D E F B♭ A</td></tr>
+                    <tr><td>JULIET</td><td>B♭ A B♭ F E♭ B♭ A B♭ F E♭</td></tr>
+                    <tr><td>KEVLAR</td><td>G G G E♭ B♭ G E♭ B♭ G</td></tr>
+                    <tr><td>NETHER</td><td>C♯ B A F♯ G♯ A G♯ F♯</td></tr>
+                    <tr><td>OPIOID</td><td>G A G E G A G E</td></tr>
+                    <tr><td>PARENT</td><td>G G G G G G G B♭ E♭ F G</td></tr>
+                    <tr><td>QUESTS</td><td>F♯ G A A D B A G E D</td></tr>
+                    <tr><td>UMPIRE</td><td>E♭ E♭ D♭ A♭ E♭ E♭ F D♭</td></tr>
+                    <tr><td>VICTOR</td><td>B A G E♭ D A B A G</td></tr>
+                    <tr><td>WIRING</td><td>E♭ F E♭ C A♭ F E♭</td></tr>
+                    <tr><td>XENONS</td><td>D D D C♯ C♯ C♯ B C♯ B F♯</td></tr>
+                    <tr><td>YIELDS</td><td>G E F G C B C D C B A G</td></tr>
+                    <tr><td>ZAMBIA</td><td>B♭ A B♭ G (repeat this until the module solves)</td></tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">6</div>
+        </div>
+
+        <div class="page page-bg-04">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h3>Decrypting Ciphers:</h3>
+                <p>Caesar Shift (Cipher): shift every letter of the encrypted word forwards/backwards through the alphabet a number of times equal to the offset (looping around the alphabet if needed).</p>
+                <p>ROT13 Cipher: shift every letter of the encrypted word forwards/backwards (the direction does not matter) 13 times (looping around the alphabet if needed).</p>
+                <p>Atbash Cipher: for each of the encrypted word’s letters:</p>
+                <ul>
+                    <li>Convert the letter into its alphabetic position (AØZ25) to get a number.</li>
+                    <li>Subtract that number from 25.</li>
+                    <li>Convert the result to a letter AØZ25 to get the decrypted letter.</li>
+                </ul>
+                <p><strong>Affine ×X Cipher</strong>: for each of the encrypted word’s letters:</p>
+                <ul>
+                    <li>Convert the letter into its alphabetic position (AØZ25) to get a number.</li>
+                    <li>Keep adding 26 to the number until it becomes divisible by X.</li>
+                    <li>Divide the number by X.</li>
+                    <li>Convert the result to a letter AØZ25 to get the decrypted letter.</li>
+                </ul>
+                <h4 class="piano-decryption-cipher-example">Example</h4>
+                <p class="piano-decryption-cipher-example">
+                    Encrypted word: SNUYCP<br>
+                    X = 7<br>
+                    S = 18 + 26 = 44 + 26 = 7Ø / 7 = 1Ø -> K<br>
+                    N = 13 + 26 = 39 + 26 = 65 + 26 = 91 / 7 = 13 -> N<br>
+                    U = 2Ø + 26 = 46 + 26 = 72 + 26 = 98 / 7 = 14 -> O<br>
+                    Y = 24 + 26 = 5Ø + 26 = 76 + 26 = 1Ø2 + 26 = 128 + 26 = 154 / 7 = 22 -> W<br>
+                    C = 2 + 26 = 28 / 7 = 4 -> E<br>
+                    P = 15 + 26 = 41 + 26 = 67 + 26 = 93 + 26 = 119 / 7 = 17 -> R<br>
+                    Decrypted word: KNOWER<br>
+                    Note: In some cases, some letters can have ambiguous decryptions.<br>Example: X = 1Ø, the letter is Q, which can be decrypted to either A or N.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">7</div>
+        </div>
+
+        <div class="page page-bg-07">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <p><strong>Rail Fence Cipher:</strong></p>
+                <ul>
+                    <li>Create as many rails (rows) top-to-bottom as the key number with the length of each rail being equal to the length of the encrypted word.</li>
+                    <li>Place down asterisks in a zig-zag pattern starting from the top left corner (going down-right until you reach the bottom rail, then going up-right until you reach the top rail, and so on).</li>
+                    <li>In reading order, fill in the asterisks with the letters of the encrypted word.</li>
+                    <li>Read the letters in the same zig-zag pattern to obtain the decrypted word.</li>
+                </ul>
+                <h4 class="piano-decryption-cipher-example">Example</h4>
+                <p class="piano-decryption-cipher-example">
+                    Encrypted word: REAGRN<br>
+                    Key = 3<br>
+                    *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;*<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    ↓↓↓<br>
+                    R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;A&nbsp;&nbsp;&nbsp;G&nbsp;&nbsp;&nbsp;R<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    Decrypted word: RANGER
+                </p>
+            </div>
+            <div class="page-footer relative-footer">8</div>
+        </div>
+
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of AV Input</h2>
+                <p class="comment">Audio Visual. That’s what it stands for. Anything else is pure coincidence.</p>
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Piano, Bulbs]</strong>, you are looking at the wrong section of this manual!</p>
+                <p>
+                    Each bulb will switch its light state (on to off and vice versa) when the piano key pressed is part of a certain five-note scale chosen for that bulb.
+                    Any other key not part of the scale chosen will either turn it on (or do nothing when it’s already on) or turn it off (or do nothing when it’s already off).
+                </p>
+                <p>Each key cannot be pressed twice in a row. Doing so will yield a strike immediately and switch off both bulbs.</p>
+                <p>
+                    When ready, unscrew a bulb, then press the five piano keys in any order that make up the scale chosen for that bulb, then screw the bulb back in.
+                    A strike will be given upon screwing the bulb when an incorrect scale is inputted. Otherwise, the bulb will remain deactivated, and stay off upon any input from the piano.
+                </p>
+                <p>Deactivate the two bulbs to solve the module.</p>
+                <p>
+                    The I/O buttons function to turn both light bulbs off and disregard the last piano key pressed, effectively functioning as reset buttons.
+                    However, they can only be used after each piano key has been pressed at least once. If the last piano key pressed is a white key, use the I button.
+                    Otherwise, use the O button. Pressing the wrong button will strike and not reset the module.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">9</div>
+        </div>
+
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Polygonal Mapping</h2>
+                <p class="comment">Boy, am I glad that I can just use my eyes to map polygons and not some complicated maths.</p>
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Symbols, Alphabet]</strong>, you are looking at the wrong section of this manual!</p>
+                <p>Create a string of alphanumeric characters consisting of the following in order:</p>
+                <ol>
+                    <li>The 3 characters transmitted through the Morse LED</li>
+                    <li>The 5 digits on the timer display</li>
+                    <li>The 4 letters by the resistors in reading order</li>
+                    <li>The number on the number display</li>
+                    <li>The word(s) on the word display, ignoring punctuation and spaces**</li>
+                    <li>The string “54321Ø”</li>
+                </ol>
+                <p>Note down the labels of all 6 alphabet buttons. If a label has two letters, use the first letter. If a label has two numbers, use the last number. This should leave you with 6 letter-number pairs ranging from AØ to Z9. Find these as coordinates in the table later in the manual.</p>
+                <p>Create a hexagon with vertices on the centre of each coordinate. Count the number of occurrences of each unpressed symbol in the hexagon. A symbol is counted in if the centre of the symbol is within the hexagon, not on a vertex or edge. After counting the number of occurrences of each present symbol, follow these steps:</p>
+                <ol>
+                    <li>If the highest-occuring symbol is <em>untied</em> and unpressed, press it.</li>
+                    <li>Otherwise, if the highest-occuring symbol is <em>tied</em>, skip to the next paragraph.</li>
+                    <li>Otherwise, go back to step 1 of this section, but use the next-highest-occuring symbol instead.</li>
+                </ol>
+                <p>At this point, take the first character of the string that was created in the first paragraph, and interpret it as a base36 digit. Modulo this by 6, and look at the alphabet button corresponding to this number in reading order, zero-indexed. If this button is already pressed, use the next character in the string. If the button isn’t pressed, press it and move to the next paragraph. Remove all characters that were looked at from the string.</p>
+            </div>
+            <div class="page-footer relative-footer">10</div>
+        </div>
+        <div class="page page-bg-02">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <p>Create a new shape with the coordinates of the unpressed alphabet labels in the same way the hexagon was created (if there are only two remaining, skip to the next paragraph). Reuse this shape to count the number of occurrences of each symbol, and go to two paragraphs ago, you’ll be repeating this process.</p>
+                <p>Once you have two alphabet buttons left unpressed, follow the following rules.</p>
+                <ol>
+                    <li>If the symbols on the remaining coordinates match an unpressed symbol, press the <em>left-most</em> unpressed symbol that matches, then the corresponding alphabet button. Repeat with the other pair if applicable.</li>
+                    <li>If the symbols that lie on the line connecting the coordinates match an unpressed symbol, press those symbols <em>right to left</em> on the module.</li>
+                    <li>Press all unpressed buttons <em>left to right</em>. This will solve the module.</li>
+                </ol>
+                <p>If at any point in the solving process the defuser presses a wrong button, the module will strike. This will NOT cause the sub-module to reset. Simply ignore the mistake and pretend that the defuser never pressed that button. All buttons that are pressed will only be considered pressed by the module if they are depressed into the module and their LED is green.</p>
+                <p><i>**If the word display says “ERROR”, you’ve encountered a unicorn. Mash the “❖” button until the module solves and do not press anything else. This only happens when the module fails to generate a favourable polygon in about 3ØØ tries. Let Possessed know if this happens.</i></p>
+            </div>
+            <div class="page-footer relative-footer">11</div>
+        </div>
+        <div class="page page-bg-03 landscape">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <script>
+                    var scriptTable = '';
+                    var alphabet = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ ';
+                    for (var rows = 0; rows < 11; rows++) {
+                        scriptTable += '<tr>';
+                        for (var cols = 0; cols < 28; cols++) {
+                            if (rows == 0) {
+                                scriptTable += '<th>' + alphabet[cols] + '</th>';
+                            } else {
+                                if (cols == 0 || cols == 27) {
+                                    scriptTable += '<th>' + (rows - 1) + '</th>';
+                                } else {
+                                    scriptTable += '<th><img class="polygonal-mapping-img" src="' + PolygonalMappingImgIndexes[PolygonalMappingTable[cols - 1][rows - 1]] + '"></th>';
+                                }
+                            }
+                        }
+                        scriptTable += '</tr>';
+                    }
+                    document.write('<table class="polygonal-mapping-table">' + scriptTable + '</table>')
+                </script>
+            </div>
+            <div class="page-footer relative-footer">12</div>
+        </div>
+
+        <div class="page page-bg-04">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Who’s Who</h2>
+                <p class="comment">
+                    Wait, so the person on first was Simon? Nonsense! The person on
+                    first was actually ████████!
+                </p>
+                <p>
+                    <strong>Note: </strong>If your module’s components aren’t exactly
+                    <strong>[LED, Bulbs]</strong>, you are looking at the wrong section
+                    of this manual!
+                </p>
+                <p>
+                    Go through the following conditions to determine what LED to use.
+                </p>
+                <ul>
+                    <li>
+                        If all the digits of the SN have matching parity, use
+                        the third LED.
+                    </li>
+                    <li>
+                        Otherwise, if the amount of batteries matches a number in the SN,
+                        use the eighth LED.
+                    </li>
+                    <li>
+                        Otherwise, if the amount of lit and unlit indicators are equal,
+                        use the first LED.
+                    </li>
+                    <li>
+                        Otherwise, if three or more LEDs are warm colors (red, orange, or
+                        yellow), use the seventh LED.
+                    </li>
+                    <li>
+                        Otherwise, if the port plate count is less than or equal to the
+                        port count, use the fifth LED.
+                    </li>
+                    <li>
+                        Otherwise, if two matching LEDs are next to each other, use the
+                        second LED.
+                    </li>
+                    <li>
+                        Otherwise, if a DVI-D port is on the same port plate as a Stereo
+                        RCA port OR a PS/2 port, use the sixth LED.
+                    </li>
+                    <li>
+                        Otherwise, if there are only D batteries or AA batteries, use the
+                        fourth LED.
+                    </li>
+                    <li>
+                        Otherwise, sum the digits in the SN modulo 8 add 1. Use
+                        the corresponding LED.
+                    </li>
+                </ul>
+                <p>
+                    Using the color received in the table below will give an offset and
+                    a row.
+                </p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Color</td>
+                            <td class="red">+1</td>
+                            <td class="orange">+2</td>
+                            <td class="yellow">+3</td>
+                            <td class="green">-3</td>
+                            <td class="lime">-1</td>
+                            <td class="cyan">-2</td>
+                            <td class="blue">+4</td>
+                            <td class="purple">+5</td>
+                            <td class="pink">-5</td>
+                            <td class="black">-4</td>
+                            <td class="white">+6</td>
+                        </tr>
+                        <tr>
+                            <td>Row</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>1</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>8</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    The table below lists the words that can appear on the word display.
+                    Use the row in the table below; the column is the LED position.
+                </p>
+                <p>
+                    Note the word given from the position. Shift the rows by the offset
+                    of the initial LED, and shift the columns by the offset of the
+                    cell’s color. A positive shift means to shift the rows down and the
+                    columns to the right. Repeat this until either you repeat words or
+                    ten words have been used. Call this list “List A”. Pressing the I/O
+                    buttons cycles the word display through a list called List B,
+                    wrapping around. Pressing the “❖” button will reset the module to the
+                    first word on List B. Take the first word on List B that matches a
+                    word on List A.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">13</div>
+        </div>
+
+        <div class="page page-bg-03">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <p>
+                    Take the word’s position in both the row and the column and add them
+                    together mod 1Ø.* To solve the module, enter submission by holding
+                    the I/O buttons for one second. Pressing I/O will increment the number display, and
+                    holding either button will submit the number. Inputting the wrong
+                    number issues a strike and exits submission but
+                    <b><u>does not</u></b> reset the module.
+                </p>
+                <p style="font-style: italic">
+                    *If List B has no word in List A, the number to use is Ø.
+                </p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td style="border-left: 0px; border-top: 0px"></td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td class="red">Yes</td>
+                            <td class="orange">First</td>
+                            <td class="lime">Display</td>
+                            <td class="blue">A Display</td>
+                            <td class="cyan">Okay</td>
+                            <td class="purple">Ok</td>
+                            <td class="white">Says</td>
+                            <td class="pink">Sez</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td class="orange">Nothing</td>
+                            <td class="white"></td>
+                            <td class="purple">Blank</td>
+                            <td class="green">It’s Blank</td>
+                            <td class="red">No</td>
+                            <td class="cyan">Know</td>
+                            <td class="yellow">Nose</td>
+                            <td class="green">Knows</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td class="lime">Led</td>
+                            <td class="black">Lead</td>
+                            <td class="blue">Leed</td>
+                            <td class="purple">Read</td>
+                            <td class="blue">Red</td>
+                            <td class="green">Reed</td>
+                            <td class="cyan">Hold On</td>
+                            <td class="orange">You</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td class="cyan">U</td>
+                            <td class="lime">You Are</td>
+                            <td class="cyan">UR</td>
+                            <td class="pink">Your</td>
+                            <td class="purple">You’re</td>
+                            <td class="pink">There</td>
+                            <td class="blue">They’re</td>
+                            <td class="cyan">Their</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td class="black">They Are</td>
+                            <td class="pink">See</td>
+                            <td class="yellow">C</td>
+                            <td class="orange">Sea</td>
+                            <td class="lime">Cee</td>
+                            <td class="yellow">Ready</td>
+                            <td class="lime">What</td>
+                            <td class="blue">What?</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td class="blue">Uh</td>
+                            <td class="cyan">Uhhh</td>
+                            <td class="white">Uh Uh</td>
+                            <td class="black">Uh Huh</td>
+                            <td class="pink">Left</td>
+                            <td class="cyan">Right</td>
+                            <td class="pink">Write</td>
+                            <td class="purple">Middle</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td class="purple">Wait</td>
+                            <td class="yellow">Wait!</td>
+                            <td class="cyan">Weight</td>
+                            <td class="white">Press</td>
+                            <td class="orange">Done</td>
+                            <td class="yellow">Dumb</td>
+                            <td class="blue">Next</td>
+                            <td class="lime">Hold</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td class="yellow">Sure</td>
+                            <td class="purple">Like</td>
+                            <td class="orange">Lick</td>
+                            <td class="black">Leek</td>
+                            <td class="white">Leak</td>
+                            <td class="purple">I</td>
+                            <td class="black">India</td>
+                            <td class="pink">Eye</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">14</div>
+        </div>
+
+        <div class="page page-bg-05">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Simon Skips</h2>
+                <p class="comment">Like a disoriented grasshopper...</p>
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[LED, Arrows]</strong>, you are looking at the wrong section of this manual!</p>
+                <p>To solve the module you must submit a color sequence on the arrows and sliders. For this sub-module, 1 clockwise from the top arrow is the top-right slider.</p>
+                <p>To initiate the module, press the “❖” button. The LEDs will change colors to contain only the colors that appear on the arrows or a close representation of those colors:</p>
+                <ul><li>Magenta slider -> Purple LED</li><li>Grey slider -> Black LED</li></ul>
+                <p>Figure out the starting color by doing the following:</p>
+                <ul>
+                    <li>Take the product of all non-zero digits in the SN;</li>
+                    <li>Add the number on the number display;</li>
+                    <li>Take the result modulo 8, call the result <strong>X</strong>;</li>
+                    <li>On the arrows, start at the top arrow, then go <strong>X</strong> times clockwise;</li>
+                    <li>The color of the arrow/slider you land on is the starting color.</li>
+                </ul>
+                <p>After calculating the starting color, press it on the arrows or sliders, <strong>UNLESS</strong> it is black or white, in which case press the center button on the arrows to immediately submit an empty sequence.</p>
+                <p>Next, for each LED:</p>
+                <ul>
+                    <li>Count the number of times you need to go clockwise from the previously pressed color to the current LED color on the arrows or sliders.</li>
+                    <li>Go that many times counter-clockwise from the previously pressed color on the arrows.</li>
+                    <li>If the color you land on is grey or white, press the Center Button on the arrows to submit your sequence. Otherwise, press the color you landed on.</li>
+                </ul>
+                <p>If you went over all 8 of the LEDs without ever landing on black or on white, press the center button to submit.</p>
+                <p>Upon submission, if the submitted sequence was correct, the module will solve. Otherwise, a strike will be given and the inputted sequence will reset.</p>
+            </div>
+            <div class="page-footer relative-footer">15</div>
+        </div>
+
+        <div class="page page-bg-07">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Metered Button</h2>
+                <p class="comment">Also known as the Foot Button if you’re American.</p>
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Button]</strong>, you are looking at the wrong section of this manual!</p>
+                <p>Note the color of the button along with its text, then press the “❖” button to initiate the module.</p>
+                <p>The meter will now rise. You have 1:3Ø to submit your answers, or the module will strike and reset.</p>
+                <p>Input the text and color of the button into the table below to get a number.</p>
+                <table class="metered-button-table metered-button-table1">
+                    <tr>
+                        <th rowspan="2">Text ↓</th>
+                        <th colspan="10">Color</th>
+                    </tr>
+                    <tr>
+                        <th class="red">R</th>
+                        <th class="orange">O</th>
+                        <th class="yellow">Y</th>
+                        <th class="lime">L</th>
+                        <th class="green">G</th>
+                        <th class="cyan">C</th>
+                        <th class="blue">B</th>
+                        <th class="purple">P</th>
+                        <th class="black">K</th>
+                        <th class="white">W</th>
+                    </tr>
+                    <tr><td>Press</td><td>1</td><td>Ø</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td></tr>
+                    <tr><td>Hold</td><td>6</td><td>1</td><td>Ø</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td></tr>
+                    <tr><td>Detonate</td><td>5</td><td>6</td><td>1</td><td>Ø</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td></tr>
+                    <tr><td>Mash</td><td>7</td><td>5</td><td>6</td><td>1</td><td>Ø</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td></tr>
+                    <tr><td>Tap</td><td>4</td><td>7</td><td>5</td><td>6</td><td>1</td><td>Ø</td><td>2</td><td>9</td><td>3</td><td>8</td></tr>
+                    <tr><td>Push</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td><td>1</td><td>Ø</td><td>2</td><td>9</td><td>3</td></tr>
+                    <tr><td>Abort</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td><td>1</td><td>Ø</td><td>2</td><td>9</td></tr>
+                    <tr><td>Button</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td><td>1</td><td>Ø</td><td>2</td></tr>
+                    <tr><td>Click</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td><td>1</td><td>Ø</td></tr>
+                    <tr><td></td><td>Ø</td><td>2</td><td>9</td><td>3</td><td>8</td><td>4</td><td>7</td><td>5</td><td>6</td><td>1</td></tr>
+                    <tr><td>Nothing</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>Ø</td></tr>
+                    <tr><td>No</td><td>Ø</td><td>9</td><td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td></tr>
+                    <tr><td>I Don’t Know</td><td>9</td><td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td><td>Ø</td></tr>
+                    <tr><td>Yes</td><td>2</td><td>4</td><td>6</td><td>8</td><td>Ø</td><td>1</td><td>3</td><td>5</td><td>7</td><td>9</td></tr>
+                </table>
+                <p>Call the received value “Value A” and input it into the table below to get an instruction.</p>
+            </div>
+            <div class="page-footer relative-footer">16</div>
+        </div>
+
+        <div class="page page-bg-02">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table class="metered-button-table">
+                    <tr>
+                        <th rowspan="2">Value A ↓</th>
+                        <th colspan="10">Number Display</th>
+                    </tr>
+                    <tr>
+                        <th>Ø</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                    </tr>
+                    <tr><td>Ø</td><td>T6</td><td>H5</td><td>M3</td><td>T1</td><td>H7</td><td>M8</td><td>T1</td><td>H2</td><td>M5</td><td>X8</td></tr>
+                    <tr><td>1</td><td>X5</td><td>H6</td><td>T1</td><td>M5</td><td>H1</td><td>T9</td><td>M9</td><td>H4</td><td>T8</td><td>M1</td></tr>
+                    <tr><td>2</td><td>M5</td><td>T8</td><td>H5</td><td>M3</td><td>T5</td><td>H7</td><td>X6</td><td>T1</td><td>H3</td><td>M6</td></tr>
+                    <tr><td>3</td><td>H3</td><td>M7</td><td>M6</td><td>H2</td><td>M3</td><td>T5</td><td>T2</td><td>X4</td><td>T2</td><td>H7</td></tr>
+                    <tr><td>4</td><td>T4</td><td>H9</td><td>M9</td><td>H4</td><td>M8</td><td>X9</td><td>T8</td><td>T3</td><td>H5</td><td>M1</td></tr>
+                    <tr><td>5</td><td>M1</td><td>M2</td><td>X1</td><td>M9</td><td>T9</td><td>M4</td><td>H3</td><td>H8</td><td>T4</td><td>M3</td></tr>
+                    <tr><td>6</td><td>H2</td><td>M1</td><td>T4</td><td>T7</td><td>X3</td><td>H6</td><td>M7</td><td>T5</td><td>H7</td><td>H4</td></tr>
+                    <tr><td>7</td><td>T8</td><td>H3</td><td>M2</td><td>X9</td><td>T2</td><td>H1</td><td>H4</td><td>M6</td><td>M1</td><td>T1</td></tr>
+                    <tr><td>8</td><td>M9</td><td>X2</td><td>H8</td><td>T8</td><td>M4</td><td>T3</td><td>M6</td><td>H7</td><td>H3</td><td>T8</td></tr>
+                    <tr><td>9</td><td>T7</td><td>T4</td><td>M4</td><td>H6</td><td>H7</td><td>M2</td><td>M5</td><td>T9</td><td>X7</td><td>H9</td></tr>
+                </table>
+                <ul>
+                    <li>T#: Tap the button when the last digit of the bomb timer is a #.</li>
+                    <li>H#: Hold the button when the last digit of the bomb timer is (# + battery count) modulo 1Ø, and release when the last digit of the bomb timer is |# - port count|.</li>
+                    <li>M#: Mash the button # times across 3 seconds.</li>
+                    <li>X#: Press the “❖” button (last digit of S#† * #, modulo 25) times, then tap the button.</li>
+                </ul>
+                <p>Correctly performing the instruction will refresh the number display and the button and advance a stage. Completing all three stages will solve the module. Incorrectly pressing the button will cause a strike, resetting the module.</p>
+                <strong>†If this number is Ø, add 1Ø.</strong>
+            </div>
+            <div class="page-footer relative-footer">17</div>
+        </div>
+
+        <div class="page page-bg-06">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Stumbling Symphony</h2>
+                <p class="comment">Was it an E♯ or an E♭...?</p>
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Button, Piano]</strong>, you are looking at the wrong section of this manual!</p>
+                <p>Today, you will be playing a melody for the button to try to impress it and solve the module. You tried your best to practice the melody, but you still might stumble during your performance.</p>
+                <p>To initiate the module, press the “❖” button. The number display will display a number in such a way, so that the defuser will stumble (explained on the second page of this sub-module) exactly 3-7 times (or Ø in a special case).</p>
+                <p>To figure out what melody you’ll be playing, take the new number on the number display, and use it in the table below to obtain your melody.</p>
+                <table class="stumbling-symphony-table centered">
+                    <tr>
+                        <th>Number Display</th>
+                        <th>Melody Name</th>
+                        <th>Note Sequence</th>
+                    </tr>
+                    <tr><td>Ø</td><td>Für Elise</td><td>E D♯ E D♯ E B D C</td></tr>
+                    <tr><td>1</td><td>All I Want for Christmas is You</td><td>B A G E♭ D A B A G</td></tr>
+                    <tr><td>2</td><td>It’s the Most Wonderful Time of the Year</td><td>F♯ G A A D B A G E D</td></tr>
+                    <tr><td>3</td><td>We Three Kings</td><td>C♯ B A F♯ G♯ A G♯ F♯</td></tr>
+                    <tr><td>4</td><td>Empire Strikes Back</td><td>G G G E♭ B♭ G E♭ B♭ G</td></tr>
+                    <tr><td>5</td><td>Shiny Smily Story</td><td>D♯ F G G♯ D♯ A♯ G♯ G G♯ A♯</td></tr>
+                    <tr><td>6</td><td>Pink Panther</td><td>C♯ D E F C♯ D E F B♭ A</td></tr>
+                    <tr><td>7</td><td>Pirates of the Caribbean</td><td>A C D D D E F F F G E E</td></tr>
+                    <tr><td>8</td><td>Let It Be</td><td>E D C E G A G E D C A G E</td></tr>
+                    <tr><td>9</td><td>A Town with an Ocean’s View</td><td>B G B F♯ B E D C D G A</td></tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">18</div>
+        </div>
+
+        <div class="page page-bg-03">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <ul>
+                    <li>If the button doesn’t have a label, you are actually a piano maestro and you will never stumble - play the melody normally to solve the module.</li>
+                    <li>Otherwise, if the button’s label contains 2 or more vowels (not including “Y”), you will stumble on every sharp/flat note.</li>
+                    <li>Otherwise, if the button’s label contains exactly 5 letters, you will stumble on every note from C to F.</li>
+                    <li>Otherwise, if the button’s label is “Yes” or “No”, you will stumble on the first, last, and center* notes in the Note Sequence.</li>
+                    <li>Otherwise, if the button’s label contains the letter “P”, you will stumble on every note from F♯ to B.</li>
+                    <li>Otherwise, you will stumble on every third note in the Note Sequence.</li>
+                </ul>
+                <p>If you are going to stumble on the next note, call that note the <u>Stumble Note</u> and do the following:</p>
+                <ul>
+                    <li>
+                        Play the <u>Stumble Note</u> shifted <u>X</u> semitones forwards**, where <u>X</u> is the number obtained from the table below:
+                        <table class="stumbling-symphony-centered-table stumbling-symphony-color-table">
+                            <tr><th colspan="11">Button’s Color</th></tr>
+                            <tr>
+                                <td class="black">Black</td>
+                                <td class="red">Red</td>
+                                <td class="orange">Orange</td>
+                                <td class="yellow">Yellow</td>
+                                <td class="green">Green</td>
+                                <td class="lime">Lime</td>
+                                <td class="cyan">Cyan</td>
+                                <td class="blue">Blue</td>
+                                <td class="purple">Purple</td>
+                                <td class="pink">Pink</td>
+                                <td class="white">White</td>
+                            </tr>
+                            <tr><td>+1</td><td>+2</td><td>+3</td><td>+4</td><td>+5</td><td>+6</td><td>+7</td><td>+8</td><td>+9</td><td>+1Ø</td><td>+11</td></tr>
+                        </table>
+                    </li>
+                    <li>Tap the button to soothe its nerves after it heard your stumble.</li>
+                    <li>Play the <u>Stumble Note</u> normally, and continue playing the Note Sequence.</li>
+                </ul>
+                <p>
+                    If at any point you play an incorrect note (including during a stumble), incorrectly tap the button, or forget to tap it at all, a strike will be issued,
+                    the button will be disappointed in you, and the input will be completely reset.
+                </p>
+                <p>
+                    <i>*If the length of the Note Sequence is even, there will be 2 center notes. Otherwise, there will be only 1 center note.</i>
+                    <br><i>**Shifting forwards: C -> C♯ -> D -> D♯ -> E -> ... -> B -> C</i>
+                </p>
+            </div>
+            <div class="page-footer relative-footer">19</div>
+        </div>
+
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of The Deranged Keypad</h2>
+                <p class="comment">
+                    The person responsible for this module was probably too obsessed with
+                    Blue Arrows.
+                </p>
+                <p>
+                    <strong>Note: </strong>If your module’s components aren’t exactly
+                    <strong>[Button, Alphabet]</strong>, you are looking at the wrong
+                    section of this manual!
+                </p>
+                <p>
+                    The module requires you to press keypads of the Alphabet section. To
+                    begin, start with the base alphabet depending on the displayed color
+                    of the button:
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Color of the Button</th>
+                            <th>Starting Alphabet</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Black</td>
+                            <td>ABCDEFGHIJKLMNOPQRSTUVWXYZ</td>
+                        </tr>
+                        <tr>
+                            <td>Blue</td>
+                            <td>ETIANMSURWDKGOHVFLPJBXCYZQ</td>
+                        </tr>
+                        <tr>
+                            <td>Cyan</td>
+                            <td>GORIYSHQBFLPZATNKVCUJMDEXW</td>
+                        </tr>
+                        <tr>
+                            <td>Green</td>
+                            <td>ABCDEGKNPSTXZFHIJLMOQRUVWY</td>
+                        </tr>
+                        <tr>
+                            <td>Lime</td>
+                            <td>SEQUFNCGTHRVIODJWKXYLPMZAB</td>
+                        </tr>
+                        <tr>
+                            <td>Orange</td>
+                            <td>WBSMEJTUCPFAHZOQLIKNYVGXRD</td>
+                        </tr>
+                        <tr>
+                            <td>Pink</td>
+                            <td>ADGJMPSVYBEHKNQTWZCFILORUX</td>
+                        </tr>
+                        <tr>
+                            <td>Purple</td>
+                            <td>BMVFQZYSXJGIWHAEPRLNTKUDCO</td>
+                        </tr>
+                        <tr>
+                            <td>Red</td>
+                            <td>XQUMFEPOWLTJDZHGBVYKCRIASN</td>
+                        </tr>
+                        <tr>
+                            <td>White</td>
+                            <td>QWERTYUIOPASDFGHJKLZXCVBNM</td>
+                        </tr>
+                        <tr>
+                            <td>Yellow</td>
+                            <td>AELFHBRVOTCYDQUXPWGNIMSKZJ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">20</div>
+        </div>
+
+        <div class="page page-bg-02">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <p>Then, use the label of the button to modify the alphabet:</p>
+                <table style="font-size: 11pt">
+                    <thead>
+                        <tr>
+                            <th>Label of the Button</th>
+                            <th>Modification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td>Do nothing.</td>
+                        </tr>
+                        <tr>
+                            <td>PRESS</td>
+                            <td>
+                                Move the first letter of the SN to the beginning.
+                                If it’s already there, move it to the back.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>HOLD</td>
+                            <td>Swap both halves of the string.</td>
+                        </tr>
+                        <tr>
+                            <td>DETONATE</td>
+                            <td>
+                                Encrypt the string into Atbash (subtract every letter’s
+                                positions from 27).
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>MASH</td>
+                            <td>
+                                Swap the first consonant with the last vowel in the string.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>TAP</td>
+                            <td>
+                                Caesar-shift the string forward by the sum of the digits on
+                                the Alphabet section.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PUSH</td>
+                            <td>
+                                Take all of the letters between (and including) A and E, and
+                                move them immediately after Q.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ABORT</td>
+                            <td>
+                                Swap the first letter in the string with an odd-numbered
+                                alphabetic position with the last letter in the string with an
+                                even-numbered alphabetic position.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>BUTTON</td>
+                            <td>
+                                Multiply the last character’s alphabetic position by five,
+                                take it modulo 26, add one, and move the corresponding letter
+                                to the beginning of the string.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CLICK</td>
+                            <td>
+                                Encrypt the string into ROT13 (Caesar-shift the letters
+                                forward by 13).
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>NOTHING</td>
+                            <td>
+                                Caesar-shift the first letter in the string forward by one,
+                                and move the resulting letter to the end of the string.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>NO</td>
+                            <td>Reverse the first half.</td>
+                        </tr>
+                        <tr>
+                            <td>I DON’T KNOW</td>
+                            <td>Reverse the entire string.</td>
+                        </tr>
+                        <tr>
+                            <td>YES</td>
+                            <td>Reverse the second half.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="font-size: 15px;">
+                    Once you have performed the operation above, take the
+                    letters in the keypads, and go through your modified alphabet until
+                    you get to a letter that is present on a keypad that has not already
+                    been pressed. Repeat the process with a second press. After two
+                    presses, press the button. The button will change text upon being
+                    pressed, and you will have to apply the modifications again.
+                    Attempting to press a keypad or the button when you’re not supposed
+                    to will incur a strike, but will NOT reset the module. If more than
+                    one button has the same letter, only the leftmost one should be
+                    pressed.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">21</div>
+        </div>
+
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Logical Color Combinations</h2>
+                <p class="comment">Who knew logic gates become so much harder when you are colorblind?</p>
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Button, LEDs, Arrows]</strong>, you are looking at the wrong section of this manual!</p>
+                <ul>
+                    <li>To disarm the module, submit the correct combinations of LED colors and arrow directions to submit the correct Base 36 number.</li>
+                    <li>To begin the module, press the “❖” button. A sequence of 8 colors will flash on the arrow module.</li>
+                    <li>Pressing the “❖” button again will repeat the same sequence.</li>
+                    <li>Pair each flash with the corresponding LED from left to right.</li>
+                    <li>Find each pair in the table below where the LED color is the row, the flashing color is the column, and the color of the module’s arrow’s center button is the main column.</li>
+                    <li>The intersection is a Base 36 digit.</li>
+                </ul>
+                <table class="logical-color-combinations-led-table">
+                    <tr>
+                        <th class="corner" rowspan="2"></th>
+                        <th colspan="4" class="white">White</th>
+                        <th colspan="4" class="grey">Grey</th>
+                    </tr>
+                    <tr>
+                        <th class="red">RED</th>
+                        <th class="yellow">YELLOW</th>
+                        <th class="blue">BLUE</th>
+                        <th class="green">GREEN</th>
+                        <th class="red">RED</th>
+                        <th class="yellow">YELLOW</th>
+                        <th class="blue">BLUE</th>
+                        <th class="green">GREEN</th>
+                    </tr>
+                    <tr><th class="red">RED</th><td>Ø</td><td>H</td><td>W</td><td>M</td><td>Z</td><td>G</td><td>Y</td><td>9</td></tr>
+                    <tr><th class="orange">ORANGE</th><td>S</td><td>4</td><td>Z</td><td>I</td><td>U</td><td>7</td><td>2</td><td>H</td></tr>
+                    <tr><th class="yellow">YELLOW</th><td>C</td><td>J</td><td>V</td><td>A</td><td>6</td><td>B</td><td>M</td><td>5</td></tr>
+                    <tr><th class="lime">LIME</th><td>P</td><td>2</td><td>F</td><td>7</td><td>W</td><td>L</td><td>N</td><td>D</td></tr>
+                    <tr><th class="green">GREEN</th><td>E</td><td>9</td><td>G</td><td>O</td><td>A</td><td>P</td><td>1</td><td>J</td></tr>
+                    <tr><th class="cyan">CYAN</th><td>5</td><td>T</td><td>L</td><td>3</td><td>O</td><td>E</td><td>I</td><td>C</td></tr>
+                    <tr><th class="blue">BLUE</th><td>K</td><td>6</td><td>D</td><td>R</td><td>F</td><td>Ø</td><td>X</td><td>Q</td></tr>
+                    <tr><th class="purple">PURPLE</th><td>Q</td><td>1</td><td>8</td><td>X</td><td>R</td><td>3</td><td>T</td><td>K</td></tr>
+                    <tr><th class="pink">PINK</th><td>U</td><td>Y</td><td>B</td><td>N</td><td>8</td><td>K</td><td>4</td><td>S</td></tr>
+                    <tr><th class="white">WHITE</th><td>Z</td><td>Z</td><td>Z</td><td>Z</td><td>Ø</td><td>Ø</td><td>Ø</td><td>Ø</td></tr>
+                    <tr><th class="black">BLACK</th><td>Ø</td><td>Ø</td><td>Ø</td><td>Ø</td><td>Z</td><td>Z</td><td>Z</td><td>Z</td></tr>
+                </table>
+                <ul>
+                    <li>Concatenate the digits and split them into 4 pairs. Call each pair A-D respectively.</li>
+                    <li>Convert each pair to binary. Prepend Ø at the start until they are all 11 digits long.</li>
+                    <li>Find the intersection in one of the two tables below with the button’s color used for the row, and the button’s label for the column.</li>
+                </ul>
+            </div>
+            <div class="page-footer relative-footer">22</div>
+        </div>
+
+        <div class="page page-bg-02">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <ul>
+                    <li>Find the intersection in one of the two tables below with the button’s color used for the row, and the button’s label for the column.</li>
+                    <li>The result from the table will give a logic gate and two letter pairs.</li>
+                </ul>
+                <table class="logical-color-combinations-operator-table">
+                    <tr>
+                        <th class="corner"></th>
+                        <th>PRESS</th>
+                        <th>HOLD</th>
+                        <th>DETONATE</th>
+                        <th>MASH</th>
+                        <th>TAP</th>
+                        <th>PUSH</th>
+                        <th>ABORT</th>
+                    </tr>
+                    <tr>
+                        <th class="red">RED</th>
+                        <td>∨<br>AB/CD</td>
+                        <td>↓<br>AC/BD</td>
+                        <td>∧<br>AB/CD</td>
+                        <td>⊻<br>AB/CD</td>
+                        <td>↓<br>BD/AC</td>
+                        <td>↔<br>BD/AC</td>
+                        <td>|<br>BD/AC</td>
+                    </tr>
+                    <tr>
+                        <th class="orange">ORANGE</th>
+                        <td>|<br>AD/BC</td>
+                        <td>↔<br>AB/CD</td>
+                        <td>⊻<br>BD/AC</td>
+                        <td>∨<br>AD/BC</td>
+                        <td>|<br>AC/BD</td>
+                        <td>∧<br>AC/BD</td>
+                        <td>⊻<br>AD/BC</td>
+                    </tr>
+                    <tr>
+                        <th class="yellow">YELLOW</th>
+                        <td>⊻<br>BC/AD</td>
+                        <td>∧<br>AD/BC</td>
+                        <td>↓<br>CD/AB</td>
+                        <td>|<br>AB/CD</td>
+                        <td>|<br>BD/AC</td>
+                        <td>↓<br>AB/CD</td>
+                        <td>∨<br>AC/BD</td>
+                    </tr>
+                    <tr>
+                        <th class="lime">LIME</th>
+                        <td>↔<br>BD/AC</td>
+                        <td>|<br>AC/BD</td>
+                        <td>∨<br>AB/CD</td>
+                        <td>∧<br>BD/AC</td>
+                        <td>↓<br>AC/BD</td>
+                        <td>⊻<br>AC/BD</td>
+                        <td>↔<br>BC/AD</td>
+                    </tr>
+                    <tr>
+                        <th class="green">GREEN</th>
+                        <td>↓<br>AD/BC</td>
+                        <td>∧<br>AC/BD</td>
+                        <td>↔<br>AD/BC</td>
+                        <td>∧<br>AB/CD</td>
+                        <td>∧<br>AD/BC</td>
+                        <td>∨<br>BC/AD</td>
+                        <td>|<br>CD/AB</td>
+                    </tr>
+                    <tr>
+                        <th class="cyan">CYAN</th>
+                        <td>∧<br>CD/AB</td>
+                        <td>↔<br>CD/AB</td>
+                        <td>⊻<br>AD/BC</td>
+                        <td>|<br>AD/BC</td>
+                        <td>∨<br>BD/AC</td>
+                        <td>↓<br>BC/AD</td>
+                        <td>↔<br>AC/BD</td>
+                    </tr>
+                    <tr>
+                        <th class="blue">BLUE</th>
+                        <td>∨<br>BC/AD</td>
+                        <td>∧<br>BC/AD</td>
+                        <td>|<br>CD/AB</td>
+                        <td>↔<br>AB/CD</td>
+                        <td>⊻<br>AC/BD</td>
+                        <td>⊻<br>BC/AD</td>
+                        <td>↓<br>AD/BC</td>
+                    </tr>
+                    <tr>
+                        <th class="purple">PURPLE</th>
+                        <td>⊻<br>CD/AB</td>
+                        <td>↔<br>AC/BD</td>
+                        <td>∨<br>BD/AC</td>
+                        <td>↔<br>BC/AD</td>
+                        <td>⊻<br>AB/CD</td>
+                        <td>|<br>BC/AD</td>
+                        <td>|<br>AC/BD</td>
+                    </tr>
+                    <tr>
+                        <th class="pink">PINK</th>
+                        <td>|<br>BC/AD</td>
+                        <td>∨<br>AD/BC</td>
+                        <td>↓<br>BC/AD</td>
+                        <td>⊻<br>CD/AB</td>
+                        <td>↔<br>AD/BC</td>
+                        <td>∧<br>BC/AD</td>
+                        <td>↓<br>CD/AB</td>
+                    </tr>
+                    <tr>
+                        <th class="black">BLACK</th>
+                        <td>↓<br>AB/CD</td>
+                        <td>⊻<br>AC/BD</td>
+                        <td>|<br>AB/CD</td>
+                        <td>∧<br>BD/AC</td>
+                        <td>↔<br>CD/AB</td>
+                        <td>⊻<br>BD/AC</td>
+                        <td>∨<br>CD/AB</td>
+                    </tr>
+                    <tr>
+                        <th class="white">WHITE</th>
+                        <td>∧<br>AB/CD</td>
+                        <td>↔<br>AC/BD</td>
+                        <td>↓<br>BD/AC</td>
+                        <td>∨<br>BD/AC</td>
+                        <td>∨<br>AC/BD</td>
+                        <td>∨<br>BC/AD</td>
+                        <td>∧<br>CD/AB</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">23</div>
+        </div>
+
+        <div class="page page-bg-04">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table class="logical-color-combinations-operator-table">
+                    <tr>
+                        <th class="corner"></th>
+                        <th>BUTTON</th>
+                        <th>CLICK</th>
+                        <th></th>
+                        <th>NOTHING</th>
+                        <th>NO</th>
+                        <th>I DON’T KNOW</th>
+                        <th>YES</th>
+                    </tr>
+                    <tr>
+                        <th class="red">RED</th>
+                        <td>|<br>AB/CD</td>
+                        <td>↓<br>BD/AC</td>
+                        <td>∧<br>AC/BD</td>
+                        <td>⊻<br>BC/AD</td>
+                        <td>∧<br>BD/AC</td>
+                        <td>↔<br>BC/AD</td>
+                        <td>∨<br>AD/BC</td>
+                    </tr>
+                    <tr>
+                        <th class="orange">ORANGE</th>
+                        <td>∧<br>BC/AD</td>
+                        <td>↓<br>AC/BD</td>
+                        <td>|<br>BC/AD</td>
+                        <td>↔<br>CD/AB</td>
+                        <td>∨<br>BD/AC</td>
+                        <td>⊻<br>AB/CD</td>
+                        <td>|<br>CD/AB</td>
+                    </tr>
+                    <tr>
+                        <th class="yellow">YELLOW</th>
+                        <td>⊻<br>CD/AB</td>
+                        <td>∨<br>AC/BD</td>
+                        <td>↔<br>AB/CD</td>
+                        <td>⊻<br>AC/BD</td>
+                        <td>|<br>AD/BC</td>
+                        <td>∧<br>AB/CD</td>
+                        <td>↔<br>AB/CD</td>
+                    </tr>
+                    <tr>
+                        <th class="lime">LIME</th>
+                        <td>|<br>AC/BD</td>
+                        <td>⊻<br>AD/BC</td>
+                        <td>↓<br>BC/AD</td>
+                        <td>∨<br>BC/AD</td>
+                        <td>↔<br>AC/BD</td>
+                        <td>|<br>BD/AC</td>
+                        <td>∧<br>CD/AB</td>
+                    </tr>
+                    <tr>
+                        <th class="green">GREEN</th>
+                        <td>∧<br>AB/CD</td>
+                        <td>↓<br>CD/AB</td>
+                        <td>∧<br>AD/BC</td>
+                        <td>∨<br>AD/BC</td>
+                        <td>⊻<br>BD/AC</td>
+                        <td>|<br>AD/BC</td>
+                        <td>↓<br>AC/BD</td>
+                    </tr>
+                    <tr>
+                        <th class="cyan">CYAN</th>
+                        <td>↔<br>AD/BC</td>
+                        <td>∨<br>BD/AC</td>
+                        <td>⊻<br>AB/CD</td>
+                        <td>↓<br>AD/BC</td>
+                        <td>⊻<br>AB/CD</td>
+                        <td>∧<br>BC/AD</td>
+                        <td>↔<br>BD/AC</td>
+                    </tr>
+                    <tr>
+                        <th class="blue">BLUE</th>
+                        <td>↓<br>AB/CD</td>
+                        <td>∧<br>BD/AC</td>
+                        <td>↔<br>BC/AD</td>
+                        <td>|<br>BC/AD</td>
+                        <td>∨<br>AC/BD</td>
+                        <td>↓<br>BD/AC</td>
+                        <td>⊻<br>AC/BD</td>
+                    </tr>
+                    <tr>
+                        <th class="purple">PURPLE</th>
+                        <td>↔<br>AB/CD</td>
+                        <td>|<br>BD/AC</td>
+                        <td>∨<br>BD/AC</td>
+                        <td>↓<br>BD/AC</td>
+                        <td>∧<br>CD/AB</td>
+                        <td>↔<br>AD/BC</td>
+                        <td>⊻<br>AD/BC</td>
+                    </tr>
+                    <tr>
+                        <th class="pink">PINK</th>
+                        <td>∨<br>BC/AD</td>
+                        <td>↔<br>CD/AB</td>
+                        <td>↔<br>AC/BD</td>
+                        <td>∧<br>AD/BC</td>
+                        <td>⊻<br>CD/AB</td>
+                        <td>∨<br>AB/CD</td>
+                        <td>↓<br>AB/CD</td>
+                    </tr>
+                    <tr>
+                        <th class="black">BLACK</th>
+                        <td>∨<br>CD/AB</td>
+                        <td>↓<br>BC/AD</td>
+                        <td>|<br>AC/BD</td>
+                        <td>⊻<br>BD/AC</td>
+                        <td>↔<br>AD/BC</td>
+                        <td>|<br>CD/AB</td>
+                        <td>∨<br>AC/BD</td>
+                    </tr>
+                    <tr>
+                        <th class="white">WHITE</th>
+                        <td>⊻<br>BC/AD</td>
+                        <td>↔<br>BD/AC</td>
+                        <td>∨<br>AB/CD</td>
+                        <td>↓<br>CD/AB</td>
+                        <td>|<br>AB/CD</td>
+                        <td>↓<br>AD/BC</td>
+                        <td>∧<br>AC/BD</td>
+                    </tr>
+                </table>
+                <ul>
+                    <li>Apply the logic gate to each letter pair to get 2 binary numbers.</li>
+                    <li>Convert both binary numbers to Base 36. Prepend Ø until they are 3 digits long. Concatenate the numbers.</li>
+                </ul>
+            </div>
+            <div class="page-footer relative-footer">24</div>
+        </div>
+
+        <div class="page page-bg-06">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table>
+                    <tr>
+                        <th>Logical Connective</th>
+                        <th>Symbol</th>
+                        <th>Logic Gate Equivalent</th>
+                        <th>Meaning</th>
+                    </tr>
+                    <tr>
+                        <td>Conjunction</td>
+                        <td>∧</td>
+                        <td>AND</td>
+                        <td>Returns true if all inputs are true. Else returns false.</td>
+                    </tr>
+                    <tr>
+                        <td>Disjunction</td>
+                        <td>∨</td>
+                        <td>OR</td>
+                        <td>Returns true if any input is true. Else returns false.</td>
+                    </tr>
+                    <tr>
+                        <td>Exclusive Disjunction</td>
+                        <td>⊻</td>
+                        <td>XOR</td>
+                        <td>Returns true if exactly one input is true. Else returns false.</td>
+                    </tr>
+                    <tr>
+                        <td>Alternative Denial</td>
+                        <td>|</td>
+                        <td>NAND</td>
+                        <td>Returns false if all inputs are true. Else returns true.</td>
+                    </tr>
+                    <tr>
+                        <td>Joint Denial</td>
+                        <td>↓</td>
+                        <td>NOR</td>
+                        <td>Returns false if any input is true. Else returns true.</td>
+                    </tr>
+                    <tr>
+                        <td>Biconditional</td>
+                        <td>↔</td>
+                        <td>XNOR</td>
+                        <td>Returns false if exactly one input is true. Else returns true.</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">25</div>
+        </div>
+
+        <div class="page page-bg-07">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <ul>
+                    <li>Find each digit in the table below, using the color of the module’s arrow’s center button is the main column.</li>
+                    <li>Refer to the row header as the LED color and the column header as the direction to press.</li>
+                </ul>
+                <table class="logical-color-combinations-led-table">
+                    <tr>
+                        <th class="corner" rowspan="2"></th>
+                        <th colspan="4" class="white">White</th>
+                        <th colspan="4" class="grey">Grey</th>
+                    </tr>
+                    <tr>
+                        <th>UP</th>
+                        <th>DOWN</th>
+                        <th>LEFT</th>
+                        <th>RIGHT</th>
+                        <th>UP</th>
+                        <th>DOWN</th>
+                        <th>LEFT</th>
+                        <th>RIGHT</th>
+                    </tr>
+                    <tr><th class="red">RED</th><td>Ø</td><td>1</td><td>2</td><td>3</td><td>Z</td><td>Y</td><td>X</td><td>W</td></tr>
+                    <tr><th class="orange">ORANGE</th><td>4</td><td>5</td><td>6</td><td>7</td><td>V</td><td>U</td><td>T</td><td>S</td></tr>
+                    <tr><th class="yellow">YELLOW</th><td>8</td><td>9</td><td>A</td><td>B</td><td>R</td><td>Q</td><td>P</td><td>O</td></tr>
+                    <tr><th class="lime">LIME</th><td>C</td><td>D</td><td>E</td><td>F</td><td>N</td><td>M</td><td>L</td><td>K</td></tr>
+                    <tr><th class="green">GREEN</th><td>G</td><td>H</td><td>I</td><td>J</td><td>J</td><td>I</td><td>H</td><td>G</td></tr>
+                    <tr><th class="cyan">CYAN</th><td>K</td><td>L</td><td>M</td><td>N</td><td>F</td><td>E</td><td>D</td><td>C</td></tr>
+                    <tr><th class="blue">BLUE</th><td>O</td><td>P</td><td>Q</td><td>R</td><td>B</td><td>A</td><td>9</td><td>8</td></tr>
+                    <tr><th class="purple">PURPLE</th><td>S</td><td>T</td><td>U</td><td>V</td><td>7</td><td>6</td><td>5</td><td>4</td></tr>
+                    <tr><th class="pink">PINK</th><td>W</td><td>X</td><td>Y</td><td>Z</td><td>3</td><td>2</td><td>1</td><td>Ø</td></tr>
+                </table>
+                <ul>
+                    <li>Press the button to enter submission mode. All of the LEDs will turn black except for one.</li>
+                    <li>Press the button to cycle the current LED to the correct color found in the table above, then press the corresponding arrow direction.</li>
+                    <li>If the input is correct, the LED will submit and the next LED will light up.</li>
+                    <li>If the input is incorrect, a strike will be given and the module will exit submission mode. The module will not reset.</li>
+                    <li>Submit all 6 digits to solve the module.</li>
+                </ul>
+            </div>
+            <div class="page-footer relative-footer">26</div>
+        </div>
+
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Lying Wires</h2>
+                <p class="comment">One tells the truth… or two?… or three???</p>
+                <p>
+                    <strong>Note: </strong>If your module’s components aren’t exactly <strong>[Wires, Button]</strong>,
+                    you are looking at the wrong section of this manual!
+                </p>
+                <p>
+                    Tonight you’ll be playing a game of Lying Wires: every wire will give a True/False statement about
+                    the button, but some wires will lie about their statement depending on their star and LED colors.
+                    You must cut all the wires so that only the wires telling True statements are left, and then hold
+                    and release or tap the button to solve the game and the module. The host of this game can be found
+                    on the identity card. Refer to the Host Identity table to identify which category your host belongs to.
+                </p>
+                <p>To figure out each wire’s statement, use its color(s) in the table below:</p>
+                <ul>
+                    <li>
+                        If the wire has only 1 color, take the statement corresponding to the wire’s color to get the
+                        wire’s statement.
+                    </li>
+                    <li>
+                        If the wire has 2 colors, take the 2 statements corresponding to the wire’s colors, and combine
+                        them with an “AND” operator to get the wire’s statement (for example, Red/Blue wire’s statement
+                        is “The button’s label contains less than 5 letters AND the button is Blue.”). BUT, if the two
+                        statements refer to the same element of the button (color/color name or label), instead combine
+                        the statements with an “OR” operator. (Orange/Grey wire’s statement is “The button is Red,
+                        Orange, or Yellow OR the button is White or Black).
+                    </li>
+                </ul>
+                <table style="font-size:14px">
+                    <thead>
+                        <tr>
+                            <th>Wire Color</th>
+                            <th>Statement</th>
+                            <th>Wire Color</th>
+                            <th>Statement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="red">Red</td>
+                            <td>The button’s label contains fewer than 5 letters.</td>
+                            <td class="blue">Blue</td>
+                            <td>The button is Blue.</td>
+                        </tr>
+                        <tr>
+                            <td class="orange">Orange</td>
+                            <td>The button is Red, Orange, or Yellow.</td>
+                            <td class="purple">Purple</td>
+                            <td>The button’s label is “Yes”, “No”, or “I don’t Know”.</td>
+                        </tr>
+                        <tr>
+                            <td class="yellow">Yellow</td>
+                            <td>The button’s label is “Press”, “Tap”, “Push”, or “Click”.</td>
+                            <td class="pink">Pink</td>
+                            <td>The button is a button.</td>
+                        </tr>
+                        <tr>
+                            <td class="green">Green</td>
+                            <td>The button is Red, Green, or Blue.</td>
+                            <td class="black">Black</td>
+                            <td>The button’s label begins with a letter N-Z.</td>
+                        </tr>
+                        <tr>
+                            <td class="lime">Lime</td>
+                            <td>The button’s color can be found in the right half of this table.</td>
+                            <td class="grey">Grey</td>
+                            <td>The button is White or Black.</td>
+                        </tr>
+                        <tr>
+                            <td class="cyan">Cyan</td>
+                            <td>The name of the button’s color ends with a Letter A-M.</td>
+                            <td class="white">White</td>
+                            <td>The button’s color name contains the letter “R”.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">27</div>
+        </div>
+
+        <div class="page page-bg-04">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <div style="font-size:15.5px">
+                    <p>
+                        Each wire’s lying state will be the result of two truth values fed through a logical operator:
+                    </p>
+                    <ul>
+                        <li>
+                            Determine the first truth value using the rules below:
+                            <ul>
+                                <li>
+                                    If the number on the number display is a multiple of 4, the first truth value is
+                                    True if
+                                    the
+                                    wire’s star is White, and False otherwise.
+                                </li>
+                                <li>
+                                    Otherwise, if the number on the number display is a multiple of 3, the first truth
+                                    value
+                                    is
+                                    True if the wire’s star is Black, and False otherwise.
+                                </li>
+                                <li>
+                                    Otherwise, the first truth value is True if the wire’s star is absent, and False
+                                    otherwise.
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Determine the second truth value using the rules below:
+                            <ul>
+                                <li>
+                                    The second truth value is True if the wire’s LED color is one of the colors obtained
+                                    by
+                                    the
+                                    first true rule below, and False otherwise:
+                                    <ul>
+                                        <li>
+                                            If the host of this game is a person from Cluedo: Red, Orange, Purple,
+                                            Yellow
+                                        </li>
+                                        <li>
+                                            If the host of this game is a Monsplode™: Green, Lime, Pink
+                                        </li>
+                                        <li>
+                                            If the host of this game is a person from the KTaNE Discord server: Blue,
+                                            Cyan,
+                                            White,
+                                            Black
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            To determine the logical operator, use the color of the meter in the table below:
+                            <ul>
+                                <li>
+                                    If the meter’s color is not visible, take the number on the number display modulo 6,
+                                    then
+                                    plus 1, and take the operator in that position in the table from left to right (AND
+                                    = 1,
+                                    NAND = 6).
+                                </li>
+                                <li>Otherwise, use the meter’s color in the table as normal.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <td rowspan=2 colspan=2 style="border-left:0px;border-top:0px"></td>
+                            <th colspan=6>Meter’s Color</th>
+                        </tr>
+                        <tr>
+                            <th class="red">Red</th>
+                            <th class="orange">Orange</th>
+                            <th class="yellow">Yellow</th>
+                            <th class="green">Green</th>
+                            <th class="blue">Blue</th>
+                            <th class="purple">Purple</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                        <tr>
+                            <td>Input 1</td>
+                            <td>Input 2</td>
+                            <td>AND</td>
+                            <td>OR</td>
+                            <td>XOR</td>
+                            <td>NAND</td>
+                            <td>NOR</td>
+                            <td>XNOR</td>
+                        </tr>
+                        <tr>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>True</td>
+                        </tr>
+                        <tr>
+                            <td>False</td>
+                            <td>True</td>
+                            <td>False</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>False</td>
+                            <td>False</td>
+                        </tr>
+                        <tr>
+                            <td>True</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>False</td>
+                            <td>False</td>
+                        </tr>
+                        <tr>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>True</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">28</div>
+        </div>
+
+        <div class="page page-bg-03">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <p>
+                    Put both of the truth values through the logical operator to get a True/False result. If the result
+                    is True - the wire’s telling the truth, but if the result is False - the wire’s lying.
+                </p>
+                <p>
+                    Evaluate each wire’s color statement, and if the wire is lying - invert its result. Cut every wire
+                    that returned False after the evaluation.
+                </p>
+                <p>Then, count the number of wires that lied, and call that number <u>L</u>:</p>
+                <ul>
+                    <li>
+                        If <u>L</u> is even, add the number on the number display to <u>L</u> and take the sum modulo
+                        1Ø. Tap the button when the last digit of the bomb timer is equal to the result.
+                    </li>
+                    <li>
+                        If <u>L</u> is odd, hold the button when the last digit of the bomb timer is equal to <u>L</u>
+                        and release it when the last digit is equal to the number on the number
+                        display.
+                    </li>
+                </ul>
+                <p>
+                    Cutting a wire that shouldn’t have been cut or incorrectly tapping or holding and releasing the
+                    button will issue a strike and generate a new set of wires.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">29</div>
+        </div>
+
+        <div class="page page-bg-05">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>Host Identity</h2>
+                <table style="text-align:center">
+                    <tbody>
+                        <tr>
+                            <td rowspan=7>People from Cluedo</td>
+                            <td>Miss Scarlett</td>
+                        </tr>
+                        <tr>
+                            <td>Colonel Mustard</td>
+                        </tr>
+                        <tr>
+                            <td>Reverend Green</td>
+                        </tr>
+                        <tr>
+                            <td>Mrs Peacock</td>
+                        </tr>
+                        <tr>
+                            <td>Professor Plum</td>
+                        </tr>
+                        <tr>
+                            <td>Mrs White</td>
+                        </tr>
+                        <tr>
+                            <td>Dr Orchid</td>
+                        </tr>
+                        <tr>
+                            <td rowspan=7>Monsplode™</td>
+                            <td>Percy</td>
+                        </tr>
+                        <tr>
+                            <td>Lanaluff</td>
+                        </tr>
+                        <tr>
+                            <td>Nibs</td>
+                        </tr>
+                        <tr>
+                            <td>Clondar</td>
+                        </tr>
+                        <tr>
+                            <td>Melbor</td>
+                        </tr>
+                        <tr>
+                            <td>Magmy</td>
+                        </tr>
+                        <tr>
+                            <td>Pouse</td>
+                        </tr>
+                        <tr>
+                            <td rowspan=8>People from the KTaNE Discord server</td>
+                            <td>Yoshi Dojo</td>
+                        </tr>
+                        <tr>
+                            <td>VFlyer</td>
+                        </tr>
+                        <tr>
+                            <td>Sameone</td>
+                        </tr>
+                        <tr>
+                            <td>Cyanix</td>
+                        </tr>
+                        <tr>
+                            <td>Konoko</td>
+                        </tr>
+                        <tr>
+                            <td>Red Penguin</td>
+                        </tr>
+                        <tr>
+                            <td>GhostSalt</td>
+                        </tr>
+                        <tr>
+                            <td>Yabbaguy</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">30</div>
+        </div>
+
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <h2>On the Subject of Edgework Encoding</h2>
+                <p class="comment">
+                    You would think that the ports on the side of the bomb are used for something
+                    other than just for answering questions. You would be wrong.
+                </p>
+                <p>
+                    <strong>Note: </strong>If your module’s component combination is present in one of the previous
+                    manuals, you are looking at the wrong section of this manual!
+                </p>
+                <p>
+                    First, determine the starting location for each of the lists on the next page. The two rightmost
+                    digits on the timer display modulo 2Ø (where Ø is equal to 2Ø) refer to the starting location for
+                    “Edgework Questions.” The number display modulo 8 (where Ø is equal to 8) refers to the starting
+                    location for “Components.”
+                </p>
+                <p>
+                    Next, determine the direction to move in each list. If the first digit of the timer display is
+                    even, move down in “Edgework Questions,” otherwise, move up. If the number of activated components
+                    is even, move down in “Components,” otherwise, move up. While moving through both lists, wraparound
+                    to the opposite end of the list if you reach either end.
+                </p>
+                <p>
+                    Starting with the positions from the first step, enter the correct answer on the specified component
+                    and then move in the right directions for both lists. If the component is not activated, skip that
+                    component and its associated question in the list. See the table titled “Instructions” for
+                    instructions on how to submit answers on each component.
+                </p>
+                <p>
+                    When all answers are submitted, the module will solve. Incorrect answers or interacting with the
+                    wrong component will cause a strike.
+                </p>
+                <p>
+                    If the answer to an associated components question is “yes,” submit the number 1. Otherwise, submit
+                    the number Ø.
+                </p>
+            </div>
+            <div class="page-footer relative-footer">31</div>
+        </div>
+
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table>
+                    <tr>
+                        <th colspan="2">Edgework Questions</th>
+                        <th colspan="2">Components</th>
+                    </tr>
+                    <tr>
+                        <th>1.</th>
+                        <td>Does the SN contain letters from any of the present indicators?</td>
+                        <th>1.</th>
+                        <td>Wires</td>
+                    </tr>
+                    <tr>
+                        <th>2.</th>
+                        <td>Is there a vowel in the SN?</td>
+                        <th>2.</th>
+                        <td>Arrows</td>
+                    </tr>
+                    <tr>
+                        <th>3.</th>
+                        <td>How many D batteries are present?</td>
+                        <th>3.</th>
+                        <td>Button</td>
+                    </tr>
+                    <tr>
+                        <th>4.</th>
+                        <td>Does the SN contain any digits present in the total number of ports?</td>
+                        <th>4.</th>
+                        <td>Piano</td>
+                    </tr>
+                    <tr>
+                        <th>5.</th>
+                        <td>Is there a CLR, FRQ, SIG, or NSA indicator present?</td>
+                        <th>5.</th>
+                        <td>LEDs</td>
+                    </tr>
+                    <tr>
+                        <th>6.</th>
+                        <td>What is the alphanumeric position (A1Z26) of the second letter in the SN?</td>
+                        <th>6.</th>
+                        <td>Symbols</td>
+                    </tr>
+                    <tr>
+                        <th>7.</th>
+                        <td>Does the SN contain any digits present in the number of D batteries?</td>
+                        <th>7.</th>
+                        <td>Bulbs</td>
+                    </tr>
+                    <tr>
+                        <th>8.</th>
+                        <td>How many PS/2 and Serial ports are present?</td>
+                        <th>8.</th>
+                        <td>Alphabet</td>
+                    </tr>
+                    <tr>
+                        <th>9.</th>
+                        <td>How many unlit indicators are present?</td>
+                    </tr>
+                    <tr>
+                        <th>1Ø.</th>
+                        <td>Does the SN contain any digits present in the calculated puzzle ID?</td>
+                    </tr>
+                    <tr>
+                        <th>11.</th>
+                        <td>How many AA batteries are present?</td>
+                    </tr>
+                    <tr>
+                        <th>12.</th>
+                        <td>How many Parallel and RJ-45 ports are present?</td>
+                    </tr>
+                    <tr>
+                        <th>13.</th>
+                        <td>Does the SN contain any digits present in the total number of indicators?</td>
+                    </tr>
+                    <tr>
+                        <th>14.</th>
+                        <td>Does the SN contain any digits present in the total number of modules?</td>
+                    </tr>
+                    <tr>
+                        <th>15.</th>
+                        <td>How many battery holders are present?</td>
+                    </tr>
+                    <tr>
+                        <th>16.</th>
+                        <td>Is there an empty port plate present?</td>
+                    </tr>
+                    <tr>
+                        <th>17.</th>
+                        <td>How many lit indicators are present?</td>
+                    </tr>
+                    <tr>
+                        <th>18.</th>
+                        <td>What is the sum of the digits present in the SN?</td>
+                    </tr>
+                    <tr>
+                        <th>19.</th>
+                        <td>Does the SN contain any digits present in the number of AA batteries?</td>
+                    </tr>
+                    <tr>
+                        <th>2Ø.</th>
+                        <td>How many Stereo RCA and DVI-D ports are present?</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">32</div>
+        </div>
+
+        <div class="page page-bg-06">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">The Cruel Modkit</span>
+            </div>
+            <div class="page-content">
+                <table class="edgework-encoding-table">
+                    <tr>
+                        <th>Wires</th>
+                        <th>Arrows</th>
+                        <th>Button</th>
+                        <th>Piano</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            With the wires numbered Ø-6 from left to right, the correct wire is the answer modulo 7.
+                            Then, cut that wire when the last digit of the timer is equal to the answer modulo 1Ø.
+                        </td>
+                        <td>
+                            Press the arrow button associated with the answer modulo 1Ø. The first button press for any
+                            button will change the number display to that button’s associated number. The second button
+                            press for any button will submit that number as the answer.<br /> An incorrect submission
+                            will reset the values.
+                        </td>
+                        <td>
+                            Press the button a number of times equal to the answer, then press the “❖” button.
+                        </td>
+                        <td>
+                            With the keys numbered Ø-11 from left to right, the correct key is the answer modulo 12.
+                            Then, press that key when the last digit of the timer is equal to the answer modulo 1Ø.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>LEDs</th>
+                        <th>Symbols</th>
+                        <th>Bulbs</th>
+                        <th>Alphabet</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Press the “❖” button. All LEDs will turn black. Pressing the “❖” button again will
+                            toggle one of the LEDs between black and white. The LED that is toggled depends on the
+                            last digit of the bomb timer. Digits 1-8 will toggle that specific LED, while Ø and 9
+                            will submit the current set of LEDs. Submit the answer in 8-bit binary.
+                        </td>
+                        <td>
+                            With the symbols numbered Ø-5 from left to right, the correct symbol is the answer modulo
+                            6. Then, press that symbol when the last digit of the timer is equal to the answer modulo
+                            1Ø.
+                        </td>
+                        <td>
+                            Submit the number in binary using the I/O symbols. The first digit submitted should be 1,
+                            unless the number is Ø.
+                        </td>
+                        <td>
+                            With the alphabet keys numbered Ø-5 from left to right, the correct key is the answer
+                            modulo 6. Then, press that key when the last digit of the timer is equal to the answer
+                            modulo 1Ø.
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="page-footer relative-footer">33</div>
+        </div>
+    </div>
+</body>
+</html>

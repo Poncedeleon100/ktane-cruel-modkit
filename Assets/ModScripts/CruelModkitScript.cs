@@ -8,7 +8,6 @@ using static ComponentInfo;
 
 public class CruelModkitScript : MonoBehaviour
 {
-
     public KMAudio Audio;
     public KMBombInfo Bomb;
     public KMBombModule Module;
@@ -74,12 +73,7 @@ public class CruelModkitScript : MonoBehaviour
         Piano = 4,
         Arrows = 2,
         Bulbs = 1,
-        None = 0,
-    }
-
-    public int CountComponents(ComponentsEnum comps)
-    {
-        return new BitArray(new[] {(byte)comps}).OfType<bool>().Count(x => x);
+        None = 0
     }
 
     byte OnComponents = (byte)ComponentsEnum.None;
@@ -159,10 +153,10 @@ public class CruelModkitScript : MonoBehaviour
 
     private bool HasStruck = false; // TP Handling, send a strike handling if the module struck. To prevent excessive inputs.
 
-    // Use these for debugging individual puzzles.
-    readonly private bool ForceComponents, ForceByModuleID;
+    // Mod settings
+    private bool ForceComponents, ForceByModuleID = false;
+    byte ComponentsForced = (byte)ComponentsEnum.None;
     CruelModkitSettings ModConfig = new CruelModkitSettings();
-    private string SelectModule;
 
     void Awake ()
     {
@@ -188,12 +182,24 @@ public class CruelModkitScript : MonoBehaviour
             ModConfig<CruelModkitSettings> CruelModkitJSON = new ModConfig<CruelModkitSettings>("CruelModkitSettings");
             ModConfig = CruelModkitJSON.Read();
 
-            SelectModule = ModConfig.SelectModule;
+            ForceComponents = ModConfig.EnforceComponents;
+            ForceByModuleID = ModConfig.EnforceByModID;
+            ComponentsForced = BoolArrayToByte(new bool[]
+            {
+                ModConfig.EnforceBulbs, ModConfig.EnforceArrows, ModConfig.EnforcePiano, ModConfig.EnforceAlphabet,
+                ModConfig.EnforceSymbols, ModConfig.EnforceLEDs, ModConfig.EnforceButton, ModConfig.EnforceWires
+            });
         }
         catch
         {
-            Debug.LogErrorFormat("[The Cruel Modkit #{0}] The settings encountered an error and are going back to the default behavior.", ModuleID);
-            SelectModule = ""; // Overwrites any value previously entered so that the later switch statement will use "default"
+            Debug.LogErrorFormat("[The Cruel Modkit #{0}] The settings encountered an error and are returning to default behavior.", ModuleID);
+            ForceComponents = false;
+            ForceByModuleID = false;
+            ComponentsForced = BoolArrayToByte(new bool[]
+            {
+                false, false, false, false,
+                false, false, false, false
+            });
         }
     }
 
@@ -208,7 +214,8 @@ public class CruelModkitScript : MonoBehaviour
         // Settings
         if (ForceComponents) // Settings - Check if the components need to be forced on.
         {
-            // Settings
+            ForceComponentCalculation();
+            DisplayText.text = "DISABLED";
         }
         else
         {
@@ -220,9 +227,27 @@ public class CruelModkitScript : MonoBehaviour
         {
             ComponentsEnum comp = (ComponentsEnum)Math.Pow(2, i);
             SetSelectables(comp, ForceComponents && ((ComponentsEnum)TargetComponents & comp) == comp);
-            //OnComponents[i] = ForceComponents && TargetComponents[i];
         }
-        // Settings
+        if (ForceComponents)
+        {
+            OnComponents = TargetComponents;
+            StartCoroutine(PlayEnforceAnim());
+        }
+    }
+
+    byte BoolArrayToByte(bool[] Bools)
+    {
+        byte Byte = (byte)ComponentsEnum.None;
+
+        for (int i = 7; i > -1; i--)
+        {
+            if (Bools[i])
+            {
+                Byte += (byte)Math.Pow(2, i);
+            }
+        }
+
+        return Byte;
     }
 
     // Animations
@@ -411,17 +436,20 @@ public class CruelModkitScript : MonoBehaviour
 
     public IEnumerator ButtonStrike(bool IsSymbols, int Button)
     {
+        Material OldKeyLight;
         if (IsSymbols)
         {
+            OldKeyLight = Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material;
             Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Red];
             yield return new WaitForSeconds(1f);
-            Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Black];
+            Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = OldKeyLight;
         }
         else
         {
+            OldKeyLight = Symbols[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material;
             Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Red];
             yield return new WaitForSeconds(1f);
-            Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = KeyLightMats[(int)KeyColors.Black];
+            Alphabet[Button].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = OldKeyLight;
         }
     }
 
@@ -540,63 +568,71 @@ public class CruelModkitScript : MonoBehaviour
         }
     }
 
+    IEnumerator PlayEnforceAnim()
+    {
+        // Animation must pause halfway through if adjacent components are active
+        // Symbols and Alphabet
+        bool Pause1 = (OnComponents & (byte)(ComponentsEnum.Symbols | ComponentsEnum.Alphabet)) == (byte)(ComponentsEnum.Symbols | ComponentsEnum.Alphabet);
+        // Button/LED and Piano
+        bool Pause2 = (OnComponents & (byte)ComponentsEnum.Piano) != 0 && (OnComponents & (byte)(ComponentsEnum.Button | ComponentsEnum.LED)) != 0;
+        // Wires/Button and Arrows
+        bool Pause3 = (OnComponents & (byte)ComponentsEnum.Arrows) != 0 && (OnComponents & (byte)(ComponentsEnum.Wires | ComponentsEnum.Button)) != 0;
+        // Wires and Bulbs
+        bool Pause4 = (OnComponents & (byte)(ComponentsEnum.Wires | ComponentsEnum.Bulbs)) == (byte)(ComponentsEnum.Wires | ComponentsEnum.Bulbs);
+        for (int i = 7; i > -1; i--)
+        {
+            if ((i == 3 && (Pause1 | Pause2 | Pause3 | Pause4)))
+                yield return new WaitForSeconds(1f);
+            if ((OnComponents & (byte)Math.Pow(2, i)) != 0)
+                StartCoroutine(ShowComponent((ComponentsEnum)Math.Pow(2, i)));
+        }
+    }
+
     // Animations but also sets up Puzzle class
     void AssignHandlers()
     {
-        switch (SelectModule)
+        switch (TargetComponents)
         {
-            case "Timer Timings":
-                TargetComponents = (byte)(ComponentsEnum.None);
+            case (byte)(ComponentsEnum.None):
                 Puzzle = new TimerTimings(this, ModuleID, Info, TargetComponents);
                 break;
-            case "Unscrew Maze":
-                TargetComponents = (byte)(ComponentsEnum.Arrows | ComponentsEnum.Bulbs);
+            case (byte)(ComponentsEnum.Arrows | ComponentsEnum.Bulbs):
                 Puzzle = new UnscrewMaze(this, ModuleID, Info, TargetComponents);
                 break;
-            case "Piano Decryption":
-                TargetComponents = (byte)(ComponentsEnum.Piano);
+            case (byte)(ComponentsEnum.Piano):
                 Puzzle = new PianoDecryption(this, ModuleID, Info, TargetComponents);
                 break;
-            case "AV Input":
-                TargetComponents = (byte)(ComponentsEnum.Piano | ComponentsEnum.Bulbs);
+            case (byte)(ComponentsEnum.Piano | ComponentsEnum.Bulbs):
                 Puzzle = new AVInput(this, ModuleID, Info, TargetComponents);
                 break;
-            case "Polygonal Mapping":
-                TargetComponents = (byte)(ComponentsEnum.Symbols | ComponentsEnum.Alphabet);
+            case (byte)(ComponentsEnum.Symbols | ComponentsEnum.Alphabet):
                 Puzzle = new PolygonalMapping(this, ModuleID, Info, TargetComponents);
                 break;
-            case "Who's Who":
-                TargetComponents = (byte)(ComponentsEnum.LED | ComponentsEnum.Bulbs);
+            case (byte)(ComponentsEnum.LED | ComponentsEnum.Bulbs):
                 Puzzle = new WhosWho(this, ModuleID, Info, TargetComponents);
                 break;
-            case "Simon Skips":
-                TargetComponents = (byte)(ComponentsEnum.LED | ComponentsEnum.Arrows);
+            case (byte)(ComponentsEnum.LED | ComponentsEnum.Arrows):
                 Puzzle = new SimonSkips(this, ModuleID, Info, TargetComponents);
                 break;
-            case "Metered Button":
-                TargetComponents = (byte)(ComponentsEnum.Button);
+            case (byte)(ComponentsEnum.Button):
                 Puzzle = new MeteredButton(this, ModuleID, Info, TargetComponents);
                 break;
-            case "Stumbling Symphony":
-                TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.Piano);
+            case (byte)(ComponentsEnum.Button | ComponentsEnum.Piano):
                 Puzzle = new StumblingSymphony(this, ModuleID, Info, TargetComponents);
                 break;
-            case "Deranged Keypad":
-                TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.Alphabet);
+            case (byte)(ComponentsEnum.Button | ComponentsEnum.Alphabet):
                 Puzzle = new DerangedKeypad(this, ModuleID, Info, TargetComponents);
                 break;
-            case "Logical Color Combinations":
-                TargetComponents = (byte)(ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Arrows);
+            case (byte)(ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Arrows):
                 Puzzle = new LogicalColorCombinations(this, ModuleID, Info, TargetComponents);
                 break;
-            case "Lying Wires":
-                TargetComponents = (byte)(ComponentsEnum.Wires | ComponentsEnum.Button);
+            case (byte)(ComponentsEnum.Wires | ComponentsEnum.Button):
                 Puzzle = new LyingWires(this, ModuleID, Info, TargetComponents);
                 break;
-            case "Test Puzzle":
+            case (byte)(ComponentsEnum.Wires | ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Alphabet
+                        | ComponentsEnum.Piano | ComponentsEnum.Arrows | ComponentsEnum.Bulbs):
             default:
-                TargetComponents = (byte)(ComponentsEnum.Wires | ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Symbols | ComponentsEnum.Alphabet | ComponentsEnum.Piano | ComponentsEnum.Arrows | ComponentsEnum.Bulbs);
-                Puzzle = new TestPuzzle(this, ModuleID, Info, TargetComponents);
+                Puzzle = new EdgeworkEncoding(this, ModuleID, Info, TargetComponents);
                 break;
         }
 
@@ -878,13 +914,18 @@ public class CruelModkitScript : MonoBehaviour
         WidgetText[2].text = Info.NumberDisplay.ToString();
     }
 
-    public void SetMorse()
+    public void StopMorse()
     {
-        // End the coroutine in case it's currently playing to prevent the light from doing weird stuff
         if (MorseCodeAnimation != null)
             StopCoroutine(MorseCodeAnimation);
         MorseLED.transform.Find("MorseBulbLight").GetComponentInChildren<Light>().enabled = false;
         MorseLED.transform.GetComponentInChildren<MeshRenderer>().material = MorseMats[0];
+    }
+
+    public void SetMorse()
+    {
+        // End the coroutine in case it's currently playing to prevent the light from doing weird stuff
+        StopMorse();
         MorseCodeAnimation = PlayWord(Info.Morse);
         StartCoroutine(MorseCodeAnimation);
     }
@@ -915,14 +956,17 @@ public class CruelModkitScript : MonoBehaviour
     {
         Meter.GetComponentInChildren<Renderer>().material = MeterMats[Info.MeterColor];
 
+        float DefaultMeterScale = 0.003882663f;
+        float DefaultMeterPosition = -0.02739999f;
+
         Vector3 MeterScale = Meter.transform.localScale;
         Vector3 MeterPosition = Meter.transform.localPosition;
 
-        MeterScale.z *= (float)Info.MeterValue;
+        MeterScale.z = DefaultMeterScale * (float)Info.MeterValue;
         Meter.transform.localScale = MeterScale;
 
         float DefaultMeterLength = 0.03884f;
-        MeterPosition.z -= ((DefaultMeterLength * (1 - (float)Info.MeterValue)) / 2);
+        MeterPosition.z = DefaultMeterPosition - ((DefaultMeterLength * (1 - (float)Info.MeterValue)) / 2);
         Meter.transform.localPosition = MeterPosition;
     }
 
@@ -942,6 +986,7 @@ public class CruelModkitScript : MonoBehaviour
     {
         Module.HandlePass();
         ModuleSolved = true;
+        StopMorse();
         StartCoroutine(PlaySolveAnim());
     }
 
@@ -963,33 +1008,128 @@ public class CruelModkitScript : MonoBehaviour
         Debug.LogFormat("[The Cruel Modkit #{0}] Calculated components are: [{1}].", ModuleID, GetTargetComponents());
     }
 
+    void ForceComponentCalculation()
+    {
+        Debug.LogFormat("[The Cruel Modkit #{0}] The calculation procedure for The Cruel Modkit has been overridden.", ModuleID);
+        if (ForceByModuleID)
+        {
+            Debug.LogFormat("[The Cruel Modkit #{0}] Enforcing components based on module ID.", ModuleID);
+            TargetComponents = (byte)(ModuleID - 1);
+        }
+        else
+        {
+            Debug.LogFormat("[The Cruel Modkit #{0}] Enforcing specfic components.", ModuleID);
+            TargetComponents = ComponentsForced;
+        }
+        Debug.LogFormat("[The Cruel Modkit #{0}] Enforced components are: [{1}].", ModuleID, GetTargetComponents());
+    }
+
     // Logging
     public string GetOnComponents()
     {
-        return ((ComponentsEnum)OnComponents).ToString("G");
+        return ReverseList(((ComponentsEnum)OnComponents).ToString("G"));
     }
 
     public string GetTargetComponents()
     {
-        return ((ComponentsEnum)TargetComponents).ToString("G");
+        return ReverseList(((ComponentsEnum)TargetComponents).ToString("G"));
+    }
+
+    public string ReverseList(string InputString)
+    {
+        List<string> InputList = InputString.Split(',').ToList();
+        for (int i = 0; i < InputList.Count; i++)
+        {
+            InputList[i] = InputList[i].Trim();
+        }
+        InputList.Reverse();
+
+        return InputList.Join(", ");
     }
 
     // Mod settings
+    public class CruelModkitSettings
+    {
+        public bool EnforceComponents = true;
+        public bool EnforceByModID = false;
+        public bool EnforceWires = false;
+        public bool EnforceButton = true;
+        public bool EnforceLEDs = false;
+        public bool EnforceSymbols = false;
+        public bool EnforceAlphabet = false;
+        public bool EnforcePiano = false;
+        public bool EnforceArrows = false;
+        public bool EnforceBulbs = false;
+    }
     public static readonly Dictionary<string, object>[] TweaksEditorSettings = new Dictionary<string, object>[]
     {
         new Dictionary<string, object>
         {
             { "Filename", "CruelModkitSettings.json" },
-            { "Name", "Cruel Modkit Settings" },
+            { "Name", "The Cruel Modkit Settings" },
             { "Listings", new List<Dictionary<string, object>>
             {
                 new Dictionary<string, object>
                 {
-                    { "Key", "SelectModule" },
-                    { "Text", "Select Module" },
-                    { "Description", "Select the module that is chosen when testing The Cruel Modkit." },
-                    { "Type", "Dropdown" },
-                    { "DropdownItems", new List<object> { "Timer Timings", "Unscrew Maze", "Piano Decryption", "AV Input", "Polygonal Mapping", "Who's Who", "Simon Skips", "Metered Button", "Stumbling Symphony", "Deranged Keypad", "Logical Color Combinations", "Lying Wires", "Test Puzzle" } }
+                    { "Key", "EnforceComponents" },
+                    { "Text", "Enforce Components" },
+                    { "Description", "Enforce specific components to be required on the module instead of edgework." +
+                        "\nRequired for the settings to take effect." },
+                },
+                new Dictionary<string, object>
+                {
+                    { "Key", "EnforceByModID" },
+                    { "Text", "Enforce Components Based on ModID" },
+                    { "Description", "Enforce specific components based off of module ID, the one used for logging." +
+                        "\nOverrides the below settings." },
+                },
+                new Dictionary<string, object>
+                {
+                    { "Key", "EnforceWires" },
+                    { "Text", "Enforce Wires" },
+                    { "Description", "Enforce Wires to be required on The Cruel Modkit." },
+                },
+                new Dictionary<string, object>
+                {
+                    { "Key", "EnforceButton" },
+                    { "Text", "Enforce Button" },
+                    { "Description", "Enforce Button to be required on The Cruel Modkit." },
+                },
+                new Dictionary<string, object>
+                {
+                    { "Key", "EnforceLEDs" },
+                    { "Text", "Enforce LEDs" },
+                    { "Description", "Enforce LEDs to be required on The Cruel Modkit." },
+                },
+                new Dictionary<string, object>
+                {
+                    { "Key", "EnforceSymbols" },
+                    { "Text", "Enforce Symbols" },
+                    { "Description", "Enforce Symbols to be required on The Cruel Modkit." },
+                },
+                new Dictionary<string, object>
+                {
+                    { "Key", "EnforceAlphabet" },
+                    { "Text", "Enforce Alphabet" },
+                    { "Description", "Enforce Alphabet to be required on The Cruel Modkit." },
+                },
+                new Dictionary<string, object>
+                {
+                    { "Key", "EnforcePiano" },
+                    { "Text", "Enforce Piano" },
+                    { "Description", "Enforce Piano to be required on The Cruel Modkit." },
+                },
+                new Dictionary<string, object>
+                {
+                    { "Key", "EnforceArrows" },
+                    { "Text", "Enforce Arrows" },
+                    { "Description", "Enforce Arrows to be required on The Cruel Modkit." },
+                },
+                new Dictionary<string, object>
+                {
+                    { "Key", "EnforceBulbs" },
+                    { "Text", "Enforce Bulbs" },
+                    { "Description", "Enforce Bulbs to be required on The Cruel Modkit." },
                 },
             }
             },
