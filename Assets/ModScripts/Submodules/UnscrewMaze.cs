@@ -165,6 +165,11 @@ public class UnscrewMaze : Puzzle
             curPos = positions[0];
             UpdateMorse();
             Module.CauseStrike();
+
+            Module.HandleBulbScrew(Bulb, BulbScrewedIn[Bulb], Info.BulbOn[Bulb]);
+
+            BulbScrewedIn[Bulb] = !BulbScrewedIn[Bulb];
+            bulbsSolved[Bulb] = !bulbsSolved[Bulb];
         }
 
         if (bulbsSolved[0] && bulbsSolved[1])
