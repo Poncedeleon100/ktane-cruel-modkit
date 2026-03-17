@@ -956,14 +956,17 @@ public class CruelModkitScript : MonoBehaviour
     {
         Meter.GetComponentInChildren<Renderer>().material = MeterMats[Info.MeterColor];
 
+        float DefaultMeterScale = 0.003882663f;
+        float DefaultMeterPosition = -0.02739999f;
+
         Vector3 MeterScale = Meter.transform.localScale;
         Vector3 MeterPosition = Meter.transform.localPosition;
 
-        MeterScale.z *= (float)Info.MeterValue;
+        MeterScale.z = DefaultMeterScale * (float)Info.MeterValue;
         Meter.transform.localScale = MeterScale;
 
         float DefaultMeterLength = 0.03884f;
-        MeterPosition.z -= ((DefaultMeterLength * (1 - (float)Info.MeterValue)) / 2);
+        MeterPosition.z = DefaultMeterPosition - ((DefaultMeterLength * (1 - (float)Info.MeterValue)) / 2);
         Meter.transform.localPosition = MeterPosition;
     }
 
@@ -1047,10 +1050,10 @@ public class CruelModkitScript : MonoBehaviour
     // Mod settings
     public class CruelModkitSettings
     {
-        public bool EnforceComponents = false;
+        public bool EnforceComponents = true;
         public bool EnforceByModID = false;
         public bool EnforceWires = false;
-        public bool EnforceButton = false;
+        public bool EnforceButton = true;
         public bool EnforceLEDs = false;
         public bool EnforceSymbols = false;
         public bool EnforceAlphabet = false;
