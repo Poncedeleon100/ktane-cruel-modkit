@@ -681,11 +681,6 @@ public class EdgeworkEncoding : Puzzle
         Info.GenerateWireInfo();
         Info.GenerateWireLEDInfo();
         Module.RegenWires();
-
-        if (componentsArray[componentPosition] == ComponentsEnum.Wires)
-        {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Cut wire {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 7), edgeworkAnswers[edgeworkQuestionPosition] % 10);
-        }
     }
 
     void ValidateButton()
