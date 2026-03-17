@@ -702,23 +702,22 @@ public class EdgeworkEncoding : Puzzle
     {
         string currentTime = Module.Bomb.GetFormattedTime();
         int currentTimeLastDigit = Convert.ToInt32(currentTime.Substring(currentTime.Length - 1));
-        string submittedAnswer = GetCurrentLEDsSubmission();
-        string correctAnswer = Convert.ToString(edgeworkAnswers[edgeworkQuestionPosition], 2).PadLeft(8, '0');
 
         if (currentTimeLastDigit == 0 || currentTimeLastDigit == 9)
         {
+            string submittedAnswer = GetCurrentLEDsSubmission();
+            string correctAnswer = Convert.ToString(edgeworkAnswers[edgeworkQuestionPosition], 2).PadLeft(8, '0');
             if (submittedAnswer != correctAnswer)
             {
                 Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The number submitted was {1} instead of {2}.", ModuleID, submittedAnswer, correctAnswer);
                 Module.CauseStrike();
-                return;
             }
             else
             {
                 Debug.LogFormat("[The Cruel Modkit #{0}] The answer for LEDs was successfully submitted.", ModuleID);
                 IncrementQuestion();
-                return;
             }
+            return;
         }
         else
         {
@@ -726,13 +725,12 @@ public class EdgeworkEncoding : Puzzle
             if (Info.LED[currentTimeLastDigit] == Convert.ToInt32(MainColors.Black))
             {
                 Info.LED[currentTimeLastDigit] = Convert.ToInt32(MainColors.White);
-                Module.SetLEDs();
             }
             else
             {
                 Info.LED[currentTimeLastDigit] = Convert.ToInt32(MainColors.Black);
-                Module.SetLEDs();
             }
+            Module.SetLEDs();
         }
     }
 
