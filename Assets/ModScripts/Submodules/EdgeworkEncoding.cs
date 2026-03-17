@@ -560,7 +560,7 @@ public class EdgeworkEncoding : Puzzle
         switch (componentsArray[componentPosition])
         {
             case ComponentsEnum.Wires:
-                Debug.LogFormat("[The Cruel Modkit #{0}] Cut wire {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 7) + 1, edgeworkAnswers[edgeworkQuestionPosition] % 10);
+                Debug.LogFormat("[The Cruel Modkit #{0}] Cut wire {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 7), edgeworkAnswers[edgeworkQuestionPosition] % 10);
                 break;
             case ComponentsEnum.Arrows:
                 SetArrowNumbers();
@@ -570,19 +570,19 @@ public class EdgeworkEncoding : Puzzle
                 Debug.LogFormat("[The Cruel Modkit #{0}] Press the button {1} time(s), then press the “❖” button.", ModuleID, edgeworkAnswers[edgeworkQuestionPosition]);
                 break;
             case ComponentsEnum.Piano:
-                Debug.LogFormat("[The Cruel Modkit #{0}] Press key {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 12) + 1, edgeworkAnswers[edgeworkQuestionPosition] % 10);
+                Debug.LogFormat("[The Cruel Modkit #{0}] Press key {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 12), edgeworkAnswers[edgeworkQuestionPosition] % 10);
                 break;
             case ComponentsEnum.LED:
                 Debug.LogFormat("[The Cruel Modkit #{0}] Submit {1} using the LEDs.", ModuleID, Convert.ToString(edgeworkAnswers[edgeworkQuestionPosition], 2).PadLeft(8, '0'));
                 break;
             case ComponentsEnum.Symbols:
-                Debug.LogFormat("[The Cruel Modkit #{0}] Press symbol {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 6) + 1, edgeworkAnswers[edgeworkQuestionPosition] % 10);
+                Debug.LogFormat("[The Cruel Modkit #{0}] Press symbol {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 6), edgeworkAnswers[edgeworkQuestionPosition] % 10);
                 break;
             case ComponentsEnum.Bulbs:
                 Debug.LogFormat("[The Cruel Modkit #{0}] Submit {1} using the buttons on Bulbs.", ModuleID, Convert.ToString(edgeworkAnswers[edgeworkQuestionPosition], 2));
                 break;
             case ComponentsEnum.Alphabet:
-                Debug.LogFormat("[The Cruel Modkit #{0}] Press key {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 6) + 1, edgeworkAnswers[edgeworkQuestionPosition] % 10);
+                Debug.LogFormat("[The Cruel Modkit #{0}] Press key {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 6), edgeworkAnswers[edgeworkQuestionPosition] % 10);
                 break;
         }
     }
@@ -656,7 +656,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (Wire != CorrectWire)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was cut instead of wire {2}.", ModuleID, Wire + 1, CorrectWire + 1);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was cut instead of wire {2}.", ModuleID, Wire, CorrectWire);
             Module.CauseStrike();
             ResetWires();
             return;
@@ -684,7 +684,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (componentsArray[componentPosition] == ComponentsEnum.Wires)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Cut wire {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 7) + 1, edgeworkAnswers[edgeworkQuestionPosition] % 10);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Cut wire {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 7), edgeworkAnswers[edgeworkQuestionPosition] % 10);
         }
     }
 
@@ -769,7 +769,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (Symbol != CorrectSymbol)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Symbol {1} was pressed instead of symbol {2}.", ModuleID, Symbol + 1, CorrectSymbol + 1);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Symbol {1} was pressed instead of symbol {2}.", ModuleID, Symbol, CorrectSymbol);
             Module.CauseStrike();
             Module.StartCoroutine(Module.ButtonStrike(true, Symbol));
             return;
@@ -797,7 +797,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (Alphabet != CorrectAlphabet)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Alphanumeric key {1} was pressed instead of symbol {2}.", ModuleID, Alphabet + 1, CorrectAlphabet + 1);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Alphanumeric key {1} was pressed instead of symbol {2}.", ModuleID, Alphabet, CorrectAlphabet);
             Module.CauseStrike();
             Module.StartCoroutine(Module.ButtonStrike(false, Alphabet));
             return;
@@ -825,7 +825,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (Piano != CorrectKey)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Key {1} was pressed instead of key {2}.", ModuleID, Piano + 1, CorrectKey + 1);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Key {1} was pressed instead of key {2}.", ModuleID, Piano, CorrectKey);
             Module.CauseStrike();
             return;
         }
