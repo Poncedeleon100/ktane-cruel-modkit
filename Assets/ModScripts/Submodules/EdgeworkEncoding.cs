@@ -417,7 +417,7 @@ public class EdgeworkEncoding : Puzzle
     void CalculateStartingPoints()
     {
         // Last two digits of the timer display modulo 20; both positions are zero indexed here for convenience
-        EdgeworkQuestionPosition = ((Info.TimerDisplay % 100) % 20) - 1;
+        EdgeworkQuestionPosition = (Info.TimerDisplay % 20) - 1;
         // Zeroes at this step become the max number for the specified value (20 here, 8 for ComponentPosition)
         if (EdgeworkQuestionPosition < 0)
             EdgeworkQuestionPosition = 19;
