@@ -1,0 +1,218 @@
+/* Colors can be used in table cells so that the text is still readable */
+/* Generic classes used in multiple manuals */
+.black {
+    background-color: black;
+    color: white;
+}
+
+.red {
+    background-color: red;
+    color: black;
+}
+
+.orange {
+    background-color: orange;
+    color: black;
+}
+
+.yellow {
+    background-color: yellow;
+    color: black;
+}
+
+.green {
+    background-color: green;
+    color: black;
+}
+
+.lime {
+    background-color: lime;
+    color: black;
+}
+
+.cyan {
+    background-color: cyan;
+    color: black;
+}
+
+.blue {
+    background-color: blue;
+    color: white;
+}
+
+.purple {
+    background-color: purple;
+    color: white;
+}
+
+.pink {
+    background-color: #FF3CC8;
+    color: black;
+}
+
+.white {
+    background-color: white;
+    color: black;
+}
+
+.grey {
+    background-color: grey;
+    color: black
+}
+
+.dark table, table {
+    margin: 1em auto;
+    border: none;
+}
+
+/* Unscrew Maze */
+svg.unscrew-maze {
+    width: 58%;
+}
+
+svg.unscrew-maze .border {
+    fill: none;
+    stroke-width: 5px;
+    stroke: #000;
+}
+
+svg .unscrew-maze-walls {
+    stroke: #000;
+    stroke-width: 5px;
+    fill: none;
+}
+
+.dark svg .border, .dark svg .unscrew-maze-walls {
+    stroke: #DDD;
+}
+
+/* Piano Decryption */
+.piano-decryption-cipher-example {
+    text-align: center;
+}
+
+/* Polygonal Mapping */
+.polygonal-mapping-table {
+    margin: 1em auto;
+    border: none;
+}
+
+.polygonal-mapping-table th {
+    width: 45px;
+    height: 25px;
+    padding: 0cm;
+    font-size: 25px;
+}
+
+.polygonal-mapping-table img {
+    height: 35px;
+    width: 35px;
+}
+
+.dark .polygonal-mapping-img {
+    filter: invert();
+}
+
+/* Polygonal Mapping landscape page */
+.landscape .page-footer {
+    margin: 0
+}
+
+@media screen and (min-width: 900px) {
+    .landscape {
+        transform: rotate(90deg);
+        margin-top: -100px;
+        margin-bottom: -100px;
+    }
+}
+
+@media print, screen and (min-width: 900px) {
+    .landscape {
+        position: relative;
+    }
+
+        .landscape .page-content {
+            position: absolute;
+            left: 50%;
+            top: 49%;
+            transform: translate(-40%, -45%) rotate(-90deg);
+            width: 24cm;
+            height: 18cm;
+            min-height: initial;
+            margin: 0;
+            padding: 0;
+        }
+
+        .landscape .relative-footer {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translate(-50%, 0);
+        }
+
+        .landscape .page-header {
+            width: 90%;
+            position: absolute;
+            left: 45%;
+            top: .5em;
+            transform: translate(-50%, 0);
+        }
+}
+
+/* Metered Button */
+.metered-button-table th {
+    padding: 5px;
+    text-align: center;
+}
+
+.metered-button-table td {
+    padding: 5px;
+    text-align: center;
+}
+
+.metered-button-table {
+    width: 100%;
+}
+
+.metered-button-table1 tr:nth-child(2) {
+    color: black;
+}
+
+/* Stumbling Symphony */
+.stumbling-symphony-table {
+    text-align: center;
+}
+
+.stumbling-symphony-table th:nth-child(1) {
+    width: 10%;
+}
+
+.stumbling-symphony-table th:nth-child(2) {
+    width: 45%;
+}
+
+.stumbling-symphony-table th:nth-child(3) {
+    width: 45%;
+}
+
+.stumbling-symphony-color-table {
+    font-size: 15px;
+}
+
+/* Logical Color Combinations */
+.logical-color-combinations-led-table {
+    text-align: center;
+}
+
+.logical-color-combinations-operator-table {
+    text-align: center;
+}
+
+.logical-color-combinations-operator-table td {
+    font-size: 80%;
+}
+
+/* Edgework Encoding */
+.edgework-encoding-table td {
+    vertical-align: top;
+}

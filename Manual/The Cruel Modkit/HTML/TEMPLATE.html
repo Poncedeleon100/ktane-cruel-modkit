@@ -7,15 +7,12 @@
     <link rel="stylesheet" type="text/css" href="css/font.css">
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/Modules/The Cruel Modkit.css">
     <script src="js/ktane-utils.js"></script>
     <script src="js/jquery.3.7.0.min.js"></script>
     <script src="js/Utilities/svg-utils.js"></script>
+    <script src="js/Modules/The Cruel Modkit.js"></script>
     <style>
-        .dark table, table {
-            margin: 1em auto;
-            border: none;
-        }
-
         .page-footer::before {
             content: 'Page ';
         }
@@ -34,8 +31,33 @@
             </div>
             <div class="page-content">
                 <h2>On the Subject of SUBMODULE</h2>
-                <p class="flavour-text">FLAVOUR</p>
+                <p class="flavour-text">FLAVOUR TEXT</p>
                 <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[COMPONENTS]</strong>, you are looking at the wrong section of this manual!</p>
+                <ul>
+                    <li>Submodules should be ordered numerically using their respective puzzle IDs. Check the spreadsheet to see this order.</li>
+                    <li>
+                        css/Modules/The Cruel Modkit.css contains the stylesheet used for all of the manuals.
+                        <ul>
+                            <li>Prefix class names with the submodule name, using “-” for spaces.</li>
+                            <li>Use the same order as above.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        js/Modules/The Cruel Modkit.js contains the scripts used for all of the manuals.
+                        <ul>
+                            <li>Prefix variable names with the submodule name.</li>
+                            <li>Use the same order as above.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Keep the following in mind when writing manuals:
+                        <ul>
+                            <li>Replace "" with “”.</li>
+                            <li>Replace “serial number” with “SN”.</li>
+                            <li>Replace ANY zeroes with the Ø symbol, unless it is the page number or an ordered list.</li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
             <div class="page-footer relative-footer">1</div>
         </div>
