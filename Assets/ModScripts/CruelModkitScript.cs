@@ -1018,7 +1018,7 @@ public class CruelModkitScript : MonoBehaviour
         }
         else
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Enforcing specfic components.", ModuleID);
+            Debug.LogFormat("[The Cruel Modkit #{0}] Enforcing specific components.", ModuleID);
             TargetComponents = ComponentsForced;
         }
         Debug.LogFormat("[The Cruel Modkit #{0}] Enforced components are: [{1}].", ModuleID, GetTargetComponents());
