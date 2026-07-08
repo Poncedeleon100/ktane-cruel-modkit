@@ -212,6 +212,11 @@ svg .unscrew-maze-walls {
     font-size: 80%;
 }
 
+/* Colorful Instructions */
+.colorful-instructions-text {
+    font-size: 93%;
+}
+
 /* Edgework Encoding */
 .edgework-encoding-table td {
     vertical-align: top;

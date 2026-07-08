@@ -626,6 +626,10 @@ public class CruelModkitScript : MonoBehaviour
             case (byte)(ComponentsEnum.Button | ComponentsEnum.LED | ComponentsEnum.Arrows):
                 Puzzle = new LogicalColorCombinations(this, ModuleID, Info, TargetComponents);
                 break;
+            // Colorful Instructions
+            //case (byte)(ComponentsEnum.Wires):
+            //    Puzzle = new ColorfulInstructions(this, ModuleID, Info, TargetComponents);
+            //    break;
             case (byte)(ComponentsEnum.Wires | ComponentsEnum.Button):
                 Puzzle = new LyingWires(this, ModuleID, Info, TargetComponents);
                 break;
@@ -794,7 +798,9 @@ public class CruelModkitScript : MonoBehaviour
     public void SetWireLEDs()
     {
         for (int i = 0; i < WireLED.Length; i++)
+        {
             WireLED[i].transform.Find("WireLEDL").GetComponentInChildren<Renderer>().material = WireLEDMats[Info.WireLED[i]];
+        }
     }
 
     public void SetButton()

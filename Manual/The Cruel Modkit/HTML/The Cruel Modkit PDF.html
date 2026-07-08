@@ -1,5 +1,4 @@
-﻿﻿
-<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -327,7 +326,7 @@
             </div>
             <div class="page-footer relative-footer">3</div>
         </div>
-        <div class="page page-bg-03">
+    <div class="page page-bg-03">
             <div class="page-header">
                 <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
                 <span class="page-header-section-title">The Cruel Modkit</span>
@@ -339,7 +338,7 @@
                     “1/8.” “No… THERE IS NOTHING ON THE MODULE!” “9/2.”
                 </p>
                 <p>
-                    <strong>Note: </strong>If your module contains <strong>any</strong> components, you are looking
+                    <strong>Note: </strong>If your module contains <strong>any</strong> components, you are looking 
                     at the wrong section of this manual!
                 </p>
                 <p>
@@ -605,16 +604,16 @@
                 <script>
                     var scriptTable = '';
                     var alphabet = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ ';
-                    for (var rows = 0; rows < 11; rows++) {
+                    for(var rows = 0; rows < 11; rows++){
                         scriptTable += '<tr>';
-                        for (var cols = 0; cols < 28; cols++) {
-                            if (rows == 0) {
+                        for(var cols = 0; cols < 28; cols++){
+                            if(rows == 0){
                                 scriptTable += '<th>' + alphabet[cols] + '</th>';
                             } else {
-                                if (cols == 0 || cols == 27) {
-                                    scriptTable += '<th>' + (rows - 1) + '</th>';
+                                if(cols == 0 || cols == 27){
+                                    scriptTable += '<th>' + (rows-1) + '</th>';
                                 } else {
-                                    scriptTable += '<th><img class="polygonal-mapping-img" src="' + PolygonalMappingImgIndexes[PolygonalMappingTable[cols - 1][rows - 1]] + '"></th>';
+                                    scriptTable += '<th><img class="polygonal-mapping-img" src="' + PolygonalMappingImgIndexes[PolygonalMappingTable[cols-1][rows-1]] +'"></th>'; 
                                 }
                             }
                         }
@@ -1676,31 +1675,23 @@
             <div class="page-content">
                 <h2>On the Subject of Lying Wires</h2>
                 <p class="comment">One tells the truth… or two?… or three???</p>
-                <p>
-                    <strong>Note: </strong>If your module’s components aren’t exactly <strong>[Wires, Button]</strong>,
-                    you are looking at the wrong section of this manual!
-                </p>
-                <p>
-                    Tonight you’ll be playing a game of Lying Wires: every wire will give a True/False statement about
+                <p><strong>Note: </strong>If your module’s components aren’t exactly <strong>[Wires, Button]</strong>,
+                    you are looking at the wrong section of this manual!</p>
+                <p>Tonight you’ll be playing a game of Lying Wires: every wire will give a True/False statement about
                     the button, but some wires will lie about their statement depending on their star and LED colors.
                     You must cut all the wires so that only the wires telling True statements are left, and then hold
                     and release or tap the button to solve the game and the module. The host of this game can be found
-                    on the identity card. Refer to the Identity Reference table to identify which category your host belongs to.
-                </p>
+                    on the identity card. Refer to the Identity Reference table to identify which category your host belongs to.</p>
                 <p>To figure out each wire’s statement, use its color(s) in the table below:</p>
                 <ul>
-                    <li>
-                        If the wire has only 1 color, take the statement corresponding to the wire’s color to get the
-                        wire’s statement.
-                    </li>
-                    <li>
-                        If the wire has 2 colors, take the 2 statements corresponding to the wire’s colors, and combine
+                    <li>If the wire has only 1 color, take the statement corresponding to the wire’s color to get the
+                        wire’s statement.</li>
+                    <li>If the wire has 2 colors, take the 2 statements corresponding to the wire’s colors, and combine
                         them with an “AND” operator to get the wire’s statement (for example, Red/Blue wire’s statement
                         is “The button’s label contains less than 5 letters AND the button is Blue.”). BUT, if the two
                         statements refer to the same element of the button (color/color name or label), instead combine
                         the statements with an “OR” operator. (Orange/Grey wire’s statement is “The button is Red,
-                        Orange, or Yellow OR the button is White or Black).
-                    </li>
+                        Orange, or Yellow OR the button is White or Black).</li>
                 </ul>
                 <table style="font-size:14px">
                     <thead>
@@ -1759,8 +1750,7 @@
             </div>
             <div class="page-content">
                 <div style="font-size:15.5px">
-                    <p>
-                        Each wire’s lying state will be the result of two truth values fed through a logical operator:
+                    <p>Each wire’s lying state will be the result of two truth values fed through a logical operator:
                     </p>
                     <ul>
                         <li>
@@ -1901,30 +1891,22 @@
                 <span class="page-header-section-title">The Cruel Modkit</span>
             </div>
             <div class="page-content">
-                <p>
-                    Put both of the truth values through the logical operator to get a True/False result. If the result
-                    is True - the wire’s telling the truth, but if the result is False - the wire’s lying.
-                </p>
-                <p>
-                    Evaluate each wire’s color statement, and if the wire is lying - invert its result. Cut every wire
-                    that returned False after the evaluation.
-                </p>
+                <p>Put both of the truth values through the logical operator to get a True/False result. If the result
+                    is True - the wire’s telling the truth, but if the result is False - the wire’s lying.</p>
+                <p>Evaluate each wire’s color statement, and if the wire is lying - invert its result. Cut every wire
+                    that returned False after the evaluation.</p>
                 <p>Then, count the number of wires that lied, and call that number <u>L</u>:</p>
                 <ul>
                     <li>
                         If <u>L</u> is even, add the number on the number display to <u>L</u> and take the sum modulo
                         1Ø. Tap the button when the last digit of the bomb timer is equal to the result.
                     </li>
-                    <li>
-                        If <u>L</u> is odd, hold the button when the last digit of the bomb timer is equal to <u>L</u>
+                    <li>If <u>L</u> is odd, hold the button when the last digit of the bomb timer is equal to <u>L</u>
                         and release it when the last digit is equal to the number on the number
-                        display.
-                    </li>
+                        display.</li>
                 </ul>
-                <p>
-                    Cutting a wire that shouldn’t have been cut or incorrectly tapping or holding and releasing the
-                    button will issue a strike and generate a new set of wires.
-                </p>
+                <p>Cutting a wire that shouldn’t have been cut or incorrectly tapping or holding and releasing the
+                    button will issue a strike and generate a new set of wires.</p>
             </div>
             <div class="page-footer relative-footer">30</div>
         </div><div class="page page-bg-01">
@@ -2144,7 +2126,6 @@
                 </table>
             </div>
             <div class="page-footer relative-footer">33</div>
-        </div>
-    </div>
+        </div></div>
 </body>
 </html>
