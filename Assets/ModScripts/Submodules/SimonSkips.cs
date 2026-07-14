@@ -1,11 +1,13 @@
-﻿using System;
+﻿using KModkit;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.PackageManager;
 using UnityEngine;
-using KModkit;
-using Random = UnityEngine.Random;
+using wawa.Modules;
 using static ComponentInfo;
+using Random = UnityEngine.Random;
 
 public class SimonSkips : Puzzle
 {
@@ -15,9 +17,9 @@ public class SimonSkips : Puzzle
     readonly List<int> inputtedSequence = new List<int>();
     readonly bool submitEmpty = false;
 
-    public SimonSkips(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
+    public SimonSkips(CruelModkitScript Module, ComponentInfo Info, byte Components) : base(Module, Info, Components)
     {
-        Debug.LogFormat("[The Cruel Modkit #{0}] Solving Simon Skips. Press the ❖ button to initiate the module.", ModuleID);
+        Module.Log("Solving Simon Skips. Press the ❖ button to initiate the module.");
         int[] newArrows = new int[] { 4, 6, 7, 8, 9 }.Shuffle().Take(4).ToArray();
 
         for (int i = 4; i < 8; i++)
@@ -35,10 +37,10 @@ public class SimonSkips : Puzzle
         orderedArrows = new int[] { Info.Arrows[(int)ArrowDirections.Up], Info.Arrows[(int)ArrowDirections.UpRight], Info.Arrows[(int)ArrowDirections.Right], Info.Arrows[(int)ArrowDirections.DownRight], Info.Arrows[(int)ArrowDirections.Down], Info.Arrows[(int)ArrowDirections.DownLeft], Info.Arrows[(int)ArrowDirections.Left], Info.Arrows[(int)ArrowDirections.UpLeft] };
         finalSequence.Add(FindStartingColor());
         if (finalSequence[0] != 8)
-            Debug.LogFormat("[The Cruel Modkit #{0}] The starting colour is {1}.", ModuleID, ArrowColorNames[(ArrowColors)orderedArrows[finalSequence[0]]]);
+            Module.Log("The starting colour is {0}.", ArrowColorNames[(ArrowColors)orderedArrows[finalSequence[0]]]);
         else
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] The starting color is white or black. Press the center button to submit an empty sequence.", ModuleID);
+            Module.Log("The starting color is white or black. Press the center button to submit an empty sequence.");
             submitEmpty = true;
         }
     }
@@ -86,7 +88,7 @@ public class SimonSkips : Puzzle
 
     int[] ConvertArrowNumstoLEDNums()
     {
-        int[] converter = {1, 3, 8, 10, 2, 10, 7, 5, 0, 9};
+        int[] converter = {0, 3, 8, 10, 2, 10, 7, 5, 0, 9};
         return Info.Arrows.Where(x => Array.IndexOf(Info.Arrows, x) != 8).Select(x => converter[x]).ToArray();
     }
 
@@ -111,16 +113,14 @@ public class SimonSkips : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.UtilityButton.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Shake(Module.UtilityButton.GetComponentInChildren<KMSelectable>(), 0.5f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved() || Module.IsSolving())
             return;
 
         if (!Module.CheckValidComponents())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
+            Module.Strike("Strike! The ❖ button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
             return;
         }
 
@@ -132,7 +132,7 @@ public class SimonSkips : Puzzle
         {
             FindFullSequence();
             string[] pressColours = finalSequence.Where(x => x != 8).Select(x => ArrowColorNames[(ArrowColors)orderedArrows[x]]).ToArray();
-            Debug.LogFormat("[The Cruel Modkit #{0}] The sequence of colours to press is {1}, followed by the center button.", ModuleID, string.Join(", ", pressColours));
+            Module.Log("The sequence of colours to press is {0}, followed by the center button.", string.Join(", ", pressColours));
         }
 
         return;
@@ -143,9 +143,8 @@ public class SimonSkips : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Audio.PlaySoundAtTransform(Module.ArrowSounds[Arrow].name, Module.transform);
-        Module.Arrows[Arrow].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Arrows[Arrow].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.ButtonPress);
+        Module.Play(Module.transform, Module.ArrowSounds[Arrow].name);
 
         if (Module.IsModuleSolved())
             return;
@@ -156,11 +155,10 @@ public class SimonSkips : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, ArrowDirectionNames[(ArrowDirections)Arrow], Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.Strike("Strike! The {0} arrow button was pressed when the component selection was [{1}] instead of [{2}].", ArrowDirectionNames[(ArrowDirections)Arrow], Module.GetEnabledComponents(), Module.GetTargetComponents());
             }
             else
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Module not initialized.", ModuleID);
-            Module.CauseStrike();
+                Module.Strike("Strike! Module not initialized.");
             return;
         }
 
@@ -169,14 +167,12 @@ public class SimonSkips : Puzzle
             inputtedSequence.Add(8);
             if (inputtedSequence.SequenceEqual(finalSequence))
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] The correct sequence has been entered. Module solved.", ModuleID);
-                Module.Solve();
+                Module.SolveModule("The correct sequence has been entered. Module solved.");
             }
             else
             {
                 string[] inputtedColours = inputtedSequence.Where(x => x != 8).Select(x => ArrowColorNames[(ArrowColors)orderedArrows[x]]).ToArray();
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! An incorrect sequence of {1} has been submitted.", ModuleID, string.Join(", ", inputtedColours));
-                Module.CauseStrike();
+                Module.Strike("Strike! An incorrect sequence of {0} has been submitted.", string.Join(", ", inputtedColours));
                 inputtedSequence.Clear();
             }
         }

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using wawa.Modules;
 using static ComponentInfo;
+using Random = UnityEngine.Random;
 
 public class AVInput : Puzzle
 {
@@ -16,9 +17,9 @@ public class AVInput : Puzzle
     readonly int[] bulb1Actions = new int[12];
     readonly int[] bulb2Actions = new int[12];
 
-    public AVInput(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
+    public AVInput(CruelModkitScript Module, ComponentInfo Info, byte Components) : base(Module, Info, Components)
     {
-        Debug.LogFormat("[The Cruel Modkit #{0}] Solving AV Input.", ModuleID);
+        Module.Log("Solving AV Input.");
 
         bulbStates = new bool[2] { Info.BulbOn[0], Info.BulbOn[1] };
         for (int i = 0; i < 5; i++)
@@ -39,8 +40,8 @@ public class AVInput : Puzzle
         }
         bulb1Notes.Sort();
         bulb2Notes.Sort();
-        Debug.LogFormat("[The Cruel Modkit #{0}] Left bulb's scale is {1}.", ModuleID, LogScale(bulb1Notes));
-        Debug.LogFormat("[The Cruel Modkit #{0}] Right bulb's scale is {1}.", ModuleID, LogScale(bulb2Notes));
+        Module.Log("Left bulb's scale is {0}.", LogScale(bulb1Notes));
+        Module.Log("Right bulb's scale is {0}.", LogScale(bulb2Notes));
 
         for (int i = 0; i < 12; i++)
         {
@@ -49,18 +50,17 @@ public class AVInput : Puzzle
             if (bulb2Actions[i] != 2)
                 bulb2Actions[i] = Random.Range(0, 2);
         }
-        Debug.LogFormat("[The Cruel Modkit #{0}] Left bulb's key actions are {1}.", ModuleID, bulb1Actions.Select(x => new string[] { "Off", "On", "Toggle" }[x]).Join(", "));
-        Debug.LogFormat("[The Cruel Modkit #{0}] Right bulb's key actions are {1}.", ModuleID, bulb2Actions.Select(x => new string[] { "Off", "On", "Toggle" }[x]).Join(", "));
+        Module.Log("Left bulb's key actions are {0}.", bulb1Actions.Select(x => new string[] { "Off", "On", "Toggle" }[x]).Join(", "));
+        Module.Log("Right bulb's key actions are {0}.", bulb2Actions.Select(x => new string[] { "Off", "On", "Toggle" }[x]).Join(", "));
     }
     
     public override void OnPianoPress(int Piano)
     {
         if (Module.IsAnimating())
             return;
-        
-        Module.Audio.PlaySoundAtTransform(Module.PianoSounds[Piano + (Info.Piano * 12)].name, Module.transform);
-        Module.Piano[Piano].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
-        
+
+        Module.Shake(Module.Piano[Piano].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.FromObject(Module.PianoSounds[Piano + (Info.Piano * 12)]));
+
         if (Module.IsModuleSolved())
             return;
 
@@ -68,8 +68,7 @@ public class AVInput : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, PianoKeyNames[(PianoKeys)Piano], Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The {0} key on the piano was pressed when the component selection was [{1}] instead of [{2}].", PianoKeyNames[(PianoKeys)Piano], Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -78,10 +77,9 @@ public class AVInput : Puzzle
 
         if (Piano == lastPress & !BulbScrewedIn.Contains(false))
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Pressed the {1} key twice in a row. Turning both bulbs off.", ModuleID, PianoKeyNames[(PianoKeys)Piano]);
+            Module.Strike("Strike! Pressed the {0} key twice in a row. Turning both bulbs off.", PianoKeyNames[(PianoKeys)Piano]);
             ChangeBulb(0, false);
             ChangeBulb(1, false);
-            Module.CauseStrike();
             return;
         }
 
@@ -119,8 +117,7 @@ public class AVInput : Puzzle
 
         BulbScrewedIn[Bulb] = !BulbScrewedIn[Bulb];
 
-        Module.Audio.PlaySoundAtTransform(Module.BulbSounds[BulbScrewedIn[Bulb] ? 0 : 1].name, Module.transform);
-        Module.Bulbs[Bulb].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Bulbs[Bulb].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.FromObject(Module.BulbSounds[BulbScrewedIn[Bulb] ? 0 : 1]));
 
         if (Module.IsModuleSolved())
             return;
@@ -130,8 +127,7 @@ public class AVInput : Puzzle
             if (!Module.CheckValidComponents())
             {
                 if (BulbScrewedIn[Bulb]) return;
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} bulb was removed when the component selection was [{2}] instead of [{3}].", ModuleID, (Bulb + 1) == 1 ? "first" : "second", Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The {0} bulb was removed when the component selection was [{1}] instead of [{2}].", (Bulb + 1) == 1 ? "first" : "second", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -143,19 +139,17 @@ public class AVInput : Puzzle
 
         if (scaleInput.OrderBy(x => x).SequenceEqual(Bulb == 0 ? bulb1Notes : bulb2Notes))
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Inputted the correct scale {1} for the {2} bulb. Permanently turning it off.", ModuleID, LogScale(scaleInput), Bulb == 0 ? "left" : "right");
+            Module.Log("Inputted the correct scale {0} for the {1} bulb. Permanently turning it off.", LogScale(scaleInput), Bulb == 0 ? "left" : "right");
             bulbSolved[Bulb] = true;
             lastPress = -1;
             if (bulbSolved.All(b => b))
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Inputted the correct scale for both bulbs. Module solved.", ModuleID);
-                Module.Solve();
+                Module.SolveModule("Inputted the correct scale for both bulbs. Module solved.");
             }
         }
         else
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Inputted the incorrect scale {1} for the {2} bulb.", ModuleID, LogScale(scaleInput), Bulb == 0 ? "left" : "right");
-            Module.CauseStrike();
+            Module.Strike("Strike! Inputted the incorrect scale {0} for the {1} bulb.", LogScale(scaleInput), Bulb == 0 ? "left" : "right");
         }
         scaleInput = new List<int>();
     }
@@ -165,8 +159,7 @@ public class AVInput : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.BulbButtons[Button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.BulbButtons[Button].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -175,8 +168,7 @@ public class AVInput : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 0) == Info.BulbOLeft ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The {0} button was pressed when the component selection was [{1}] instead of [{2}].", (Button == 0) == Info.BulbOLeft ? "O" : "I", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -185,21 +177,19 @@ public class AVInput : Puzzle
 
         if (uniquePresses.Count != 12)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Tried to reset the module before pressing every key at least once.", ModuleID);
-            Module.CauseStrike();
+            Module.Strike("Strike! Tried to reset the module before pressing every key at least once.");
             return;
         }
         if (new List<int>() { 0, 2, 4, 5, 7, 9, 11 }.Contains(lastPress))
         {
             if (Info.BulbOLeft == (Button == 0))
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Incorrectly pressed the O key for resetting after the white key {1}.", ModuleID, PianoKeyNames[(PianoKeys)lastPress]);
-                Module.CauseStrike();
+                Module.Strike("Strike! Incorrectly pressed the O key for resetting after the white key {0}.", PianoKeyNames[(PianoKeys)lastPress]);
                 return;
             }
             else
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Correctly pressed the I key for resetting after the white key {1}.", ModuleID, PianoKeyNames[(PianoKeys)lastPress]);
+                Module.Log("Correctly pressed the I key for resetting after the white key {0}.", PianoKeyNames[(PianoKeys)lastPress]);
                 ChangeBulb(0, false);
                 ChangeBulb(1, false);
                 lastPress = -1;
@@ -209,15 +199,14 @@ public class AVInput : Puzzle
         {
             if (Info.BulbOLeft == (Button == 0))
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Correctly pressed the O key for resetting after the black key {1}.", ModuleID, PianoKeyNames[(PianoKeys)lastPress]);
+                Module.Log("Correctly pressed the O key for resetting after the black key {0}.", PianoKeyNames[(PianoKeys)lastPress]);
                 ChangeBulb(0, false);
                 ChangeBulb(1, false);
                 lastPress = -1; 
             }
             else
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Incorrectly pressed the I key for resetting after the black key {1}.", ModuleID, PianoKeyNames[(PianoKeys)lastPress]);
-                Module.CauseStrike();
+                Module.Strike("Strike! Incorrectly pressed the I key for resetting after the black key {0}.", PianoKeyNames[(PianoKeys)lastPress]);
                 return;
             }
         }

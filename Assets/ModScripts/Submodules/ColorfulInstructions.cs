@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditorInternal;
 using UnityEngine;
+using wawa.Modules;
 using static ComponentInfo;
 using static UnityEditor.Graphs.Styles;
 using Random = UnityEngine.Random;
@@ -17,16 +18,16 @@ public class ColorfulInstructions : Puzzle
     readonly bool _allBlackLEDs = false;
     int _ruleLoop;
 
-    public ColorfulInstructions(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
+    public ColorfulInstructions(CruelModkitScript Module, ComponentInfo Info, byte Components) : base(Module, Info, Components)
     {
-        Debug.LogFormat("[The Cruel Modkit #{0}] Solving Colorful Instructions.", ModuleID);
-        Debug.LogFormat("[The Cruel Modkit #{0}] Wires present: {1}.", ModuleID, Info.GetWireInfo());
+        Module.Log("Solving Colorful Instructions.");
+        Module.Log("Wires present: {0}.", Info.GetWireInfo());
         RemoveBlackLEDs(_validWires);
         if (_validWires.Count == 0)
         {
             _allBlackLEDs = true;
-            Debug.LogFormat("[The Cruel Modkit #{0}] Wire LEDs present: {1}.", ModuleID, Info.GetWireLEDInfo());
-            Debug.LogFormat("[The Cruel Modkit #{0}] All LEDs are black. Press the ❖ button to solve the module.", ModuleID);
+            Module.Log("Wire LEDs present: {0}.", Info.GetWireLEDInfo());
+            Module.Log("All LEDs are black. Press the ❖ button to solve the module.");
         }
         else
         {
@@ -34,13 +35,13 @@ public class ColorfulInstructions : Puzzle
             GeneratePuzzle();
             _validWires = new List<int> { 0, 1, 2, 3, 4, 5, 6 };
             RemoveBlackLEDs(_validWires);
-            Debug.LogFormat("[The Cruel Modkit #{0}] Wire LEDs present: {1}.", ModuleID, Info.GetWireLEDInfo());
+            Module.Log("Wire LEDs present: {0}.", Info.GetWireLEDInfo());
             if (_validWires.Count < 7)
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] There is at least one black LED present. Do not cut these wire(s) under any circumstances.", ModuleID);
+                Module.Log("There is at least one black LED present. Do not cut these wire(s) under any circumstances.");
             }
-            Debug.LogFormat("[The Cruel Modkit #{0}] The battery count is {1}, so blank LEDs will have a {2} star by default.", ModuleID, _isBatteryCountEven ? "even" : "odd", _isBatteryCountEven ? "white" : "black");
-            Debug.LogFormat("[The Cruel Modkit #{0}] Start by cutting any wire.", ModuleID);
+            Module.Log("The battery count is {0}, so blank LEDs will have a {1} star by default.", _isBatteryCountEven ? "even" : "odd", _isBatteryCountEven ? "white" : "black");
+            Module.Log("Start by cutting any wire.");
         }
     }
 
@@ -49,7 +50,7 @@ public class ColorfulInstructions : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.WireSnip, Module.transform);
+        Module.Play(Module.transform, Sound.WireSnip);
         Module.CutWire(Wire);
 
         if (Module.IsModuleSolved())
@@ -59,10 +60,9 @@ public class ColorfulInstructions : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was cut when the component selection was [{2}] instead of [{3}].", ModuleID, Wire + 1, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! Wire {0} was cut when the component selection was [{1}] instead of [{2}].", Wire + 1, Module.GetEnabledComponents(), Module.GetTargetComponents());
 
-                Debug.LogFormat("[The Cruel Modkit #{0}] Resetting wires...", ModuleID);
+                Module.Log("Resetting wires...");
                 ResetModule();
 
                 return;
@@ -75,10 +75,9 @@ public class ColorfulInstructions : Puzzle
 
         if (!_validWires.Contains(Wire))
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was cut which was not a valid wire.", ModuleID, Wire + 1);
-            Module.CauseStrike();
+            Module.Strike("Strike! Wire {0} was cut which was not a valid wire.", Wire + 1);
 
-            Debug.LogFormat("[The Cruel Modkit #{0}] Resetting wires...", ModuleID);
+            Module.Log("Resetting wires...");
             ResetModule();
             return;
         }
@@ -88,13 +87,12 @@ public class ColorfulInstructions : Puzzle
         RemoveBlackLEDs(uncutWires);
         if (uncutWires.Count == 0)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] All wires were cut. Module solved.", ModuleID);
-            Module.Solve();
+            Module.SolveModule("All wires were cut. Module solved.");
             return;
         }
 
         _validWires.Clear();
-        Debug.LogFormat("[The Cruel Modkit #{0}] Wire {1} was cut. The current LED color is {2}.", ModuleID, Wire + 1, (MainColors)(Info.WireLED[Wire] % 11));
+        Module.Log("Wire {0} was cut. The current LED color is {1}.", Wire + 1, (MainColors)(Info.WireLED[Wire] % 11));
         _validWires.AddRange(FindValidWires(Wire));
     }
 
@@ -103,8 +101,7 @@ public class ColorfulInstructions : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.UtilityButton.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Shake(Module.UtilityButton.GetComponentInChildren<KMSelectable>(), 0.5f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -113,8 +110,7 @@ public class ColorfulInstructions : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The ❖ button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -123,18 +119,17 @@ public class ColorfulInstructions : Puzzle
 
         if (_allBlackLEDs)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] The ❖ button was pressed. Module solved.", ModuleID);
-            Module.Solve();
+            Module.SolveModule("The ❖ button was pressed. Module solved.");
             return;
         }
 
-        Debug.LogFormat("[The Cruel Modkit #{0}] The ❖ button was pressed, resetting wires.", ModuleID);
+        Module.Log("The ❖ button was pressed, resetting wires.");
         ResetModule();
     }
 
     void GeneratePuzzle()
     {
-        Debug.LogFormat("Right at the start: Wire LEDs present: {1}.", ModuleID, Info.GetWireLEDInfo());
+        Debug.LogFormat("Right at the start: Wire LEDs present: {0}.", Info.GetWireLEDInfo());
         // Keeps track of all of the wires we cut (and haven't cut)
         List<int> cutWireOrder = new List<int>();
         List<int> uncutWires = new List<int>();
@@ -165,7 +160,7 @@ public class ColorfulInstructions : Puzzle
         RemoveBlackLEDs(uncutWires);
         if (uncutWires.Count == 0)
         {
-            Debug.LogFormat("The first valid wire was the ONLY valid wire. We're done here.", ModuleID);
+            Debug.LogFormat("The first valid wire was the ONLY valid wire. We're done here.");
             _uncutWires = new List<int> { 0, 1, 2, 3, 4, 5, 6 };
             _usedLEDs.Clear();
             return;
@@ -192,7 +187,7 @@ public class ColorfulInstructions : Puzzle
 
         while (i < 7)
         {
-            Debug.LogFormat("Current setup: Wire LEDs present: {1}.", ModuleID, Info.GetWireLEDInfo());
+            Debug.LogFormat("Current setup: Wire LEDs present: {0}.", Info.GetWireLEDInfo());
             Debug.LogFormat($"Current wire {currentWire + 1}");
 
             // Break out early if the rest of the wires are black LEDs
@@ -202,7 +197,7 @@ public class ColorfulInstructions : Puzzle
             RemoveBlackLEDs(uncutWires);
             if (uncutWires.Count == 0)
             {
-                Debug.LogFormat("The last wire we cut was the last valid wire.", ModuleID);
+                Debug.LogFormat("The last wire we cut was the last valid wire.");
                 break;
             }
             Debug.LogFormat($"Valid wires remaining: {uncutWires.Select(x => x + 1).Join(", ")}");
@@ -369,7 +364,7 @@ public class ColorfulInstructions : Puzzle
             if (logWires)
             {
                 _ruleLoop = 0;
-                Debug.LogFormat("[The Cruel Modkit #{0}] A recursive rule was used, resetting the module.", ModuleID);
+                Module.Log("A recursive rule was used, resetting the module.");
                 ResetModule();
                 return new List<int>();
             }
@@ -410,19 +405,19 @@ public class ColorfulInstructions : Puzzle
                 }
                 if (logWires)
                 {
-                    Debug.LogFormat("[The Cruel Modkit #{0}] Current Rule: Cut the wire to the {1} of this wire.", ModuleID, isWhiteStar ? "right" : "left");
+                    Module.Log("Current Rule: Cut the wire to the {0} of this wire.", isWhiteStar ? "right" : "left");
                 }
                 if (_uncutWires.Contains(validRedWire))
                 {
                     currentValidWires.Add(validRedWire);
                     if (logWires)
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] The valid wire to cut is wire {1}.", ModuleID, validRedWire + 1);
+                        Module.Log("The valid wire to cut is wire {0}.", validRedWire + 1);
                     }
                 }
                 else if (logWires)
                 {
-                    Debug.LogFormat("[The Cruel Modkit #{0}] There are no valid wires to cut. Press the ❖ button to reset the module.", ModuleID);
+                    Module.Log("There are no valid wires to cut. Press the ❖ button to reset the module.");
                 }
                 break;
             case "Orange":
@@ -447,14 +442,14 @@ public class ColorfulInstructions : Puzzle
 
                 if (logWires)
                 {
-                    Debug.LogFormat("[The Cruel Modkit #{0}] Current Rule: Cut any wire with an LED matching the LED to the {1}.", ModuleID, isWhiteStar ? "left" : "right");
+                    Module.Log("Current Rule: Cut any wire with an LED matching the LED to the {0}.", isWhiteStar ? "left" : "right");
                     if (currentValidWires.Count == 0)
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] There are no valid wires to cut. Press the ❖ button to reset the module.", ModuleID);
+                        Module.Log("There are no valid wires to cut. Press the ❖ button to reset the module.");
                     }
                     else
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] Cut any wire with a {1} LED. The valid wire(s) to cut are: {2}.", ModuleID, Enum.GetName(typeof(MainColors), keyOrangeLED), currentValidWires.Select(x => x + 1).Join(", "));
+                        Module.Log("Cut any wire with a {0} LED. The valid wire(s) to cut are: {1}.", Enum.GetName(typeof(MainColors), keyOrangeLED), currentValidWires.Select(x => x + 1).Join(", "));
                     }
                 }
                 break;
@@ -483,15 +478,15 @@ public class ColorfulInstructions : Puzzle
 
                 if (logWires)
                 {
-                    Debug.LogFormat("[The Cruel Modkit #{0}] Current Rule: Cut any wire with a {1} star.", ModuleID, isWhiteStar ? "black" : "white");
+                    Module.Log("Current Rule: Cut any wire with a {0} star.", isWhiteStar ? "black" : "white");
 
                     if (currentValidWires.Count == 0)
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] There are no valid wires to cut. Press the ❖ button to reset the module.", ModuleID);
+                        Module.Log("There are no valid wires to cut. Press the ❖ button to reset the module.");
                     }
                     else
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] The valid wire(s) to cut are: {1}.", ModuleID, currentValidWires.Select(x => x + 1).Join(", "));
+                        Module.Log("The valid wire(s) to cut are: {0}.", currentValidWires.Select(x => x + 1).Join(", "));
                     }
                 }
                 break;
@@ -511,15 +506,15 @@ public class ColorfulInstructions : Puzzle
 
                 if (logWires)
                 {
-                    Debug.LogFormat("[The Cruel Modkit #{0}] Current Rule: Cut any wire to the {1} of this wire.", ModuleID, isWhiteStar ? "left" : "right");
+                    Module.Log("Current Rule: Cut any wire to the {0} of this wire.", isWhiteStar ? "left" : "right");
 
                     if (currentValidWires.Count == 0)
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] There are no valid wires to cut. Press the ❖ button to reset the module.", ModuleID);
+                        Module.Log("There are no valid wires to cut. Press the ❖ button to reset the module.");
                     }
                     else
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] The valid wire(s) to cut are: {1}.", ModuleID, currentValidWires.Select(x => x + 1).Join(", "));
+                        Module.Log("The valid wire(s) to cut are: {0}.", currentValidWires.Select(x => x + 1).Join(", "));
                     }
                 }
                 break;
@@ -530,8 +525,8 @@ public class ColorfulInstructions : Puzzle
 
                     if (logWires)
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] Current Rule: Cut this wire and refer to the LED to the {1}.", ModuleID, isWhiteStar ? "right" : "left");
-                        Debug.LogFormat("[The Cruel Modkit #{0}] The current LED color is {1}.", ModuleID, (MainColors)(Info.WireLED[greenLED] % 11));
+                        Module.Log("Current Rule: Cut this wire and refer to the LED to the {0}.", isWhiteStar ? "right" : "left");
+                        Module.Log("The current LED color is {0}.", (MainColors)(Info.WireLED[greenLED] % 11));
                     }
 
                     currentValidWires.Clear();
@@ -553,15 +548,15 @@ public class ColorfulInstructions : Puzzle
                 }
                 if (logWires)
                 {
-                    Debug.LogFormat("[The Cruel Modkit #{0}] Current Rule: Cut any wire at an {1} position.", ModuleID, isWhiteStar ? "even" : "odd");
+                    Module.Log("Current Rule: Cut any wire at an {0} position.", isWhiteStar ? "even" : "odd");
 
                     if (currentValidWires.Count == 0)
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] There are no valid wires to cut. Press the ❖ button to reset the module.", ModuleID);
+                        Module.Log("There are no valid wires to cut. Press the ❖ button to reset the module.");
                     }
                     else
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] The valid wire(s) to cut are: {1}.", ModuleID, currentValidWires.Select(x => x + 1).Join(", "));
+                        Module.Log("The valid wire(s) to cut are: {0}.", currentValidWires.Select(x => x + 1).Join(", "));
                     }
                 }
                 break;
@@ -578,15 +573,15 @@ public class ColorfulInstructions : Puzzle
 
                 if (logWires)
                 {
-                    Debug.LogFormat("[The Cruel Modkit #{0}] Current Rule: Cut any wire where you have {1} its LED.", ModuleID, isWhiteStar ? "used" : "not used");
+                    Module.Log("Current Rule: Cut any wire where you have {0} its LED.", isWhiteStar ? "used" : "not used");
 
                     if (currentValidWires.Count == 0)
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] There are no valid wires to cut. Press the ❖ button to reset the module.", ModuleID);
+                        Module.Log("There are no valid wires to cut. Press the ❖ button to reset the module.");
                     }
                     else
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] The valid wire(s) to cut are: {1}.", ModuleID, currentValidWires.Select(x => x + 1).Join(", "));
+                        Module.Log("The valid wire(s) to cut are: {0}.", currentValidWires.Select(x => x + 1).Join(", "));
                     }
                 }
                 break;
@@ -605,7 +600,7 @@ public class ColorfulInstructions : Puzzle
 
                 if (logWires)
                 {
-                    Debug.LogFormat("[The Cruel Modkit #{0}] Current Rule: Cut the wire with the same number as the {1} applicable digit in the SN.", ModuleID, isWhiteStar ? "first" : "last");
+                    Module.Log("Current Rule: Cut the wire with the same number as the {0} applicable digit in the SN.", isWhiteStar ? "first" : "last");
                 }
 
                 if (_uncutWires.Contains(purpleValidWire - 1))
@@ -613,7 +608,7 @@ public class ColorfulInstructions : Puzzle
                     currentValidWires.Add(purpleValidWire - 1);
                     if (logWires)
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] The valid wire to cut is wire {1}.", ModuleID, purpleValidWire);
+                        Module.Log("The valid wire to cut is wire {0}.", purpleValidWire);
                     }
                     break;
                 }
@@ -624,13 +619,13 @@ public class ColorfulInstructions : Puzzle
                 {
                     if (purpleValidWire == 0)
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] There are no applicable digits in the SN. Cut any wire.", ModuleID);
+                        Module.Log("There are no applicable digits in the SN. Cut any wire.");
                     }
                     else
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] Wire {1} was already cut. Cut any wire.", ModuleID, purpleValidWire);
+                        Module.Log("Wire {0} was already cut. Cut any wire.", purpleValidWire);
                     }
-                    Debug.LogFormat("[The Cruel Modkit #{0}] The valid wire(s) to cut are: {1}.", ModuleID, currentValidWires.Select(x => x + 1).Join(", "));
+                    Module.Log("The valid wire(s) to cut are: {0}.", currentValidWires.Select(x => x + 1).Join(", "));
                 }
 
                 break;
@@ -646,15 +641,15 @@ public class ColorfulInstructions : Puzzle
 
                 if (logWires)
                 {
-                    Debug.LogFormat("[The Cruel Modkit #{0}] Current Rule: Cut any wire with the number {1}.", ModuleID, isWhiteStar ? "1-3" : "5-7");
+                    Module.Log("Current Rule: Cut any wire with the number {0}.", isWhiteStar ? "1-3" : "5-7");
 
                     if (currentValidWires.Count == 0)
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] There are no valid wires to cut. Press the ❖ button to reset the module.", ModuleID);
+                        Module.Log("There are no valid wires to cut. Press the ❖ button to reset the module.");
                     }
                     else
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] The valid wire(s) to cut are: {1}.", ModuleID, currentValidWires.Select(x => x + 1).Join(", "));
+                        Module.Log("The valid wire(s) to cut are: {0}.", currentValidWires.Select(x => x + 1).Join(", "));
                     }
                 }
                 break;
@@ -663,8 +658,8 @@ public class ColorfulInstructions : Puzzle
 
                 if (logWires)
                 {
-                    Debug.LogFormat("[The Cruel Modkit #{0}] Current Rule: Do not cut this wire and refer to the LED to the {1}.", ModuleID, isWhiteStar ? "right" : "left");
-                    Debug.LogFormat("[The Cruel Modkit #{0}] The current LED color is {1}.", ModuleID, (MainColors)(Info.WireLED[blackLED] % 11));
+                    Module.Log("Current Rule: Do not cut this wire and refer to the LED to the {0}.", isWhiteStar ? "right" : "left");
+                    Module.Log("The current LED color is {0}.", (MainColors)(Info.WireLED[blackLED] % 11));
                 }
 
                 currentValidWires.Clear();
@@ -676,7 +671,7 @@ public class ColorfulInstructions : Puzzle
 
                 if (logWires)
                 {
-                    Debug.LogFormat("[The Cruel Modkit #{0}] Current Rule: Cut any wire with the color of the {1} LED used.", ModuleID, isWhiteStar ? "last" : "left-most");
+                    Module.Log("Current Rule: Cut any wire with the color of the {0} LED used.", isWhiteStar ? "last" : "left-most");
                 }
 
                 if (isWhiteStar)
@@ -685,7 +680,7 @@ public class ColorfulInstructions : Puzzle
                     
                     if (logWires)
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] The last LED color used was {1}.", ModuleID, (MainColors)whiteLED);
+                        Module.Log("The last LED color used was {0}.", (MainColors)whiteLED);
                     }
                 }
                 else
@@ -694,7 +689,7 @@ public class ColorfulInstructions : Puzzle
 
                     if (logWires)
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] The leftmost LED color used was {1}.", ModuleID, (MainColors)whiteLED);
+                        Module.Log("The leftmost LED color used was {0}.", (MainColors)whiteLED);
                     }
                 }
 
@@ -710,11 +705,11 @@ public class ColorfulInstructions : Puzzle
                 {
                     if (currentValidWires.Count == 0)
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] There are no valid wires to cut. Press the ❖ button to reset the module.", ModuleID);
+                        Module.Log("There are no valid wires to cut. Press the ❖ button to reset the module.");
                     }
                     else
                     {
-                        Debug.LogFormat("[The Cruel Modkit #{0}] The valid wire(s) to cut are: {1}.", ModuleID, currentValidWires.Select(x => x + 1).Join(", "));
+                        Module.Log("The valid wire(s) to cut are: {0}.", currentValidWires.Select(x => x + 1).Join(", "));
                     }
                 }
 
@@ -729,7 +724,7 @@ public class ColorfulInstructions : Puzzle
             int validBlackWire = currentValidWires.First();
             if (logWires)
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] The only remaining wire(s) have black LEDs. Use the leftmost wire with a black LED, which is wire {1}.", ModuleID, validBlackWire + 1);
+                Module.Log("The only remaining wire(s) have black LEDs. Use the leftmost wire with a black LED, which is wire {0}.", validBlackWire + 1);
             }
             currentValidWires.Clear();
             currentValidWires.AddRange(FindValidWires(validBlackWire, logWires));

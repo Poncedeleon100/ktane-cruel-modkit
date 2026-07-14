@@ -1,9 +1,10 @@
+using KModkit;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using KModkit;
-using Random = UnityEngine.Random;
+using wawa.Modules;
 using static ComponentInfo;
+using Random = UnityEngine.Random;
 
 public class WhosWho : Puzzle
 {
@@ -74,12 +75,12 @@ public class WhosWho : Puzzle
 
     int listB_Index = 0;
 
-    public WhosWho(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
+    public WhosWho(CruelModkitScript Module, ComponentInfo Info, byte Components) : base(Module, Info, Components)
     {
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Solving Who's Who.", ModuleID);
+        Module.Log("Solving Who's Who.");
         LEDtoUse = DetermineLED();
         LEDcolor = (MainColors)Info.LED[LEDtoUse];
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The chosen LED is {1}; the offset is {2} and the row to begin with is {3}.", ModuleID, LEDcolor.ToString().ToLowerInvariant(), offsets[LEDcolor] > 0 ? "+" + offsets[LEDcolor] : "" + offsets[LEDcolor], rows[LEDcolor] + 1);
+        Module.Log("The chosen LED is {0}; the offset is {1} and the row to begin with is {2}.", LEDcolor.ToString().ToLowerInvariant(), offsets[LEDcolor] > 0 ? "+" + offsets[LEDcolor] : "" + offsets[LEDcolor], rows[LEDcolor] + 1);
         int row = rows[LEDcolor];
         int column = LEDtoUse;
         string cellWord;
@@ -107,20 +108,20 @@ public class WhosWho : Puzzle
             if (!listB.Contains(word))
                 listB.Add(word);
         } while (listB.Count < listBLength);
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] List A is as follows: [{1}].", ModuleID, string.Join(", ", listA.ToArray()));
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] List B is as follows: [{1}].", ModuleID, string.Join(", ", listB.ToArray()));
+        Module.Log("List A is as follows: [{0}].", string.Join(", ", listA.ToArray()));
+        Module.Log("List B is as follows: [{0}].", string.Join(", ", listB.ToArray()));
         Module.WidgetText[1].text = listB.First();
         string commonWord = listB.FirstOrDefault(w => listA.Contains(w));
         if (commonWord == null)
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Neither list has anything in common; the number to submit is 0.", ModuleID);
+            Module.Log("Neither list has anything in common; the number to submit is 0.");
             finalNumber = 0;
         }
         else
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The first word that each list has in common is {1}.", ModuleID, commonWord);
+            Module.Log("The first word that each list has in common is {0}.", commonWord);
             finalNumber = CalculateFinalNumber(commonWord);
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The number to submit is {1}.", ModuleID, finalNumber);
+            Module.Log("The number to submit is {0}.", finalNumber);
         }
     }
 
@@ -130,49 +131,49 @@ public class WhosWho : Puzzle
         MainColors[] LEDcolors = Info.LED.Select(l => (MainColors)l).ToArray();
         if (Module.Bomb.GetSerialNumberNumbers().All(x => x % 2 == 0) || Module.Bomb.GetSerialNumberNumbers().All(x => x % 2 == 1))
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] All serial number digits have matching parity, using the third LED.", ModuleID);
+            Module.Log("All serial number digits have matching parity, using the third LED.");
             return 2;
         }
         else if (Module.Bomb.GetSerialNumberNumbers().Contains(Module.Bomb.GetBatteryCount()))
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The amount of batteries matches a number in the serial number, using the eighth LED.", ModuleID);
+            Module.Log("The amount of batteries matches a number in the serial number, using the eighth LED.");
             return 7;
         }
         else if (Module.Bomb.GetOnIndicators().Count() == Module.Bomb.GetOffIndicators().Count())
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The amount of lit and unlit indicators are equal, using the first LED.", ModuleID);
+            Module.Log("The amount of lit and unlit indicators are equal, using the first LED.");
             return 0;
         }
         else if (LEDcolors.Count(x => warmColors.Contains(x)) >= 3)
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Three or more LEDs are warm colors (red, orange, or yellow), using the seventh LED.", ModuleID);
+            Module.Log("Three or more LEDs are warm colors (red, orange, or yellow), using the seventh LED.");
             return 6;
         }
         else if (Module.Bomb.GetPortPlateCount() <= Module.Bomb.GetPortCount())
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The port plate count is less than or equal to the port count, using the fifth LED.", ModuleID);
+            Module.Log("The port plate count is less than or equal to the port count, using the fifth LED.");
             return 4;
         }
         else if (SameColorTwiceInARow(LEDcolors))
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Two matching LEDs are next to each other, using the second LED.", ModuleID);
+            Module.Log("Two matching LEDs are next to each other, using the second LED.");
             return 1;
         }
         else if (Module.Bomb.GetPortPlates().Any(x => x.Contains("DVI") && (x.Contains("StereoRCA") || x.Contains("PS2"))))
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] A DVI-D port is on the same port plate as a Stereo RCA port or a PS/2 port, using the sixth LED.", ModuleID);
+            Module.Log("A DVI-D port is on the same port plate as a Stereo RCA port or a PS/2 port, using the sixth LED.");
             return 5;
         }
         else if ((Module.Bomb.GetBatteryCount(1) > 0 && Module.Bomb.GetBatteryCount(2) == 0) || (Module.Bomb.GetBatteryCount(2) > 0 && Module.Bomb.GetBatteryCount(1) == 0))
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] There are only D batteries or AA batteries, using the fourth LED.", ModuleID);
+            Module.Log("There are only D batteries or AA batteries, using the fourth LED.");
             return 3;
         }
         else
         {
             string[] ordinals = new string[] { "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth" };
             int value = Module.Bomb.GetSerialNumberNumbers().Sum() % 8;
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] None of the conditions applied, using the {1} LED.", ModuleID, ordinals[value]);
+            Module.Log("None of the conditions applied, using the {0} LED.", ordinals[value]);
             return value;
         }
     }
@@ -190,8 +191,7 @@ public class WhosWho : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.BulbButtons[Button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.BulbButtons[Button].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -200,8 +200,7 @@ public class WhosWho : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 0) == Info.BulbOLeft ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The {0} button was pressed when the component selection was [{1}] instead of [{2}].", (Button == 0) == Info.BulbOLeft ? "O" : "I", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -218,25 +217,22 @@ public class WhosWho : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, Module.transform);
+        Module.Play(Module.transform, Sound.ButtonRelease);
 
         if (PressTime.Elapsed.TotalSeconds >= 1)
         {
             if (!submissionMode)
             {
                 submissionMode = true;
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Entering submission mode.", ModuleID);
+                Module.Log("Entering submission mode.");
             }
             else if (Info.NumberDisplay == finalNumber)
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Correctly submitted {1}. Module solved.", ModuleID, finalNumber);
-                Module.StartSolve();
-                Module.Solve();
+                Module.SolveModule("Correctly submitted {0}. Module solved.", finalNumber);
             }
             else
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Tried to submit {1} when the answer was {2}. Exiting submission mode.", ModuleID, Module.WidgetText[2].text, finalNumber);
-                Module.CauseStrike();
+                Module.Strike("Strike! Tried to submit {0} when the answer was {1}. Exiting submission mode.", Module.WidgetText[2].text, finalNumber);
                 submissionMode = false;
             }
         }
@@ -273,8 +269,7 @@ public class WhosWho : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.UtilityButton.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Shake(Module.UtilityButton.GetComponentInChildren<KMSelectable>(), 0.5f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -283,8 +278,7 @@ public class WhosWho : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The ❖ button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 

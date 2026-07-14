@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using wawa.Modules;
 using static ComponentInfo;
+using Random = UnityEngine.Random;
 
 public class LogicalColorCombinations : Puzzle
 {
@@ -69,15 +70,15 @@ public class LogicalColorCombinations : Puzzle
     readonly List<int> solvedLEDs = new List<int>();
     readonly List<int> solvedColors = new List<int>();
 
-    public LogicalColorCombinations(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
+    public LogicalColorCombinations(CruelModkitScript Module, ComponentInfo Info, byte Components) : base(Module, Info, Components)
     {
-        Debug.LogFormat("[The Cruel Modkit #{0}] Solving Logical Color Combinations.", ModuleID);
+        Module.Log("Solving Logical Color Combinations.");
         for (int i = 0; i < 8; i++)
         {
             flashes[i] = Random.Range(0, 4);
         }
-        Debug.LogFormat("[The Cruel Modkit #{0}] Arrow's flashing sequence is {1}. Press the ❖ button to play this sequence.", ModuleID, flashes.Select(x => ArrowColorNames[(ArrowColors)Info.Arrows[x]]).Join(", "));
-        Debug.LogFormat("[The Cruel Modkit #{0}] The LEDs are {1}.", ModuleID, Info.GetLEDInfo());
+        Module.Log("Arrow's flashing sequence is {0}. Press the ❖ button to play this sequence.", flashes.Select(x => ArrowColorNames[(ArrowColors)Info.Arrows[x]]).Join(", "));
+        Module.Log("The LEDs are {0}.", Info.GetLEDInfo());
         for (int i = 0; i < 4; i++)
         {
             string pair = "";pair += pairTable[MainColorConvert(Info.LED[i * 2], false), ArrowColorConvert(i * 2)];
@@ -85,17 +86,17 @@ public class LogicalColorCombinations : Puzzle
             LogABCD[i] = pair;
             ABCD[i] = Base36Convert(pair);
         }
-        Debug.LogFormat("[The Cruel Modkit #{0}] A, B, C and D respectively are {1}.", ModuleID, LogABCD.Join(", "));
+        Module.Log("A, B, C and D respectively are {0}.", LogABCD.Join(", "));
         logicOperator = logicOperatorTable[MainColorConvert(Info.Button, true), Array.IndexOf(ButtonList, Info.ButtonText)];
         pairOrder = pairOrderTable[MainColorConvert(Info.Button, true), Array.IndexOf(ButtonList, Info.ButtonText)];
-        Debug.LogFormat("[The Cruel Modkit #{0}] The correct operator to use is {1}. The two letter pairs are {2} and {3}.", ModuleID, operatorNames[logicOperator], "ABCD"[pairOrder[0] - 48].ToString() + "ABCD"[pairOrder[1] - 48].ToString(), "ABCD"[pairOrder[2] - 48].ToString() + "ABCD"[pairOrder[3] - 48].ToString());
+        Module.Log("The correct operator to use is {0}. The two letter pairs are {1} and {2}.", operatorNames[logicOperator], "ABCD"[pairOrder[0] - 48].ToString() + "ABCD"[pairOrder[1] - 48].ToString(), "ABCD"[pairOrder[2] - 48].ToString() + "ABCD"[pairOrder[3] - 48].ToString());
         for (int i = 0; i < 2; i++)
         {
             operationPairs[i] = ApplyOperator(logicOperator, pairOrder.Substring(i * 2, 2));
             finalPairs[i] = ToBase36(Convert.ToInt32(operationPairs[i], 2));
         }
-        Debug.LogFormat("[The Cruel Modkit #{0}] The two binary numbers after applying the operator are {1} and {2}.", ModuleID, operationPairs[0], operationPairs[1]);
-        Debug.LogFormat("[The Cruel Modkit #{0}] The final Base-36 numbers are {1} and {2}.", ModuleID, finalPairs[0], finalPairs[1]);
+        Module.Log("The two binary numbers after applying the operator are {0} and {1}.", operationPairs[0], operationPairs[1]);
+        Module.Log("The final Base-36 numbers are {0} and {1}.", finalPairs[0], finalPairs[1]);
     }
 
     public override void OnUtilityPress()
@@ -103,8 +104,7 @@ public class LogicalColorCombinations : Puzzle
         if (Module.IsAnimating() || customAnimating)
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.UtilityButton.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Shake(Module.UtilityButton.GetComponentInChildren<KMSelectable>(), 0.5f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -113,8 +113,7 @@ public class LogicalColorCombinations : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The ❖ button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -129,8 +128,7 @@ public class LogicalColorCombinations : Puzzle
         if (Module.IsAnimating() || customAnimating)
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonPress, Module.transform);
-        Module.Button.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Button.GetComponentInChildren<KMSelectable>(), 0.25f, Sound.BigButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -139,8 +137,7 @@ public class LogicalColorCombinations : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -154,7 +151,7 @@ public class LogicalColorCombinations : Puzzle
             {
                 curLEDPos = Random.Range(0, 8);
                 while (solvedLEDs.Contains(curLEDPos)) curLEDPos = Random.Range(0, 8);
-                Debug.LogFormat("[The Cruel Modkit #{0}] Button pressed. Entering submission mode.", ModuleID);
+                Module.Log("Button pressed. Entering submission mode.");
                 CalculateInput();
             }
             for (int i = 0; i < Module.LED.Length; i++)
@@ -177,8 +174,7 @@ public class LogicalColorCombinations : Puzzle
         if (Module.IsAnimating() || customAnimating)
             return;
 
-        Module.Audio.PlaySoundAtTransform(Module.ArrowSounds[Arrow].name, Module.transform);
-        Module.Arrows[Arrow].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Arrows[Arrow].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.FromObject(Module.ArrowSounds[Arrow]));
 
         if (Module.IsModuleSolved())
             return;
@@ -187,8 +183,7 @@ public class LogicalColorCombinations : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, ArrowDirectionNames[(ArrowDirections)Arrow], Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The {0} arrow button was pressed when the component selection was [{1}] instead of [{2}].", ArrowDirectionNames[(ArrowDirections)Arrow], Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -198,16 +193,14 @@ public class LogicalColorCombinations : Puzzle
         if (!submissionMode || Arrow > 3) return;
         if (curLEDColor != targetColor)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} color was submitted instead of {2}.", ModuleID, Enum.GetName(typeof(MainColors), ToMainColor(curLEDColor)), Enum.GetName(typeof(MainColors), ToMainColor(targetColor)));
-            Module.CauseStrike();
+            Module.Strike("Strike! The {0} color was submitted instead of {1}.", Enum.GetName(typeof(MainColors), ToMainColor(curLEDColor)), Enum.GetName(typeof(MainColors), ToMainColor(targetColor)));
             struckThisStage = true;
             ExitSubmission();
             return;
         }
         if (ArrowDirConvert(Arrow) != targetDir)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} direction was submitted instead of {2}.", ModuleID, ArrowDirections[ArrowDirConvert(Arrow)], ArrowDirections[targetDir]);
-            Module.CauseStrike();
+            Module.Strike("Strike! The {0} direction was submitted instead of {1}.", ArrowDirections[ArrowDirConvert(Arrow)], ArrowDirections[targetDir]);
             struckThisStage = true;
             ExitSubmission();
             return;
@@ -218,11 +211,10 @@ public class LogicalColorCombinations : Puzzle
         curLEDPos = Random.Range(0, 8);
         while (solvedLEDs.Contains(curLEDPos)) curLEDPos = Random.Range(0, 8);
         curLEDColor = Random.Range(0, 9);
-        Debug.LogFormat("[The Cruel Modkit #{0}] Correctly submitted the character {1}.", ModuleID, inputChar);
+        Module.Log("Correctly submitted the character {0}.", inputChar);
         if (solvedLEDs.Count == 6)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Correctly submitted all characters. Module solved.", ModuleID);
-            Module.Solve();
+            Module.SolveModule("Correctly submitted all characters. Module solved.");
             return;
         }
 
@@ -248,7 +240,7 @@ public class LogicalColorCombinations : Puzzle
         if (Info.Arrows[8] == 8) inputNum = 35 - inputNum;
         targetColor = (int)inputNum / 4;
         targetDir = inputNum % 4;
-        Debug.LogFormat("[The Cruel Modkit #{0}] Character {1}: target color - {2}, target direction - {3}.", ModuleID, inputChar, Enum.GetName(typeof(MainColors), ToMainColor(targetColor)), ArrowDirections[targetDir]);
+        Module.Log("Character {0}: target color - {1}, target direction - {2}.", inputChar, Enum.GetName(typeof(MainColors), ToMainColor(targetColor)), ArrowDirections[targetDir]);
     }
 
     string ApplyOperator(int o, string pair)
