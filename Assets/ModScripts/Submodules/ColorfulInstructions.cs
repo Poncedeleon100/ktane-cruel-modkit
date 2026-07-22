@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditorInternal;
 using UnityEngine;
 using wawa.Modules;
 using static ComponentInfo;
-using static UnityEditor.Graphs.Styles;
 using Random = UnityEngine.Random;
 
 public class ColorfulInstructions : Puzzle

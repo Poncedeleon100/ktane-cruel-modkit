@@ -6,7 +6,8 @@ using System.Linq;
 using UnityEngine;
 using static ComponentInfo;
 using wawa.Modules;
-using JetBrains.Annotations;
+using wawa.Schemas;
+using wawa.IO;
 
 public class CruelModkitScript : ModdedModule
 {
@@ -160,7 +161,7 @@ public class CruelModkitScript : ModdedModule
     // Mod settings
     private bool ForceComponents, ForceByModuleID = false;
     byte ComponentsForced = (byte)ComponentsEnum.None;
-    CruelModkitSettings ModConfig = new CruelModkitSettings();
+    CruelModkitSettings ModSettings = new CruelModkitSettings();
 
     protected override void Awake ()
     {
@@ -180,30 +181,16 @@ public class CruelModkitScript : ModdedModule
             return false;
         };
 
-        try
-        {
-            ModConfig<CruelModkitSettings> CruelModkitJSON = new ModConfig<CruelModkitSettings>("CruelModkitSettings");
-            ModConfig = CruelModkitJSON.Read();
+        var conf = new Config<CruelModkitSettings>("cruelModkit-settings.txt");
+        ModSettings = conf.Read();
 
-            ForceComponents = ModConfig.EnforceComponents;
-            ForceByModuleID = ModConfig.EnforceByModID;
-            ComponentsForced = BoolArrayToByte(new bool[]
-            {
-                ModConfig.EnforceBulbs, ModConfig.EnforceArrows, ModConfig.EnforcePiano, ModConfig.EnforceAlphabet,
-                ModConfig.EnforceSymbols, ModConfig.EnforceLEDs, ModConfig.EnforceButton, ModConfig.EnforceWires
-            });
-        }
-        catch
+        ForceComponents = ModSettings.EnforceComponents;
+        ForceByModuleID = ModSettings.EnforceByModID;
+        ComponentsForced = BoolArrayToByte(new bool[]
         {
-            Log("The settings encountered an error and are returning to default behavior.", LogType.Error);
-            ForceComponents = false;
-            ForceByModuleID = false;
-            ComponentsForced = BoolArrayToByte(new bool[]
-            {
-                false, false, false, false,
-                false, false, false, false
-            });
-        }
+            ModSettings.EnforceBulbs, ModSettings.EnforceArrows, ModSettings.EnforcePiano, ModSettings.EnforceAlphabet,
+            ModSettings.EnforceSymbols, ModSettings.EnforceLEDs, ModSettings.EnforceButton, ModSettings.EnforceWires
+        });
     }
 
     void Start ()
@@ -1054,108 +1041,47 @@ public class CruelModkitScript : ModdedModule
         return InputList.Join(", ");
     }
 
-    // Mod settings
-    public class CruelModkitSettings
+    static class TweaksSettings
     {
-        public bool EnforceComponents = false;
-        public bool EnforceByModID = false;
-        public bool EnforceWires = false;
-        public bool EnforceButton = false;
-        public bool EnforceLEDs = false;
-        public bool EnforceSymbols = false;
-        public bool EnforceAlphabet = false;
-        public bool EnforcePiano = false;
-        public bool EnforceArrows = false;
-        public bool EnforceBulbs = false;
-    }
-    public static readonly Dictionary<string, object>[] TweaksEditorSettings = new Dictionary<string, object>[]
-    {
-        new Dictionary<string, object>
-        {
-            { "Filename", "CruelModkitSettings.json" },
-            { "Name", "The Cruel Modkit Settings" },
-            { "Listings", new List<Dictionary<string, object>>
-            {
-                new Dictionary<string, object>
-                {
-                    { "Key", "EnforceComponents" },
-                    { "Text", "Enforce Components" },
-                    { "Description", "Enforce specific components to be required on the module instead of edgework." +
-                        "\nRequired for the settings to take effect." },
-                },
-                new Dictionary<string, object>
-                {
-                    { "Key", "EnforceByModID" },
-                    { "Text", "Enforce Components Based on ModID" },
-                    { "Description", "Enforce specific components based off of module ID, the one used for logging." +
-                        "\nOverrides the below settings." },
-                },
-                new Dictionary<string, object>
-                {
-                    { "Key", "EnforceWires" },
-                    { "Text", "Enforce Wires" },
-                    { "Description", "Enforce Wires to be required on The Cruel Modkit." },
-                },
-                new Dictionary<string, object>
-                {
-                    { "Key", "EnforceButton" },
-                    { "Text", "Enforce Button" },
-                    { "Description", "Enforce Button to be required on The Cruel Modkit." },
-                },
-                new Dictionary<string, object>
-                {
-                    { "Key", "EnforceLEDs" },
-                    { "Text", "Enforce LEDs" },
-                    { "Description", "Enforce LEDs to be required on The Cruel Modkit." },
-                },
-                new Dictionary<string, object>
-                {
-                    { "Key", "EnforceSymbols" },
-                    { "Text", "Enforce Symbols" },
-                    { "Description", "Enforce Symbols to be required on The Cruel Modkit." },
-                },
-                new Dictionary<string, object>
-                {
-                    { "Key", "EnforceAlphabet" },
-                    { "Text", "Enforce Alphabet" },
-                    { "Description", "Enforce Alphabet to be required on The Cruel Modkit." },
-                },
-                new Dictionary<string, object>
-                {
-                    { "Key", "EnforcePiano" },
-                    { "Text", "Enforce Piano" },
-                    { "Description", "Enforce Piano to be required on The Cruel Modkit." },
-                },
-                new Dictionary<string, object>
-                {
-                    { "Key", "EnforceArrows" },
-                    { "Text", "Enforce Arrows" },
-                    { "Description", "Enforce Arrows to be required on The Cruel Modkit." },
-                },
-                new Dictionary<string, object>
-                {
-                    { "Key", "EnforceBulbs" },
-                    { "Text", "Enforce Bulbs" },
-                    { "Description", "Enforce Bulbs to be required on The Cruel Modkit." },
-                },
-            }
-            },
-        }
-    };
-
-    // Twitch Plays
-#pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"!{0} something";
-#pragma warning restore 414
-
-    IEnumerator ProcessTwitchCommand(string command)
-    {
-        string[] split = command.ToUpperInvariant().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-        yield return null;
+        static readonly TweaksEditorSettings TweaksEditorSettings = TweaksEditorSettings
+            .CreateListing("The Cruel Modkit")
+            .Register<CruelModkitSettings>()
+            .BuildAndClear();
     }
 
-    IEnumerator TwitchHandleForcedSolve()
+    [Serializable]
+    sealed class CruelModkitSettings
     {
-        yield return null;
+        [TweaksSetting.Checkbox("Enforce specific components to be required on the module instead of edgework."
+            + "\nRequired for the settings to take effect.", "Enforce Components")]
+        public bool EnforceComponents { get; set; }
+
+        [TweaksSetting.Checkbox("Enforce specific components based off of module ID," +
+            "\nthe one used for logging. Overrides the below settings.", "Enforce Components Using ModID")]
+        public bool EnforceByModID { get; set; }
+
+        [TweaksSetting.Checkbox("Enforce Wires to be required on The Cruel Modkit.", "Enforce Wires")]
+        public bool EnforceWires { get; set; }
+
+        [TweaksSetting.Checkbox("Enforce Button to be required on The Cruel Modkit.", "Enforce Button")]
+        public bool EnforceButton { get; set; }
+
+        [TweaksSetting.Checkbox("Enforce LEDs to be required on The Cruel Modkit.", "Enforce LEDs")]
+        public bool EnforceLEDs { get; set; }
+
+        [TweaksSetting.Checkbox("Enforce Symbols to be required on The Cruel Modkit.", "Enforce Symbols")]
+        public bool EnforceSymbols { get; set; }
+
+        [TweaksSetting.Checkbox("Enforce Alphabet to be required on The Cruel Modkit.", "Enforce Alphabet")]
+        public bool EnforceAlphabet { get; set; }
+
+        [TweaksSetting.Checkbox("Enforce Piano to be required on The Cruel Modkit.", "Enforce Piano")]
+        public bool EnforcePiano { get; set; }
+
+        [TweaksSetting.Checkbox("Enforce Arrows to be required on The Cruel Modkit.", "Enforce Arrows")]
+        public bool EnforceArrows { get; set; }
+
+        [TweaksSetting.Checkbox("Enforce Bulbs to be required on The Cruel Modkit.", "Enforce Bulbs")]
+        public bool EnforceBulbs { get; set; }
     }
 }
