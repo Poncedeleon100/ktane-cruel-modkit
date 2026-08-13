@@ -220,7 +220,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (componentsArray[componentPosition] != ComponentsEnum.Piano)
         {
-            Module.Strike("Strike! The {0} key on the piano was pressed when the correct component was {0}.", PianoKeyNames[(PianoKeys)piano], componentsArray[componentPosition].ToString());
+            Module.Strike("Strike! The {0} key on the piano was pressed when the correct component was {1}.", PianoKeyNames[(PianoKeys)piano], componentsArray[componentPosition].ToString());
             return;
         }
 
