@@ -597,6 +597,9 @@ public class CruelModkitScript : ModdedModule
             case (byte)(ComponentsEnum.Symbols | ComponentsEnum.Alphabet):
                 Puzzle = new PolygonalMapping(this, Info, TargetComponents);
                 break;
+            case (byte)(ComponentsEnum.LED):
+                Puzzle = new CruelLEDPattern(this, Info, TargetComponents);
+                break;
             case (byte)(ComponentsEnum.LED | ComponentsEnum.Bulbs):
                 Puzzle = new WhosWho(this, Info, TargetComponents);
                 break;
