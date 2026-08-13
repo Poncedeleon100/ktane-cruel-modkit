@@ -11,8 +11,8 @@ using wawa.TwitchPlays;
 using wawa.TwitchPlays.Domains;
 using Random = UnityEngine.Random;
 
-/// <summary>Implements Twitch Plays support for <see cref="cruelModkit"/>.</summary>
-public sealed class cruelModkitTwitch : Twitch<cruelModkit>
+/// <summary>Implements Twitch Plays support for <see cref="CruelModkitScript"/>.</summary>
+public sealed class cruelModkitTwitch : Twitch<CruelModkitScript>
 {
     enum Button
     {
