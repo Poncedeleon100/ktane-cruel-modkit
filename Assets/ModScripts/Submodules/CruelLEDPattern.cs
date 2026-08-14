@@ -14,20 +14,27 @@ public class CruelLEDPattern : Puzzle
 
     readonly MainColors[,] LEDGrid =
     {
-        {MainColors.White, MainColors.Blue, MainColors.Black, MainColors.Lime, MainColors.Green, MainColors.Green, MainColors.Green, MainColors.Blue, MainColors.Yellow, MainColors.Purple, MainColors.Purple, MainColors.Blue, MainColors.Pink, MainColors.Green, MainColors.Blue, MainColors.White},
-        {MainColors.Lime, MainColors.Cyan, MainColors.White, MainColors.Green, MainColors.Green, MainColors.Orange, MainColors.Orange, MainColors.White, MainColors.Cyan, MainColors.Green, MainColors.Red, MainColors.Black, MainColors.White, MainColors.Purple, MainColors.Green, MainColors.Pink},
-        {MainColors.Green, MainColors.Black, MainColors.Yellow, MainColors.Blue, MainColors.Orange, MainColors.Green, MainColors.Purple, MainColors.Blue, MainColors.Orange, MainColors.Lime, MainColors.Red, MainColors.Red, MainColors.Purple, MainColors.Pink, MainColors.Black, MainColors.Blue},
-        {MainColors.Black, MainColors.Black, MainColors.Red, MainColors.Red, MainColors.White, MainColors.Lime, MainColors.Red, MainColors.Pink, MainColors.Pink, MainColors.Purple, MainColors.Orange, MainColors.Yellow, MainColors.Pink, MainColors.Lime, MainColors.Lime, MainColors.White},
-        {MainColors.Lime, MainColors.Cyan, MainColors.Red, MainColors.Black, MainColors.Cyan, MainColors.Green, MainColors.Lime, MainColors.Lime, MainColors.Red, MainColors.Yellow, MainColors.Orange, MainColors.Cyan, MainColors.Pink, MainColors.Orange, MainColors.Orange, MainColors.Purple},
-        {MainColors.White, MainColors.Green, MainColors.Green, MainColors.Cyan, MainColors.White, MainColors.Purple, MainColors.Purple, MainColors.Orange, MainColors.Red, MainColors.Lime, MainColors.Black, MainColors.Yellow, MainColors.Red, MainColors.Yellow, MainColors.Purple, MainColors.Green},
-        {MainColors.Lime, MainColors.Orange, MainColors.White, MainColors.Pink, MainColors.Purple, MainColors.Purple, MainColors.Red, MainColors.Lime, MainColors.Yellow, MainColors.Green, MainColors.Yellow, MainColors.Purple, MainColors.Red, MainColors.Yellow, MainColors.Blue, MainColors.Red},
-        {MainColors.Black, MainColors.Cyan, MainColors.Yellow, MainColors.Green, MainColors.Black, MainColors.Blue, MainColors.Yellow, MainColors.Orange, MainColors.Pink, MainColors.White, MainColors.Lime, MainColors.Lime, MainColors.Lime, MainColors.White, MainColors.Cyan, MainColors.Lime},
-        {MainColors.Green, MainColors.Pink, MainColors.Pink, MainColors.Blue, MainColors.Blue, MainColors.White, MainColors.Yellow, MainColors.Yellow, MainColors.Blue, MainColors.Orange, MainColors.Cyan, MainColors.Blue, MainColors.Orange, MainColors.Blue, MainColors.Yellow, MainColors.Pink},
-        {MainColors.Purple, MainColors.Black, MainColors.Orange, MainColors.White, MainColors.Lime, MainColors.Lime, MainColors.Blue, MainColors.Lime, MainColors.Orange, MainColors.White, MainColors.Orange, MainColors.Orange, MainColors.Lime, MainColors.Yellow, MainColors.Red, MainColors.Cyan},
-        {MainColors.Cyan, MainColors.Red, MainColors.Red, MainColors.Lime, MainColors.Yellow, MainColors.Pink, MainColors.Orange, MainColors.Red, MainColors.Black, MainColors.Blue, MainColors.Pink, MainColors.Orange, MainColors.Yellow, MainColors.Purple, MainColors.Yellow, MainColors.Lime},
-        {MainColors.Purple, MainColors.Red, MainColors.White, MainColors.Lime, MainColors.Lime, MainColors.Black, MainColors.White, MainColors.Yellow, MainColors.Yellow, MainColors.Cyan, MainColors.Purple, MainColors.Green, MainColors.White, MainColors.Purple, MainColors.Purple, MainColors.Lime},
-        {MainColors.Blue, MainColors.Orange, MainColors.Green, MainColors.Blue, MainColors.Orange, MainColors.Purple, MainColors.Green, MainColors.Pink, MainColors.Green, MainColors.Orange, MainColors.Purple, MainColors.Red, MainColors.Cyan, MainColors.Red, MainColors.Purple, MainColors.Yellow},
-        {MainColors.Yellow, MainColors.Purple, MainColors.Blue, MainColors.Green, MainColors.Lime, MainColors.Orange, MainColors.Black, MainColors.Orange, MainColors.Orange, MainColors.Blue, MainColors.Cyan, MainColors.Black, MainColors.Pink, MainColors.Lime, MainColors.Blue, MainColors.White}
+        {MainColors.Green, MainColors.Purple, MainColors.Lime, MainColors.Blue, MainColors.Red, MainColors.Black, MainColors.Blue, MainColors.Yellow, MainColors.Blue, MainColors.Blue, MainColors.Pink, MainColors.White, MainColors.Orange, MainColors.Black, MainColors.Blue, MainColors.Lime},
+        {MainColors.Lime, MainColors.Lime, MainColors.Lime, MainColors.Blue, MainColors.Lime, MainColors.Yellow, MainColors.Pink, MainColors.Orange, MainColors.Lime, MainColors.Lime, MainColors.Orange, MainColors.Black, MainColors.Lime, MainColors.Red, MainColors.Purple, MainColors.Pink},
+        {MainColors.Pink, MainColors.Yellow, MainColors.Green, MainColors.Blue, MainColors.Blue, MainColors.Cyan, MainColors.Purple, MainColors.Orange, MainColors.White, MainColors.Yellow, MainColors.Red, MainColors.Purple, MainColors.Lime, MainColors.Cyan, MainColors.Green, MainColors.Orange},
+        {MainColors.White, MainColors.Green, MainColors.Blue, MainColors.Cyan, MainColors.Green, MainColors.Purple, MainColors.Red, MainColors.Lime, MainColors.Pink, MainColors.Yellow, MainColors.Purple, MainColors.Yellow, MainColors.Green, MainColors.White, MainColors.Green, MainColors.White},
+        {MainColors.Lime, MainColors.White, MainColors.Blue, MainColors.Cyan, MainColors.Blue, MainColors.White, MainColors.White, MainColors.Green, MainColors.Black, MainColors.Blue, MainColors.Pink, MainColors.Cyan, MainColors.Orange, MainColors.Green, MainColors.Red, MainColors.Purple},
+        {MainColors.Yellow, MainColors.Purple, MainColors.Orange, MainColors.Lime, MainColors.White, MainColors.Cyan, MainColors.Lime, MainColors.Yellow, MainColors.Blue, MainColors.Lime, MainColors.Cyan, MainColors.Lime, MainColors.Blue, MainColors.Pink, MainColors.White, MainColors.White},
+        {MainColors.Lime, MainColors.Green, MainColors.Lime, MainColors.Pink, MainColors.Green, MainColors.Orange, MainColors.Black, MainColors.Yellow, MainColors.Blue, MainColors.Red, MainColors.Black, MainColors.Orange, MainColors.Pink, MainColors.Yellow, MainColors.Orange, MainColors.Lime},
+        {MainColors.Cyan, MainColors.Green, MainColors.Cyan, MainColors.Orange, MainColors.White, MainColors.Blue, MainColors.Orange, MainColors.Black, MainColors.Lime, MainColors.Red, MainColors.Blue, MainColors.Pink, MainColors.Lime, MainColors.White, MainColors.Purple, MainColors.Orange},
+        {MainColors.Purple, MainColors.Black, MainColors.Yellow, MainColors.Green, MainColors.Purple, MainColors.Cyan, MainColors.Lime, MainColors.Yellow, MainColors.Black, MainColors.White, MainColors.Red, MainColors.Green, MainColors.White, MainColors.Yellow, MainColors.Purple, MainColors.Red},
+        {MainColors.Green, MainColors.Blue, MainColors.Orange, MainColors.Lime, MainColors.Purple, MainColors.Purple, MainColors.Orange, MainColors.Red, MainColors.Black, MainColors.Black, MainColors.Orange, MainColors.Pink, MainColors.Yellow, MainColors.Red, MainColors.Purple, MainColors.Green},
+        {MainColors.Orange, MainColors.White, MainColors.Purple, MainColors.Red, MainColors.Red, MainColors.Orange, MainColors.Yellow, MainColors.Yellow, MainColors.Blue, MainColors.Purple, MainColors.Orange, MainColors.Blue, MainColors.Cyan, MainColors.Green, MainColors.Red, MainColors.Red},
+        {MainColors.Red, MainColors.Orange, MainColors.Yellow, MainColors.White, MainColors.Lime, MainColors.Yellow, MainColors.White, MainColors.Purple, MainColors.White, MainColors.Green, MainColors.Pink, MainColors.Black, MainColors.Orange, MainColors.Blue, MainColors.Purple, MainColors.Pink},
+        {MainColors.Lime, MainColors.Orange, MainColors.Red, MainColors.Green, MainColors.Green, MainColors.Pink, MainColors.Green, MainColors.Purple, MainColors.White, MainColors.Purple, MainColors.Yellow, MainColors.Purple, MainColors.Cyan, MainColors.Purple, MainColors.Black, MainColors.Blue},
+        {MainColors.Pink, MainColors.Blue, MainColors.White, MainColors.Pink, MainColors.Cyan, MainColors.Pink, MainColors.Orange, MainColors.Orange, MainColors.Blue, MainColors.Lime, MainColors.Yellow, MainColors.Pink, MainColors.Lime, MainColors.Red, MainColors.Yellow, MainColors.Purple},
+        {MainColors.Cyan, MainColors.Red, MainColors.Red, MainColors.Green, MainColors.Red, MainColors.Blue, MainColors.Lime, MainColors.Orange, MainColors.Lime, MainColors.Yellow, MainColors.Black, MainColors.Cyan, MainColors.Orange, MainColors.Pink, MainColors.Purple, MainColors.Pink},
+        {MainColors.Orange, MainColors.Black, MainColors.Purple, MainColors.Yellow, MainColors.Yellow, MainColors.Purple, MainColors.Black, MainColors.Red, MainColors.Yellow, MainColors.Red, MainColors.Blue, MainColors.Purple, MainColors.Red, MainColors.Yellow, MainColors.Lime, MainColors.Blue},
+        {MainColors.Orange, MainColors.Black, MainColors.Black, MainColors.Cyan, MainColors.Green, MainColors.Yellow, MainColors.Green, MainColors.Green, MainColors.Black, MainColors.Black, MainColors.Green, MainColors.Red, MainColors.White, MainColors.Orange, MainColors.Purple, MainColors.Orange},
+        {MainColors.Yellow, MainColors.Pink, MainColors.White, MainColors.Purple, MainColors.Red, MainColors.Blue, MainColors.Green, MainColors.Blue, MainColors.Lime, MainColors.Yellow, MainColors.Red, MainColors.Cyan, MainColors.Pink, MainColors.Green, MainColors.Green, MainColors.Lime},
+        {MainColors.Purple, MainColors.Yellow, MainColors.Orange, MainColors.White, MainColors.Cyan, MainColors.Black, MainColors.Red, MainColors.Yellow, MainColors.Black, MainColors.Yellow, MainColors.White, MainColors.Blue, MainColors.Red, MainColors.Pink, MainColors.Purple, MainColors.Green},
+        {MainColors.Blue, MainColors.Lime, MainColors.Black, MainColors.Red, MainColors.Cyan, MainColors.Black, MainColors.Purple, MainColors.Lime, MainColors.Red, MainColors.Lime, MainColors.White, MainColors.Orange, MainColors.White, MainColors.Cyan, MainColors.White, MainColors.Orange},
+        {MainColors.Green, MainColors.Orange, MainColors.Orange, MainColors.Cyan, MainColors.Black, MainColors.Pink, MainColors.Pink, MainColors.Lime, MainColors.Pink, MainColors.Red, MainColors.Green, MainColors.Cyan, MainColors.Cyan, MainColors.White, MainColors.Lime, MainColors.Cyan}
     };
 
     int[][] PatternCoordinates =
@@ -82,8 +89,6 @@ public class CruelLEDPattern : Puzzle
 
     void GenerateValidPattern()
     {
-        string[] directionNames = { "up", "down", "right", "left" };
-
         int[][] directions =
         {
             new int[] { -1, 0 }, // up
@@ -93,7 +98,7 @@ public class CruelLEDPattern : Puzzle
         };
 
         int x = Random.Range(0, 16);
-        int y = Random.Range(0, 14);
+        int y = Random.Range(0, 21);
         int d = Random.Range(0, 4);
         int[] direction = directions[d];
 
@@ -102,10 +107,10 @@ public class CruelLEDPattern : Puzzle
         for (int i = 0; i < 8; i++)
         {
             int xx = (x + direction[1] * i) % 16;
-            int yy = (y + direction[0] * i) % 14;
+            int yy = (y + direction[0] * i) % 21;
 
             if (xx < 0) xx += 16;
-            if (yy < 0) yy += 14;
+            if (yy < 0) yy += 21;
 
             sequence.Add(LEDGrid[yy, xx]);
             PatternCoordinates[0][i] = xx;
@@ -127,7 +132,7 @@ public class CruelLEDPattern : Puzzle
             int y = PatternCoordinates[1][i];
 
             int horizontalSection = (x - (x % 4)) / 4;
-            int verticalSection = (y - (y % 2)) / 2;
+            int verticalSection = (y - (y % 3)) / 3;
 
             horizontalSections.Add(horizontalSection);
             verticalSections.Add(verticalSection);
