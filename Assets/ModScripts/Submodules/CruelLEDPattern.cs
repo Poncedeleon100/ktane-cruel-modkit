@@ -97,8 +97,11 @@ public class CruelLEDPattern : Puzzle
             new int[] { 0, -1 }, // left
         };
 
-        int x = Random.Range(0, 16);
-        int y = Random.Range(0, 21);
+        int width = LEDGrid.GetLength(1);
+        int height = LEDGrid.GetLength(0);
+
+        int x = Random.Range(0, width);
+        int y = Random.Range(0, height);
         int d = Random.Range(0, 4);
         int[] direction = directions[d];
 
@@ -106,11 +109,11 @@ public class CruelLEDPattern : Puzzle
 
         for (int i = 0; i < 8; i++)
         {
-            int xx = (x + direction[1] * i) % 16;
-            int yy = (y + direction[0] * i) % 21;
+            int xx = (x + direction[1] * i) % width;
+            int yy = (y + direction[0] * i) % height;
 
-            if (xx < 0) xx += 16;
-            if (yy < 0) yy += 21;
+            if (xx < 0) xx += width;
+            if (yy < 0) yy += height;
 
             sequence.Add(LEDGrid[yy, xx]);
             PatternCoordinates[0][i] = xx;
