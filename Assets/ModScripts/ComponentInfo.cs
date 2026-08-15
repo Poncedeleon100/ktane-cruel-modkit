@@ -476,8 +476,11 @@ public class ComponentInfo
     {
         string[] Names = new string[Arrows.Length];
 
-        foreach (int Arrow in Arrows)
-            Names[Array.IndexOf(Arrows, Arrow)] = ArrowColorNames[(ArrowColors)Arrow];
+        for (int i = 0; i < Arrows.Length; i++)
+        {
+            int arrowValue = Arrows[i];
+            Names[i] = ArrowColorNames[(ArrowColors)arrowValue];
+        }
 
         return "Up: " + Names[0] + ", Right: " + Names[1] + ", Down: " + Names[2] + ", Left: " + Names[3] + ", Up-Right: " + Names[4] + ", Down-Right: " + Names[5] + ", Down-Left: " + Names[6] + ", Up-Left: " + Names[7] + ", Center: " + Names[8];
     }
