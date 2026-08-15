@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics;
+using System.Linq;
+using wawa.Modules;
 using static ComponentInfo;
 
 public class LyingWires : Puzzle
@@ -41,15 +42,15 @@ public class LyingWires : Puzzle
     readonly int[] refersToColorLabel = new int[] { 8, 11 };
     readonly Stopwatch buttonHoldDetection = new Stopwatch();
 
-    public LyingWires(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
+    public LyingWires(CruelModkitScript Module, ComponentInfo Info, byte Components) : base(Module, Info, Components)
     {
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Solving Lying Wires.", ModuleID);
+        Module.Log("Solving Lying Wires.");
         string buttonColorName = Enum.GetName(typeof(MainColors), Info.Button).ToUpper();
         InitializeColorConditions(buttonColorName);
         trueColors = colorConditions.Where(x => x.Value).Select(x => x.Key).ToArray();
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Wires present: {1}.", ModuleID, Info.GetWireInfo());
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Wire LEDs present: {1}.", ModuleID, Info.GetWireLEDInfo());
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Button is {1}.", ModuleID, Info.GetButtonInfo());
+        Module.Log("Wires present: {0}.", Info.GetWireInfo());
+        Module.Log("Wire LEDs present: {0}.", Info.GetWireLEDInfo());
+        Module.Log("Button is {0}.", Info.GetButtonInfo());
         DetermineWires();
     }
 
@@ -73,7 +74,7 @@ public class LyingWires : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.WireSnip, Module.transform);
+        Module.Play(Module.transform, Sound.WireSnip);
         Module.CutWire(Wire);
 
         if (Module.IsModuleSolved())
@@ -83,7 +84,7 @@ public class LyingWires : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was cut when the component selection was [{2}] instead of [{3}].", ModuleID, Wire + 1, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.Strike("Strike! Wire {0} was cut when the component selection was [{1}] instead of [{2}].", Wire + 1, Module.GetEnabledComponents(), Module.GetTargetComponents());
                 RegenWires();
                 return;
             }
@@ -92,12 +93,12 @@ public class LyingWires : Puzzle
 
         if (finalCuts[Wire])
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was incorrectly cut.", ModuleID, Wire + 1);
+            Module.Strike("Strike! Wire {0} was incorrectly cut.", Wire + 1);
             RegenWires();
             return;
         }
 
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Wire {1} was correctly cut.", ModuleID, Wire + 1);
+        Module.Log("Wire {0} was correctly cut.", Wire + 1);
         WiresCut.Add(Wire);
 
         Module.StartSolve();
@@ -109,8 +110,7 @@ public class LyingWires : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonPress, Module.transform);
-        Module.Button.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Button.GetComponentInChildren<KMSelectable>(), 0.25f, Sound.BigButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -119,8 +119,7 @@ public class LyingWires : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
             Module.StartSolve();
@@ -131,20 +130,20 @@ public class LyingWires : Puzzle
         {
             if (tap && lastDigitOfTimer != (numberOfLiars + Info.NumberDisplay) % 10)
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was tapped at the wrong time (last digit of the timer was {1}, was supposed to be {2}).", ModuleID, lastDigitOfTimer, (numberOfLiars + Info.NumberDisplay) % 10);
+                Module.Strike("Strike! The button was tapped at the wrong time (last digit of the timer was {0}, was supposed to be {1}).", lastDigitOfTimer, (numberOfLiars + Info.NumberDisplay) % 10);
                 RegenWires();
                 incorrectHold = true;
             }
             else if (!tap && lastDigitOfTimer != numberOfLiars)
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was held at the wrong time (last digit of the timer was {1}, was supposed to be {2}).", ModuleID, lastDigitOfTimer, numberOfLiars);
+                Module.Strike("Strike! The button was held at the wrong time (last digit of the timer was {0}, was supposed to be {1}).", lastDigitOfTimer, numberOfLiars);
                 RegenWires();
                 incorrectHold = true;
             }
         }
         else
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed/held when not all wires had been correctly cut.", ModuleID);
+            Module.Strike("Strike! The button was pressed/held when not all wires had been correctly cut.");
             RegenWires();
             incorrectHold = true;
         }
@@ -158,7 +157,8 @@ public class LyingWires : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonRelease, Module.transform);
+        Module.Play(Module.transform, Sound.BigButtonRelease);
+
         if (incorrectHold)
         {
             buttonHoldDetection.Reset();
@@ -170,24 +170,23 @@ public class LyingWires : Puzzle
         {
             if (tap && buttonHoldDetection.ElapsedMilliseconds >= 500)
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was held when it was supposed to be tapped.", ModuleID);
+                Module.Strike("Strike! The button was held when it was supposed to be tapped.");
                 RegenWires();
             }
             else if (!tap && buttonHoldDetection.ElapsedMilliseconds <= 500)
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was tapped when it was supposed to be held.", ModuleID);
+                Module.Strike("Strike! The button was tapped when it was supposed to be held.");
                 RegenWires();
             }
 
             else if (lastDigitOfTimer != targetLastDigit)
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was released at the wrong time (last digit of the timer was {1}, was supposed to be {2}).", ModuleID, lastDigitOfTimer, targetLastDigit);
+                Module.Strike("Strike! The button was released at the wrong time (last digit of the timer was {0}, was supposed to be {1}).", lastDigitOfTimer, targetLastDigit);
                 RegenWires();
             }
             else
             {
-                UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Solved! The button was released at the right time.", ModuleID);
-                Module.Solve();
+                Module.SolveModule("Solved! The button was released at the right time.");
             }
         }
 
@@ -210,7 +209,7 @@ public class LyingWires : Puzzle
         }
         foreach (int color in trueColors)
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] {1}, so any {2} wires may be telling true statements.", ModuleID, colorStatements[color], Enum.GetName(typeof(WireColors), color).ToLower());
+            Module.Log("{0}, so any {1} wires may be telling true statements.", colorStatements[color], Enum.GetName(typeof(WireColors), color).ToLower());
         }
         List<string> initiallyTrueWireIndices = new List<string>();
         for (int i = 0; i < 7; i++)
@@ -223,16 +222,16 @@ public class LyingWires : Puzzle
 
         if (initiallyTrueWireIndices.Count == 0)
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] None of the wires are telling true statements.", ModuleID, string.Join(", ", initiallyTrueWireIndices.ToArray()));
+            Module.Log("None of the wires are telling true statements.", string.Join(", ", initiallyTrueWireIndices.ToArray()));
         }
         else
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The following wires are telling true statements: {1}.", ModuleID, string.Join(", ", initiallyTrueWireIndices.ToArray()));
+            Module.Log("The following wires are telling true statements: {0}.", string.Join(", ", initiallyTrueWireIndices.ToArray()));
         }
 
         if (Info.NumberDisplay % 4 == 0)
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The number display's number ({1}) is divisible by 4, so any wire with a white star will have a true first value.", ModuleID, Info.NumberDisplay);
+            Module.Log("The number display's number ({0}) is divisible by 4, so any wire with a white star will have a true first value.", Info.NumberDisplay);
             for (int i = 0; i < 7; i++)
             {
                 int star = Convert.ToInt32(Math.Floor(Convert.ToDecimal((Info.WireLED[i] / 11))));
@@ -241,7 +240,7 @@ public class LyingWires : Puzzle
         }
         else if (Info.NumberDisplay % 3 == 0)
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The number display's number ({1}) is divisible by 3, so any wire with a black star will have a true first value.", ModuleID, Info.NumberDisplay);
+            Module.Log("The number display's number ({0}) is divisible by 3, so any wire with a black star will have a true first value.", Info.NumberDisplay);
             for (int i = 0; i < 7; i++)
             {
                 int star = Convert.ToInt32(Math.Floor(Convert.ToDecimal((Info.WireLED[i] / 11))));
@@ -250,7 +249,7 @@ public class LyingWires : Puzzle
         }
         else
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The number display's number ({1}) is not divisible by 3 or 4, so any wire with no star will have a true first value.", ModuleID, Info.NumberDisplay);
+            Module.Log("The number display's number ({0}) is not divisible by 3 or 4, so any wire with no star will have a true first value.", Info.NumberDisplay);
             for (int i = 0; i < 7; i++)
             {
                 int star = Convert.ToInt32(Math.Floor(Convert.ToDecimal((Info.WireLED[i] / 11))));
@@ -262,7 +261,7 @@ public class LyingWires : Puzzle
 
         if (cluedoCharacters.Contains(identity))
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The host, {1}, is a Cluedo character, so any wire with a red, orange, purple or yellow LED will have a true second value.", ModuleID, identity);
+            Module.Log("The host, {0}, is a Cluedo character, so any wire with a red, orange, purple or yellow LED will have a true second value.", identity);
             for (int i = 0; i < 7; i++)
             {
                 secondValues[i] = cluedoColors.Contains(Info.WireLED[i] % 11);
@@ -270,7 +269,7 @@ public class LyingWires : Puzzle
         }
         else if (monsplodeCharacters.Contains(identity))
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The host, {1}, is a Monsplode™, so any wire with a green, lime or pink LED will have a true second value.", ModuleID, identity);
+            Module.Log("The host, {0}, is a Monsplode™, so any wire with a green, lime or pink LED will have a true second value.", identity);
             for (int i = 0; i < 7; i++)
             {
                 secondValues[i] = monsplodeColors.Contains(Info.WireLED[i] % 11);
@@ -278,7 +277,7 @@ public class LyingWires : Puzzle
         }
         else
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The host, {1}, is a KTaNE Discord server member, so any wire with a blue, cyan, white or black LED will have a true second value.", ModuleID, identity);
+            Module.Log("The host, {0}, is a KTaNE Discord server member, so any wire with a blue, cyan, white or black LED will have a true second value.", identity);
             for (int i = 0; i < 7; i++)
             {
                 secondValues[i] = ktaneDiscordColors.Contains(Info.WireLED[i] % 11);
@@ -286,7 +285,7 @@ public class LyingWires : Puzzle
         }
 
         string[] operators = new string[] { "AND", "OR", "XOR", "NAND", "NOR", "XNOR" };
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The meter is {1}, so the {2} operation will be applied to the two booleans.", ModuleID, Enum.GetName(typeof(MeterColors), Info.MeterColor).ToLower(), operators[Info.MeterColor]);
+        Module.Log("The meter is {0}, so the {1} operation will be applied to the two booleans.", Enum.GetName(typeof(MeterColors), Info.MeterColor).ToLower(), operators[Info.MeterColor]);
         switch (Info.MeterColor)
         {
             case 0:
@@ -337,11 +336,11 @@ public class LyingWires : Puzzle
         }
         if (lyingWireIndices.Count == 0)
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] None of the wires are lying.", ModuleID);
+            Module.Log("None of the wires are lying.");
         }
         else
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The following wires are lying: {1}.", ModuleID, string.Join(", ", lyingWireIndices.ToArray()));
+            Module.Log("The following wires are lying: {0}.", string.Join(", ", lyingWireIndices.ToArray()));
         }
         List<string> wiresToBeCutIndices = new List<string>();
         for (int i = 0; i < 7; i++)
@@ -360,7 +359,7 @@ public class LyingWires : Puzzle
                 wiresToBeCutIndices.Add((i + 1).ToString());
             }
         }
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The following wires should be cut: {1}.", ModuleID, string.Join(", ", wiresToBeCutIndices.ToArray()));
+        Module.Log("The following wires should be cut: {0}.", string.Join(", ", wiresToBeCutIndices.ToArray()));
         numberOfLiars = finalCuts.Count(x => !x);
         if (numberOfLiars % 2 == 0)
         {
@@ -375,29 +374,28 @@ public class LyingWires : Puzzle
 
         if (numberOfLiars == 1)
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] There is 1 wire to cut.", ModuleID);
+            Module.Log("There is 1 wire to cut.");
         }
         else
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] There are {1} wires to cut.", ModuleID, numberOfLiars);
+            Module.Log("There are {0} wires to cut.", numberOfLiars);
         }
         if (numberOfLiars % 2 == 0)
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] There is an even number of wires to be cut, so the button should be tapped when the last digit of the timer is {1}.", ModuleID, (numberOfLiars + Info.NumberDisplay) % 10);
+            Module.Log("There is an even number of wires to be cut, so the button should be tapped when the last digit of the timer is {0}.", (numberOfLiars + Info.NumberDisplay) % 10);
         }
         else
         {
-            UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] There is an odd number of wires to be cut, so the button should be held when the last digit of the timer is {1}, and released when it is {2}.", ModuleID, numberOfLiars, Info.NumberDisplay);
+            Module.Log("There is an odd number of wires to be cut, so the button should be held when the last digit of the timer is {0}, and released when it is {1}.", numberOfLiars, Info.NumberDisplay);
         }
     }
 
     private void RegenWires()
     {
-        Module.CauseStrike();
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] Resetting wires...", ModuleID);
+        Module.Log("Resetting wires...");
         Module.RegenWires();
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The wires are as follows: {1}", ModuleID, Info.GetWireInfo());
-        UnityEngine.Debug.LogFormat("[The Cruel Modkit #{0}] The wire LEDs are as follows: {1}", ModuleID, Info.GetWireLEDInfo());
+        Module.Log("The wires are as follows: {0}", Info.GetWireInfo());
+        Module.Log("The wire LEDs are as follows: {0}", Info.GetWireLEDInfo());
         DetermineWires();
     }
 

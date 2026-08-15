@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using wawa.Modules;
 using Random = UnityEngine.Random;
 
 public class PolygonalMapping : Puzzle
@@ -15,37 +16,37 @@ public class PolygonalMapping : Puzzle
     private readonly bool[] IsDepressed = new bool[12];
 
     private readonly int[,] BigTable = new int[26, 10] {
-        {38, 18, 19, 17, 30, 8,  17, 26, 32, 26},
-        {43, 3,  10, 19, 17, 47, 20, 26, 29, 37},
-        {28, 3,  5,  26, 7,  28, 40, 14, 36, 16},
-        {32, 26, 37, 0,  1,  39, 34, 5,  42, 43},
-        {28, 36, 40, 19, 32, 35, 0,  12, 48, 43},
-        {9,  27, 5,  30, 14, 9,  29, 36, 48, 24},
-        {47, 22, 31, 2,  20, 12, 18, 23, 38, 10},
-        {6,  38, 48, 9,  27, 29, 9,  13, 46, 35},
+        {37, 18, 19, 17, 30, 8,  17, 26, 32, 26},
+        {42, 3,  10, 19, 17, 47, 20, 26, 29, 37},
+        {27, 3,  5,  26, 7,  28, 40, 14, 36, 16},
+        {31, 26, 37, 0,  1,  39, 34, 5,  42, 43},
+        {27, 36, 40, 19, 32, 35, 0,  12, 48, 43},
+        {8,  27, 5,  30, 14, 9,  29, 36, 48, 24},
+        {46, 22, 31, 2,  20, 12, 18, 23, 38, 10},
+        {5,  38, 48, 9,  27, 29, 9,  13, 46, 35},
         {0,  22, 14, 48, 37, 10, 38, 3,  48, 23},
-        {39, 14, 46, 24, 47, 45, 30, 2,  29, 13},
-        {45, 40, 17, 35, 46, 42, 35, 28, 31, 13},
-        {33, 40, 11, 25, 21, 45, 45, 22, 16, 10},
-        {20, 14, 30, 1,  41, 12, 5,  47, 4,  39},
-        {33, 44, 32, 23, 11, 3,  0,  0,  27, 7 },
-        {6,  20, 6,  34, 19, 30, 25, 31, 43, 35},
-        {1,  21, 2,  10, 19, 8,  11, 23, 34, 8 },
-        {44, 41, 9,  42, 15, 4,  42, 3,  16, 13},
-        {11, 36, 14, 36, 1,  40, 1,  43, 37, 22},
-        {7,  24, 25, 2,  38, 39, 22, 7,  24, 24},
-        {8,  33, 47, 2,  33, 25, 21, 41, 12, 17},
-        {15, 15, 6,  42, 23, 31, 4,  12, 46, 18},
-        {41, 2,  46, 32, 5,  34, 41, 21, 18, 15},
-        {16, 25, 0,  13, 1,  37, 31, 27, 29, 33},
-        {11, 34, 20, 15, 9,  18, 10, 4,  3,  5 },
-        {7,  8,  13, 44, 21, 12, 45, 39, 6,  7 },
-        {28, 4,  27, 6,  4,  44, 11, 8,  16, 44}
+        {38, 14, 46, 24, 47, 45, 30, 2,  29, 13},
+        {44, 40, 17, 35, 46, 42, 35, 28, 31, 13},
+        {32, 40, 11, 25, 21, 45, 45, 22, 16, 10},
+        {19, 14, 30, 1,  41, 12, 5,  47, 4,  39},
+        {32, 44, 32, 23, 11, 3,  0,  0,  27, 7 },
+        {5,  20, 6,  34, 19, 30, 25, 31, 43, 35},
+        {0,  21, 2,  10, 19, 8,  11, 23, 34, 8 },
+        {43, 41, 9,  42, 15, 4,  42, 3,  16, 13},
+        {10, 36, 14, 36, 1,  40, 1,  43, 37, 22},
+        {6,  24, 25, 2,  38, 39, 22, 7,  24, 24},
+        {7,  33, 47, 2,  33, 25, 21, 41, 12, 17},
+        {14, 15, 6,  42, 23, 31, 4,  12, 46, 18},
+        {40, 2,  46, 32, 5,  34, 41, 21, 18, 15},
+        {15, 25, 0,  13, 1,  37, 31, 27, 29, 33},
+        {10, 34, 20, 15, 9,  18, 10, 4,  3,  5 },
+        {6,  8,  13, 44, 21, 12, 45, 39, 6,  7 },
+        {27, 4,  27, 6,  4,  44, 11, 8,  16, 44}
     };
 
-    public PolygonalMapping(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
+    public PolygonalMapping(CruelModkitScript Module, ComponentInfo Info, byte Components) : base(Module, Info, Components)
     {
-        Debug.LogFormat("[The Cruel Modkit #{0}] Solving Polygonal Mapping. Submodule is preparing itself.", ModuleID);
+        Module.Log("Solving Polygonal Mapping. Submodule is preparing itself.");
 
         //Setup polygon; put inital alphabet buttons into coordinates array
         for (int i = 0; i < 6; i++)
@@ -75,22 +76,22 @@ public class PolygonalMapping : Puzzle
         //polygon couldnt generate
         if (attempts == attemptCap)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Failed making a polygon after {1} attempts, mash ❖ to solve.", ModuleID, attemptCap);
-            Debug.LogFormat("[The Cruel Modkit #{0}] Man I love Unicorns. (Also please let Possessed know this happened)", ModuleID);
+            Module.Log("Failed making a polygon after {0} attempts, mash ❖ to solve.", attemptCap);
+            Module.Log("Man I love Unicorns. (Also please let Possessed know this happened)");
             Module.WidgetText[1].text = "ERROR";
             RanOutOfAttempts = true;
             return;
         }
 
         //polygon generated well
-        Debug.LogFormat("[The Cruel Modkit #{0}] Alphabet buttons are: [{1}]", ModuleID, Info.GetAlphabetInfo());
-        Debug.LogFormat("[The Cruel Modkit #{0}] Symbols are: [{1}]", ModuleID, Info.GetSymbolInfo());
+        Module.Log("Alphabet buttons are: [{0}]", Info.GetAlphabetInfo());
+        Module.Log("Symbols are: [{0}]", Info.GetSymbolInfo());
 
         string wordDisplayFixed = Info.WordDisplay.Where(n => char.IsLetterOrDigit(n)).Join(string.Empty);
         IgnoreString = Info.Morse + Info.TimerDisplay + Info.ResistorText[0] + Info.ResistorText[1] + Info.ResistorText[2] + Info.ResistorText[3] + Info.NumberDisplay + wordDisplayFixed + "543210";
-        Debug.LogFormat("[The Cruel Modkit #{0}] The string obtained from the widgets is \"{1}\".", ModuleID, IgnoreString);
+        Module.Log("The string obtained from the widgets is \"{0}\".", IgnoreString);
 
-        Debug.LogFormat("[The Cruel Modkit #{0}] Calculating which buttons should be pressed, 0-indexed.", ModuleID);
+        Module.Log("Calculating which buttons should be pressed, 0-indexed.");
 
         Vector2 testCoordinate = new Vector2();
 
@@ -117,7 +118,7 @@ public class PolygonalMapping : Puzzle
                     int i = Array.IndexOf(Info.Symbols, BigTable[(int)testCoordinate.x, (int)testCoordinate.y]);
                     if (FinalOrder.Contains("S" + i)) continue;
                     symbolCounter[i]++;
-                    Debug.LogFormat("[The Cruel Modkit #{0}] Found symbol {1} ({4}) at {2}{3}).", ModuleID, i, Base36[(int)testCoordinate.x + 10], (int)testCoordinate.y, Info.Symbols[i]);
+                    Module.Log("Found symbol {0} ({3}) at {1}{2}).", i, Base36[(int)testCoordinate.x + 10], (int)testCoordinate.y, Info.Symbols[i]);
                 }
             }
 
@@ -141,17 +142,17 @@ public class PolygonalMapping : Puzzle
 
                 if (isCurrentlyTied)
                 {
-                    Debug.LogFormat("[The Cruel Modkit #{0}] There is now a tie in symbol counts, skip to pressing an alphabet button.", ModuleID);
+                    Module.Log("There is now a tie in symbol counts, skip to pressing an alphabet button.");
                     break;
                 }
 
-                Debug.LogFormat("[The Cruel Modkit #{0}] Current highest is index {1} at {2} entries.", ModuleID, highestIndex, highestCount);
+                Module.Log("Current highest is index {0} at {1} entries.", highestIndex, highestCount);
 
                 //symbol press
                 if (!FinalOrder.Contains("S" + highestIndex.ToString()))
                 {
                     FinalOrder.Add("S" + highestIndex.ToString());
-                    Debug.LogFormat("[The Cruel Modkit #{0}] You should press Symbol {1}.", ModuleID, highestIndex);
+                    Module.Log("You should press Symbol {0}.", highestIndex);
                 }
 
                 symbolCounter[highestIndex] = -1;
@@ -168,8 +169,8 @@ public class PolygonalMapping : Puzzle
             }
 
             FinalOrder.Add("A" + j.ToString());
-            Debug.LogFormat("[The Cruel Modkit #{0}] You should press Alphabet {1}.", ModuleID, j);
-            Debug.LogFormat("[The Cruel Modkit #{0}] Ignore string is currently \"{1}\".", ModuleID, IgnoreString, j.ToString());
+            Module.Log("You should press Alphabet {0}.", j);
+            Module.Log("Ignore string is currently \"{0}\".", IgnoreString, j.ToString());
 
             //alter coords array to ignore (another) alphabet button
             Coordinates[j] = new Vector2(777, 777);
@@ -177,7 +178,7 @@ public class PolygonalMapping : Puzzle
         }
 
         //2 alpha buns left
-        Debug.LogFormat("[The Cruel Modkit #{0}] Two alphabet buttons remain, moving on to next section.", ModuleID);
+        Module.Log("Two alphabet buttons remain, moving on to next section.");
 
         Vector2 finalCoord1 = new Vector2(-1, -1);
         Vector2 finalCoord2 = new Vector2(-1, -1);
@@ -212,7 +213,7 @@ public class PolygonalMapping : Puzzle
                         {
                             FinalOrder.Add("S" + i.ToString());
                             FinalOrder.Add("A" + j.ToString());
-                            Debug.LogFormat("[The Cruel Modkit #{0}] You should press Symbol {1}, then Alphabet {2}.", ModuleID, i, j);
+                            Module.Log("You should press Symbol {0}, then Alphabet {1}.", i, j);
                         }
                     }
                 }
@@ -249,7 +250,7 @@ public class PolygonalMapping : Puzzle
                 if (symbolCounter[i] == 1)
                 {
                     FinalOrder.Add("S" + i.ToString());
-                    Debug.LogFormat("[The Cruel Modkit #{0}] You should press Symbol {1}.", ModuleID, i);
+                    Module.Log("You should press Symbol {0}.", i);
                 }
             }
         }
@@ -260,7 +261,7 @@ public class PolygonalMapping : Puzzle
             if (!(FinalOrder.Contains("S" + i.ToString())))
             {
                 FinalOrder.Add("S" + i.ToString());
-                Debug.LogFormat("[The Cruel Modkit #{0}] You should press Symbol {1}.", ModuleID, i);
+                Module.Log("You should press Symbol {0}.", i);
             }
         }
         for (int i = 0; i < 6; i++)
@@ -268,11 +269,11 @@ public class PolygonalMapping : Puzzle
             if (!(FinalOrder.Contains("A" + i.ToString())))
             {
                 FinalOrder.Add("A" + i.ToString());
-                Debug.LogFormat("[The Cruel Modkit #{0}] You should press Alphabet {1}.", ModuleID, i);
+                Module.Log("You should press Alphabet {0}.", i);
             }
         }
 
-        Debug.LogFormat("[The Cruel Modkit #{0}] And thus concludes the calculations, get to pressing!", ModuleID);
+        Module.Log("And thus concludes the calculations, get to pressing!");
 
     }
 
@@ -281,16 +282,14 @@ public class PolygonalMapping : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.UtilityButton.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Shake(Module.UtilityButton.GetComponentInChildren<KMSelectable>(), 0.5f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
 
         if (!Module.CheckValidComponents())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
+            Module.Strike("Strike! The ❖ button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
             return;
         }
 
@@ -301,7 +300,7 @@ public class PolygonalMapping : Puzzle
             RooAMashCount++;
             if (RooAMashCount > 47)
             {
-                Module.Solve();
+                Module.SolveModule("Module solved.");
             }
         }
 
@@ -317,23 +316,21 @@ public class PolygonalMapping : Puzzle
         if (IsDepressed[y] == true)
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Symbols[y].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Symbols[y].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
 
         if (!Module.CheckValidComponents())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! A symbol was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
+            Module.Strike("Strike! A symbol was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
             return;
         }
 
         if (FinalOrder[0] == "S" + y.ToString())
         {
             //good press
-            Debug.LogFormat("[The Cruel Modkit #{0}] You pressed Symbol {1}, good.", ModuleID, y);
+            Module.Log("You pressed Symbol {0}, good.", y);
             Module.StartCoroutine(AnimateButtonPress(Module.Symbols[y].transform, Vector3.down * 0.003f, 1));
             Module.Symbols[y].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = Module.KeyLightMats[2];
             IsDepressed[y] = true;
@@ -343,14 +340,12 @@ public class PolygonalMapping : Puzzle
         {
             //bad press
             Module.StartCoroutine(Module.ButtonStrike(true, y));
-            Debug.LogFormat("[The Cruel Modkit #{0}] You pressed Symbol {1}, wrong.", ModuleID, y);
-            Module.CauseStrike();
+            Module.Strike("You pressed Symbol {0}, wrong.", y);
         }
 
         if (FinalOrder.Count == 0)
         {
-            Module.Solve();
-            Debug.LogFormat("[The Cruel Modkit #{0}] Module solved, good job.", ModuleID);
+            Module.SolveModule("Module solved, good job.");
         }
 
     }
@@ -364,23 +359,21 @@ public class PolygonalMapping : Puzzle
         if (IsDepressed[y + 6] == true)
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Alphabet[y].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Alphabet[y].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
 
         if (!Module.CheckValidComponents())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! An alphabet button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
+            Module.Strike("Strike! An alphabet button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
             return;
         }
 
         if (FinalOrder[0] == "A" + y.ToString())
         {
             //good press
-            Debug.LogFormat("[The Cruel Modkit #{0}] You pressed Alphabet {1}, good.", ModuleID, y);
+            Module.Log("You pressed Alphabet {0}, good.", y);
             Module.StartCoroutine(AnimateButtonPress(Module.Alphabet[y].transform, Vector3.down * 0.003f, 1));
             Module.Alphabet[y].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = Module.KeyLightMats[2];
             IsDepressed[y + 6] = true;
@@ -390,14 +383,12 @@ public class PolygonalMapping : Puzzle
         {
             //bad press
             Module.StartCoroutine(Module.ButtonStrike(false, y));
-            Debug.LogFormat("[The Cruel Modkit #{0}] You pressed Alphabet {1}, wrong.", ModuleID, y);
-            Module.CauseStrike();
+            Module.Strike("You pressed Alphabet {0}, wrong.", y);
         }
 
         if (FinalOrder.Count == 0)
         {
-            Module.Solve();
-            Debug.LogFormat("[The Cruel Modkit #{0}] Module solved, good job.", ModuleID);
+            Module.SolveModule("Module solved, good job.");
         }
 
     }

@@ -1,21 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using wawa.Modules;
 using static ComponentInfo;
 
 public class Puzzle
 {
     protected CruelModkitScript Module;
-    protected int ModuleID;
     protected ComponentInfo Info;
     public byte Components;
 
-    public Puzzle(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components)
+    public Puzzle(CruelModkitScript module, ComponentInfo info, byte components)
     {
-        this.Module = Module;
-        this.ModuleID = ModuleID;
-        this.Info = Info;
-        this.Components = Components;
+        this.Module = module;
+        this.Info = info;
+        this.Components = components;
     }
 
     public readonly List<int> WiresCut = new List<int>();
@@ -26,7 +25,7 @@ public class Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.WireSnip, Module.transform);
+        Module.Play(Module.transform, Sound.WireSnip);
         Module.CutWire(Wire);
 
         if (Module.IsModuleSolved())
@@ -36,9 +35,8 @@ public class Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was cut when the component selection was [{2}] instead of [{3}].", ModuleID, Wire + 1, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
-                Debug.LogFormat("[The Cruel Modkit #{0}] Resetting wires...", ModuleID);
+                Module.Strike("Strike! Wire {0} was cut when the component selection was [{1}] instead of [{2}].", Wire + 1, Module.GetEnabledComponents(), Module.GetTargetComponents());
+                Module.Log("Resetting wires...");
 
                 Info.GenerateWireInfo();
                 Info.GenerateWireLEDInfo();
@@ -56,8 +54,7 @@ public class Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonPress, Module.transform);
-        Module.Button.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Button.GetComponentInChildren<KMSelectable>(), 0.25f, Sound.BigButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -66,8 +63,7 @@ public class Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -80,7 +76,7 @@ public class Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonRelease, Module.transform);
+        Module.Play(Module.transform, Sound.BigButtonRelease);
     }
 
     public virtual void OnSymbolPress(int Symbol)
@@ -88,8 +84,7 @@ public class Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Symbols[Symbol].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Symbols[Symbol].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -98,8 +93,7 @@ public class Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Symbol {1} was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Symbol + 1, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! Symbol {0} was pressed when the component selection was [{1}] instead of [{2}].", Symbol + 1, Module.GetEnabledComponents(), Module.GetTargetComponents());
                 Module.StartCoroutine(Module.ButtonStrike(true, Symbol));
                 return;
             }
@@ -113,8 +107,7 @@ public class Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Alphabet[Alphabet].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Alphabet[Alphabet].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -123,8 +116,7 @@ public class Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Alphanumeric key {1} was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, Alphabet + 1, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! Alphanumeric key {0} was pressed when the component selection was [{1}] instead of [{2}].", Alphabet + 1, Module.GetEnabledComponents(), Module.GetTargetComponents());
                 Module.StartCoroutine(Module.ButtonStrike(false, Alphabet));
                 return;
             }
@@ -138,8 +130,7 @@ public class Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlaySoundAtTransform(Module.PianoSounds[Piano + (Info.Piano * 12)].name, Module.transform);
-        Module.Piano[Piano].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Piano[Piano].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.FromObject(Module.PianoSounds[Piano + (Info.Piano * 12)]));
 
         if (Module.IsModuleSolved())
             return;
@@ -148,8 +139,7 @@ public class Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, PianoKeyNames[(PianoKeys)Piano], Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The {0} key on the piano was pressed when the component selection was [{1}] instead of [{2}].", PianoKeyNames[(PianoKeys)Piano], Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -162,8 +152,7 @@ public class Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Arrows[Arrow].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Arrows[Arrow].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -172,8 +161,7 @@ public class Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, ArrowDirectionNames[(ArrowDirections)Arrow], Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The {0} arrow button was pressed when the component selection was [{1}] instead of [{2}].", ArrowDirectionNames[(ArrowDirections)Arrow], Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -186,8 +174,7 @@ public class Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.BulbButtons[Button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.BulbButtons[Button].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -196,8 +183,7 @@ public class Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (Button == 0) == Info.BulbOLeft ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The {0} button was pressed when the component selection was [{1}] instead of [{2}].", (Button == 0) == Info.BulbOLeft ? "O" : "I", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -210,7 +196,7 @@ public class Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, Module.transform);
+        Module.Play(Module.transform, Sound.ButtonRelease);
     }
 
     public virtual void OnBulbInteract(int Bulb)
@@ -222,8 +208,7 @@ public class Puzzle
 
         BulbScrewedIn[Bulb] = !BulbScrewedIn[Bulb];
 
-        Module.Audio.PlaySoundAtTransform(Module.BulbSounds[BulbScrewedIn[Bulb] ? 0 : 1].name, Module.transform);
-        Module.Bulbs[Bulb].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Bulbs[Bulb].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.FromObject(Module.BulbSounds[BulbScrewedIn[Bulb] ? 0 : 1]));
 
         if (Module.IsModuleSolved())
             return;
@@ -232,8 +217,7 @@ public class Puzzle
         {
             if (!Module.CheckValidComponents() && !BulbScrewedIn[Bulb])
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} bulb was removed when the component selection was [{2}] instead of [{3}].", ModuleID, (Bulb + 1) == 1 ? "first" : "second", Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The {0} bulb was removed when the component selection was [{1}] instead of [{2}].", (Bulb + 1) == 1 ? "first" : "second", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -246,8 +230,7 @@ public class Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.UtilityButton.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Shake(Module.UtilityButton.GetComponentInChildren<KMSelectable>(), 0.5f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -256,8 +239,7 @@ public class Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The ❖ button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 

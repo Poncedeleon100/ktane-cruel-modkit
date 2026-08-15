@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using wawa.Modules;
 
 public class StumblingSymphony : Puzzle
 {
@@ -32,9 +33,9 @@ public class StumblingSymphony : Puzzle
 
     int semiShift;
 
-    public StumblingSymphony(CruelModkitScript Module, int ModuleID, ComponentInfo Info, byte Components) : base(Module, ModuleID, Info, Components)
+    public StumblingSymphony(CruelModkitScript Module, ComponentInfo Info, byte Components) : base(Module, Info, Components)
     {
-        Debug.LogFormat("[The Cruel Modkit #{0}] Solving Stumbling Symphony. Press the ❖ button to initiate the module.", ModuleID);
+        Module.Log("Solving Stumbling Symphony. Press the ❖ button to initiate the module.");
 
         for (int i = 0; i < noteSequences.Count(); i++)
             noteIndices.Add(noteSequences[i].Select(x => Array.IndexOf(noteOrder, x)).ToList());
@@ -134,27 +135,25 @@ public class StumblingSymphony : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.UtilityButton.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Shake(Module.UtilityButton.GetComponentInChildren<KMSelectable>(), 0.5f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved() || Module.IsSolving())
             return;
 
         if (!Module.CheckValidComponents())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-            Module.CauseStrike();
+            Module.Strike("Strike! The ❖ button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
             return;
         }
 
         Module.StartSolve();
 
         PickNumber();
-        Debug.LogFormat("[The Cruel Modkit #{0}] The melody is {1}.", ModuleID, melodyNames[Info.NumberDisplay]);
-        Debug.LogFormat("[The Cruel Modkit #{0}] The rule used is rule {1}. {2}", ModuleID, activeRule + 1, ruleLog[activeRule]);
+        Module.Log("The melody is {0}.", melodyNames[Info.NumberDisplay]);
+        Module.Log("The rule used is rule {0}. {1}", activeRule + 1, ruleLog[activeRule]);
         CalcInputs();
-        Debug.LogFormat("[The Cruel Modkit #{0}] The full sequence of notes to play (including stumbles) is {1}.", ModuleID, string.Join(", ", finalInput.Select(x => noteOrder[x]).ToArray()));
-        Debug.LogFormat("[The Cruel Modkit #{0}] The button is {1}. Your stumbles will be shifted {2} semitones forward", ModuleID, Enum.GetName(typeof(ComponentInfo.MainColors), Info.Button), semiShift);
+        Module.Log("The full sequence of notes to play (including stumbles) is {0}.", string.Join(", ", finalInput.Select(x => noteOrder[x]).ToArray()));
+        Module.Log("The button is {0}. Your stumbles will be shifted {1} semitones forward", Enum.GetName(typeof(ComponentInfo.MainColors), Info.Button), semiShift);
         return;
     }
 
@@ -163,8 +162,7 @@ public class StumblingSymphony : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlaySoundAtTransform(Module.PianoSounds[Piano + (Info.Piano * 12)].name, Module.transform);
-        Module.Piano[Piano].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Piano[Piano].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.FromObject(Module.PianoSounds[Piano + (Info.Piano * 12)]));
 
         if (Module.IsModuleSolved())
             return;
@@ -172,14 +170,13 @@ public class StumblingSymphony : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)Piano], Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.Strike("Strike! The {0} key on the piano was pressed when the component selection was [{1}] instead of [{2}].", ComponentInfo.PianoKeyNames[(ComponentInfo.PianoKeys)Piano], Module.GetEnabledComponents(), Module.GetTargetComponents());
 
             }
             else
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Module not initialized.", ModuleID);
+                Module.Strike("Strike! Module not initialized.");
             }
-            Module.CauseStrike();
             return;
         }
         
@@ -187,16 +184,14 @@ public class StumblingSymphony : Puzzle
             numInputs++;
         else
         {
-            Module.CauseStrike();
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! You played {1} when {2} was needed.", ModuleID, noteOrder[Piano], noteOrder[finalInput[numInputs]]);
+            Module.Strike("Strike! You played {0} when {1} was needed.", noteOrder[Piano], noteOrder[finalInput[numInputs]]);
             numInputs = 0;
             return;
         }
 
         if (buttonPresses.Contains(numInputs - 1) && !buttonPressed)
         {
-            Module.CauseStrike();
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! You have forgotten to press the button after a stumble (note {1})!", ModuleID, noteOrder[finalInput[numInputs-2]]);
+            Module.Strike("Strike! You have forgotten to press the button after a stumble (note {0})!", noteOrder[finalInput[numInputs-2]]);
             numInputs = 0;
             return;
         }
@@ -205,8 +200,7 @@ public class StumblingSymphony : Puzzle
 
         if (numInputs == finalInput.Count())
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] You have impressed the button. Module solved.", ModuleID);
-            Module.Solve();
+            Module.SolveModule("You have impressed the button. Module solved.");
         }
     }
 
@@ -215,8 +209,7 @@ public class StumblingSymphony : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonPress, Module.transform);
-        Module.Button.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Button.GetComponentInChildren<KMSelectable>(), 0.25f, Sound.BigButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -225,11 +218,10 @@ public class StumblingSymphony : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
+                Module.Strike("Strike! The button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
             }
             else
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Module not initialized.", ModuleID);
-            Module.CauseStrike();
+                Module.Strike("Strike! Module not initialized.");
             return;
         }
 
@@ -237,8 +229,7 @@ public class StumblingSymphony : Puzzle
             buttonPressed = true;
         else
         {
-            Module.CauseStrike();
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! You have pressed the button at an incorect time!", ModuleID);
+            Module.Strike("Strike! You have pressed the button at an incorect time!");
             numInputs = 0;
         }
     }

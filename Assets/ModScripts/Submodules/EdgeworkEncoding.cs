@@ -1,19 +1,20 @@
-﻿using System;
+﻿using KModkit;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System.Collections.Generic;
+using wawa.Modules;
 using static ComponentInfo;
 using static CruelModkitScript;
 using Random = UnityEngine.Random;
-using KModkit;
 
 public class EdgeworkEncoding : Puzzle
 {
 
-    public EdgeworkEncoding(CruelModkitScript module, int moduleID, ComponentInfo info, byte components) : base(module, moduleID, info, components)
+    public EdgeworkEncoding(CruelModkitScript module, ComponentInfo info, byte components) : base(module, info, components)
     {
-        Debug.LogFormat("[The Cruel Modkit #{0}] Solving Edgework Encoding.", moduleID);
-        Debug.LogFormat("[The Cruel Modkit #{0}] Widgets: Timer display is {1}. Number display is {2}.", moduleID, info.TimerDisplay.ToString().PadLeft(5, '0'), info.NumberDisplay);
+        module.Log("Solving Edgework Encoding.");
+        Module.Log("Widgets: Timer display is {0}. Number display is {1}.", info.TimerDisplay.ToString().PadLeft(5, '0'), info.NumberDisplay);
         GetActiveComponents();
         CalculateStartingPoints();
         LogActiveComponents();
@@ -72,7 +73,7 @@ public class EdgeworkEncoding : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.WireSnip, Module.transform);
+        Module.Play(Module.transform, Sound.WireSnip);
         Module.CutWire(wire);
 
         if (Module.IsModuleSolved())
@@ -82,8 +83,7 @@ public class EdgeworkEncoding : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was cut when the component selection was [{2}] instead of [{3}].", ModuleID, wire + 1, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! Wire {0} was cut when the component selection was [{1}] instead of [{2}].", wire + 1, Module.GetEnabledComponents(), Module.GetTargetComponents());
                 ResetWires();
 
                 return;
@@ -94,8 +94,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (componentsArray[componentPosition] != ComponentsEnum.Wires)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was cut when the correct component was {1}.", ModuleID, wire + 1, componentsArray[componentPosition].ToString());
-            Module.CauseStrike();
+            Module.Strike("Strike! Wire {0} was cut when the correct component was {0}.", wire + 1, componentsArray[componentPosition].ToString());
             ResetWires();
 
             return;
@@ -109,8 +108,7 @@ public class EdgeworkEncoding : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.BigButtonPress, Module.transform);
-        Module.Button.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Button.GetComponentInChildren<KMSelectable>(), 0.25f, Sound.BigButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -119,8 +117,7 @@ public class EdgeworkEncoding : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -129,8 +126,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (componentsArray[componentPosition] != ComponentsEnum.Button)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The button was pressed when the correct component was {1}.", ModuleID, componentsArray[componentPosition].ToString());
-            Module.CauseStrike();
+            Module.Log("Strike! The button was pressed when the correct component was {0}.", componentsArray[componentPosition].ToString());
             return;
         }
 
@@ -142,8 +138,7 @@ public class EdgeworkEncoding : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Symbols[symbol].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Symbols[symbol].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -152,8 +147,7 @@ public class EdgeworkEncoding : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Symbol {1} was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, symbol + 1, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! Symbol {0} was pressed when the component selection was [{1}] instead of [{2}].", symbol + 1, Module.GetEnabledComponents(), Module.GetTargetComponents());
                 Module.StartCoroutine(Module.ButtonStrike(true, symbol));
                 return;
             }
@@ -163,8 +157,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (componentsArray[componentPosition] != ComponentsEnum.Symbols)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Symbol {1} was pressed when the correct component was {2}.", ModuleID, symbol + 1, componentsArray[componentPosition].ToString());
-            Module.CauseStrike();
+            Module.Strike("Strike! Symbol {0} was pressed when the correct component was {1}.", symbol + 1, componentsArray[componentPosition].ToString());
             Module.StartCoroutine(Module.ButtonStrike(true, symbol));
             return;
         }
@@ -177,8 +170,7 @@ public class EdgeworkEncoding : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Alphabet[alphabet].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Alphabet[alphabet].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -187,8 +179,7 @@ public class EdgeworkEncoding : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Alphanumeric key {1} was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, alphabet + 1, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! Alphanumeric key {0} was pressed when the component selection was [{1}] instead of [{2}].", alphabet + 1, Module.GetEnabledComponents(), Module.GetTargetComponents());
                 Module.StartCoroutine(Module.ButtonStrike(false, alphabet));
                 return;
             }
@@ -198,8 +189,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (componentsArray[componentPosition] != ComponentsEnum.Alphabet)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Alphanumeric key {1} was pressed when the correct component was {2}.", ModuleID, alphabet + 1, componentsArray[componentPosition].ToString());
-            Module.CauseStrike();
+            Module.Strike("Strike! Alphanumeric key {0} was pressed when the correct component was {1}.", alphabet + 1, componentsArray[componentPosition].ToString());
             Module.StartCoroutine(Module.ButtonStrike(false, alphabet));
             return;
         }
@@ -212,8 +202,7 @@ public class EdgeworkEncoding : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlaySoundAtTransform(Module.PianoSounds[piano + (Info.Piano * 12)].name, Module.transform);
-        Module.Piano[piano].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Piano[piano].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.FromObject(Module.PianoSounds[piano + (Info.Piano * 12)]));
 
         if (Module.IsModuleSolved())
             return;
@@ -222,8 +211,7 @@ public class EdgeworkEncoding : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, PianoKeyNames[(PianoKeys)piano], Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The {0} key on the piano was pressed when the component selection was [{1}] instead of [{2}].", PianoKeyNames[(PianoKeys)piano], Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -232,8 +220,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (componentsArray[componentPosition] != ComponentsEnum.Piano)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} key on the piano was pressed when the correct component was {1}.", ModuleID, PianoKeyNames[(PianoKeys)piano], componentsArray[componentPosition].ToString());
-            Module.CauseStrike();
+            Module.Strike("Strike! The {0} key on the piano was pressed when the correct component was {1}.", PianoKeyNames[(PianoKeys)piano], componentsArray[componentPosition].ToString());
             return;
         }
 
@@ -245,8 +232,7 @@ public class EdgeworkEncoding : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.Arrows[arrow].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Arrows[arrow].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -255,21 +241,19 @@ public class EdgeworkEncoding : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, ArrowDirectionNames[(ArrowDirections)arrow], Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The {0} arrow button was pressed when the component selection was [{1}] instead of [{2}].", ArrowDirectionNames[(ArrowDirections)arrow], Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
             Module.StartSolve();
         }
 
-        Module.Audio.PlaySoundAtTransform(Module.ArrowSounds[arrow].name, Module.transform);
+        Module.Play(Module.transform, Module.ArrowSounds[arrow].name);
         Module.StartCoroutine(HandleArrowFlash(arrow));
 
         if (componentsArray[componentPosition] != ComponentsEnum.Arrows)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow button was pressed when the correct component was {1}.", ModuleID, ArrowDirectionNames[(ArrowDirections)arrow], componentsArray[componentPosition].ToString());
-            Module.CauseStrike();
+            Module.Strike("Strike! The {0} arrow button was pressed when the correct component was {0}.", ArrowDirectionNames[(ArrowDirections)arrow], componentsArray[componentPosition].ToString());
             return;
         }
 
@@ -291,8 +275,7 @@ public class EdgeworkEncoding : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.BulbButtons[button].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.BulbButtons[button].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -301,8 +284,7 @@ public class EdgeworkEncoding : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the component selection was [{2}] instead of [{3}].", ModuleID, (button == 0) == Info.BulbOLeft ? "O" : "I", Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The {0} button was pressed when the component selection was [{1}] instead of [{2}].", (button == 0) == Info.BulbOLeft ? "O" : "I", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -311,8 +293,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (componentsArray[componentPosition] != ComponentsEnum.Bulbs)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} button was pressed when the correct component was {1}.", ModuleID, (button == 0) == Info.BulbOLeft ? "O" : "I", componentsArray[componentPosition].ToString());
-            Module.CauseStrike();
+            Module.Strike("Strike! The {0} button was pressed when the correct component was {0}.", (button == 0) == Info.BulbOLeft ? "O" : "I", componentsArray[componentPosition].ToString());
             return;
         }
 
@@ -328,8 +309,7 @@ public class EdgeworkEncoding : Puzzle
 
         BulbScrewedIn[bulb] = !BulbScrewedIn[bulb];
 
-        Module.Audio.PlaySoundAtTransform(Module.BulbSounds[BulbScrewedIn[bulb] ? 0 : 1].name, Module.transform);
-        Module.Bulbs[bulb].GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.25f);
+        Module.Shake(Module.Bulbs[bulb].GetComponentInChildren<KMSelectable>(), 0.25f, Sound.FromObject(Module.BulbSounds[BulbScrewedIn[bulb] ? 0 : 1]));
 
         if (Module.IsModuleSolved())
             return;
@@ -338,8 +318,7 @@ public class EdgeworkEncoding : Puzzle
         {
             if (!Module.CheckValidComponents() && !BulbScrewedIn[bulb])
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} bulb was removed when the component selection was [{2}] instead of [{3}].", ModuleID, (bulb + 1) == 1 ? "first" : "second", Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The {0} bulb was removed when the component selection was [{1}] instead of [{2}].", (bulb + 1) == 1 ? "first" : "second", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -348,8 +327,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (componentsArray[componentPosition] != ComponentsEnum.Bulbs)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} bulb was removed when the correct component was {1}.", ModuleID, (bulb + 1) == 1 ? "first" : "second", componentsArray[componentPosition].ToString());
-            Module.CauseStrike();
+            Module.Strike("Strike! The {0} bulb was removed when the correct component was {0}.", (bulb + 1) == 1 ? "first" : "second", componentsArray[componentPosition].ToString());
             return;
         }
     }
@@ -359,8 +337,7 @@ public class EdgeworkEncoding : Puzzle
         if (Module.IsAnimating())
             return;
 
-        Module.Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Module.transform);
-        Module.UtilityButton.GetComponentInChildren<KMSelectable>().AddInteractionPunch(0.5f);
+        Module.Shake(Module.UtilityButton.GetComponentInChildren<KMSelectable>(), 0.5f, Sound.ButtonPress);
 
         if (Module.IsModuleSolved())
             return;
@@ -369,8 +346,7 @@ public class EdgeworkEncoding : Puzzle
         {
             if (!Module.CheckValidComponents())
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The ❖ button was pressed when the component selection was [{1}] instead of [{2}].", ModuleID, Module.GetOnComponents(), Module.GetTargetComponents());
-                Module.CauseStrike();
+                Module.Strike("Strike! The ❖ button was pressed when the component selection was [{0}] instead of [{1}].", Module.GetEnabledComponents(), Module.GetTargetComponents());
                 return;
             }
 
@@ -421,25 +397,25 @@ public class EdgeworkEncoding : Puzzle
         // Zeroes at this step become the max number for the specified value (20 here, 8 for ComponentPosition)
         if (edgeworkQuestionPosition < 0)
             edgeworkQuestionPosition = 19;
-        Debug.LogFormat("[The Cruel Modkit #{0}] The starting position for the \"Edgework Questions\" list is {1}: \"{2}\"", ModuleID, edgeworkQuestionPosition + 1, edgeworkQuestions[edgeworkQuestionPosition]);
+        Module.Log("The starting position for the \"Edgework Questions\" list is {0}: \"{1}\"", edgeworkQuestionPosition + 1, edgeworkQuestions[edgeworkQuestionPosition]);
 
         // First digit of timer display is even
         edgeworkQuestionPositiveIncrement = ((Convert.ToInt32(Info.TimerDisplay.ToString().PadLeft(5, '0').Substring(0, 1))) % 2) == 0;
-        Debug.LogFormat("[The Cruel Modkit #{0}] The first digit on the timer display is {1}, so move {2} in the \"Edgework Questions\" list.", ModuleID, edgeworkQuestionPositiveIncrement ? "even" : "odd", edgeworkQuestionPositiveIncrement ? "down" : "up");
+        Module.Log("The first digit on the timer display is {0}, so move {1} in the \"Edgework Questions\" list.", edgeworkQuestionPositiveIncrement ? "even" : "odd", edgeworkQuestionPositiveIncrement ? "down" : "up");
 
 
         // Number display modulo 8
         componentPosition = (Info.NumberDisplay % 8) - 1;
         if (componentPosition < 0)
             componentPosition = 7;
-        Debug.LogFormat("[The Cruel Modkit #{0}] The starting position for the \"Components\" list is {1}: \"{2}.\"", ModuleID, componentPosition + 1, componentsArray[componentPosition].ToString());
+        Module.Log("The starting position for the \"Components\" list is {0}: \"{1}.\"", componentPosition + 1, componentsArray[componentPosition].ToString());
 
         // Number of components is even
         componentPositionPositiveIncrement = (componentsActiveCount % 2) == 0;
-        Debug.LogFormat("[The Cruel Modkit #{0}] The number of active components is {1} which is {2}, so move {3} in the \"Components\" list.", ModuleID, componentsActiveCount, componentPositionPositiveIncrement ? "even" : "odd", componentPositionPositiveIncrement ? "down" : "up");
+        Module.Log("The number of active components is {0} which is {1}, so move {2} in the \"Components\" list.", componentsActiveCount, componentPositionPositiveIncrement ? "even" : "odd", componentPositionPositiveIncrement ? "down" : "up");
         // Second digit of timer display is even (used once Edgework Encoding becomes a normal module)
         //ComponentPositionPositiveIncrement = ((Convert.ToInt32(Info.TimerDisplay.ToString().Substring(1))) % 2) == 0;
-        //Debug.LogFormat("[The Cruel Modkit #{0}] The second digit on the timer display is {1}, so move {2} in the \"Components\" list.", ModuleID, ComponentPositionPositiveIncrement ? "even" : "odd", ComponentPositionPositiveIncrement ? "down" : "up");
+        //Module.Log("The second digit on the timer display is {0}, so move {1} in the \"Components\" list.", ComponentPositionPositiveIncrement ? "even" : "odd", ComponentPositionPositiveIncrement ? "down" : "up");
     }
 
     void LogActiveComponents()
@@ -451,26 +427,26 @@ public class EdgeworkEncoding : Puzzle
                 switch (component)
                 {
                     case ComponentsEnum.Wires:
-                        Debug.LogFormat("[The Cruel Modkit #{0}] Wires present: {1}.", ModuleID, Info.GetWireInfo());
-                        Debug.LogFormat("[The Cruel Modkit #{0}] Wire LEDs present: {1}.", ModuleID, Info.GetWireLEDInfo());
+                        Module.Log("Wires present: {0}.", Info.GetWireInfo());
+                        Module.Log("Wire LEDs present: {0}.", Info.GetWireLEDInfo());
                         break;
                     case ComponentsEnum.Button:
-                        Debug.LogFormat("[The Cruel Modkit #{0}] Button is {1}.", ModuleID, Info.GetButtonInfo());
+                        Module.Log("Button is {0}.", Info.GetButtonInfo());
                         break;
                     case ComponentsEnum.LED:
-                        Debug.LogFormat("[The Cruel Modkit #{0}] LEDs present: {1}.", ModuleID, Info.GetLEDInfo());
+                        Module.Log("LEDs present: {0}.", Info.GetLEDInfo());
                         break;
                     case ComponentsEnum.Symbols:
-                        Debug.LogFormat("[The Cruel Modkit #{0}] Symbols present: {1}.", ModuleID, Info.GetSymbolInfo());
+                        Module.Log("Symbols present: {0}.", Info.GetSymbolInfo());
                         break;
                     case ComponentsEnum.Alphabet:
-                        Debug.LogFormat("[The Cruel Modkit #{0}] Alphanumeric keys present: {1}.", ModuleID, Info.GetAlphabetInfo());
+                        Module.Log("Alphanumeric keys present: {0}.", Info.GetAlphabetInfo());
                         break;
                     case ComponentsEnum.Arrows:
-                        Debug.LogFormat("[The Cruel Modkit #{0}] Arrows present: {1}.", ModuleID, Info.GetArrowsInfo());
+                        Module.Log("Arrows present: {0}.", Info.GetArrowsInfo());
                         break;
                     case ComponentsEnum.Bulbs:
-                        Debug.LogFormat("[The Cruel Modkit #{0}] Bulb 1 is {1}, {2}, and {3}. Bulb 2 is {4}, {5}, and {6}. The O button is on the {7}.", ModuleID, Enum.GetName(typeof(BulbColorNames), Info.BulbColors[0]), Info.BulbOpaque[0] ? "opaque" : "see-through", Info.BulbOn[0] ? "on" : "off", Enum.GetName(typeof(BulbColorNames), Info.BulbColors[1]), Info.BulbOpaque[1] ? "opaque" : "see-through", Info.BulbOn[1] ? "on" : "off", Info.BulbOLeft ? "left" : "right");
+                        Module.Log("Bulb 1 is {0}, {1}, and {2}. Bulb 2 is {3}, {4}, and {5}. The O button is on the {6}.", Enum.GetName(typeof(BulbColorNames), Info.BulbColors[0]), Info.BulbOpaque[0] ? "opaque" : "see-through", Info.BulbOn[0] ? "on" : "off", Enum.GetName(typeof(BulbColorNames), Info.BulbColors[1]), Info.BulbOpaque[1] ? "opaque" : "see-through", Info.BulbOn[1] ? "on" : "off", Info.BulbOLeft ? "left" : "right");
                         break;
                 }
             }
@@ -551,7 +527,7 @@ public class EdgeworkEncoding : Puzzle
 
     void LogCurrentQuestion()
     {
-        Debug.LogFormat("[The Cruel Modkit #{0}] The current question is: \"{1}\" The answer is {2} and it must be submitted on the {3} component.", ModuleID, edgeworkQuestions[edgeworkQuestionPosition], edgeworkAnswers[edgeworkQuestionPosition], componentsArray[componentPosition].ToString());
+        Module.Log("The current question is: \"{0}\" The answer is {1} and it must be submitted on the {2} component.", edgeworkQuestions[edgeworkQuestionPosition], edgeworkAnswers[edgeworkQuestionPosition], componentsArray[componentPosition].ToString());
         LogCurrentSolution();
     }
 
@@ -560,29 +536,29 @@ public class EdgeworkEncoding : Puzzle
         switch (componentsArray[componentPosition])
         {
             case ComponentsEnum.Wires:
-                Debug.LogFormat("[The Cruel Modkit #{0}] Cut wire {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 7), edgeworkAnswers[edgeworkQuestionPosition] % 10);
+                Module.Log("Cut wire {0} when the last digit of the timer is {1}.", (edgeworkAnswers[edgeworkQuestionPosition] % 7), edgeworkAnswers[edgeworkQuestionPosition] % 10);
                 break;
             case ComponentsEnum.Arrows:
                 SetArrowNumbers();
-                Debug.LogFormat("[The Cruel Modkit #{0}] The correct arrow direction is the {1} arrow.", ModuleID, ArrowDirectionNames[((ArrowDirections)Array.IndexOf(arrowNumbers, edgeworkAnswers[edgeworkQuestionPosition] % 10))]);
+                Module.Log("The correct arrow direction is the {0} arrow.", ArrowDirectionNames[((ArrowDirections)Array.IndexOf(arrowNumbers, edgeworkAnswers[edgeworkQuestionPosition] % 10))]);
                 break;
             case ComponentsEnum.Button:
-                Debug.LogFormat("[The Cruel Modkit #{0}] Press the button {1} time(s), then press the “❖” button.", ModuleID, edgeworkAnswers[edgeworkQuestionPosition]);
+                Module.Log("Press the button {0} time(s), then press the “❖” button.", edgeworkAnswers[edgeworkQuestionPosition]);
                 break;
             case ComponentsEnum.Piano:
-                Debug.LogFormat("[The Cruel Modkit #{0}] Press key {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 12), edgeworkAnswers[edgeworkQuestionPosition] % 10);
+                Module.Log("Press key {0} when the last digit of the timer is {1}.", (edgeworkAnswers[edgeworkQuestionPosition] % 12), edgeworkAnswers[edgeworkQuestionPosition] % 10);
                 break;
             case ComponentsEnum.LED:
-                Debug.LogFormat("[The Cruel Modkit #{0}] Submit {1} using the LEDs.", ModuleID, Convert.ToString(edgeworkAnswers[edgeworkQuestionPosition], 2).PadLeft(8, '0'));
+                Module.Log("Submit {0} using the LEDs.", Convert.ToString(edgeworkAnswers[edgeworkQuestionPosition], 2).PadLeft(8, '0'));
                 break;
             case ComponentsEnum.Symbols:
-                Debug.LogFormat("[The Cruel Modkit #{0}] Press symbol {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 6), edgeworkAnswers[edgeworkQuestionPosition] % 10);
+                Module.Log("Press symbol {0} when the last digit of the timer is {1}.", (edgeworkAnswers[edgeworkQuestionPosition] % 6), edgeworkAnswers[edgeworkQuestionPosition] % 10);
                 break;
             case ComponentsEnum.Bulbs:
-                Debug.LogFormat("[The Cruel Modkit #{0}] Submit {1} using the buttons on Bulbs.", ModuleID, Convert.ToString(edgeworkAnswers[edgeworkQuestionPosition], 2));
+                Module.Log("Submit {0} using the buttons on Bulbs.", Convert.ToString(edgeworkAnswers[edgeworkQuestionPosition], 2));
                 break;
             case ComponentsEnum.Alphabet:
-                Debug.LogFormat("[The Cruel Modkit #{0}] Press key {1} when the last digit of the timer is {2}.", ModuleID, (edgeworkAnswers[edgeworkQuestionPosition] % 6), edgeworkAnswers[edgeworkQuestionPosition] % 10);
+                Module.Log("Press key {0} when the last digit of the timer is {1}.", (edgeworkAnswers[edgeworkQuestionPosition] % 6), edgeworkAnswers[edgeworkQuestionPosition] % 10);
                 break;
         }
     }
@@ -610,7 +586,7 @@ public class EdgeworkEncoding : Puzzle
     {
         if (!componentsActive[componentPosition])
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] The {1} component is not active on the module; skipping to the next question.", ModuleID, componentsArray[componentPosition].ToString());
+            Module.Log("The {0} component is not active on the module; skipping to the next question.", componentsArray[componentPosition].ToString());
             IncrementQuestion();
         }
         else
@@ -624,8 +600,7 @@ public class EdgeworkEncoding : Puzzle
         solvedComponents++;
         if (solvedComponents == 8)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] All answers submitted successfully. Module solved.", ModuleID);
-            Module.Solve();
+            Module.SolveModule("All answers submitted successfully. Module solved.");
             return;
         }
 
@@ -656,27 +631,25 @@ public class EdgeworkEncoding : Puzzle
 
         if (wire != correctWire)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Wire {1} was cut instead of wire {2}.", ModuleID, wire, correctWire);
-            Module.CauseStrike();
+            Module.Strike("Strike! Wire {0} was cut instead of wire {1}.", wire, correctWire);
             ResetWires();
             return;
         }
 
         if (currentTimeLastDigit != correctTimeLastDigit)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The wire was cut when the timer's last digit was {1} instead of {2}.", ModuleID, currentTimeLastDigit, correctTimeLastDigit);
-            Module.CauseStrike();
+            Module.Strike("Strike! The wire was cut when the timer's last digit was {0} instead of {1}.", currentTimeLastDigit, correctTimeLastDigit);
             ResetWires();
             return;
         }
 
-        Debug.LogFormat("[The Cruel Modkit #{0}] The answer for Wires was successfully submitted.", ModuleID);
+        Module.Log("The answer for Wires was successfully submitted.");
         IncrementQuestion();
     }
 
     void ResetWires()
     {
-        Debug.LogFormat("[The Cruel Modkit #{0}] Resetting wires...", ModuleID);
+        Module.Log("Resetting wires...");
 
         Info.GenerateWireInfo();
         Info.GenerateWireLEDInfo();
@@ -687,13 +660,12 @@ public class EdgeworkEncoding : Puzzle
     {
         if (buttonPressCount != edgeworkAnswers[edgeworkQuestionPosition])
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The “❖” button was pressed after the button was pressed {1} time(s) instead of {2} time(s).", ModuleID, buttonPressCount, edgeworkAnswers[edgeworkQuestionPosition]);
-            Module.CauseStrike();
+            Module.Strike("Strike! The “❖” button was pressed after the button was pressed {0} time(s) instead of {1} time(s).", buttonPressCount, edgeworkAnswers[edgeworkQuestionPosition]);
             buttonPressCount = 0;
         }
         else
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] The answer for Button was successfully submitted.", ModuleID);
+            Module.Log("The answer for Button was successfully submitted.");
             IncrementQuestion();
         }
     }
@@ -709,12 +681,11 @@ public class EdgeworkEncoding : Puzzle
             string correctAnswer = Convert.ToString(edgeworkAnswers[edgeworkQuestionPosition], 2).PadLeft(8, '0');
             if (submittedAnswer != correctAnswer)
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The number submitted was {1} instead of {2}.", ModuleID, submittedAnswer, correctAnswer);
-                Module.CauseStrike();
+                Module.Strike("Strike! The number submitted was {0} instead of {1}.", submittedAnswer, correctAnswer);
             }
             else
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] The answer for LEDs was successfully submitted.", ModuleID);
+                Module.Log("The answer for LEDs was successfully submitted.");
                 IncrementQuestion();
             }
             return;
@@ -762,21 +733,19 @@ public class EdgeworkEncoding : Puzzle
 
         if (symbol != correctSymbol)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Symbol {1} was pressed instead of symbol {2}.", ModuleID, symbol, correctSymbol);
-            Module.CauseStrike();
+            Module.Strike("Strike! Symbol {0} was pressed instead of symbol {1}.", symbol, correctSymbol);
             Module.StartCoroutine(Module.ButtonStrike(true, symbol));
             return;
         }
 
         if (currentTimeLastDigit != correctTimeLastDigit)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The symbol was pressed when the timer's last digit was {1} instead of {2}.", ModuleID, currentTimeLastDigit, correctTimeLastDigit);
-            Module.CauseStrike();
+            Module.Strike("Strike! The symbol was pressed when the timer's last digit was {0} instead of {1}.", currentTimeLastDigit, correctTimeLastDigit);
             Module.StartCoroutine(Module.ButtonStrike(true, symbol));
             return;
         }
 
-        Debug.LogFormat("[The Cruel Modkit #{0}] The answer for Symbols was successfully submitted.", ModuleID);
+        Module.Log("The answer for Symbols was successfully submitted.");
         Module.Symbols[symbol].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = Module.KeyLightMats[(int)KeyColors.Green];
         IncrementQuestion();
     }
@@ -790,21 +759,19 @@ public class EdgeworkEncoding : Puzzle
 
         if (alphabet != correctAlphabet)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Alphanumeric key {1} was pressed instead of symbol {2}.", ModuleID, alphabet, correctAlphabet);
-            Module.CauseStrike();
+            Module.Strike("Strike! Alphanumeric key {0} was pressed instead of symbol {1}.", alphabet, correctAlphabet);
             Module.StartCoroutine(Module.ButtonStrike(false, alphabet));
             return;
         }
 
         if (currentTimeLastDigit != correctTimeLastDigit)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The alphanumeric key was pressed when the timer's last digit was {1} instead of {2}.", ModuleID, currentTimeLastDigit, correctTimeLastDigit);
-            Module.CauseStrike();
+            Module.Strike("Strike! The alphanumeric key was pressed when the timer's last digit was {0} instead of {1}.", currentTimeLastDigit, correctTimeLastDigit);
             Module.StartCoroutine(Module.ButtonStrike(false, alphabet));
             return;
         }
 
-        Debug.LogFormat("[The Cruel Modkit #{0}] The answer for Alphabet was successfully submitted.", ModuleID);
+        Module.Log("The answer for Alphabet was successfully submitted.");
         Module.Alphabet[alphabet].transform.Find("KeyLED").GetComponentInChildren<Renderer>().material = Module.KeyLightMats[(int)KeyColors.Green];
         IncrementQuestion();
     }
@@ -818,19 +785,17 @@ public class EdgeworkEncoding : Puzzle
 
         if (piano != correctKey)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! Key {1} was pressed instead of key {2}.", ModuleID, piano, correctKey);
-            Module.CauseStrike();
+            Module.Strike("Strike! Key {0} was pressed instead of key {1}.", piano, correctKey);
             return;
         }
 
         if (currentTimeLastDigit != correctTimeLastDigit)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The key was pressed when the timer's last digit was {1} instead of {2}.", ModuleID, currentTimeLastDigit, correctTimeLastDigit);
-            Module.CauseStrike();
+            Module.Strike("Strike! The key was pressed when the timer's last digit was {0} instead of {1}.", currentTimeLastDigit, correctTimeLastDigit);
             return;
         }
 
-        Debug.LogFormat("[The Cruel Modkit #{0}] The answer for Piano was successfully submitted.", ModuleID);
+        Module.Log("The answer for Piano was successfully submitted.");
         IncrementQuestion();
     }
 
@@ -841,9 +806,8 @@ public class EdgeworkEncoding : Puzzle
 
         if (submittedAnswer != correctAnswer)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] Strike! The {1} arrow was pressed for a second time, which submitted {2} instead of {3}.", ModuleID, ArrowDirectionNames[(ArrowDirections)arrow], submittedAnswer, correctAnswer);
-            Module.CauseStrike();
-            Debug.LogFormat("[The Cruel Modkit #{0}] Resetting arrow values...", ModuleID);
+            Module.Strike("Strike! The {0} arrow was pressed for a second time, which submitted {1} instead of {2}.", ArrowDirectionNames[(ArrowDirections)arrow], submittedAnswer, correctAnswer);
+            Module.Log("Resetting arrow values...");
 
             SetArrowNumbers();
             for (int i = 0; i < arrowNumbersActivated.Length; i++)
@@ -851,11 +815,11 @@ public class EdgeworkEncoding : Puzzle
                 arrowNumbersActivated[i] = false;
             }
 
-            Debug.LogFormat("[The Cruel Modkit #{0}] The correct arrow direction is {1}.", ModuleID, ArrowDirectionNames[((ArrowDirections)Array.IndexOf(arrowNumbers, edgeworkAnswers[edgeworkQuestionPosition] % 10))]);
+            Module.Log("The correct arrow direction is {0}.", ArrowDirectionNames[((ArrowDirections)Array.IndexOf(arrowNumbers, edgeworkAnswers[edgeworkQuestionPosition] % 10))]);
         }
         else
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] The answer for Arrows was successfully submitted.", ModuleID);
+            Module.Log("The answer for Arrows was successfully submitted.");
             IncrementQuestion();
         }
     }
@@ -868,8 +832,7 @@ public class EdgeworkEncoding : Puzzle
         {
             if (button != Convert.ToInt32(correctAnswer.Substring(bulbButtonPressCount, 1)))
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! You pressed the {1} button for digit {2}. Submission has been reset.", ModuleID, (button == 0) == Info.BulbOLeft ? "O" : "I", bulbButtonPressCount + 1);
-                Module.CauseStrike();
+                Module.Strike("Strike! You pressed the {0} button for digit {1}. Submission has been reset.", (button == 0) == Info.BulbOLeft ? "O" : "I", bulbButtonPressCount + 1);
                 bulbButtonPressCount = 0;
                 return;
             }
@@ -878,8 +841,7 @@ public class EdgeworkEncoding : Puzzle
         {
             if ((1 - button) != Convert.ToInt32(correctAnswer.Substring(bulbButtonPressCount, 1)))
             {
-                Debug.LogFormat("[The Cruel Modkit #{0}] Strike! You pressed the {1} button for digit {2}. Submission has been reset.", ModuleID, (button == 0) == Info.BulbOLeft ? "O" : "I", bulbButtonPressCount + 1);
-                Module.CauseStrike();
+                Module.Strike("Strike! You pressed the {0} button for digit {1}. Submission has been reset.", (button == 0) == Info.BulbOLeft ? "O" : "I", bulbButtonPressCount + 1);
                 bulbButtonPressCount = 0;
                 return;
             }
@@ -889,7 +851,7 @@ public class EdgeworkEncoding : Puzzle
 
         if (bulbButtonPressCount == correctAnswer.Length)
         {
-            Debug.LogFormat("[The Cruel Modkit #{0}] The answer for Bulbs was successfully submitted.", ModuleID);
+            Module.Log("The answer for Bulbs was successfully submitted.");
             IncrementQuestion();
         }
     }
