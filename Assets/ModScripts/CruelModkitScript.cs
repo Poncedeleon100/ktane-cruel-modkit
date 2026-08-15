@@ -606,6 +606,9 @@ public class CruelModkitScript : ModdedModule
             case (byte)(ComponentsEnum.LED | ComponentsEnum.Arrows):
                 Puzzle = new SimonSkips(this, Info, TargetComponents);
                 break;
+            case (byte)(ComponentsEnum.LED | ComponentsEnum.Piano):
+                Puzzle = new ReverseCruelLEDPattern(this, Info, TargetComponents);
+                break;
             case (byte)(ComponentsEnum.Button):
                 Puzzle = new MeteredButton(this, Info, TargetComponents);
                 break;
