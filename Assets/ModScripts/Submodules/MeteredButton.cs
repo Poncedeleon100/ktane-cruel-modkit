@@ -253,6 +253,7 @@ public class MeteredButton : Puzzle
         int newCol = Random.Range(0, 11);
         while (newCol == 6)  newCol = Random.Range(0, 11);
         Info.Button = newCol;
+        Module.SetButton();
         Module.Log("Button is {0}.", Info.GetButtonInfo());
     }
 
